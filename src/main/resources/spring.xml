@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!--    整合MyBatis-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="root"></property>
+        <property name="password" value="102611"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8"></property>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="maxPoolSize" value="200"/>
+        <property name="minPoolSize" value="2"/>
+        <property name="initialPoolSize" value="2"/>
+        <property name="maxIdleTime" value="200"/>
+    </bean>
+
+    <!--    配置MyBatis SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+        <property name="configLocation" value="classpath:config.xml"></property>
+    </bean>
+
+    <!--    扫描MyBatis自定义的Mapper接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.example.mapper"></property>
+    </bean>
+
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.qq.com"/>
+        <property name="port" value="456"/>
+        <property name="username" value="1546854529@qq.com"/>
+        <property name="password" value="ceolemvpczkaffhj"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.ssl.timeout">1000</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.qq.com</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.starttls.required">true</prop>
+                <prop key="mail.smtp.port">456</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
