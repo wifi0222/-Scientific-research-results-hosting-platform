@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.RegistrationMapper">
+
+    <!-- 根据用户名查询验证码 -->
+    <select id="getVerificationCodeByUsername" resultType="String">
+        SELECT captcha FROM Captcha WHERE username = #{username};
+    </select>
+
+    <!-- 检查用户名是否存在 -->
+    <select id="usernameExists" resultType="boolean" parameterType="string">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM [user]
+        WHERE username = #{username}
+    </select>
+
+    <!-- 检查邮箱是否存在 -->
+    <select id="emailExists" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM [user]
+        WHERE email = #{email};
+    </select>
+
+    <!-- 插入注册申请 -->
+    <insert id="insertRegistrationRequest">
+        INSERT INTO RegistrationReview (username, password, roleType, email, applicationReason, registrationTime, registrationStatus)
+        VALUES (#{username}, #{password}, #{roleType}, #{email}, #{reason}, #{registrationTime}, #{registrationStatus});
+    </insert>
+
+    <!-- 根据邮箱获取注册状态 -->
+    <select id="getApplicationStatusByEmail" resultType="Integer">
+        SELECT registrationStatus
+        FROM RegistrationReview
+        WHERE email = #{email};
+    </select>
+</mapper>

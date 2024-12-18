@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EmailMapper">
+
+    <insert id="insertCaptcha" parameterType="map">
+        INSERT INTO Captcha (username, captcha, createdAt)
+        VALUES (#{username}, #{captcha}, #{createdAt})
+    </insert>
+
+    <select id="checkUsernameOrEmailExists" resultType="int">
+        SELECT COUNT(*) FROM [user]
+        WHERE username = #{username} OR email = #{email}
+        UNION
+        SELECT COUNT(*) FROM RegistrationReview
+        WHERE (username = #{username} OR email = #{email}) AND registrationStatus = 0
+    </select>
+
+
+</mapper>
