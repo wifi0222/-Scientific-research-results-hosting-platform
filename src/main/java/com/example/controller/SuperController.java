@@ -29,6 +29,8 @@ public class SuperController {
         return "index";
     }
 
+
+    //发送邮件
     @GetMapping("/yanzhengma")
     public String getVeriy(@RequestParam("email")String email, Model model) throws Exception {
         sendMailService.sendEmail(email);

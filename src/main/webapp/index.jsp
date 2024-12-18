@@ -6,6 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-Welcome!!WHY NOTHING
+Welcome!!
+<%--<jsp:include   page="Yanzheng.jsp" flush="true"/>--%>
 </body>
 </html>
