@@ -35,22 +35,21 @@
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.qq.com"/>
-        <property name="port" value="456"/>
+        <property name="port" value="465"/>
         <property name="username" value="1546854529@qq.com"/>
         <property name="password" value="ceolemvpczkaffhj"/>
         <property name="defaultEncoding" value="utf-8"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.ssl.timeout">1000</prop>
-                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.ssl.enable">true</prop>
                 <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
                 <prop key="mail.smtp.ssl.trust">smtp.qq.com</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.smtp.starttls.required">true</prop>
-                <prop key="mail.smtp.port">456</prop>
                 <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
             </props>
         </property>
     </bean>
+
 </beans>

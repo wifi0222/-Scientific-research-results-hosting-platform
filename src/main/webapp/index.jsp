@@ -7,6 +7,5 @@
 </head>
 <body>
 Welcome!!WHY NOTHING
-<p>${users.get(0).toString()}</p>
 </body>
 </html>

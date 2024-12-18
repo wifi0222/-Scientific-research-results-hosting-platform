@@ -37,13 +37,13 @@ public class SendMailServiceImpl implements ISendMailService {
         this.mailSender = mailSender;
     }
 
-    /**
-     * 单发
-     *
-     * @param recipient 收件人邮箱
-     * @param subject   邮件主题
-     * @param content   邮件内容
-     */
+//    /**
+//     * 单发
+//     *
+//     * @param recipient 收件人邮箱
+//     * @param subject   邮件主题
+//     * @param content   邮件内容
+//     */
     @Override
     public boolean sendEmail(String recipient){
         String send="1546854529@qq.com";
