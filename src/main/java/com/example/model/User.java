@@ -1,64 +1,55 @@
 package com.example.model;
 
-import lombok.Data;
+import java.util.Date;
 
-@Data
 public class User {
-    private String username; //用户名
-    private String password; //密码
-    private String identity; //身份
-    private int status; //账号状态
-    private String information; //账号信息
+    private int userID; // 主键
+    private String username; // 用户名
+    private String password; // 密码
+    private String roleType; // 角色类型
+    private String email; // 邮箱
+    private Date registrationTime; // 注册时间
+    private int status; // 状态(0: 禁用, 1: 可用)
+    private String name; // 姓名
+    private String researchField; // 研究方向
+    private String contactInfo; // 联系方式
+    private String academicBackground; // 学术背景
+    private String researchAchievements; // 科研成果
 
+    // Getters 和 Setters
+    public int getUserID() { return userID; }
+    public void setUserID(int userID) { this.userID = userID; }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getRoleType() { return roleType; }
+    public void setRoleType(String roleType) { this.roleType = roleType; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getIdentity() {
-        return identity;
-    }
+    public Date getRegistrationTime() { return registrationTime; }
+    public void setRegistrationTime(Date registrationTime) { this.registrationTime = registrationTime; }
 
-    public void setIdentity(String identity) {
-        this.identity = identity;
-    }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
 
-    public String getInformation() {
-        return information;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setInformation(String information) {
-        this.information = information;
-    }
+    public String getResearchField() { return researchField; }
+    public void setResearchField(String researchField) { this.researchField = researchField; }
 
-    public int getStatus() {
-        return status;
-    }
+    public String getContactInfo() { return contactInfo; }
+    public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    public String getAcademicBackground() { return academicBackground; }
+    public void setAcademicBackground(String academicBackground) { this.academicBackground = academicBackground; }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", identity='" + identity + '\'' +
-                ", status=" + status +
-                ", information='" + information + '\'' +
-                '}';
-    }
+    public String getResearchAchievements() { return researchAchievements; }
+    public void setResearchAchievements(String researchAchievements) { this.researchAchievements = researchAchievements; }
 }

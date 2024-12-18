@@ -10,15 +10,16 @@
 
     <!--    整合MyBatis-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="user" value="root"></property>
-        <property name="password" value="102611"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8"></property>
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="maxPoolSize" value="200"/>
-        <property name="minPoolSize" value="2"/>
-        <property name="initialPoolSize" value="2"/>
-        <property name="maxIdleTime" value="200"/>
+        <property name="user" value="sa" /> <!-- 替换为 SQL Server 用户名 -->
+        <property name="password" value="123" /> <!-- 替换为 SQL Server 密码 -->
+        <property name="jdbcUrl" value="jdbc:sqlserver://localhost:1433;databaseName=JavaWebDB;encrypt=false;trustServerCertificate=true;useUnicode=true;characterEncoding=utf-8" /> <!-- 修改为 SQL Server JDBC URL -->
+        <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> <!-- 使用 SQL Server 驱动 -->
+        <property name="maxPoolSize" value="200" />
+        <property name="minPoolSize" value="2" />
+        <property name="initialPoolSize" value="2" />
+        <property name="maxIdleTime" value="200" />
     </bean>
+
 
     <!--    配置MyBatis SqlSessionFactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

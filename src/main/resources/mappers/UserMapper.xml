@@ -5,4 +5,16 @@
     <select id="findAll" resultType="com.example.model.User">
         select * from user
     </select>
+    <!-- 根据 userID 查询用户 -->
+    <select id="findByUserId" parameterType="int" resultType="com.example.model.User">
+        SELECT * FROM [user]
+        WHERE userID = #{userId};
+    </select>
+
+    <!-- 根据 username 查询用户 -->
+    <select id="findByUsername" parameterType="String" resultType="com.example.model.User">
+        SELECT * FROM [user]
+        WHERE username = #{username};
+    </select>
+
 </mapper>
