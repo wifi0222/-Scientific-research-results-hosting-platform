@@ -11,7 +11,10 @@ public interface QuestionService {
     List<Question> getQuestionsByStatus(int status);
 
     Question getQuestionById(int questionID);
+
     void replyQuestion(int questionID, String replyContent, Date replyTime);
+
+    List<Question> getQuestionsByUserID(int userID);
 
 }
 

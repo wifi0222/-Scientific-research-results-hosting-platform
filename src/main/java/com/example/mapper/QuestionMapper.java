@@ -11,7 +11,8 @@ import java.util.List;
 public interface QuestionMapper {
 
     // 插入提问
-    int insertQuestion(@Param("questionContent") String questionContent,
+    int insertQuestion(@Param("title") String title,
+                       @Param("questionContent") String questionContent,
                        @Param("userID") int userID,
                        @Param("status") int status,
                        @Param("askTime") LocalDateTime askTime);

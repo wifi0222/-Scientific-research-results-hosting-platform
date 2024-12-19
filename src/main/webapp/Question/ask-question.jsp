@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Hasee
-  Date: 2024/12/19
-  Time: 12:16
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,10 +7,22 @@
 </head>
 <body>
 <h2>Submit Your Question</h2>
+
+<!-- 输入标题 -->
+<div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" placeholder="Enter your question title" style="width: 100%; padding: 8px; margin: 10px 0; font-size: 16px;">
+</div>
+
+<!-- 编辑器 -->
 <div id="editor-container" style="height: 300px;"></div>
+
 <form action="/questions/submit" method="post" id="questionForm">
+    <!-- 隐藏字段，用于提交内容 -->
     <input type="hidden" name="questionContent" id="hiddenInput">
     <input type="hidden" name="userID" value="1"> <!-- 假设用户ID为1 -->
+    <!-- 隐藏字段，用于提交标题 -->
+    <input type="hidden" name="title" id="hiddenTitle">
     <button type="submit">Submit</button>
 </form>
 
@@ -77,13 +82,14 @@
         };
     }
 
-    // 表单提交前，将编辑器内容同步到隐藏字段
+    // 表单提交前，将编辑器内容和标题同步到隐藏字段
     document.getElementById('questionForm').onsubmit = function () {
         var content = quill.root.innerHTML; // 获取编辑器内容
         document.getElementById('hiddenInput').value = content;
+
+        var title = document.getElementById('title').value; // 获取标题内容
+        document.getElementById('hiddenTitle').value = title;
     };
 </script>
 </body>
 </html>
-
-

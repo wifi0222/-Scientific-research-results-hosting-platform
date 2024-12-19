@@ -22,11 +22,13 @@ public class QuestionController {
 
     // 提交问题
     @PostMapping("/submit")
-    public ResponseEntity<String> submitQuestion(@RequestParam("questionContent") String questionContent,
+    public ResponseEntity<String> submitQuestion(@RequestParam("title") String title,
+                                                 @RequestParam("questionContent") String questionContent,
                                                  @RequestParam("userID") int userID) {
         System.out.println("Received content: " + questionContent); // 打印富文本内容
 
         Question question = new Question();
+        question.setTitle(title);
         question.setQuestionContent(questionContent);
         question.setUserID(userID);
         question.setStatus(0); // 设置初始状态为未回答
@@ -58,24 +60,28 @@ public class QuestionController {
         return response;
     }
 
+    // 返回待处理问题
     @GetMapping("/pending")
     public List<Question> getPendingQuestions() {
         return questionService.getQuestionsByStatus(0); // 查询 status = 0 的问题
     }
 
+    // 根据questionID返回question详细信息
     @GetMapping("/{id}")
     public Question getQuestionDetails(@PathVariable("id") int questionID) {
         return questionService.getQuestionById(questionID);
     }
 
+    // 处理回复逻辑
     @PostMapping("/{id}/reply")
     public ResponseEntity<String> replyQuestion(@PathVariable("id") int questionID,
                                                 @RequestParam("replyContent") String replyContent) {
-        // 处理回复逻辑
+        // 更新数据库
         questionService.replyQuestion(questionID, replyContent, new Date());
         return ResponseEntity.ok("Reply submitted successfully!");
     }
 
+    //将待处理问题传向前端
     @RequestMapping("/pending-questions")
     public String showPendingQuestions(Model model) {
         List<Question> questions = questionService.getQuestionsByStatus(0);
@@ -83,14 +89,31 @@ public class QuestionController {
         model.addAttribute("questions", questions);
         return "Question/ans-pending-questions";
     }
-    @RequestMapping("/details/{id}")
+
+    // 根据questionID返回question详细信息并传向前端
+    @RequestMapping("/ans-details/{id}")
     public String showQuestionDetails(@PathVariable("id") int questionID, Model model) {
-        System.out.println("in questions/details/{id} " + questionID);
+        System.out.println("in questions/ans-details/{id} " + questionID);
         Question question = questionService.getQuestionById(questionID);
         model.addAttribute("question", question);
         return "Question/ans-question-details";
     }
 
+    // 通过userID得到所有Question并传向前端
+    @GetMapping("/my-questions")
+    public String getQuestionsByUserID(@RequestParam("userID") int userID, Model model) {
+        List<Question> questions = questionService.getQuestionsByUserID(userID);
+        model.addAttribute("questions", questions);
+        return "Question/question-management";
+    }
 
+    // 根据questionID返回question详细信息并传向前端
+    @RequestMapping("/ask-details/{id}")
+    public String showQuestionDetailsToAsk(@PathVariable("id") int questionID, Model model) {
+        System.out.println("in questions/ask-details/{id} " + questionID);
+        Question question = questionService.getQuestionById(questionID);
+        model.addAttribute("question", question);
+        return "Question/ask-question-details";
+    }
 }
 

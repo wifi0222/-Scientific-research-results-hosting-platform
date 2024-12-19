@@ -13,6 +13,7 @@
 <h2>Question Details</h2>
 <p><strong>User ID:</strong> ${question.userID}</p>
 <p><strong>Ask Time:</strong> ${question.askTime}</p>
+<p><strong>Title:</strong> ${question.title}</p>
 <p><strong>Content:</strong></p>
 <div>${question.questionContent}</div>
 

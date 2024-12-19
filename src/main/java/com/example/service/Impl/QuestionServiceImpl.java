@@ -18,7 +18,7 @@ public class QuestionServiceImpl implements QuestionService {
     public void submitQuestion(Question question) {
         System.out.println("in QuestionServiceImpl.java " + question.getQuestionContent());
         question.setStatus(0); // 设置状态为未回答
-        questionMapper.insertQuestion(question.getQuestionContent(),question.getUserID(), question.getStatus(), question.getAskTime());
+        questionMapper.insertQuestion(question.getTitle(), question.getQuestionContent(),question.getUserID(), question.getStatus(), question.getAskTime());
     }
 
     @Override
@@ -34,6 +34,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void replyQuestion(int questionID, String replyContent, Date replyTime) {
         questionMapper.updateReply(questionID, replyContent, replyTime, 1); // status 变为 1 表示已回复
+    }
+
+    @Override
+    public List<Question> getQuestionsByUserID(int userID) {
+        return questionMapper.getQuestionsByUserID(userID);
     }
 
 }
