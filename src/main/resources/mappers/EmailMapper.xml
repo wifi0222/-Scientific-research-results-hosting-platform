@@ -3,18 +3,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.EmailMapper">
 
-    <insert id="insertCaptcha" parameterType="map">
-        INSERT INTO Captcha (username, captcha, createdAt)
-        VALUES (#{username}, #{captcha}, #{createdAt})
+    <insert id="insertOrUpdateCaptcha" parameterType="map">
+        MERGE INTO Captcha AS target
+            USING (SELECT #{username} AS username, #{captcha} AS captcha, #{createdAt} AS createdAt) AS source
+            ON (target.username = source.username)
+            WHEN MATCHED THEN
+                UPDATE SET captcha = source.captcha, createdAt = source.createdAt
+            WHEN NOT MATCHED THEN
+                INSERT (username, captcha, createdAt)
+                    VALUES (source.username, source.captcha, source.createdAt);
     </insert>
 
+
     <select id="checkUsernameOrEmailExists" resultType="int">
-        SELECT COUNT(*) FROM [user]
-        WHERE username = #{username} OR email = #{email}
-        UNION
-        SELECT COUNT(*) FROM RegistrationReview
-        WHERE (username = #{username} OR email = #{email}) AND registrationStatus = 0
+        SELECT SUM(count)
+        FROM (
+                 SELECT COUNT(*) AS count
+                 FROM [user]
+                 WHERE username = #{username} OR email = #{email}
+
+                 UNION ALL
+
+                 SELECT COUNT(*) AS count
+                 FROM RegistrationReview
+                 WHERE (username = #{username} OR email = #{email}) AND registrationStatus = 0
+             ) AS combined_counts
     </select>
+
 
 
 </mapper>

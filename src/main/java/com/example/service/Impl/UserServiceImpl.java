@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userReposity;
+    private User currentUser;
 
     @Override
     public List<User> findAll() {
@@ -35,5 +36,30 @@ public class UserServiceImpl implements UserService {
             return null; // 账号不存在或密码错误
         }
         return user;
+    }
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    @Override
+    public void submitForReview(User user) {
+        // 调用 MyBatis Mapper 插入数据到审核表
+        userReposity.insertReview(user);
+    }
+
+    @Override
+    public void updatePasswordbyid(User user) {
+        userReposity.updatePassword(user);
+    }
+
+    @Override
+    public boolean isDeactivationPending(int userID) {
+        return userReposity.checkDeactivationRequest(userID) > 0; // 查询记录是否存在
+    }
+
+    @Override
+    public void submitDeactivationRequest(User user) {
+        userReposity.insertDeactivationRequest(user.getUserID());
     }
 }

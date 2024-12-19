@@ -36,5 +36,54 @@
         WHERE username = #{username}
     </update>
 
+    <!-- 插入用户修改记录到审核表 -->
+    <insert id="insertReview">
+        MERGE INTO MemberInfoReview AS target
+            USING (SELECT
+                       #{userID} AS memberID,
+                       #{name} AS name,
+                       #{researchField} AS researchField,
+                       #{contactInfo} AS contactInfo,
+                       #{academicBackground} AS academicBackground,
+                       #{researchAchievements} AS researchAchievements,
+                       0 AS modificationStatus
+            ) AS source
+            ON (target.memberID = source.memberID)
+            WHEN MATCHED THEN
+                UPDATE SET
+                    name = source.name,
+                    researchField = source.researchField,
+                    contactInfo = source.contactInfo,
+                    academicBackground = source.academicBackground,
+                    researchAchievements = source.researchAchievements,
+                    modificationStatus = source.modificationStatus
+            WHEN NOT MATCHED THEN
+                INSERT (memberID, name, researchField, contactInfo, academicBackground, researchAchievements, modificationStatus)
+                    VALUES (source.memberID, source.name, source.researchField, source.contactInfo, source.academicBackground, source.researchAchievements, source.modificationStatus);
+    </insert>
 
+    <update id="updatePasswordbyid" parameterType="com.example.model.User">
+        UPDATE [User]
+        SET password = #{password}
+        WHERE userID = #{userID}
+    </update>
+
+    <!-- 检查注销申请是否已存在 -->
+    <select id="checkDeactivationRequest" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM AccountDeactivationReview
+        WHERE userID = #{userID} AND deactivationStatus = 0
+    </select>
+
+    <!-- 插入注销申请 -->
+    <insert id="insertDeactivationRequest" parameterType="int">
+        MERGE INTO AccountDeactivationReview AS target
+            USING (SELECT #{userID} AS userID, 0 AS deactivationStatus, GETDATE() AS deactivationTime) AS source
+            ON (target.userID = source.userID)
+            WHEN MATCHED THEN
+                UPDATE SET deactivationStatus = source.deactivationStatus, deactivationTime = source.deactivationTime
+            WHEN NOT MATCHED THEN
+                INSERT (userID, deactivationStatus, deactivationTime)
+                    VALUES (source.userID, source.deactivationStatus, source.deactivationTime);
+    </insert>
 </mapper>
