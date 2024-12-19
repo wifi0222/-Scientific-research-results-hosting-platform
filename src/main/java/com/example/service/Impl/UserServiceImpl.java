@@ -1,5 +1,6 @@
 package com.example.service.Impl;
 
+import com.example.mapper.AdministratorMapper;
 import com.example.mapper.UserMapper;
 import com.example.model.User;
 import com.example.service.UserService;
@@ -13,12 +14,26 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userReposity;
+    @Autowired
+    private AdministratorMapper administratorReposity;
+
     private User currentUser;
 
     @Override
-    public List<User> findAll() {
-        return userReposity.findAll();
+    public List<User> findAllTeamAdmin() {
+        return userReposity.findAllTeamAdmin();
     }
+
+    //在用户注册、新增用户时检查用户名是否存在
+    @Override
+    public User findByUserName(String username){return userReposity.findByUsername(username);}
+
+    @Override
+    public User findById(int id) {
+        return userReposity.findByUserId(id);
+    }
+
+
     @Override
     public User login(String usernameOrId, String password) {
         User user = null;
@@ -37,6 +52,28 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public int updateTeamAdmin(User user) {
+        return userReposity.updateTeamAdminInfo(user);
+    }
+
+    @Override
+    public int addTeamAdmin(String username, String password) {
+        //向用户表插入
+        userReposity.insertTeamAdminToUser(username,password);
+        //通过username查找userID
+        User user=userReposity.findByUsername(username);
+        //向权限表插入
+        return administratorReposity.insertTeamAdminToAdministrator(user.getUserID());
+    }
+
+    @Override
+    public int deleteTeamAdmin(int adminId) {
+        administratorReposity.deleteTeamAdminFromAdministrator(adminId);
+        return userReposity.deleteUser(adminId);
+    }
+
     @Override
     public User getCurrentUser() {
         return currentUser;
@@ -62,4 +99,5 @@ public class UserServiceImpl implements UserService {
     public void submitDeactivationRequest(User user) {
         userReposity.insertDeactivationRequest(user.getUserID());
     }
+
 }
