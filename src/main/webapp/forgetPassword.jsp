@@ -102,7 +102,7 @@
                     $("#message").css("color", "green").text(response.message);
                     // 密码重置成功后可以跳转到登录页面
                     setTimeout(function () {
-                        window.location.href = "/login";
+                        window.location.href = "/user/login";
                     }, 2000);
                 } else {
                     $("#message").css("color", "red").text(response.error);

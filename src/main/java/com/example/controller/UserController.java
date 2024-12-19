@@ -5,6 +5,7 @@ import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,5 +38,10 @@ public class UserController {
         }
         model.addAttribute("error", "未知角色！");
         return "login";
+    }
+    // GET 方法用于展示登录页面
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login"; // 返回登录页面的视图名称
     }
 }
