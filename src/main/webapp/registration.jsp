@@ -83,5 +83,13 @@
 
 <!-- 提示信息 -->
 <div id="message" style="margin-top: 20px;"></div>
+<c:if test="${not empty error}">
+  <div style="color: red;">${error}</div>
+</c:if>
+
+<c:if test="${not empty message}">
+  <div style="color: green;">${message}</div>
+</c:if>
+
 </body>
 </html>

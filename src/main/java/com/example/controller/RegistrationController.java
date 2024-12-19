@@ -63,7 +63,7 @@ public class RegistrationController {
 
         // 校验验证码是否正确
         if (!registrationService.validateVerificationCode(username, verificationCode)) {
-            model.addAttribute("error", "验证码错误或已过期.;.;.;！");
+            model.addAttribute("error", "验证码错误或已过期！");
             return "registration";
         }
 
