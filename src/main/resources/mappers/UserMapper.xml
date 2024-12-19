@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.UserReposity">
+<mapper namespace="com.example.mapper.UserMapper">
     <select id="findAll" resultType="com.example.model.User">
         select * from user
     </select>
@@ -16,5 +16,25 @@
         SELECT * FROM [user]
         WHERE username = #{username};
     </select>
+
+    <!-- 检查用户名和邮箱是否匹配 -->
+    <select id="checkUsernameAndEmail" resultType="int">
+        SELECT COUNT(*) FROM [user]
+        WHERE username = #{username} AND email = #{email}
+    </select>
+
+    <!-- 检查新密码是否与旧密码一致 -->
+    <select id="checkOldPassword" resultType="int">
+        SELECT COUNT(*) FROM [user]
+        WHERE username = #{username} AND password = #{password}
+    </select>
+
+    <!-- 更新用户密码 -->
+    <update id="updatePassword">
+        UPDATE [user]
+        SET password = #{password}
+        WHERE username = #{username}
+    </update>
+
 
 </mapper>

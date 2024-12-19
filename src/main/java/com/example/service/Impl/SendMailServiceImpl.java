@@ -68,6 +68,37 @@ public class SendMailServiceImpl implements ISendMailService {
         }
     }
 
+    public boolean resendEmail(String username, String recipient) {
+        String send = "1546854529@qq.com";
+        String subject = "密码重置";
+        String content = verifyCode(8); // 生成验证码
+
+        // 保存验证码到数据库
+        try {
+            emailMapper.insertCaptcha(username, content, new Date());
+        } catch (Exception e) {
+            System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+
+        // 发送邮件
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            messageHelper.setFrom(send);
+            messageHelper.setTo(recipient);
+            messageHelper.setSubject(subject);
+            messageHelper.setText("您的验证码是：" + content, true);
+            mailSender.send(mimeMessage);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 
     /*

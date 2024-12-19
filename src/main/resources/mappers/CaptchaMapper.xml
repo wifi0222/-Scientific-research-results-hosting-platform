@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CaptchaMapper">
+    <!-- 验证验证码是否正确 -->
+    <select id="validateCaptcha" resultType="int">
+        SELECT COUNT(*) FROM Captcha
+        WHERE username = #{username} AND captcha = #{captcha} AND createdAt > DATEADD(MINUTE, -10, GETDATE())
+    </select>
+</mapper>
