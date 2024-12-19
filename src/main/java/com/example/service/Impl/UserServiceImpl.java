@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userReposity;
+    private User currentUser;
 
     @Override
     public List<User> findAll() {
@@ -36,4 +37,16 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    @Override
+    public void submitForReview(User user) {
+        // 调用 MyBatis Mapper 插入数据到审核表
+        userReposity.insertReview(user);
+    }
+
+
 }

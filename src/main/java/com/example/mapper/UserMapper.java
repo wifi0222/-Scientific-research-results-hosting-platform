@@ -12,4 +12,5 @@ public interface UserMapper {
     int checkUsernameAndEmail(@Param("username") String username, @Param("email") String email);
     int checkOldPassword(@Param("username") String username, @Param("password") String password);
     int updatePassword(@Param("username") String username, @Param("password") String password);
+    void insertReview(User user);
 }
