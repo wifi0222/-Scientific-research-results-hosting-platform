@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.UserMapper">
-    <select id="findAll" resultType="com.example.model.User">
-        select * from user
+
+<!--    查找所有团队管理员-->
+    <select id="findAllTeamAdmin" resultType="com.example.model.User">
+        SELECT * FROM [user]
+        WHERE roleType='TeamAdmin'
     </select>
+
     <!-- 根据 userID 查询用户 -->
     <select id="findByUserId" parameterType="int" resultType="com.example.model.User">
         SELECT * FROM [user]
@@ -86,4 +90,34 @@
                 INSERT (userID, deactivationStatus, deactivationTime)
                     VALUES (source.userID, source.deactivationStatus, source.deactivationTime);
     </insert>
+
+    <update id="updateTeamAdminInfo" parameterType="com.example.model.User">
+        UPDATE [User]
+        SET
+            username = #{username},
+            password = #{password},
+            roleType = #{roleType},
+            email = #{email},
+            registrationTime = #{registrationTime},
+            status = #{status},
+            name = #{name},
+            researchField = #{researchField},
+            contactInfo = #{contactInfo},
+            academicBackground = #{academicBackground},
+            researchAchievements = #{researchAchievements}
+        WHERE userID = #{userID};
+    </update>
+
+    <insert id="insertTeamAdminToUser">
+        INSERT INTO [User](username,password,roleType,status)
+        VALUES(#{username},#{password},'TeamAdmin',1)
+    </insert>
+
+    <select id="findNameByUserID" resultType="String" parameterType="int">
+        SELECT name FROM [User] WHERE userID=#{userID}
+    </select>
+
+    <select id="findUsernameByUserID" resultType="String" parameterType="int">
+        SELECT username FROM [User] WHERE userID=#{userID}
+    </select>
 </mapper>

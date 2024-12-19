@@ -1,5 +1,7 @@
 package com.example.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class User {
@@ -8,7 +10,10 @@ public class User {
     private String password; // 密码
     private String roleType; // 角色类型
     private String email; // 邮箱
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date registrationTime; // 注册时间
+
     private int status; // 状态(0: 禁用, 1: 可用)
     private String name; // 姓名
     private String researchField; // 研究方向
@@ -52,4 +57,22 @@ public class User {
 
     public String getResearchAchievements() { return researchAchievements; }
     public void setResearchAchievements(String researchAchievements) { this.researchAchievements = researchAchievements; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roleType='" + roleType + '\'' +
+                ", email='" + email + '\'' +
+                ", registrationTime=" + registrationTime +
+                ", status=" + status +
+                ", name='" + name + '\'' +
+                ", researchField='" + researchField + '\'' +
+                ", contactInfo='" + contactInfo + '\'' +
+                ", academicBackground='" + academicBackground + '\'' +
+                ", researchAchievements='" + researchAchievements + '\'' +
+                '}';
+    }
 }
