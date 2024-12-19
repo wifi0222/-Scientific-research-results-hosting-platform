@@ -16,12 +16,20 @@
 
 
     <select id="checkUsernameOrEmailExists" resultType="int">
-        SELECT COUNT(*) FROM [user]
-        WHERE username = #{username} OR email = #{email}
-        UNION
-        SELECT COUNT(*) FROM RegistrationReview
-        WHERE (username = #{username} OR email = #{email}) AND registrationStatus = 0
+        SELECT SUM(count)
+        FROM (
+                 SELECT COUNT(*) AS count
+                 FROM [user]
+                 WHERE username = #{username} OR email = #{email}
+
+                 UNION ALL
+
+                 SELECT COUNT(*) AS count
+                 FROM RegistrationReview
+                 WHERE (username = #{username} OR email = #{email}) AND registrationStatus = 0
+             ) AS combined_counts
     </select>
+
 
 
 </mapper>

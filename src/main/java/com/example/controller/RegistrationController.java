@@ -63,7 +63,7 @@ public class RegistrationController {
 
         // 校验验证码是否正确
         if (!registrationService.validateVerificationCode(username, verificationCode)) {
-            model.addAttribute("error", "验证码错误或已过期！");
+            model.addAttribute("error", "验证码错误或已过期.;.;.;！");
             return "registration";
         }
 
@@ -78,7 +78,7 @@ public class RegistrationController {
         boolean success = registrationService.submitRegistration(username, password, roleType, email, reason);
         if (success) {
             model.addAttribute("message", "注册申请已提交，等待管理员审核！");
-            return "registrationSuccess";
+            return "registration";
         } else {
             model.addAttribute("error", "提交失败，请稍后重试！");
             return "registration";
