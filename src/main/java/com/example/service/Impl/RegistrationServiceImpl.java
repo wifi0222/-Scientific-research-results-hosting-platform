@@ -20,6 +20,14 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
+    public String validateNewPassword(String username, String newPassword, String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) {
+            return "两次输入的密码不一致！";
+        }
+        return null;
+    }
+
+    @Override
     public String checkUserExistence(String username, String email) {
         boolean usernameExists = registrationMapper.usernameExists(username);
         boolean emailExists = registrationMapper.emailExists(email);

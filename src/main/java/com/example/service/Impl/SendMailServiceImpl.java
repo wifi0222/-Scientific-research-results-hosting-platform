@@ -44,7 +44,7 @@ public class SendMailServiceImpl implements ISendMailService {
 
         // 保存验证码到数据库
         try {
-            emailMapper.insertCaptcha(username, content, new Date());
+            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class SendMailServiceImpl implements ISendMailService {
 
         // 保存验证码到数据库
         try {
-            emailMapper.insertCaptcha(username, content, new Date());
+            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();

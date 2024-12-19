@@ -46,11 +46,19 @@ public class RegistrationController {
     public String submitRegistration(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
+            @RequestParam("confirmpassword") String confirmPassword,
             @RequestParam("email") String email,
             @RequestParam("roleType") String roleType,
             @RequestParam("reason") String reason,
             @RequestParam("verificationCode") String verificationCode,
             Model model) {
+        // 验证密码
+        String result = registrationService.validateNewPassword(username, password, confirmPassword);
+        if (result != null) {
+            // 将错误信息添加到 Model
+            model.addAttribute("error", result);
+            return "registration"; // 返回到注册页面
+        }
 
         // 校验验证码是否正确
         if (!registrationService.validateVerificationCode(username, verificationCode)) {

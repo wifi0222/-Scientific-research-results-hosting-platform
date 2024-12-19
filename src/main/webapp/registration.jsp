@@ -52,7 +52,17 @@
   邮箱: <input type="email" id="email" name="email" required/><br>
   <button type="button" onclick="sendVerificationCode()">发送验证码</button><br><br>
 
-  密码: <input type="password" name="password" required/><br>
+  <!-- 新密码 -->
+  <div>
+    <label for="password">新密码：</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+
+  <!-- 确认新密码 -->
+  <div>
+    <label for="confirmpassword">确认新密码：</label>
+    <input type="password" id="confirmpassword" name="confirmpassword" required>
+  </div>
   身份:
   <select name="roleType">
     <option value="teammember">团队成员</option>
