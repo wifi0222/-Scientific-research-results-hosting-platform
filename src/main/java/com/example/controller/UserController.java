@@ -42,7 +42,7 @@ public class UserController {
         if ("teammember".equals(user.getRoleType())) {
             return "redirect:/user/browse?teammember=true";
         } else if ("member".equals(user.getRoleType())) {
-            return "redirect:/user/browse";
+            return "redirect:/user/browse?member=true";
         }
         model.addAttribute("error", "未知角色！");
         return "login";
@@ -51,9 +51,9 @@ public class UserController {
     // 信息浏览页面
     @GetMapping("/browse")
     public String browsePage(@RequestParam(value = "teammember", required = false) boolean isTeamMember,
+                             @RequestParam(value = "member", required = false) boolean isMember,
                              HttpSession session,
                              Model model) {
-        System.out.println("isTeamMember: " + isTeamMember); // 调试输出
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
         if (currentUser == null) {
             return "redirect:/user/login"; // 如果用户未登录，跳转到登录页面
@@ -61,6 +61,7 @@ public class UserController {
 
         // 将用户信息传递给前端
         model.addAttribute("isTeamMember", isTeamMember);
+        model.addAttribute("isMember", isMember);
         model.addAttribute("user", currentUser);
 
         return "browse"; // 返回信息浏览页面

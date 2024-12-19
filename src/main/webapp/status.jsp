@@ -25,7 +25,12 @@
 <c:if test="${not empty message}">
     <p>${message}</p>
 </c:if>
+<ul>
+    <!-- 其他功能 -->
+    <li><a href="/login.jsp">返回登录</a></li>
+    <li><a href="/registration.jsp">注册</a></li>
 
+</ul>
 </body>
 </html>
 
