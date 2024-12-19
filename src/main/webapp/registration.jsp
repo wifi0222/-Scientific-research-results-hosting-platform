@@ -157,6 +157,11 @@
     }
   %>
 </div>
+<ul>
+  <!-- 其他功能 -->
+  <li><a href="/login.jsp">登录</a></li>
+  <li><a href="/status.jsp">查询注册状态</a></li>
 
+</ul>
 </body>
 </html>

@@ -16,25 +16,32 @@
 </head>
 <body>
 <h1>欢迎来到信息浏览页面</h1>
-<ul>
-  <!-- 其他功能 -->
-  <li><a href="/user/change-password">修改密码</a></li>
-  <li><a href="/user/deactivate">账号注销</a></li>
-
-</ul>
 
 <c:choose>
   <c:when test="${isTeamMember}">
     <div>
-      <h2>团队成员功能</h2>
       <ul>
         <li><a href="/user/profile">个人信息管理</a></li>
+        <li><a href="/user/change-password">修改密码</a></li>
+        <li><a href="/user/deactivate">账号注销</a></li>
+      </ul>
+    </div>
+  </c:when>
+  <c:when test="${isMember}">
+    <div>
+      <ul>
+        <li><a href="/user/change-password">修改密码</a></li>
+        <li><a href="/user/deactivate">账号注销</a></li>
       </ul>
     </div>
   </c:when>
   <c:otherwise>
-    <p>您是普通成员，暂无更多功能。</p>
+    <ul>
+      <!-- 其他功能 -->
+      <li><a href="/login.jsp">登录</a></li>
+    </ul>
   </c:otherwise>
 </c:choose>
+
 </body>
 </html>
