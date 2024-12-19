@@ -16,6 +16,10 @@
 </head>
 <body>
 <h1>欢迎来到信息浏览页面</h1>
+<ul>
+  <!-- 其他功能 -->
+  <li><a href="/user/change-password">修改密码</a></li>
+</ul>
 
 <c:choose>
   <c:when test="${isTeamMember}">

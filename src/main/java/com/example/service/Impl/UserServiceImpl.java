@@ -48,5 +48,8 @@ public class UserServiceImpl implements UserService {
         userReposity.insertReview(user);
     }
 
-
+    @Override
+    public void updatePasswordbyid(User user) {
+        userReposity.updatePassword(user);
+    }
 }

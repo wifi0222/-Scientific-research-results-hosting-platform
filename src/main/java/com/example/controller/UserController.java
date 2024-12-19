@@ -116,4 +116,49 @@ public class UserController {
 
         return "profile"; // 返回到个人信息页面
     }
+    // 显示修改密码页面
+    @GetMapping("/change-password")
+    public String showChangePasswordPage() {
+        return "change-password"; // 确保存在 change-password.jsp
+    }
+
+    // 处理修改密码请求
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword,
+                                 HttpSession session, // 从 Session 中获取当前用户
+                                 Model model) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 验证旧密码是否正确
+        if (!currentUser.getPassword().equals(oldPassword)) {
+            model.addAttribute("error", "旧密码错误！");
+            return "change-password";
+        }
+
+        // 验证新密码是否与旧密码相同
+        if (newPassword.equals(oldPassword)) {
+            model.addAttribute("error", "新密码不能与旧密码相同！");
+            return "change-password";
+        }
+
+        // 验证两次输入的新密码是否一致
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "两次输入的新密码不一致！");
+            return "change-password";
+        }
+
+        // 更新密码
+        currentUser.setPassword(newPassword);
+        userService.updatePasswordbyid(currentUser);
+
+        // 提示成功信息
+        model.addAttribute("message", "密码修改成功！");
+        return "change-password";
+    }
+
 }

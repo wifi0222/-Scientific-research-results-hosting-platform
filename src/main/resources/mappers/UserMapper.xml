@@ -62,5 +62,10 @@
                     VALUES (source.memberID, source.name, source.researchField, source.contactInfo, source.academicBackground, source.researchAchievements, source.modificationStatus);
     </insert>
 
+    <update id="updatePasswordbyid" parameterType="com.example.model.User">
+        UPDATE [User]
+        SET password = #{password}
+        WHERE userID = #{userID}
+    </update>
 
 </mapper>

@@ -9,4 +9,5 @@ public interface UserService {
     User login(String usernameOrId, String password);
     User getCurrentUser();
     void submitForReview(User user);
+    void updatePasswordbyid(User user);
 }
