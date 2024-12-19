@@ -23,6 +23,11 @@
     密码: <input type="password" name="password" required/><br>
     <input type="submit" value="登录"/>
 </form>
+<ul>
+    <!-- 其他功能 -->
+    <li><a href="/registration.jsp">注册</a></li>
+    <li><a href="/forgetPassword.jsp">忘记密码</a></li>
 
+</ul>
 </body>
 </html>

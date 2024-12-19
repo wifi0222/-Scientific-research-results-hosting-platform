@@ -136,5 +136,10 @@
         });
     }
 </script>
+<ul>
+    <!-- 其他功能 -->
+    <li><a href="/login.jsp">返回登录</a></li>
+
+</ul>
 </body>
 </html>
