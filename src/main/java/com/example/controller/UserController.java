@@ -39,11 +39,16 @@ public class UserController {
         session.setAttribute("currentUser", user);
 
         // 根据角色跳转
-        if ("teammember".equals(user.getRoleType())) {
+        if ("TeamMember".equals(user.getRoleType())) {
             return "redirect:/user/browse?teammember=true";
-        } else if ("member".equals(user.getRoleType())) {
+        } else if ("Visitor".equals(user.getRoleType())) {
             return "redirect:/user/browse";
+        } else if ("TeamAdmin".equals(user.getRoleType())) {
+            return "redirect:/teamAdmin/achievements"; // 跳转到团队管理员成果管理页面
         }
+//        else if("SuperAdmin".equals(user.getRoleType())){
+//
+//        }
         model.addAttribute("error", "未知角色！");
         return "login";
     }
@@ -116,6 +121,7 @@ public class UserController {
 
         return "profile"; // 返回到个人信息页面
     }
+
     // 显示修改密码页面
     @GetMapping("/change-password")
     public String showChangePasswordPage() {

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.AchievementMapper">
+
+    <!-- 插入科研成果 -->
+    <insert id="insertAchievement" parameterType="map">
+        INSERT INTO Achievement (title, category, abstract, detailedDescription, content, attachmentLink, creationTime, teamID, status, viewStatus)
+        VALUES (#{title}, #{category}, #{abstractText}, #{detailedDescription}, #{content}, #{attachmentLink}, #{creationTime}, #{teamID}, #{status}, #{viewStatus})
+    </insert>
+
+    <!-- 更新科研成果 -->
+    <update id="updateAchievement" parameterType="map">
+        UPDATE Achievement
+        SET title = #{title},
+            category = #{category},
+            abstract = #{abstractText},
+            detailedDescription = #{detailedDescription},
+            content = #{content},
+            attachmentLink = #{attachmentLink},
+            status = #{status},
+            viewStatus = #{viewStatus}
+        WHERE achievementID = #{achievementID}
+    </update>
+
+    <!-- 删除科研成果 -->
+    <delete id="deleteAchievement" parameterType="int">
+        DELETE FROM Achievement WHERE achievementID = #{achievementID}
+    </delete>
+
+    <!-- 根据 ID 获取科研成果 -->
+    <select id="getAchievementById" resultType="com.example.model.Achievement">
+        SELECT * FROM Achievement WHERE achievementID = #{achievementID}
+    </select>
+
+    <!-- 获取团队的所有科研成果 -->
+    <select id="getAchievementsByTeam" resultType="com.example.model.Achievement">
+        SELECT * FROM Achievement WHERE teamID = #{teamID} ORDER BY creationTime DESC
+    </select>
+
+    <!-- 搜索科研成果 -->
+    <select id="searchAchievements" resultType="com.example.model.Achievement">
+        SELECT * FROM Achievement
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') AND category = #{category}
+        ORDER BY creationTime DESC
+    </select>
+
+    <!-- 获取所有科研成果 -->
+    <select id="getAllAchievements" resultType="com.example.model.Achievement">
+        SELECT * FROM Achievement ORDER BY creationTime DESC
+    </select>
+
+    <!-- 更新科研成果状态 -->
+    <update id="updateAchievementStatus" parameterType="map">
+        UPDATE Achievement
+        SET status = #{status}
+        WHERE achievementID = #{achievementID}
+    </update>
+
+    <!-- 更新科研成果的可见性 -->
+    <update id="updateAchievementVisibility" parameterType="map">
+        UPDATE Achievement
+        SET viewStatus = #{viewStatus}
+        WHERE achievementID = #{achievementID}
+    </update>
+
+</mapper>
