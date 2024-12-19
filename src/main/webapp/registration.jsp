@@ -17,6 +17,11 @@
       const username = $("#username").val();
       const email = $("#email").val();
 
+      // 在发送验证码之前进行用户名验证
+      if (!validateUsername()) {
+        return; // 如果用户名无效，直接返回，不发送验证码
+      }
+
       if (!username || !email) {
         $("#message").text("请输入用户名和邮箱！");
         return;
@@ -59,12 +64,32 @@
         }
       }, 1000);
     }
+
+    // 用户名检查函数，检查是否是纯数字
+    function validateUsername() {
+      const username = $("#username").val();
+      const numericPattern = /^\d+$/; // 正则表达式，匹配纯数字
+
+      if (numericPattern.test(username)) {
+        $("#message").css("color", "red").text("用户名不能是纯数字！");
+        return false;
+      }
+      return true;
+    }
+
+    // 提交表单前验证
+    function validateForm() {
+      if (!validateUsername()) {
+        return false; // 阻止表单提交
+      }
+      return true; // 允许表单提交
+    }
   </script>
 </head>
 <body>
 <h2>注册页面</h2>
 
-<form action="/registration/submit" method="post">
+<form action="/registration/submit" method="post" onsubmit="return validateForm()">
   <!-- 用户名 -->
   <div>
     <label for="username">用户名：</label>
