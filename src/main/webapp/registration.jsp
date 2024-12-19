@@ -6,41 +6,38 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>用户注册</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     // 发送验证码
     function sendVerificationCode() {
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
+      const username = $("#username").val();
+      const email = $("#email").val();
 
       if (!username || !email) {
-        alert("请先填写用户名和邮箱！");
+        $("#message").text("请输入用户名和邮箱！");
         return;
       }
 
-      // 使用 Ajax 请求发送验证码
-      fetch('/registration/sendVerificationCode', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+      $.ajax({
+        url: "/registration/sendVerificationCode",
+        type: "POST",
+        data: { username, email },
+        success: function (response) {
+          if (response.success) {
+            $("#message").css("color", "green").text(response.message);
+          } else {
+            $("#message").css("color", "red").text(response.error);
+          }
         },
-        body: `username=${username}&email=${email}`
-      })
-              .then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  alert("验证码已发送至邮箱，请查收！");
-                } else {
-                  alert(data.error || "验证码发送失败，请稍后重试！");
-                }
-              })
-              .catch(error => {
-                alert("发送验证码时出现错误，请稍后重试！");
-                console.error("Error:", error);
-              });
+        error: function () {
+          $("#message").css("color", "red").text("发送验证码失败，请稍后重试！");
+        }
+      });
     }
   </script>
 </head>
@@ -48,9 +45,20 @@
 <h2>注册页面</h2>
 
 <form action="/registration/submit" method="post">
-  用户名: <input type="text" id="username" name="username" required/><br>
-  邮箱: <input type="email" id="email" name="email" required/><br>
-  <button type="button" onclick="sendVerificationCode()">发送验证码</button><br><br>
+  <!-- 用户名 -->
+  <div>
+    <label for="username">用户名：</label>
+    <input type="text" id="username" name="username" required>
+  </div>
+
+  <!-- 邮箱 -->
+  <div>
+    <label for="email">邮箱：</label>
+    <input type="email" id="email" name="email" required>
+  </div>
+  <div>
+    <button type="button" onclick="sendVerificationCode()">发送验证码</button>
+  </div>
 
   <!-- 新密码 -->
   <div>
@@ -73,11 +81,7 @@
   <input type="submit" value="提交注册申请"/>
 </form>
 
-<c:if test="${not empty error}">
-  <p style="color:red;">${error}</p>
-</c:if>
-<c:if test="${not empty message}">
-  <p style="color:green;">${message}</p>
-</c:if>
+<!-- 提示信息 -->
+<div id="message" style="margin-top: 20px;"></div>
 </body>
 </html>

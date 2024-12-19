@@ -30,6 +30,7 @@ public class RegistrationController {
             boolean sent = sendMailService.sendEmail(username, email);
             if (sent) {
                 response.put("success", true);
+                response.put("message", "验证码发送成功!");
             } else {
                 response.put("success", false);
                 response.put("error", "用户名或邮箱已被注册，无法发送验证码！");
