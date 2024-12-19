@@ -20,6 +20,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
+    // 提交问题
     @PostMapping("/submit")
     public ResponseEntity<String> submitQuestion(@RequestParam("questionContent") String questionContent,
                                                  @RequestParam("userID") int userID) {
@@ -80,14 +81,14 @@ public class QuestionController {
         List<Question> questions = questionService.getQuestionsByStatus(0);
         System.out.println("in questions/pending-questions " + questions.get(0).getQuestionID() + ' ' + questions.get(0).getQuestionContent());
         model.addAttribute("questions", questions);
-        return "Question/pending-questions";
+        return "Question/ans-pending-questions";
     }
     @RequestMapping("/details/{id}")
     public String showQuestionDetails(@PathVariable("id") int questionID, Model model) {
         System.out.println("in questions/details/{id} " + questionID);
         Question question = questionService.getQuestionById(questionID);
         model.addAttribute("question", question);
-        return "Question/question-details";
+        return "Question/ans-question-details";
     }
 
 

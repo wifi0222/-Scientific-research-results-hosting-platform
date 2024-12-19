@@ -34,7 +34,7 @@
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
                     [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
                     [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
-                    ['link', 'image'], // 链接和图片
+                    ['image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
                 handlers: {
