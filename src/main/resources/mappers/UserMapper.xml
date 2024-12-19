@@ -68,4 +68,22 @@
         WHERE userID = #{userID}
     </update>
 
+    <!-- 检查注销申请是否已存在 -->
+    <select id="checkDeactivationRequest" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM AccountDeactivationReview
+        WHERE userID = #{userID} AND deactivationStatus = 0
+    </select>
+
+    <!-- 插入注销申请 -->
+    <insert id="insertDeactivationRequest" parameterType="int">
+        MERGE INTO AccountDeactivationReview AS target
+            USING (SELECT #{userID} AS userID, 0 AS deactivationStatus, GETDATE() AS deactivationTime) AS source
+            ON (target.userID = source.userID)
+            WHEN MATCHED THEN
+                UPDATE SET deactivationStatus = source.deactivationStatus, deactivationTime = source.deactivationTime
+            WHEN NOT MATCHED THEN
+                INSERT (userID, deactivationStatus, deactivationTime)
+                    VALUES (source.userID, source.deactivationStatus, source.deactivationTime);
+    </insert>
 </mapper>

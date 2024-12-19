@@ -161,4 +161,40 @@ public class UserController {
         return "change-password";
     }
 
+    // 显示注销申请页面
+    @GetMapping("/deactivate")
+    public String showDeactivationPage() {
+        return "deactivate"; // 确保存在 deactivate.jsp
+    }
+
+    // 处理注销申请请求
+    @PostMapping("/deactivate")
+    public String handleDeactivationRequest(@RequestParam("password") String password,
+                                            HttpSession session, // 从 Session 获取当前用户
+                                            Model model) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 验证密码是否正确
+        if (!currentUser.getPassword().equals(password)) {
+            model.addAttribute("error", "密码错误！");
+            return "deactivate";
+        }
+
+        // 检查注销信息审核表中是否已有记录
+        if (userService.isDeactivationPending(currentUser.getUserID())) {
+            model.addAttribute("error", "您已申请注销，请耐心等待！");
+            return "deactivate";
+        }
+
+        // 插入注销申请到注销信息审核表
+        userService.submitDeactivationRequest(currentUser);
+
+        model.addAttribute("message", "注销申请已提交，等待管理员审核！");
+        return "deactivate";
+    }
+
 }

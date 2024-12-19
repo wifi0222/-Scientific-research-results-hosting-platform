@@ -19,6 +19,8 @@
 <ul>
   <!-- 其他功能 -->
   <li><a href="/user/change-password">修改密码</a></li>
+  <li><a href="/user/deactivate">账号注销</a></li>
+
 </ul>
 
 <c:choose>

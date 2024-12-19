@@ -10,4 +10,6 @@ public interface UserService {
     User getCurrentUser();
     void submitForReview(User user);
     void updatePasswordbyid(User user);
+    boolean isDeactivationPending(int userID); // 检查注销申请是否已存在
+    void submitDeactivationRequest(User user); // 提交注销申请
 }

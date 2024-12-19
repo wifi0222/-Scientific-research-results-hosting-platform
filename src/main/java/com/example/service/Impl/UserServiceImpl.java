@@ -52,4 +52,14 @@ public class UserServiceImpl implements UserService {
     public void updatePasswordbyid(User user) {
         userReposity.updatePassword(user);
     }
+
+    @Override
+    public boolean isDeactivationPending(int userID) {
+        return userReposity.checkDeactivationRequest(userID) > 0; // 查询记录是否存在
+    }
+
+    @Override
+    public void submitDeactivationRequest(User user) {
+        userReposity.insertDeactivationRequest(user.getUserID());
+    }
 }
