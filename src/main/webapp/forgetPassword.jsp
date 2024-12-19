@@ -23,7 +23,7 @@
 
     <!-- 发送验证码按钮 -->
     <div>
-        <button type="button" onclick="sendVerificationCode()">发送验证码</button>
+        <button type="button" id="sendCodeButton" onclick="sendVerificationCode()">发送验证码</button>
     </div>
 
     <!-- 验证码 -->
@@ -71,6 +71,10 @@
             success: function (response) {
                 if (response.success) {
                     $("#message").css("color", "green").text(response.message);
+
+                    // 禁用按钮并开始倒计时
+                    $("#sendCodeButton").prop("disabled", true);
+                    startCountdown();
                 } else {
                     $("#message").css("color", "red").text(response.error);
                 }
@@ -79,6 +83,24 @@
                 $("#message").css("color", "red").text("发送验证码失败，请稍后重试！");
             }
         });
+    }
+
+    // 倒计时函数
+    function startCountdown() {
+        let countdownTime = 300; // 5分钟倒计时（300秒）
+        const button = $("#sendCodeButton");
+        button.text(`重新发送（${countdownTime}s）`);
+
+        const countdownInterval = setInterval(function () {
+            countdownTime--;
+            button.text(`重新发送（${countdownTime}s）`);
+
+            if (countdownTime <= 0) {
+                clearInterval(countdownInterval);
+                button.text("重新发送");
+                button.prop("disabled", false); // 启用按钮
+            }
+        }, 1000);
     }
 
     // 重置密码
