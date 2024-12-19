@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%--<%@ page isELIgnored="false" %>--%>
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -69,13 +69,13 @@
   <!-- 用户名 -->
   <div>
     <label for="username">用户名：</label>
-    <input type="text" id="username" name="username" required>
+    <input type="text" id="username" name="username" required value="${username}">
   </div>
 
   <!-- 邮箱 -->
   <div>
     <label for="email">邮箱：</label>
-    <input type="email" id="email" name="email" required>
+    <input type="email" id="email" name="email" required value="${email}">
   </div>
 
   <!-- 发送验证码按钮 -->
@@ -98,12 +98,12 @@
   <!-- 身份选择 -->
   身份:
   <select name="roleType">
-    <option value="teammember">团队成员</option>
-    <option value="member">普通用户</option>
+    <option value="teammember" ${roleType == 'teammember' ? 'selected' : ''}>团队成员</option>
+    <option value="member" ${roleType == 'member' ? 'selected' : ''}>普通用户</option>
   </select><br>
 
   <!-- 申请理由 -->
-  申请理由: <textarea name="reason"></textarea><br>
+  申请理由: <textarea name="reason">${reason}</textarea><br>
 
   <!-- 验证码输入 -->
   验证码: <input type="text" name="verificationCode" required/><br>
@@ -113,7 +113,23 @@
 </form>
 
 <!-- 提示信息 -->
-<div id="message" style="margin-top: 20px;"></div>
+<div id="message" style="margin-top: 20px;">
+  <%-- 显示消息 --%>
+  <%
+    String message = (String) request.getAttribute("message");
+    String error = (String) request.getAttribute("error");
+
+    if (message != null) {
+  %>
+  <span style="color: green"><%= message %></span>
+  <%
+  } else if (error != null) {
+  %>
+  <span style="color: red"><%= error %></span>
+  <%
+    }
+  %>
+</div>
 
 </body>
 </html>

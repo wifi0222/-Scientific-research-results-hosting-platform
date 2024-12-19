@@ -44,52 +44,59 @@ public class RegistrationController {
 
 
     @PostMapping("/submit")
-    @ResponseBody
-    public Map<String, Object> submitRegistration(
+    public String submitRegistration(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             @RequestParam("confirmpassword") String confirmPassword,
             @RequestParam("email") String email,
             @RequestParam("roleType") String roleType,
             @RequestParam("reason") String reason,
-            @RequestParam("verificationCode") String verificationCode) {
-        Map<String, Object> response = new HashMap<>();
+            @RequestParam("verificationCode") String verificationCode,
+            Model model) {
 
         // 验证密码
         String result = registrationService.validateNewPassword(username, password, confirmPassword);
         if (result != null) {
-            response.put("success", false);
-            response.put("error", result);
-            return response;
+            model.addAttribute("error", result); // 错误信息通过Model传递到视图
+            model.addAttribute("username", username); // 保留用户名
+            model.addAttribute("email", email); // 保留邮箱
+            model.addAttribute("roleType", roleType); // 保留角色类型
+            model.addAttribute("reason", reason); // 保留申请理由
+            return "registration"; // 返回注册页面
         }
 
         // 校验验证码是否正确
         if (!registrationService.validateVerificationCode(username, verificationCode)) {
-            response.put("success", false);
-            response.put("error", "验证码错误或已过期！");
-            return response;
+            model.addAttribute("error", "验证码错误或已过期！");
+            model.addAttribute("username", username); // 保留用户名
+            model.addAttribute("email", email); // 保留邮箱
+            model.addAttribute("roleType", roleType); // 保留角色类型
+            model.addAttribute("reason", reason); // 保留申请理由
+            return "registration"; // 返回注册页面
         }
 
         // 校验用户名和邮箱是否存在
         String checkResult = registrationService.checkUserExistence(username, email);
         if (checkResult != null) {
-            response.put("success", false);
-            response.put("error", checkResult);
-            return response;
+            model.addAttribute("error", checkResult);
+            model.addAttribute("username", username); // 保留用户名
+            model.addAttribute("email", email); // 保留邮箱
+            model.addAttribute("roleType", roleType); // 保留角色类型
+            model.addAttribute("reason", reason); // 保留申请理由
+            return "registration"; // 返回注册页面
         }
 
         // 提交注册信息
         boolean success = registrationService.submitRegistration(username, password, roleType, email, reason);
         if (success) {
-            response.put("success", true);
-            response.put("message", "注册申请已提交，等待管理员审核！");
+            model.addAttribute("message", "注册申请已提交，等待管理员审核！");
         } else {
-            response.put("success", false);
-            response.put("error", "提交失败，请稍后重试！");
+            model.addAttribute("error", "提交失败，请稍后重试！");
         }
 
-        return response;
+        return "registration"; // 返回注册页面
     }
+
 
 
     // 查看申请状态
