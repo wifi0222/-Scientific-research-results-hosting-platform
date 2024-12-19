@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.service.RegistrationService;
 import com.example.service.ISendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +22,29 @@ public class RegistrationController {
     private ISendMailService sendMailService;
 
     @PostMapping("/sendVerificationCode")
-    @ResponseBody
-    public Map<String, Object> sendVerificationCode(@RequestParam("username") String username,
-                                                    @RequestParam("email") String email) {
+    public ResponseEntity<Map<String, Object>> sendVerificationCode(@RequestParam("username") String username,
+                                                                    @RequestParam("email") String email) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // 调用发送邮件服务
+            System.out.println("调用发送邮件服务");
             boolean sent = sendMailService.sendEmail(username, email);
             if (sent) {
+                System.out.println("成功发送邮件");
                 response.put("success", true);
             } else {
+                System.out.println("未成功发送邮件");
                 response.put("success", false);
                 response.put("error", "用户名或邮箱已被注册，无法发送验证码！");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             response.put("success", false);
             response.put("error", "发送验证码时出现错误！");
         }
-        return response;
+        return ResponseEntity.ok(response);
     }
+
+
 
 
     @PostMapping("/submit")

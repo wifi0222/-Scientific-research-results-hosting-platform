@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.QuestionMapper">
+
+    <!-- 插入提问 -->
+    <insert id="insertQuestion" parameterType="map">
+        INSERT INTO Question (questionContent, userID, status, askTime)
+        VALUES (#{questionContent}, #{userID}, #{status}, #{askTime})
+    </insert>
+
+    <!-- 更新提问状态和回复内容 -->
+    <update id="updateQuestionStatusAndReply" parameterType="map">
+        UPDATE Question
+        SET status = #{status},
+            replyContent = #{replyContent},
+            replyTime = #{replyTime}
+        WHERE questionID = #{questionID}
+    </update>
+
+    <!-- 检查某用户的提问是否存在 -->
+    <select id="checkQuestionExists" resultType="int">
+        SELECT COUNT(*)
+        FROM Question
+        WHERE questionID = #{questionID} AND userID = #{userID}
+    </select>
+
+    <!-- 获取所有提问 -->
+    <select id="getAllQuestions" resultType="com.example.model.Question">
+        SELECT questionID, questionContent, userID, status, replyContent, replyTime
+        FROM Question
+    </select>
+
+    <!-- 根据状态获取提问并按提问时间排序 -->
+    <select id="getQuestionsByStatus" resultType="com.example.model.Question">
+        SELECT questionID, userID, status, askTime, questionContent
+        FROM Question
+        WHERE status = #{status}
+        ORDER BY askTime ASC
+    </select>
+
+
+
+    <!-- 根据用户ID获取提问 -->
+    <select id="getQuestionsByUserID" resultType="com.example.model.Question">
+        SELECT questionID, questionContent, userID, status, replyContent, replyTime
+        FROM Question
+        WHERE userID = #{userID}
+    </select>
+
+    <!-- 查询指定问题详情 -->
+    <select id="getQuestionById" resultType="com.example.model.Question">
+        SELECT * FROM Question WHERE questionID = #{questionID}
+    </select>
+
+    <!-- 更新问题的回复 -->
+    <update id="updateReply">
+        UPDATE Question
+        SET replyContent = #{replyContent},
+            replyTime = #{replyTime},
+            status = #{status}
+        WHERE questionID = #{questionID}
+    </update>
+
+
+</mapper>
