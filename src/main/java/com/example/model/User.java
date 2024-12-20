@@ -2,9 +2,10 @@ package com.example.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable { // 如果不加 implements Serializable 那么就无法向 Redis 传 User
     private int userID; // 主键
     private String username; // 用户名
     private String password; // 密码

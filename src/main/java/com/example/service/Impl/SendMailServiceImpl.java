@@ -2,6 +2,7 @@ package com.example.service.Impl;
 
 import com.example.mapper.EmailMapper;
 import com.example.service.ISendMailService;
+import com.example.tool.RedisUtil;
 import com.sun.mail.smtp.SMTPSendFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -18,6 +19,8 @@ public class SendMailServiceImpl implements ISendMailService {
 
     private JavaMailSenderImpl mailSender;
 
+    @Autowired
+    private RedisUtil redisUtil;
     @Autowired
     private EmailMapper emailMapper; // 注入EmailMapper
 
@@ -43,9 +46,11 @@ public class SendMailServiceImpl implements ISendMailService {
         String subject = "密码重置";
         String content = verifyCode(8); // 生成验证码
 
-        // 保存验证码到数据库
+        // 保存验证码到 Redis，而不是数据库
         try {
-            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
+            String redisKey = "email:session:" + username;
+            redisUtil.set(redisKey, content, 300);
+            //emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();
@@ -74,9 +79,11 @@ public class SendMailServiceImpl implements ISendMailService {
         String subject = "密码重置";
         String content = verifyCode(8); // 生成验证码
 
-        // 保存验证码到数据库
+        // 保存验证码到 Redis，而不是数据库
         try {
-            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
+            String redisKey = "email:session:" + username;
+            redisUtil.set(redisKey, content, 300);
+            // emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();

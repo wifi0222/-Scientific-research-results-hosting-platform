@@ -40,7 +40,7 @@ public class UserController {
 
         // 将用户信息保存到 Redis 中
         String redisKey = "user:session:" + user.getUserID();
-        redisUtil.set(redisKey, "aaaaaaaaaaaaaaaaaaa");
+        redisUtil.set(redisKey, user);
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
@@ -201,14 +201,14 @@ public class UserController {
         // 从 Session 中获取当前用户信息
         User currentUser = (User) session.getAttribute("currentUser");
 
-        // 优先从 Redis 获取
+        // 这里只是测试一下 Redis，没什么卵用
         String redisKey = "user:session:" + currentUser.getUserID();
-        String a = (String) redisUtil.get(redisKey);
-        System.out.println(a);
+        User user = (User) redisUtil.get(redisKey);
+        System.out.println(user);
 
-//        if (currentUser == null) {
-//            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
-//        }
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
 
         // 将用户信息传递给前端
         model.addAttribute("user", currentUser);

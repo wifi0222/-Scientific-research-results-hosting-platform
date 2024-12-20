@@ -3,11 +3,15 @@ package com.example.service.Impl;
 import com.example.mapper.UserMapper;
 import com.example.mapper.CaptchaMapper;
 import com.example.service.ForgotPasswordService;
+import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserMapper userMapper;
@@ -22,7 +26,14 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     @Override
     public boolean validateVerificationCode(String username, String verificationCode) {
-        return captchaMapper.validateCaptcha(username, verificationCode) > 0;
+        String redisKey = "email:session:" + username;
+        String storedCode = (String) redisUtil.get(redisKey);
+        System.out.println("in validateVerificationCode ForgotPasswordServiceImpl.java");
+        System.out.println(redisKey);
+        System.out.println(storedCode);
+
+        return storedCode != null && storedCode.equals(verificationCode);
+        //return captchaMapper.validateCaptcha(username, verificationCode) > 0;
     }
 
     @Override

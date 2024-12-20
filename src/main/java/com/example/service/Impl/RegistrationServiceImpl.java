@@ -2,7 +2,9 @@ package com.example.service.Impl;
 
 import com.example.mapper.RegistrationMapper;
 import com.example.model.RegistrationReview;
+import com.example.model.User;
 import com.example.service.RegistrationService;
+import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,19 @@ import java.util.List;
 public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
     private RegistrationMapper registrationMapper;
 
     @Override
     public boolean validateVerificationCode(String username, String verificationCode) {
-        String storedCode = registrationMapper.getVerificationCodeByUsername(username);
+        String redisKey = "email:session:" + username;
+        String storedCode = (String) redisUtil.get(redisKey);
+        System.out.println("in validateVerificationCode RegistrationServiceImpl.java");
+        System.out.println(redisKey);
+        System.out.println(storedCode);
+
+        //String storedCode = registrationMapper.getVerificationCodeByUsername(username);
         return storedCode != null && storedCode.equals(verificationCode);
     }
 

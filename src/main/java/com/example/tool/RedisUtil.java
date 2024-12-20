@@ -1,6 +1,7 @@
 package com.example.tool;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public final class RedisUtil {
 
     @Autowired
+    @Qualifier("redisTemplate")
     private RedisTemplate redisTemplate;
 
     /**
@@ -96,6 +98,7 @@ public final class RedisUtil {
      */
     public boolean set(String key, Object value) {
         System.out.println("in set method");
+        System.out.println(value);
         try {
             redisTemplate.opsForValue().set(key, value);
             return true;
