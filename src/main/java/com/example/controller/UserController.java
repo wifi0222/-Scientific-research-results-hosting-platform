@@ -197,4 +197,32 @@ public class UserController {
         return "deactivate";
     }
 
+    //后台管理登录
+    @GetMapping("/ManagementLogin")
+    public String ManagementLogin(@RequestParam("usernameOrId") String usernameOrId,
+                        @RequestParam("password") String password,
+                        HttpSession session, // 注入 HttpSession 保存用户信息
+                        Model model) {
+        User user = userService.login(usernameOrId, password);
+        if (user == null) {
+            model.addAttribute("error", "账号不存在或密码错误！");
+            return "ManagementLogin";
+        }
+        if (user.getStatus() == 0) {
+            model.addAttribute("error", "账户已被禁用！");
+            return "ManagementLogin";
+        }
+
+        // 登录成功，保存用户信息到 Session
+        session.setAttribute("currentUser", user);
+
+        // 根据角色跳转
+        if ("TeamAdmin".equals(user.getRoleType())) {
+            return "redirect:/";
+        } else if ("SuperAdmin".equals(user.getRoleType())) {
+            return "redirect:/";
+        }
+        model.addAttribute("error", "未知角色！");
+        return "ManagementLogin";
+    }
 }

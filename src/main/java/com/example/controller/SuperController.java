@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 /*
 超级管理员进行用户管理和权限管理
@@ -29,8 +30,16 @@ public class SuperController {
 
     //超级管理员用户点击用户管理进行
     @GetMapping("/UserManagement")
-    public String UserManagement(Model model,@ModelAttribute("AddTeamAdminRemind")String AddTeamAdminRemind,
-    @ModelAttribute("ChangeTeamAdminRemind")String ChangeTeamAdminRemind){
+    public String UserManagement(Model model,@RequestParam(required = false)String AddTeamAdminRemind,
+        @RequestParam(required = false)String ChangeTeamAdminRemind,HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         List<User> users = userService.findAllTeamAdmin();
         if(users.size() > 0){
             model.addAttribute("users", users);
@@ -40,22 +49,21 @@ public class SuperController {
         // 如果存在错误信息（来自 AddTeamAdmin），显示错误信息
         System.out.println(AddTeamAdminRemind);
         System.out.println(ChangeTeamAdminRemind);
-        return "SuperUserManage";
-    }
-
-
-    //发送重置密码邮件
-    @GetMapping("/SendEmail")
-    public String getVeriy(@RequestParam("email")String email, Model model) throws Exception {
-        sendMailService.resendEmail("",email);
-        return "index";
-
+        return "/SuperUserManage";
     }
 
     //增加团队管理员
     @GetMapping("/AddTeamAdmin")
     public String addTeamAdmin(@RequestParam("username")String username,@RequestParam("password") String password,
-                               RedirectAttributes redirectAttributes){
+                               RedirectAttributes redirectAttributes,HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         System.out.println("用户名："+username+"密码"+password);
         String information="新增团队管理员成功";
         if(userService.findByUserName(username)!=null){
@@ -69,7 +77,15 @@ public class SuperController {
 
     //跳转到编辑信息界面
     @GetMapping("/ToChangeTeamAdmin")
-    public String ChangeTeamAdmin(Model model,@RequestParam("userID")int userID){
+    public String ChangeTeamAdmin(Model model,
+                                  HttpSession session,@RequestParam("userID")int userID){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
         //通过userID获得user信息
         User user=userService.findById(userID);
         model.addAttribute("user",user);
@@ -78,7 +94,15 @@ public class SuperController {
 
     //编辑团队管理员信息
     @RequestMapping ("ChangeTeamAdminInfo")
-    public String ChangeTeamAdminInfo(RedirectAttributes redirectAttributes,@ModelAttribute User user) {
+    public String ChangeTeamAdminInfo(RedirectAttributes redirectAttributes,@ModelAttribute User user,HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         System.out.println(user);
         System.out.println(user.getUsername());
         int n=userService.updateTeamAdmin(user);
@@ -92,14 +116,30 @@ public class SuperController {
 
     //删除团队管理员
     @RequestMapping("DeleteTeamAdmin")
-    public String DeleteTeamAdmin(@RequestParam("userID")int userID){
+    public String DeleteTeamAdmin(@RequestParam("userID")int userID,HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         userService.deleteTeamAdmin(userID);
         return "redirect:/UserManagement";
     }
 
     //跳转到权限管理的界面：
     @RequestMapping("TeamAdministratorManagement")
-    public String TeamAdministratorManagement(Model model,@RequestParam(required = false)String message){
+    public String TeamAdministratorManagement(Model model,@RequestParam(required = false)String message,HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         List<TeamAdministrator> teamAdministrators=administratorService.findAllAdministrators();
         model.addAttribute("teamAdministrators",teamAdministrators);
         model.addAttribute("message",message);
@@ -107,7 +147,15 @@ public class SuperController {
     }
 
     @RequestMapping("ToEditTA")
-    public String editTA(@RequestParam("adminID")int adminID,Model model){
+    public String editTA(@RequestParam("adminID")int adminID,Model model,HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         TeamAdministrator teamAdministrator=administratorService.findAdministratorById(adminID);
         model.addAttribute("teamAdministrator",teamAdministrator);
         return "editTA";
@@ -118,7 +166,16 @@ public class SuperController {
                                     @RequestParam(required = false) boolean publishPermission,
                                     @RequestParam(required = false) boolean userPermission,
                                     @RequestParam(required = false) boolean deletePermission,
-                                    @RequestParam("adminID")int adminID){
+                                    @RequestParam("adminID")int adminID,
+                                    HttpSession session){
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        }else if(currentUser.getRoleType().equals("SuperAdmin")==false){
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
         System.out.println(set);
         if(set==1){
             //设置模板权限
