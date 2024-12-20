@@ -40,32 +40,14 @@ public class UserController {
 
         // 根据角色跳转
         if ("teammember".equals(user.getRoleType())) {
-            return "redirect:/user/browse?teammember=true";
+            return "redirect:/browse?teammember=true";
         } else if ("member".equals(user.getRoleType())) {
-            return "redirect:/user/browse?member=true";
+            return "redirect:/browse?member=true";
         }
         model.addAttribute("error", "未知角色！");
         return "login";
     }
 
-    // 信息浏览页面
-    @GetMapping("/browse")
-    public String browsePage(@RequestParam(value = "teammember", required = false) boolean isTeamMember,
-                             @RequestParam(value = "member", required = false) boolean isMember,
-                             HttpSession session,
-                             Model model) {
-        User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
-        if (currentUser == null) {
-            return "redirect:/user/login"; // 如果用户未登录，跳转到登录页面
-        }
-
-        // 将用户信息传递给前端
-        model.addAttribute("isTeamMember", isTeamMember);
-        model.addAttribute("isMember", isMember);
-        model.addAttribute("user", currentUser);
-
-        return "browse"; // 返回信息浏览页面
-    }
 
     // 显示登录页面
     @GetMapping("/login")

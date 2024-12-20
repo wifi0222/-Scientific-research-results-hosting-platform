@@ -15,8 +15,48 @@
   <title>信息浏览</title>
 </head>
 <body>
-<h1>欢迎来到信息浏览页面</h1>
+<h1>团队简介</h1>
+<p>团队名称：<c:out value="${team.teamName}"/></p>
+<p>研究方向：<c:out value="${team.researchArea}"/></p>
+<p>简介：<c:out value="${team.introduction}"/></p>
 
+<h2>团队成员</h2>
+<ul>
+  <c:forEach var="member" items="${teamMembers}">
+    <li>
+      姓名：<c:out value="${member.name}"/>，
+      研究方向：<c:out value="${member.researchField}"/>
+      <a href="${pageContext.request.contextPath}/member/details?userID=${member.userID}">查看详情</a>
+    </li>
+  </c:forEach>
+</ul>
+
+<!-- 模块化复用 -->
+<h2>成果模块</h2>
+
+<!-- 软著列表 -->
+<jsp:include page="achievementListModule.jsp">
+  <jsp:param name="achievementTitle" value="软著列表" />
+  <jsp:param name="achievementList" value="${softAchievements}" />
+</jsp:include>
+
+<!-- 专著列表 -->
+<jsp:include page="achievementListModule.jsp">
+  <jsp:param name="achievementTitle" value="专著列表" />
+  <jsp:param name="achievementList" value="${bookAchievements}" />
+</jsp:include>
+
+<!-- 专利列表 -->
+<jsp:include page="achievementListModule.jsp">
+  <jsp:param name="achievementTitle" value="专利列表" />
+  <jsp:param name="achievementList" value="${patentAchievements}" />
+</jsp:include>
+
+<!-- 产品列表 -->
+<jsp:include page="achievementListModule.jsp">
+  <jsp:param name="achievementTitle" value="产品列表" />
+  <jsp:param name="achievementList" value="${productAchievements}" />
+</jsp:include>
 <c:choose>
   <c:when test="${isTeamMember}">
     <div>
@@ -40,7 +80,6 @@
   </c:when>
   <c:otherwise>
     <ul>
-      <!-- 其他功能 -->
       <li><a href="/login.jsp">登录</a></li>
     </ul>
   </c:otherwise>
