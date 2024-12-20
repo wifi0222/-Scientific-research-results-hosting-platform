@@ -1,15 +1,18 @@
 package com.example.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Team {
-    private int teamID; // 团队ID
-    private String teamName; // 团队名称
-    private String researchArea; // 研究领域
-    private String introduction; // 团队简介
-    private Date creationTime; // 创建时间
+    private int teamID;
+    private String teamName;
+    private String researchArea;
+    private String introduction;
 
-    // Getter 和 Setter
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date creationTime;
+
     public int getTeamID() {
         return teamID;
     }
@@ -48,5 +51,16 @@ public class Team {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamID=" + teamID +
+                ", teamName='" + teamName + '\'' +
+                ", researchArea='" + researchArea + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", creationTime=" + creationTime +
+                '}';
     }
 }

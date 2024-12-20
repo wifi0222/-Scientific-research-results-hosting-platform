@@ -1,8 +1,10 @@
 package com.example.mapper;
 
+import com.example.model.RegistrationReview;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 public interface RegistrationMapper {
     String getVerificationCodeByUsername(@Param("username") String username);
@@ -16,4 +18,8 @@ public interface RegistrationMapper {
                                   @Param("registrationTime") Date registrationTime,
                                   @Param("registrationStatus") int registrationStatus);
     Integer getApplicationStatusByEmail(@Param("email") String email); // 根据邮箱获取注册状态
+    public List<RegistrationReview> getAllRegistrationReviews(); //获取全部注册用户列表
+    public RegistrationReview getRegisterByusername(@Param("username") String username);
+    public int updateSuccessResult(String username);
+    public int updateFailResult(@Param("username") String username, @Param("refuseReason") String refuseReason);
 }

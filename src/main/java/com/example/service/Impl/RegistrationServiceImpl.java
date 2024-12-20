@@ -1,11 +1,13 @@
 package com.example.service.Impl;
 
 import com.example.mapper.RegistrationMapper;
+import com.example.model.RegistrationReview;
 import com.example.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -63,5 +65,25 @@ public class RegistrationServiceImpl implements RegistrationService {
             default:
                 return "状态未知，请联系管理员！";
         }
+    }
+
+    @Override
+    public List<RegistrationReview> getAllRegistrationReviews() {
+        return registrationMapper.getAllRegistrationReviews();
+    }
+
+    @Override
+    public RegistrationReview getRegisterByusername(String username) {
+        return registrationMapper.getRegisterByusername(username);
+    }
+
+    @Override
+    public int updateFailResult(String username, String refuseReason) {
+        return registrationMapper.updateFailResult(username, refuseReason);
+    }
+
+    @Override
+    public int updateSuccessResult(String username) {
+        return registrationMapper.updateSuccessResult(username);
     }
 }

@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="yanzhengma" method="GET">
+    <form action="SendEmail" method="GET">
             <label for="email">邮箱：</label>
             <input type="text" id="email" name="email" placeholder="请输入邮箱" required>
             <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span>
