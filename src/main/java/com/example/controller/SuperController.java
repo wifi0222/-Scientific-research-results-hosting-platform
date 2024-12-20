@@ -60,8 +60,9 @@ public class SuperController {
         String information="新增团队管理员成功";
         if(userService.findByUserName(username)!=null){
             information="用户名已存在，新增团队管理员失败，请重新输入";
+        }else {
+            userService.addTeamAdmin(username,password);
         }
-        userService.addTeamAdmin(username,password);
         redirectAttributes.addAttribute("AddTeamAdminRemind",information);
         return "redirect:/UserManagement";
     }

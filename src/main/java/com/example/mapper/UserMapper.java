@@ -23,7 +23,7 @@ public interface UserMapper {
     public int insertTeamAdminToUser(@Param("username") String username, @Param("password") String password);
     public String findNameByUserID(int userID);
     public String findUsernameByUserID(int userID);
-    public int deleteUser(@Param("userID") int userID);
+//    public int deleteUser(@Param("userID") int userID);
     public int addTeamMember(User user);
     public int updateTeamMember(User user);
     public int updateTeamMemberInfo(MemberReview memberReview);

@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteTeamAdmin(int adminId) {
         administratorReposity.deleteTeamAdminFromAdministrator(adminId);
-        return userReposity.deleteUser(adminId);
+        return userReposity.deleteById(adminId);
     }
 
     @Override

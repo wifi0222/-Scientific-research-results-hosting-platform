@@ -51,18 +51,25 @@ public class TeamAdminController {
 
     //跳转到团队成员管理
     @RequestMapping("/TeamMember")
-    public String TeamMember(Model model) {
+    public String TeamMember(Model model,@RequestParam(required = false)String information) {
         List<User> members=userService.findAllTeamMember();
         model.addAttribute("members", members);
+        model.addAttribute("information", information);
         return "TeamMemberManage";
     }
 
     //添加团队成员
     @RequestMapping("/addTeamMember")
-    public String addTeamMember(Model model, @ModelAttribute User TeamMember) {
+    public String addTeamMember(RedirectAttributes redirectAttributes, @ModelAttribute User TeamMember) {
         System.out.println(TeamMember);
-        userService.addTeamMember(TeamMember);
-        return "index";
+        String information="添加团队成员成功";
+        if(userService.findByUserName(TeamMember.getUsername())!=null){
+            information="用户名已存在，添加失败";
+        }else {
+            userService.addTeamMember(TeamMember);
+        }
+        redirectAttributes.addAttribute("information", information);
+        return "redirect:/TeamMember";
     }
 
     //跳转编辑团队成员信息

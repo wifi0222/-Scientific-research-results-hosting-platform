@@ -12,6 +12,20 @@
 <html>
 <head>
     <title>团队成员管理</title>
+    <script>
+        // 检查错误信息并弹出提示框
+        window.onload = function() {
+            var errorMessage = "${information}";
+            if (errorMessage) {
+                alert(errorMessage);
+            }else{
+                errorMessage="${information}";
+                if (errorMessage){
+                    alert(errorMessage);
+                }
+            }
+        };
+    </script>
 </head>
 <body>
 <h1>团队成员</h1>
@@ -42,7 +56,12 @@
             <td>
                 <fmt:formatDate value="${member.registrationTime}" pattern="yyyy-MM-dd" />
             </td>
-            <td>${member.status}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${member.status == 1}">正常</c:when>
+                    <c:when test="${member.status == 0}">禁用</c:when>
+                </c:choose>
+            </td>
             <td>${member.researchField}</td>
             <td>${member.contactInfo}</td>
             <td>${member.academicBackground}</td>
