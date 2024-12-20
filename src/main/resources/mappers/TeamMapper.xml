@@ -12,4 +12,8 @@
         WHERE teamID=#{teamID}
     </update>
 
+    <select id="getAllTeam" resultType="com.example.model.Team">
+        SELECT * FROM [Team]
+    </select>
+
 </mapper>

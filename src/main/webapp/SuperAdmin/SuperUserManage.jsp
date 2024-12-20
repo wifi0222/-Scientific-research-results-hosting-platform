@@ -73,7 +73,7 @@
     </table>
 
 
-    <a href="addTeamAdmin.jsp">添加团队管理员</a>
+    <a href="/ToAddTeamAdmin">添加团队管理员</a>
 
 
     <%--显示添加团队管理员是否成功--%>
