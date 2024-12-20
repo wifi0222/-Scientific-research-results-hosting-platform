@@ -1,6 +1,10 @@
 package com.example.controller;
 
+import com.example.model.DeactivationReview;
+import com.example.model.MemberReview;
 import com.example.model.User;
+import com.example.service.DeactivationService;
+import com.example.service.MemberViewService;
 import com.example.service.UserService;
 import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MemberViewService memberViewService;
+    @Autowired
+    private DeactivationService deactivationService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -99,6 +107,38 @@ public class UserController {
 
         return "profile"; // 返回到个人信息页面
     }
+
+    // 查询修改审核状态，使用 GET 请求
+    @GetMapping("/profile/status")
+    public String checkProfileStatus(HttpSession session, Model model) {
+        // 从 Session 中获取当前登录的用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            model.addAttribute("error", "用户未登录，请先登录！");
+            return "login"; // 如果未登录，跳转到登录页面
+        }
+
+        int memberID = currentUser.getUserID();
+
+        // 调用 Service 层获取审核状态
+        MemberReview memberReview = memberViewService.findByMemberID(memberID);
+
+        if (memberReview != null) {
+            int modificationStatus = memberReview.getModificationStatus();
+            model.addAttribute("modificationStatus", modificationStatus);
+
+            if (modificationStatus == -1) {
+                // 审核未通过，添加拒绝理由
+                model.addAttribute("refuseReason", memberReview.getRefuseReason());
+            }
+        } else {
+            // 如果没有找到审核记录
+            model.addAttribute("modificationStatus", null);
+        }
+
+        return "profileStatus"; // 返回对应的 JSP 页面
+    }
+
     // 显示修改密码页面
     @GetMapping("/change-password")
     public String showChangePasswordPage() {
@@ -180,6 +220,32 @@ public class UserController {
         return "deactivate";
     }
 
+    // 查询注销审核状态，使用 GET 请求
+    @GetMapping("/deactivate/status")
+    public String checkDeactivateStatus(HttpSession session, Model model) {
+        // 从 Session 中获取当前登录的用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            model.addAttribute("error", "用户未登录，请先登录！");
+            return "login"; // 如果未登录，跳转到登录页面
+        }
+
+        int memberID = currentUser.getUserID();
+
+        // 调用 Service 层获取审核状态
+        DeactivationReview deactivationReview = deactivationService.findByMemberID(memberID);
+
+        if (deactivationReview != null) {
+            int deactivationStatus = deactivationReview.getDeactivationStatus();
+            model.addAttribute("deactivationStatus", deactivationStatus);
+        } else {
+            // 如果没有找到审核记录
+            model.addAttribute("deactivationStatus", null);
+        }
+
+        return "deactivationStatus"; // 返回对应的 JSP 页面
+    }
+
     // “用户互动”模块，提问
     @GetMapping("/askQuestion")
     public String askQuestion(HttpSession session, Model model) {
@@ -248,5 +314,13 @@ public class UserController {
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
     }
+    // 退出登录
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        // 清除 Session 中的用户信息
+        session.invalidate();
+        return "redirect:/browse";
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.example.service.Impl;
 
 import com.example.mapper.DeactivationMapper;
 import com.example.model.DeactivationReview;
+import com.example.model.MemberReview;
 import com.example.service.DeactivationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,10 @@ public class DeactivationServiceImpl implements DeactivationService {
     @Override
     public List<DeactivationReview> findDeactivationPendingUser() {
         return deactivationMapper.findDeactivationPendingUser();
+    }
+    @Override
+    public DeactivationReview findByMemberID(int memberID) {
+        return deactivationMapper.getDeactivationReviewById(memberID);
     }
 
     @Override
