@@ -21,8 +21,8 @@
 <!--    </bean>-->
     <!--    整合MyBatis-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="user" value="sa" /> <!-- 替换为 SQL Server 用户名 -->
-        <property name="password" value="123" /> <!-- 替换为 SQL Server 密码 -->
+        <property name="user" value="testuser" /> <!-- 替换为 SQL Server 用户名 -->
+        <property name="password" value="102611" /> <!-- 替换为 SQL Server 密码 -->
         <property name="jdbcUrl" value="jdbc:sqlserver://localhost:1433;databaseName=JavaWebDB;encrypt=false;trustServerCertificate=true;useUnicode=true;characterEncoding=utf-8" /> <!-- 修改为 SQL Server JDBC URL -->
         <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> <!-- 使用 SQL Server 驱动 -->
         <property name="maxPoolSize" value="200" />

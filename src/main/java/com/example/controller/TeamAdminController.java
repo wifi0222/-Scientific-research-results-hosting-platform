@@ -48,7 +48,7 @@ public class TeamAdminController {
 
         Team team = teamService.getTeam();
         model.addAttribute("team", team);
-        return "TeamInfoManage";
+        return "TeamAdmin/TeamInfoManage";
     }
 
     //更新团队信息
@@ -81,7 +81,7 @@ public class TeamAdminController {
         List<User> members=userService.findAllTeamMember();
         model.addAttribute("members", members);
         model.addAttribute("information", information);
-        return "TeamMemberManage";
+        return "TeamAdmin/TeamMemberManage";
     }
 
     //添加团队成员
@@ -119,7 +119,7 @@ public class TeamAdminController {
 
         User user=userService.findById(userID);
         model.addAttribute("user",user);
-        return "ChangeTeamMember";
+        return "TeamAdmin/ChangeTeamMember";
     }
 
     //编辑团队成员信息
@@ -154,7 +154,7 @@ public class TeamAdminController {
         if(message!=null){
             model.addAttribute("message", message);
         }
-        return "MemberReviewInfo";
+        return "TeamAdmin/MemberReviewInfo";
     }
 
     //处理审核
@@ -172,8 +172,9 @@ public class TeamAdminController {
         if (status == 1) {
             //更新审核结果和用户的信息
             MemberReview memberReview=memberViewService.findByMemberID(memberID);
-            memberViewService.updateSuccessResult(memberID);
+//            memberViewService.updateSuccessResult(memberID);
             userService.updateTeamMemberInfo(memberReview);
+            memberViewService.deleteSuccess(memberID);
         }else {
             //更新审核结果和拒绝原因
             memberViewService.updateFailResult(memberID,refuseReason);
@@ -196,7 +197,7 @@ public class TeamAdminController {
         List<RegistrationReview> users=registrationService.getAllRegistrationReviews();
         model.addAttribute("users", users);
         model.addAttribute("message",message);
-        return "UserRegisterManage";
+        return "TeamAdmin/UserRegisterManage";
     }
 
     //处理审核
@@ -222,7 +223,7 @@ public class TeamAdminController {
             registrationService.updateSuccessResult(username);
         }else {
             //审核失败---更新状态，发送通知
-            sendMessage="您的注册申请审核未通过,请重新提交";
+            sendMessage="您的注册申请审核未通过,请重新提交\n"+refuseReason;
             registrationService.updateFailResult(username,refuseReason);
         }
         sendMailService.sendMessageEmail(sendEmail,sendMessage);
@@ -243,7 +244,7 @@ public class TeamAdminController {
 
         RegistrationReview registrationReview=registrationService.getRegisterByusername(username);
         model.addAttribute("registrationReview", registrationReview);
-        return "RegisterDetailsView";
+        return "TeamAdmin/RegisterDetailsView";
     }
 
     //跳转用户管理（注销和重置密码)
@@ -260,7 +261,7 @@ public class TeamAdminController {
         List<User> users=userService.findTeamMemberAndVisitor();
         model.addAttribute("users", users);
         model.addAttribute("message", message);
-        return "UserManage";
+        return "TeamAdmin/UserManage";
     }
 
     //注销用户
@@ -274,8 +275,11 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
 
+        User logoutUser=userService.findById(userID);
+        String ReceviceAddress=logoutUser.getEmail();
         int r=userService.deleteById(userID);
         if(r>0) {
+            sendMailService.sendMessageEmail(ReceviceAddress,"注销成功");
             redirectAttributes.addAttribute("message", "注销用户成功");
         }else{
             redirectAttributes.addAttribute("message","注销用户失败");
@@ -328,7 +332,7 @@ public class TeamAdminController {
         System.out.println(email);
         List<User> users=userService.searchUsers(username,roleType,status,registrationTime,email);
         model.addAttribute("users", users);
-        return "UserManage";
+        return "TeamAdmin/UserManage";
     }
 
 
@@ -349,6 +353,6 @@ public class TeamAdminController {
             users.add(userService.findById(deactivationReview.getUserID()));
         }
         model.addAttribute("users", users);
-        return "LogoutList";
+        return "TeamAdmin/LogoutList";
     }
 }

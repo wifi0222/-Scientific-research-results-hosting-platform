@@ -9,4 +9,5 @@ public interface MemberViewService {
     public MemberReview findByMemberID(int memberID);
     public int updateSuccessResult(int memberID);
     public int updateFailResult(int memberID, String reason);
+    public int deleteSuccess(int memberID);
 }

@@ -39,7 +39,7 @@
 
             <div>
                 邮箱：
-                <input type="text" id="email" name="email" value="${user.email}" required>
+                <input type="text" id="email" name="email" value="${user.email}">
                 <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span>
             </div>
 

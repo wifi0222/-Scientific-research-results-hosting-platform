@@ -16,4 +16,5 @@ public interface RegistrationService {
     public RegistrationReview getRegisterByusername(String username);
     public int updateFailResult(String username, String refuseReason);
     public int updateSuccessResult(String username);
+
 }
