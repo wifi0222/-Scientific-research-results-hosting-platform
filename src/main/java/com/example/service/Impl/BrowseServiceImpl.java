@@ -51,4 +51,38 @@ public class BrowseServiceImpl implements BrowseService {
     public User getMemberDetails(int userID) {
         return browseMapper.getMemberDetails(userID);
     }
+
+    // 根据年份和类别筛选文章
+    @Override
+    public List<Article> getArticlesByFilter(String year, String category) {
+        return browseMapper.getArticlesByFilter(year, category);
+    }
+
+    // 获取所有文章的年份
+    @Override
+    public List<String> getAllArticleYears() {
+        return browseMapper.getAllArticleYears();
+    }
+
+    // 获取所有文章的类别
+    @Override
+    public List<String> getAllArticleCategories() {
+        return browseMapper.getAllArticleCategories();
+    }
+
+    @Override
+    public List<Article> getArticlesSortedByDate(String year, String category, boolean ascending) {
+        return browseMapper.getArticlesSortedByDate(year, category, ascending);
+    }
+
+    @Override
+    public List<Achievement> getAchievementsByCategorySorted(String category, String year, boolean ascending) {
+        return browseMapper.getAchievementsByCategorySorted(category, year, ascending);
+    }
+
+    @Override
+    public List<String> getAllAchievementYears(String category) {
+        return browseMapper.getAllAchievementYears(category);
+    }
+
 }

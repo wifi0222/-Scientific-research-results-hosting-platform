@@ -36,5 +36,6 @@
         return confirm("确认提交注销申请？");
     }
 </script>
+<p><a href="/browse">返回主页</a></p>
 </body>
 </html>

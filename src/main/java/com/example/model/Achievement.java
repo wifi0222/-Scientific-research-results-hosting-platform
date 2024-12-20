@@ -7,9 +7,7 @@ public class Achievement {
     private String title; // 成果标题
     private String category; // 类别（专著、专利等）
     private String abstractContent; // 摘要
-    private String detailedDescription; // 详细描述
     private String contents; // 内容
-    private String attachmentLink; // 附件链接
     private Date creationTime; // 创建时间
     private int teamID; // 团队ID
     private int status; // 状态（0: 待审核，1: 审核成功，-1: 审核失败）
@@ -48,28 +46,12 @@ public class Achievement {
         this.abstractContent = abstractContent;
     }
 
-    public String getDetailedDescription() {
-        return detailedDescription;
-    }
-
-    public void setDetailedDescription(String detailedDescription) {
-        this.detailedDescription = detailedDescription;
-    }
-
     public String getContents() {
         return contents;
     }
 
     public void setContents(String contents) {
         this.contents = contents;
-    }
-
-    public String getAttachmentLink() {
-        return attachmentLink;
-    }
-
-    public void setAttachmentLink(String attachmentLink) {
-        this.attachmentLink = attachmentLink;
     }
 
     public Date getCreationTime() {

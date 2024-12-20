@@ -8,7 +8,6 @@ public class Article {
     private String category; // 类别（SCI\EI\核心）
     private String abstractContent; // 摘要
     private String contents; // 内容
-    private String attachmentLink; // 附件链接
     private Date publishDate; // 发布日期
     private int teamID; // 团队ID
     private int status; // 状态（0: 待审核，1: 审核成功，-1: 审核失败）
@@ -53,14 +52,6 @@ public class Article {
 
     public void setContents(String contents) {
         this.contents = contents;
-    }
-
-    public String getAttachmentLink() {
-        return attachmentLink;
-    }
-
-    public void setAttachmentLink(String attachmentLink) {
-        this.attachmentLink = attachmentLink;
     }
 
     public Date getPublishDate() {
