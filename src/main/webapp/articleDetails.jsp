@@ -23,16 +23,16 @@
 <p>内容: ${article.contents}</p>
 
 <!-- 如果有附件，显示下载链接 -->
-<p>附件:
-  <c:choose>
-    <c:when test="${not empty article.attachmentLink}">
-      <a href="${article.attachmentLink}" target="_blank">下载附件</a>
-    </c:when>
-    <c:otherwise>
-      <span>无附件</span>
-    </c:otherwise>
-  </c:choose>
-</p>
+<%--<p>附件:--%>
+<%--  <c:choose>--%>
+<%--    <c:when test="${not empty article.attachmentLink}">--%>
+<%--      <a href="${article.attachmentLink}" target="_blank">下载附件</a>--%>
+<%--    </c:when>--%>
+<%--    <c:otherwise>--%>
+<%--      <span>无附件</span>--%>
+<%--    </c:otherwise>--%>
+<%--  </c:choose>--%>
+<%--</p>--%>
 
 <%--<!-- 如果有封面图片，显示图片 -->--%>
 <%--<p>封面图片:--%>
