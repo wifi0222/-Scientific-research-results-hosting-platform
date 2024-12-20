@@ -179,7 +179,7 @@
          roleType,
          email,
          registrationTime,
-         status,)
+         status)
         VALUES
         (
             #{username},
@@ -187,7 +187,7 @@
             #{roleType},
             #{email},
             #{registrationTime},
-            #{status}
+            1
             )
     </insert>
 

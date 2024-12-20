@@ -33,6 +33,16 @@
             }
         }
     </script>
+
+    <script>
+        // 检查错误信息并弹出提示框
+        window.onload = function() {
+            var errorMessage = "${message}";
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        };
+    </script>
 </head>
 <body>
 <h1>待审核用户列表</h1>
@@ -41,7 +51,7 @@
     <tr>
         <th>用户名</th>
         <th>注册时间</th>
-        <th></th>
+        <th>申请理由</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -56,8 +66,8 @@
             <td>
                 <!-- 详情按钮 -->
                 <a href="RegisterDetails?username=${user.username}">详情</a>
-                <a href="javascript:void(0);" onclick="approveReview(${user.username})">通过</a> |
-                <a href="javascript:void(0);" onclick="rejectReview(${user.username})">不通过</a>
+                <a href="javascript:void(0);" onclick="approveReview('${user.username}')">通过</a> |
+                <a href="javascript:void(0);" onclick="rejectReview('${user.username}')">不通过</a>
             </td>
         </tr>
     </c:forEach>

@@ -111,9 +111,10 @@ public class TeamAdminController {
 
     //跳转到用户管理模块
     @GetMapping("ToUserRegisterManage")
-    public String ToTeamUserManage(Model model) {
+    public String ToTeamUserManage(Model model,@RequestParam(required = false)String message) {
         List<RegistrationReview> users=registrationService.getAllRegistrationReviews();
         model.addAttribute("users", users);
+        model.addAttribute("message",message);
         return "UserRegisterManage";
     }
 
@@ -121,6 +122,7 @@ public class TeamAdminController {
     @GetMapping("SubmitRegisterReview")
     public String SubmitRegisterReview(RedirectAttributes redirectAttributes, @RequestParam("username") String username, @RequestParam("status") int status,
                                        @RequestParam(required = false)String refuseReason ) {
+       System.out.println("获得的信息"+username);
         RegistrationReview registrationReview=registrationService.getRegisterByusername(username);
         String sendMessage; //通过邮件发送的通知
         String sendEmail=registrationReview.getEmail(); //发送邮件的邮箱
