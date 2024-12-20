@@ -32,9 +32,24 @@
                     <td>${teamAdmin.adminID}</td>
                     <td>${teamAdmin.adminUsername}</td>
                     <td>${teamAdmin.adminName}</td>
-                    <td>${teamAdmin.publishPermission}</td>
-                    <td>${teamAdmin.userPermission}</td>
-                    <td>${teamAdmin.deletePermission}</td>
+                    <td>
+                            <c:choose>
+                                <c:when test="${teamAdmin.publishPermission}">有权限</c:when>
+                                <c:when test="${not teamAdmin.publishPermission}">无权限</c:when>
+                            </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${teamAdmin.userPermission}">有权限</c:when>
+                            <c:when test="${not teamAdmin.userPermission}">无权限</c:when>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${teamAdmin.deletePermission}">有权限</c:when>
+                            <c:when test="${not teamAdmin.deletePermission}">无权限</c:when>
+                        </c:choose>
+                    </td>
                     <td><a href="/ToEditTA?adminID=${teamAdmin.adminID}">编辑权限</a> </td>
                 </tr>
             </c:forEach>

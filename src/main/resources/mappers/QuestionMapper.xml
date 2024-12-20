@@ -5,8 +5,8 @@
 
     <!-- 插入提问 -->
     <insert id="insertQuestion" parameterType="map">
-        INSERT INTO Question (questionContent, userID, status, askTime)
-        VALUES (#{questionContent}, #{userID}, #{status}, #{askTime})
+        INSERT INTO Question (title, questionContent, userID, status, askTime)
+        VALUES (#{title}, #{questionContent}, #{userID}, #{status}, #{askTime})
     </insert>
 
     <!-- 更新提问状态和回复内容 -->
@@ -27,13 +27,13 @@
 
     <!-- 获取所有提问 -->
     <select id="getAllQuestions" resultType="com.example.model.Question">
-        SELECT questionID, questionContent, userID, status, replyContent, replyTime
+        SELECT *
         FROM Question
     </select>
 
     <!-- 根据状态获取提问并按提问时间排序 -->
     <select id="getQuestionsByStatus" resultType="com.example.model.Question">
-        SELECT questionID, userID, status, askTime, questionContent
+        SELECT *
         FROM Question
         WHERE status = #{status}
         ORDER BY askTime ASC
@@ -43,7 +43,7 @@
 
     <!-- 根据用户ID获取提问 -->
     <select id="getQuestionsByUserID" resultType="com.example.model.Question">
-        SELECT questionID, questionContent, userID, status, replyContent, replyTime
+        SELECT *
         FROM Question
         WHERE userID = #{userID}
     </select>
@@ -62,5 +62,11 @@
         WHERE questionID = #{questionID}
     </update>
 
+    <!-- 通过questionID更新状态 -->
+    <update id="updateStatus">
+        UPDATE Question
+        SET status = #{status}
+        WHERE questionID = #{questionID}
+    </update>
 
 </mapper>

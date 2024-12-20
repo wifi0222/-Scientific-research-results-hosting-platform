@@ -62,5 +62,7 @@
             </props>
         </property>
     </bean>
+    <!--引用src路径下的application-redis.xml-->
+    <import resource="classpath:application-redis.xml" />
 
 </beans>

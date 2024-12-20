@@ -34,4 +34,30 @@
         FROM RegistrationReview
         WHERE email = #{email};
     </select>
+
+    <!--获得全部待审核的注册用户-->
+    <select id="getAllRegistrationReviews" resultType="com.example.model.RegistrationReview">
+        SELECT * FROM [RegistrationReview]
+        WHERE registrationStatus=0
+    </select>
+
+    <!--   通过username查找 -->
+    <select id="getRegisterByusername" resultType="com.example.model.RegistrationReview">
+        SELECT * FROM  [RegistrationReview]
+        WHERE username=#{username} AND registrationStatus=0
+    </select>
+
+    <!--  审核通过  -->
+    <update id="updateSuccessResult">
+        UPDATE [RegistrationReview]
+        SET registrationStatus=1
+        WHERE username=#{username}
+    </update>
+
+    <!--  审核失败  -->
+    <update id="updateFailResult" parameterType="map">
+        UPDATE [RegistrationReview]
+        SET registrationStatus=-1,refuseReason=#{refuseReason}
+        WHERE username=#{username}
+    </update>
 </mapper>

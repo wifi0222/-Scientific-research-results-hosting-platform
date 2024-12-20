@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DeactivationMapper">
+    <select id="findDeactivationPendingUser" resultType="com.example.model.DeactivationReview">
+        SELECT * FROM [AccountDeactivationReview]
+        WHERE deactivationStatus=0
+    </select>
+
+    <select id="getDeactivationReviewById" resultType="com.example.model.DeactivationReview" parameterType="int">
+        SELECT * FROM [AccountDeactivationReview]
+        WHERE userID=#{userID}
+    </select>
+
+    <update id="updateSuccessResult">
+        UPDATE [AccountDeactivationReview]
+        SET deactivationStatus=1
+        WHERE userID=#{userID}
+    </update>
+
+    <update id="updateFailResult">
+        UPDATE [AccountDeactivationReview]
+        SET deactivationStatus=-1
+        WHERE userID=#{userID}
+    </update>
+</mapper>

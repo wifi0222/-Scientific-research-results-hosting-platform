@@ -1,12 +1,11 @@
 package com.example.model;
 
-import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 public class Team {
-    private int id;
+    private int teamID;
     private String teamName;
     private String researchArea;
     private String introduction;
@@ -14,12 +13,12 @@ public class Team {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationTime;
 
-    public int getId() {
-        return id;
+    public int getTeamID() {
+        return teamID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
     }
 
     public String getTeamName() {
@@ -57,7 +56,7 @@ public class Team {
     @Override
     public String toString() {
         return "Team{" +
-                "id=" + id +
+                "teamID=" + teamID +
                 ", teamName='" + teamName + '\'' +
                 ", researchArea='" + researchArea + '\'' +
                 ", introduction='" + introduction + '\'' +

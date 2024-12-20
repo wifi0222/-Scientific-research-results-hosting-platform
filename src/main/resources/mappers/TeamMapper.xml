@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.TeamMapper">
-    <select id="getTeams" resultType="com.example.model.Team">
+    <select id="getTeam" resultType="com.example.model.Team">
         SELECT * FROM [Team]
     </select>
 
@@ -11,4 +11,5 @@
         SET teamName=#{teamName},researchArea=#{researchArea},introduction=#{introduction},creationTime=#{creationTime}
         WHERE teamID=#{teamID}
     </update>
+
 </mapper>

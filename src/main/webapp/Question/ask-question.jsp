@@ -1,0 +1,96 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page isELIgnored="false" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+</head>
+<body>
+<h2>Submit Your Question</h2>
+
+<!-- 输入标题 -->
+<div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" placeholder="Enter your question title" style="width: 100%; padding: 8px; margin: 10px 0; font-size: 16px;">
+</div>
+
+<!-- 编辑器 -->
+<div id="editor-container" style="height: 300px;"></div>
+<form action="/questions/submit" method="post" id="questionForm">
+    <!-- 隐藏字段，用于提交内容 -->
+    <input type="hidden" name="questionContent" id="hiddenInput">
+    <input type="hidden" name="userID" value=${user.userID}>
+    <!-- 隐藏字段，用于提交标题 -->
+    <input type="hidden" name="title" id="hiddenTitle">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    // 初始化 Quill 编辑器
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: {
+                container: [
+                    ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }], // 标题
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
+                    [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
+                    [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
+                    ['image'], // 链接和图片
+                    ['clean'] // 清除格式
+                ],
+                handlers: {
+                    image: imageHandler // 自定义图片处理
+                }
+            }
+        }
+    });
+
+    // 自定义图片上传逻辑
+    function imageHandler() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                // 上传图片到服务器
+                const response = await fetch('/questions/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    // 在编辑器中插入图片
+                    const range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', result.imageUrl);
+                } else {
+                    console.error('Image upload failed');
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        };
+    }
+
+    // 表单提交前，将编辑器内容和标题同步到隐藏字段
+    document.getElementById('questionForm').onsubmit = function () {
+        var content = quill.root.innerHTML; // 获取编辑器内容
+        document.getElementById('hiddenInput').value = content;
+
+        var title = document.getElementById('title').value; // 获取标题内容
+        document.getElementById('hiddenTitle').value = title;
+    };
+</script>
+</body>
+</html>

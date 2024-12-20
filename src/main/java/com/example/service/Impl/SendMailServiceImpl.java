@@ -2,6 +2,8 @@ package com.example.service.Impl;
 
 import com.example.mapper.EmailMapper;
 import com.example.service.ISendMailService;
+import com.example.tool.RedisUtil;
+import com.sun.mail.smtp.SMTPSendFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,6 +19,8 @@ public class SendMailServiceImpl implements ISendMailService {
 
     private JavaMailSenderImpl mailSender;
 
+    @Autowired
+    private RedisUtil redisUtil;
     @Autowired
     private EmailMapper emailMapper; // 注入EmailMapper
 
@@ -42,9 +46,11 @@ public class SendMailServiceImpl implements ISendMailService {
         String subject = "密码重置";
         String content = verifyCode(8); // 生成验证码
 
-        // 保存验证码到数据库
+        // 保存验证码到 Redis，而不是数据库
         try {
-            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
+            String redisKey = "email:session:" + username;
+            redisUtil.set(redisKey, content, 300);
+            //emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();
@@ -73,9 +79,11 @@ public class SendMailServiceImpl implements ISendMailService {
         String subject = "密码重置";
         String content = verifyCode(8); // 生成验证码
 
-        // 保存验证码到数据库
+        // 保存验证码到 Redis，而不是数据库
         try {
-            emailMapper.insertOrUpdateCaptcha(username, content, new Date());
+            String redisKey = "email:session:" + username;
+            redisUtil.set(redisKey, content, 300);
+            // emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();
@@ -99,6 +107,66 @@ public class SendMailServiceImpl implements ISendMailService {
         }
     }
 
+    @Override
+    public boolean sendMessageEmail(String sendEmailAddress, String message) {
+        String send = "1546854529@qq.com";
+        String subject = "结果通知";
+        // 发送邮件
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            messageHelper.setFrom(send);
+            messageHelper.setTo(sendEmailAddress);
+            messageHelper.setSubject(subject);
+            messageHelper.setText(message, true);
+            mailSender.send(mimeMessage);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            // 检查是否为目标邮箱不存在的错误
+            if (e.getCause() instanceof SMTPSendFailedException) {
+                SMTPSendFailedException smtpException = (SMTPSendFailedException) e.getCause();
+                String errorMessage = smtpException.getMessage();
+
+                // 如果错误信息中包含 "550" 和 "non-existent account"，则认为是邮箱不存在
+                if (errorMessage.contains("550") && errorMessage.contains("non-existent account")) {
+                    return false; // 邮箱不存在
+                }
+            }
+            return false;
+        }
+    }
+
+    @Override
+    public String resetPassword(String recipient) {
+        String send = "1546854529@qq.com";
+        String subject = "密码重置";
+        String content = verifyCode(8); // 生成验证码
+        // 发送邮件
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            messageHelper.setFrom(send);
+            messageHelper.setTo(recipient);
+            messageHelper.setSubject(subject);
+            messageHelper.setText("您的验证码是：" + content, true);
+            mailSender.send(mimeMessage);
+            return content;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            // 检查是否为目标邮箱不存在的错误
+            if (e.getCause() instanceof SMTPSendFailedException) {
+                SMTPSendFailedException smtpException = (SMTPSendFailedException) e.getCause();
+                String errorMessage = smtpException.getMessage();
+
+                // 如果错误信息中包含 "550" 和 "non-existent account"，则认为是邮箱不存在
+                if (errorMessage.contains("550") && errorMessage.contains("non-existent account")) {
+                    return "no"; // 邮箱不存在
+                }
+            }
+            return "no";
+        }
+    }
 
 
     /*

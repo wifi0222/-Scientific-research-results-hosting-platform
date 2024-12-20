@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BrowseMapper">
+
+    <!-- 团队简介 -->
+    <select id="getTeamInfo" resultType="com.example.model.Team">
+        SELECT * FROM Team WHERE teamID = 1;
+    </select>
+
+    <!-- 团队成员 -->
+    <select id="getTeamMembers" resultType="com.example.model.User">
+        SELECT * FROM [User] WHERE roleType = 'teammember';
+    </select>
+
+    <!-- 成果列表按类别 -->
+    <select id="getAchievementsByCategory" resultType="com.example.model.Achievement">
+        SELECT abstract AS abstractContent, *
+        FROM Achievement
+        WHERE category = #{category} AND status = 1 AND viewStatus = 1;
+    </select>
+
+
+    <!-- 成果详情 -->
+    <select id="getAchievementDetails" resultType="com.example.model.Achievement">
+        SELECT abstract AS abstractContent, *
+        FROM Achievement WHERE achievementID = #{achievementID};
+    </select>
+
+    <!-- 文章列表 -->
+    <select id="getArticles" resultType="com.example.model.Article">
+        SELECT abstract AS abstractContent, *
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+    </select>
+
+
+    <!-- 文章详情 -->
+    <select id="getArticleDetails" resultType="com.example.model.Article">
+        SELECT abstract AS abstractContent, *
+        FROM Article WHERE articleID = #{articleID};
+    </select>
+
+    <!-- 成员详情 -->
+    <select id="getMemberDetails" resultType="com.example.model.User">
+        SELECT * FROM [User] WHERE userID = #{userID};
+    </select>
+
+    <!-- 根据年份和类别筛选文章 -->
+    <select id="getArticlesByFilter" resultType="com.example.model.Article">
+        SELECT *
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+        <if test="year != null and year != ''">
+            AND YEAR(publishDate) = #{year}
+        </if>
+        <if test="category != null and category != ''">
+            AND category = #{category}
+        </if>
+    </select>
+
+    <!-- 获取所有文章的年份 -->
+    <select id="getAllArticleYears" resultType="String">
+        SELECT DISTINCT YEAR(publishDate)
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+    </select>
+
+    <!-- 获取所有文章的类别 -->
+    <select id="getAllArticleCategories" resultType="String">
+        SELECT DISTINCT category
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+    </select>
+
+    <!-- 获取按时间排序的文章 -->
+    <select id="getArticlesSortedByDate" resultType="com.example.model.Article">
+        SELECT *
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+        <if test="year != null and year != ''">
+            AND YEAR(publishDate) = #{year}
+        </if>
+        <if test="category != null and category != ''">
+            AND category = #{category}
+        </if>
+        ORDER BY publishDate
+        <choose>
+            <when test="ascending">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 根据分类、年份和排序条件获取成果 -->
+    <select id="getAchievementsByCategorySorted" resultType="com.example.model.Achievement">
+        SELECT abstract AS abstractContent, *
+        FROM Achievement
+        WHERE category = #{category} AND status = 1 AND viewStatus = 1
+        <if test="year != null and year != ''">
+            AND YEAR(creationTime) = #{year}
+        </if>
+        ORDER BY creationTime
+        <choose>
+            <when test="ascending">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 获取指定分类的所有年份 -->
+    <select id="getAllAchievementYears" resultType="String">
+        SELECT DISTINCT YEAR(creationTime)
+        FROM Achievement
+        WHERE category = #{category} AND status = 1 AND viewStatus = 1;
+    </select>
+
+</mapper>
+

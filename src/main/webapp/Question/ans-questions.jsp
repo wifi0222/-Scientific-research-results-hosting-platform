@@ -5,13 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pending Questions</title>
+    <title>All Questions</title>
 </head>
 <body>
-<h2>Pending Questions</h2>
+<h2>All Questions</h2>
 <table border="1">
     <tr>
         <th>User ID</th>
+        <th>Title</th>
         <th>Status</th>
         <th>Ask Time</th>
         <th>Action</th>
@@ -19,10 +20,17 @@
     <c:forEach var="question" items="${questions}">
         <tr>
             <td>${question.userID}</td>
-            <td>${question.status}</td>
+            <td>${question.title}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${question.status == 0}">Pending</c:when>
+                    <c:when test="${question.status == 1}">Answered</c:when>
+                    <c:otherwise>Closed</c:otherwise>
+                </c:choose>
+            </td>
             <td>${question.askTime}</td>
             <td>
-                <a href="/questions/details/${question.questionID}">View Question</a>
+                <a href="/questions/ans-details/${question.questionID}">View Question</a>
             </td>
         </tr>
     </c:forEach>

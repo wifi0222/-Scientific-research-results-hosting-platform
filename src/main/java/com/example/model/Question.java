@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public class Question {
     private int questionID;
+    private String title;
     private String questionContent;
     private int userID;
     private int status;
@@ -19,6 +20,14 @@ public class Question {
 
     public void setQuestionID(int questionID) {
         this.questionID = questionID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getQuestionContent() {

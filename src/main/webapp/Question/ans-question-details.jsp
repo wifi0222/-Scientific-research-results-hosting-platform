@@ -1,28 +1,42 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Hasee
-  Date: 2024/12/19
-  Time: 12:16
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page isELIgnored="false" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <title>Question Details</title>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 </head>
 <body>
-<h2>Submit Your Question</h2>
-<div id="editor-container" style="height: 300px;"></div>
-<form action="/questions/submit" method="post" id="questionForm">
-    <input type="hidden" name="questionContent" id="hiddenInput">
-    <input type="hidden" name="userID" value="1"> <!-- 假设用户ID为1 -->
-    <button type="submit">Submit</button>
+<h2>Question Details</h2>
+<p><strong>User ID:</strong> ${question.userID}</p>
+<p><strong>Ask Time:</strong> ${question.askTime}</p>
+<!-- 更改状态功能 -->
+<h3>Change Status</h3>
+<form action="/questions/${question.questionID}/updateStatus" method="post">
+    <label for="status">Change Status:</label>
+    <select name="status" id="status">
+        <option value="0" ${question.status == 0 ? 'selected' : ''}>Pending (0)</option>
+        <option value="1" ${question.status == 1 ? 'selected' : ''}>Processed (1)</option>
+        <option value="-1" ${question.status == -1 ? 'selected' : ''}>Closed (-1)</option>
+    </select>
+    <button type="submit">Update Status</button>
+</form>
+
+<p><strong>Title:</strong> ${question.title}</p>
+<p><strong>Content:</strong></p>
+<div>${question.questionContent}</div>
+
+<h3>Reply</h3>
+<form action="/questions/${question.questionID}/reply" method="post" id="replyForm">
+    <div id="editor-container" style="height: 300px;"></div>
+    <input type="hidden" name="replyContent" id="hiddenInput">
+    <button type="submit">Submit Reply</button>
 </form>
 
 <script>
-    // 初始化 Quill 编辑器
     var quill = new Quill('#editor-container', {
         theme: 'snow',
         modules: {
@@ -34,7 +48,7 @@
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
                     [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
                     [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
-                    ['link', 'image'], // 链接和图片
+                    ['image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
                 handlers: {
@@ -77,13 +91,9 @@
         };
     }
 
-    // 表单提交前，将编辑器内容同步到隐藏字段
-    document.getElementById('questionForm').onsubmit = function () {
-        var content = quill.root.innerHTML; // 获取编辑器内容
-        document.getElementById('hiddenInput').value = content;
+    document.getElementById("replyForm").onsubmit = function () {
+        document.getElementById("hiddenInput").value = quill.root.innerHTML;
     };
 </script>
 </body>
 </html>
-
-

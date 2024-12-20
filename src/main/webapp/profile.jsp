@@ -43,5 +43,6 @@
     <p style="color: green;">${message}</p>
 </c:if>
 </body>
+<p><a href="/browse">返回主页</a></p>
 </html>
 

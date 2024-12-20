@@ -1,21 +1,33 @@
 package com.example.service.Impl;
 
 import com.example.mapper.RegistrationMapper;
+import com.example.model.RegistrationReview;
+import com.example.model.User;
 import com.example.service.RegistrationService;
+import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
     private RegistrationMapper registrationMapper;
 
     @Override
     public boolean validateVerificationCode(String username, String verificationCode) {
-        String storedCode = registrationMapper.getVerificationCodeByUsername(username);
+        String redisKey = "email:session:" + username;
+        String storedCode = (String) redisUtil.get(redisKey);
+        System.out.println("in validateVerificationCode RegistrationServiceImpl.java");
+        System.out.println(redisKey);
+        System.out.println(storedCode);
+
+        //String storedCode = registrationMapper.getVerificationCodeByUsername(username);
         return storedCode != null && storedCode.equals(verificationCode);
     }
 
@@ -63,5 +75,25 @@ public class RegistrationServiceImpl implements RegistrationService {
             default:
                 return "状态未知，请联系管理员！";
         }
+    }
+
+    @Override
+    public List<RegistrationReview> getAllRegistrationReviews() {
+        return registrationMapper.getAllRegistrationReviews();
+    }
+
+    @Override
+    public RegistrationReview getRegisterByusername(String username) {
+        return registrationMapper.getRegisterByusername(username);
+    }
+
+    @Override
+    public int updateFailResult(String username, String refuseReason) {
+        return registrationMapper.updateFailResult(username, refuseReason);
+    }
+
+    @Override
+    public int updateSuccessResult(String username) {
+        return registrationMapper.updateSuccessResult(username);
     }
 }
