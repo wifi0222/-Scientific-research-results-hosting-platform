@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.User;
 import com.example.service.UserService;
+import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     // 登录处理
     @PostMapping("/login")
@@ -34,6 +37,10 @@ public class UserController {
             model.addAttribute("error", "账户已被禁用！");
             return "login";
         }
+
+        // 将用户信息保存到 Redis 中
+        String redisKey = "user:session:" + user.getUserID();
+        redisUtil.set(redisKey, "aaaaaaaaaaaaaaaaaaa");
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
@@ -200,9 +207,15 @@ public class UserController {
     public String checkReply(HttpSession session, Model model) {
         // 从 Session 中获取当前用户信息
         User currentUser = (User) session.getAttribute("currentUser");
-        if (currentUser == null) {
-            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
-        }
+
+        // 优先从 Redis 获取
+        String redisKey = "user:session:" + currentUser.getUserID();
+        String a = (String) redisUtil.get(redisKey);
+        System.out.println(a);
+
+//        if (currentUser == null) {
+//            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+//        }
 
         // 将用户信息传递给前端
         model.addAttribute("user", currentUser);
