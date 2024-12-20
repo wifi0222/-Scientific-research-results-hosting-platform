@@ -5,10 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pending Questions</title>
+    <title>All Questions</title>
 </head>
 <body>
-<h2>Pending Questions</h2>
+<h2>All Questions</h2>
 <table border="1">
     <tr>
         <th>User ID</th>

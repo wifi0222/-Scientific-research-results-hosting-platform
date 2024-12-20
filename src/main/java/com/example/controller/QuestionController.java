@@ -126,7 +126,7 @@ public class QuestionController {
         // 获取该用户的所有问题
         List<Question> questions = questionService.getQuestionsByUserID(userID);
         model.addAttribute("questions", questions);
-        return "Question/question-management";
+        return "Question/ask-question-management";
     }
 
     // 根据questionID返回question详细信息并传向前端
