@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BrowseMapper">
+
+    <!-- 团队简介 -->
+    <select id="getTeamInfo" resultType="com.example.model.Team">
+        SELECT * FROM Team WHERE teamID = 1;
+    </select>
+
+    <!-- 团队成员 -->
+    <select id="getTeamMembers" resultType="com.example.model.User">
+        SELECT * FROM [User] WHERE roleType = 'teammember';
+    </select>
+
+    <!-- 成果列表按类别 -->
+    <select id="getAchievementsByCategory" resultType="com.example.model.Achievement">
+        SELECT TOP 5 * FROM Achievement
+        WHERE category = #{category} AND status = 1 AND viewStatus = 1
+        ORDER BY creationTime DESC; <!-- 可根据需要按时间排序 -->
+    </select>
+
+
+    <!-- 成果详情 -->
+    <select id="getAchievementDetails" resultType="com.example.model.Achievement">
+        SELECT * FROM Achievement WHERE achievementID = #{achievementID};
+    </select>
+
+    <!-- 文章列表 -->
+    <select id="getArticles" resultType="com.example.model.Article">
+        SELECT TOP 5 *
+        FROM Article
+        WHERE status = 1 AND viewStatus = 1
+        ORDER BY publishDate DESC; <!-- 按发布时间排序，最新的优先 -->
+    </select>
+
+
+    <!-- 文章详情 -->
+    <select id="getArticleDetails" resultType="com.example.model.Article">
+        SELECT * FROM Article WHERE articleID = #{articleID};
+    </select>
+
+    <!-- 成员详情 -->
+    <select id="getMemberDetails" resultType="com.example.model.User">
+        SELECT * FROM [User] WHERE userID = #{userID};
+    </select>
+</mapper>
+
