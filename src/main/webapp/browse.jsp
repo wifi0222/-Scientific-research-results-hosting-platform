@@ -185,9 +185,15 @@
     <div>
       <ul>
         <li><a href="/user/profile">个人信息管理</a></li>
+        <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
         <li><a href="/questions/ans-all-questions">反馈管理</a></li>
         <li><a href="/user/change-password">修改密码</a></li>
         <li><a href="/user/deactivate">账号注销</a></li>
+        <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+        <form action="/user/logout" method="post">
+          <button type="submit">退出登录</button>
+        </form>
+
       </ul>
     </div>
   </c:when>
@@ -198,6 +204,11 @@
         <li><a href="/user/checkReply">我的反馈</a></li>
         <li><a href="/user/change-password">修改密码</a></li>
         <li><a href="/user/deactivate">账号注销</a></li>
+        <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+        <form action="/user/logout" method="post">
+          <button type="submit">退出登录</button>
+        </form>
+
       </ul>
     </div>
   </c:when>

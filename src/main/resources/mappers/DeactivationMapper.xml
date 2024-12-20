@@ -7,6 +7,11 @@
         WHERE deactivationStatus=0
     </select>
 
+    <select id="getDeactivationReviewById" resultType="com.example.model.DeactivationReview" parameterType="int">
+        SELECT * FROM [AccountDeactivationReview]
+        WHERE userID=#{userID}
+    </select>
+
     <update id="updateSuccessResult">
         UPDATE [AccountDeactivationReview]
         SET deactivationStatus=1
