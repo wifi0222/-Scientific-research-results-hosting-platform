@@ -75,7 +75,7 @@ public class BrowseController {
         User member = browseService.getMemberDetails(userID);
         model.addAttribute("user", currentUser);
         model.addAttribute("member", member);
-        return "memberDetails"; // 返回成员详情页面
+        return "TeamAdmin/memberDetails"; // 返回成员详情页面
     }
 
     // 成果详情

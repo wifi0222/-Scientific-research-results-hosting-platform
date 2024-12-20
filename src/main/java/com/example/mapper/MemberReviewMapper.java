@@ -10,4 +10,5 @@ public interface MemberReviewMapper {
     public MemberReview getMemberReviewById(int memberID);
     public int updateSuccessResult(int memberID);
     public int updateFailResult(@Param("memberID") int memberID, @Param("refuseReason") String refuseReason);
+    public int deleteSuccess(int memberID);
 }

@@ -33,4 +33,9 @@ public class MemberViewServiceImpl implements MemberViewService {
     public int updateFailResult(int memberID, String reason) {
         return memberReviewMapper.updateFailResult(memberID, reason);
     }
+
+    @Override
+    public int deleteSuccess(int memberID) {
+        return memberReviewMapper.deleteSuccess(memberID);
+    }
 }

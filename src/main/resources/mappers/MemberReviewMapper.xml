@@ -23,4 +23,9 @@
         SET modificationStatus=-1,refuseReason=#{refuseReason}
         WHERE  memberID=#{memberID}
     </update>
+
+    <delete id="deleteSuccess">
+        DELETE FROM [MemberInfoReview]
+        WHERE memberID=#{memberID}
+    </delete>
 </mapper>

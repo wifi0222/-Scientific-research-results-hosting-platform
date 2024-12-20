@@ -49,7 +49,7 @@ public class SuperController {
         // 如果存在错误信息（来自 AddTeamAdmin），显示错误信息
         System.out.println(AddTeamAdminRemind);
         System.out.println(ChangeTeamAdminRemind);
-        return "/SuperUserManage";
+        return "SuperAdmin/SuperUserManage";
     }
 
     //增加团队管理员
@@ -89,7 +89,7 @@ public class SuperController {
         //通过userID获得user信息
         User user=userService.findById(userID);
         model.addAttribute("user",user);
-        return "ChangeTeamAdmin";
+        return "SuperAdmin/ChangeTeamAdmin";
     }
 
     //编辑团队管理员信息
@@ -143,7 +143,7 @@ public class SuperController {
         List<TeamAdministrator> teamAdministrators=administratorService.findAllAdministrators();
         model.addAttribute("teamAdministrators",teamAdministrators);
         model.addAttribute("message",message);
-        return "TAdministratorManage";
+        return "SuperAdmin/TAdministratorManage";
     }
 
     @RequestMapping("ToEditTA")
@@ -158,7 +158,7 @@ public class SuperController {
 
         TeamAdministrator teamAdministrator=administratorService.findAdministratorById(adminID);
         model.addAttribute("teamAdministrator",teamAdministrator);
-        return "editTA";
+        return "SuperAdmin/editTA";
     }
 
     @RequestMapping("editAdministrator")

@@ -16,7 +16,13 @@
 <body>
     <h1>待审核用户详情</h1>
     用户名：<span>${registrationReview.username}</span>
-    用户类型：<span>${registrationReview.roleType}</span>
+    用户类型：
+    <span>
+      <c:choose>
+          <c:when test="${registrationReview.roleType == 'TeamMember'}">团队成员</c:when>
+          <c:when test="${registrationReview.roleType == 'Visitor'}">普通用户</c:when>
+      </c:choose>
+    </span>
     用户邮箱：<span>${registrationReview.email}</span>
     用户注册时间：<span><fmt:formatDate value="${registrationReview.registrationTime}" pattern="yyyy-MM-dd" /></span>
     用户申请理由：<span>${registrationReview.applicationReason}</span>
