@@ -1,9 +1,8 @@
 package com.example.controller;
 
-import com.example.model.Achievement;
-import com.example.model.Article;
-import com.example.model.Team;
-import com.example.model.User;
+import com.example.model.*;
+import com.example.service.AchievementFileService;
+import com.example.service.ArticleFileService;
 import com.example.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +19,12 @@ public class BrowseController {
 
     @Autowired
     private BrowseService browseService;
+
+    @Autowired
+    private AchievementFileService achievementFileService;
+
+    @Autowired
+    private ArticleFileService articleFileService;
 
     // 信息浏览页面
     @GetMapping("/browse")
@@ -78,6 +83,8 @@ public class BrowseController {
     public String achievementDetails(@RequestParam("achievementID") int achievementID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
         Achievement achievement = browseService.getAchievementDetails(achievementID);
+        List<AchievementFile> files = achievementFileService.getFilesByAchievementId(achievementID);
+        model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("achievement", achievement);
         return "achievementDetails"; // 返回成果详情页面
@@ -88,6 +95,8 @@ public class BrowseController {
     public String articleDetails(@RequestParam("articleID") int articleID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
         Article article = browseService.getArticleDetails(articleID);
+        List<ArticleFile> files = articleFileService.getFilesByArticleId(articleID);
+        model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("article", article);
         return "articleDetails"; // 返回文章详情页面

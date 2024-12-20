@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: 王斐
   Date: 2024/12/20
-  Time: 10:47
+  Time: 13:24
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
@@ -11,16 +11,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-  <title>成果详情</title>
+  <title>成果文件列表</title>
 </head>
-
+<body>
+<h1>成果文件列表</h1>
 <ul>
   <c:forEach var="file" items="${files}">
     <li>
       <c:choose>
         <c:when test="${file.type == 1}">
           <!-- 显示图片 -->
-          <img src="${file.filePath}" alt="${file.fileName}" style="width:30%; height:auto;" />
+          <img src="${file.filePath}" alt="${file.fileName}" style="width:100%; height:auto;" />
         </c:when>
         <c:otherwise>
           <!-- 显示附件下载 -->
@@ -29,19 +30,10 @@
           </a>
         </c:otherwise>
       </c:choose>
+      <p>上传时间：<c:out value="${file.uploadTime}" /></p>
     </li>
   </c:forEach>
 </ul>
-
-<body>
-<h2>成果详情</h2>
-
-<!-- 标题、类别、创建时间等展示 -->
-<p>标题: ${article.title}</p>
-<p>类别: ${article.category}</p>
-<p>创建时间: ${article.publishDate}</p>
-<p>摘要: ${article.abstractContent}</p>
-<p>内容: ${article.contents}</p>
 
 <!-- 对所有链接进行统一编码处理 -->
 <script>
@@ -56,30 +48,5 @@
     }
   });
 </script>
-<!-- 如果有附件，显示下载链接 -->
-<%--<p>附件:--%>
-<%--  <c:choose>--%>
-<%--    <c:when test="${not empty article.attachmentLink}">--%>
-<%--      <a href="${article.attachmentLink}" target="_blank">下载附件</a>--%>
-<%--    </c:when>--%>
-<%--    <c:otherwise>--%>
-<%--      <span>无附件</span>--%>
-<%--    </c:otherwise>--%>
-<%--  </c:choose>--%>
-<%--</p>--%>
-
-<%--<!-- 如果有封面图片，显示图片 -->--%>
-<%--<p>封面图片:--%>
-<%--    <c:choose>--%>
-<%--        <c:when test="${not empty article.coverImage}">--%>
-<%--            <img src="data:image/jpeg;base64,${article.coverImage}" alt="封面图片" />--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            <span>无封面图片</span>--%>
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-<%--</p>--%>
-
 </body>
 </html>
-

@@ -1,0 +1,21 @@
+package com.example.service.Impl;
+
+import com.example.mapper.AchievementFileMapper;
+import com.example.model.AchievementFile;
+import com.example.service.AchievementFileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class AchievementFileServiceImpl implements AchievementFileService {
+
+    @Autowired
+    private AchievementFileMapper achievementFileMapper;
+
+    @Override
+    public List<AchievementFile> getFilesByAchievementId(int achievementID) {
+        return achievementFileMapper.getFilesByAchievementId(achievementID);
+    }
+}
