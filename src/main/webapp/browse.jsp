@@ -26,7 +26,7 @@
     <li>
       姓名：<c:out value="${member.name}"/>，
       研究方向：<c:out value="${member.researchField}"/>
-      <a href="${pageContext.request.contextPath}/member/details?userID=${member.userID}">查看详情</a>
+      <a href="/member/details?teamMembersID=${member.userID}">查看详情</a>
     </li>
   </c:forEach>
 </ul>

@@ -63,7 +63,7 @@ public class BrowseController {
 
     // 团队成员详情
     @GetMapping("/member/details")
-    public String memberDetails(@RequestParam("userID") int userID, Model model) {
+    public String memberDetails(@RequestParam("teamMembersID") int userID, Model model) {
         User member = browseService.getMemberDetails(userID);
         model.addAttribute("member", member);
         return "memberDetails"; // 返回成员详情页面
