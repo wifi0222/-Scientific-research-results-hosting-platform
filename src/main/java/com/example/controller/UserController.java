@@ -198,4 +198,38 @@ public class UserController {
         return "deactivate";
     }
 
+    // “用户互动”模块，提问
+    @GetMapping("/askQuestion")
+    public String askQuestion(HttpSession session, Model model) {
+        // 从 Session 中获取当前用户信息
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+
+        return "Question/ask-question"; // 返回提问页面
+    }
+
+    // “我的反馈”模块，查看回复
+    @GetMapping("/checkReply")
+    public String checkReply(HttpSession session, Model model) {
+        // 从 Session 中获取当前用户信息
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+
+        // 将用户ID存储到Session中
+        session.setAttribute("userID", currentUser.getUserID());
+
+        // 返回查看回复页面，不需要在URL上显示userID
+        return "redirect:/questions/my-questions"; // 直接跳转到我的问题页面
+    }
+
 }

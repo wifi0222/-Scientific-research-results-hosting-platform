@@ -21,7 +21,13 @@
         <tr>
             <td>${question.userID}</td>
             <td>${question.title}</td>
-            <td>${question.status}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${question.status == 0}">Pending</c:when>
+                    <c:when test="${question.status == 1}">Answered</c:when>
+                    <c:otherwise>Closed</c:otherwise>
+                </c:choose>
+            </td>
             <td>${question.askTime}</td>
             <td>
                 <a href="/questions/ans-details/${question.questionID}">View Question</a>

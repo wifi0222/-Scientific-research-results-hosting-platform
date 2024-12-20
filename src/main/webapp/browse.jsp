@@ -22,6 +22,7 @@
     <div>
       <ul>
         <li><a href="/user/profile">个人信息管理</a></li>
+        <li><a href="/questions/ans-all-questions">反馈管理</a></li>
         <li><a href="/user/change-password">修改密码</a></li>
         <li><a href="/user/deactivate">账号注销</a></li>
       </ul>
@@ -30,6 +31,8 @@
   <c:when test="${isMember}">
     <div>
       <ul>
+        <li><a href="/user/askQuestion">用户互动</a></li>
+        <li><a href="/user/checkReply">我的反馈</a></li>
         <li><a href="/user/change-password">修改密码</a></li>
         <li><a href="/user/deactivate">账号注销</a></li>
       </ul>

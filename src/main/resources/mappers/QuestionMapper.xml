@@ -62,5 +62,11 @@
         WHERE questionID = #{questionID}
     </update>
 
+    <!-- 通过questionID更新状态 -->
+    <update id="updateStatus">
+        UPDATE Question
+        SET status = #{status}
+        WHERE questionID = #{questionID}
+    </update>
 
 </mapper>

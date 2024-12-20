@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -82,12 +83,26 @@ public class QuestionController {
     }
 
     //将待处理问题传向前端
-    @RequestMapping("/pending-questions")
+    @RequestMapping("/ans-all-questions")
     public String showPendingQuestions(Model model) {
-        List<Question> questions = questionService.getQuestionsByStatus(0);
+        List<Question> questions = questionService.getQuestionsByStatus(0); // 得到状态为0的问题
+        questions.addAll(questionService.getQuestionsByStatus(1)); // 得到状态为1的问题
+        questions.addAll(questionService.getQuestionsByStatus(-1)); // 得到状态为-1的问题
+
         System.out.println("in questions/pending-questions " + questions.get(0).getQuestionID() + ' ' + questions.get(0).getQuestionContent());
         model.addAttribute("questions", questions);
-        return "Question/ans-pending-questions";
+        return "Question/ans-questions";
+    }
+
+    // 手动更新某问题的状态
+    @PostMapping("/{id}/updateStatus")
+    public String updateStatus(@PathVariable("id") int questionID,
+                               @RequestParam("status") int status) {
+        System.out.println("Received questionID: " + questionID);
+        System.out.println("Received status: " + status);
+
+        questionService.updateQuestionStatus(questionID, status);
+        return "redirect:/questions/ans-details/" + questionID;
     }
 
     // 根据questionID返回question详细信息并传向前端
@@ -99,9 +114,16 @@ public class QuestionController {
         return "Question/ans-question-details";
     }
 
-    // 通过userID得到所有Question并传向前端
+    // 通过 userID 获取所有问题并传递给前端
     @GetMapping("/my-questions")
-    public String getQuestionsByUserID(@RequestParam("userID") int userID, Model model) {
+    public String getQuestionsByUserID(HttpSession session, Model model) {
+        // 从 Session 中获取当前用户的 userID
+        Integer userID = (Integer) session.getAttribute("userID");
+        if (userID == null) {
+            return "redirect:/user/login"; // 如果用户未登录，跳转到登录页面
+        }
+
+        // 获取该用户的所有问题
         List<Question> questions = questionService.getQuestionsByUserID(userID);
         model.addAttribute("questions", questions);
         return "Question/question-management";

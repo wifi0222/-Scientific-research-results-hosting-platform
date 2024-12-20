@@ -13,6 +13,18 @@
 <h2>Question Details</h2>
 <p><strong>User ID:</strong> ${question.userID}</p>
 <p><strong>Ask Time:</strong> ${question.askTime}</p>
+<!-- 更改状态功能 -->
+<h3>Change Status</h3>
+<form action="/questions/${question.questionID}/updateStatus" method="post">
+    <label for="status">Change Status:</label>
+    <select name="status" id="status">
+        <option value="0" ${question.status == 0 ? 'selected' : ''}>Pending (0)</option>
+        <option value="1" ${question.status == 1 ? 'selected' : ''}>Processed (1)</option>
+        <option value="-1" ${question.status == -1 ? 'selected' : ''}>Closed (-1)</option>
+    </select>
+    <button type="submit">Update Status</button>
+</form>
+
 <p><strong>Title:</strong> ${question.title}</p>
 <p><strong>Content:</strong></p>
 <div>${question.questionContent}</div>

@@ -41,4 +41,9 @@ public class QuestionServiceImpl implements QuestionService {
         return questionMapper.getQuestionsByUserID(userID);
     }
 
+    @Override
+    public void updateQuestionStatus(int questionID, int status) {
+        questionMapper.updateStatus(questionID, status);
+    }
+
 }

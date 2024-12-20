@@ -16,6 +16,7 @@ public interface QuestionService {
 
     List<Question> getQuestionsByUserID(int userID);
 
+    void updateQuestionStatus(int questionID, int status);
 }
 
 

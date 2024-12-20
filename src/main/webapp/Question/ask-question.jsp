@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,11 +18,10 @@
 
 <!-- 编辑器 -->
 <div id="editor-container" style="height: 300px;"></div>
-
 <form action="/questions/submit" method="post" id="questionForm">
     <!-- 隐藏字段，用于提交内容 -->
     <input type="hidden" name="questionContent" id="hiddenInput">
-    <input type="hidden" name="userID" value="1"> <!-- 假设用户ID为1 -->
+    <input type="hidden" name="userID" value=${user.userID}>
     <!-- 隐藏字段，用于提交标题 -->
     <input type="hidden" name="title" id="hiddenTitle">
     <button type="submit">Submit</button>

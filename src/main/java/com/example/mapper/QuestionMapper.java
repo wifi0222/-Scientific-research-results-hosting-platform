@@ -44,4 +44,5 @@ public interface QuestionMapper {
                     @Param("replyTime") Date replyTime,
                     @Param("status") int status);
 
+    void updateStatus(@Param("questionID") int questionID, @Param("status") int status);
 }
