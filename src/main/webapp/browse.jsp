@@ -30,33 +30,136 @@
     </li>
   </c:forEach>
 </ul>
+<h2>软著</h2>
+<ul>
+<!-- 检查列表是否为空 -->
+<c:if test="${empty softAchievements}">
+  <p>暂无成果展示</p >
+</c:if>
 
-<!-- 模块化复用 -->
-<h2>成果模块</h2>
+<!-- 如果列表不为空，显示每一项成果 -->
+  <c:if test="${not empty softAchievements}">
+    <ul>
+      <!-- 只取最新的五个 -->
+      <c:forEach var="achievement" items="${softAchievements}" begin="0" end="4">
+        <li>
+          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>
 
-<!-- 软著列表 -->
-<jsp:include page="achievementListModule.jsp">
-  <jsp:param name="achievementTitle" value="软著列表" />
-  <jsp:param name="achievementList" value="${softAchievements}" />
-</jsp:include>
+</ul>
+<h2>专著</h2>
+<ul>
+  <!-- 检查列表是否为空 -->
+  <c:if test="${empty bookAchievements}">
+    <p>暂无成果展示</p >
+  </c:if>
 
-<!-- 专著列表 -->
-<jsp:include page="achievementListModule.jsp">
-  <jsp:param name="achievementTitle" value="专著列表" />
-  <jsp:param name="achievementList" value="${bookAchievements}" />
-</jsp:include>
+  <!-- 如果列表不为空，显示每一项成果 -->
+  <c:if test="${not empty bookAchievements}">
+    <ul>
+      <!-- 只取最新的五个 -->
+      <c:forEach var="achievement" items="${bookAchievements}" begin="0" end="4">
+        <li>
+          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>
 
-<!-- 专利列表 -->
-<jsp:include page="achievementListModule.jsp">
-  <jsp:param name="achievementTitle" value="专利列表" />
-  <jsp:param name="achievementList" value="${patentAchievements}" />
-</jsp:include>
+</ul>
 
-<!-- 产品列表 -->
-<jsp:include page="achievementListModule.jsp">
-  <jsp:param name="achievementTitle" value="产品列表" />
-  <jsp:param name="achievementList" value="${productAchievements}" />
-</jsp:include>
+<h2>专利</h2>
+<ul>
+  <!-- 检查列表是否为空 -->
+  <c:if test="${empty patentAchievements}">
+    <p>暂无成果展示</p >
+  </c:if>
+
+  <!-- 如果列表不为空，显示每一项成果 -->
+  <c:if test="${not empty patentAchievements}">
+    <ul>
+      <!-- 只取最新的五个 -->
+      <c:forEach var="achievement" items="${patentAchievements}" begin="0" end="4">
+        <li>
+          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>
+
+</ul>
+
+<h2>产品</h2>
+<ul>
+  <!-- 检查列表是否为空 -->
+  <c:if test="${empty productAchievements}">
+    <p>暂无成果展示</p >
+  </c:if>
+
+  <!-- 如果列表不为空，显示每一项成果 -->
+  <c:if test="${not empty productAchievements}">
+    <ul>
+      <!-- 只取最新的五个 -->
+      <c:forEach var="achievement" items="${productAchievements}" begin="0" end="4">
+        <li>
+          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>
+
+</ul>
+
+<h2>文章</h2>
+<ul>
+  <!-- 检查列表是否为空 -->
+  <c:if test="${empty articles}">
+    <p>暂无成果展示</p >
+  </c:if>
+
+  <!-- 如果列表不为空，显示每一项成果 -->
+  <c:if test="${not empty articles}">
+    <ul>
+      <!-- 只取最新的五个 -->
+      <c:forEach var="articles" items="${articles}" begin="0" end="4">
+        <li>
+          <strong>${articles.title}</strong> - ${articles.publishDate}
+        </li>
+      </c:forEach>
+    </ul>
+  </c:if>
+
+</ul>
+<%--<!-- 模块化复用 -->--%>
+<%--<h2>成果模块</h2>--%>
+
+<%--<!-- 软著列表 -->--%>
+<%--<jsp:include page="achievementListModule.jsp">--%>
+<%--  <jsp:param name="achievementTitle" value="软著列表" />--%>
+<%--  <jsp:param name="achievementList" value="${softAchievements}" />--%>
+<%--</jsp:include>--%>
+
+<%--<!-- 专著列表 -->--%>
+<%--<jsp:include page="achievementListModule.jsp">--%>
+<%--  <jsp:param name="achievementTitle" value="专著列表" />--%>
+<%--  <jsp:param name="achievementList" value="${bookAchievements}" />--%>
+<%--</jsp:include>--%>
+
+<%--<!-- 专利列表 -->--%>
+<%--<jsp:include page="achievementListModule.jsp">--%>
+<%--  <jsp:param name="achievementTitle" value="专利列表" />--%>
+<%--  <jsp:param name="achievementList" value="${patentAchievements}" />--%>
+<%--</jsp:include>--%>
+
+<%--<!-- 产品列表 -->--%>
+<%--<jsp:include page="achievementListModule.jsp">--%>
+<%--  <jsp:param name="achievementTitle" value="产品列表" />--%>
+<%--  <jsp:param name="achievementList" value="${productAchievements}" />--%>
+<%--</jsp:include>--%>
+
 <c:choose>
   <c:when test="${isTeamMember}">
     <div>

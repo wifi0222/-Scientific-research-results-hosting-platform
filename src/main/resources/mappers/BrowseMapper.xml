@@ -15,9 +15,8 @@
 
     <!-- 成果列表按类别 -->
     <select id="getAchievementsByCategory" resultType="com.example.model.Achievement">
-        SELECT TOP 5 * FROM Achievement
+        SELECT * FROM Achievement
         WHERE category = #{category} AND status = 1 AND viewStatus = 1
-        ORDER BY creationTime DESC; <!-- 可根据需要按时间排序 -->
     </select>
 
 
@@ -28,10 +27,9 @@
 
     <!-- 文章列表 -->
     <select id="getArticles" resultType="com.example.model.Article">
-        SELECT TOP 5 *
+        SELECT *
         FROM Article
         WHERE status = 1 AND viewStatus = 1
-        ORDER BY publishDate DESC; <!-- 按发布时间排序，最新的优先 -->
     </select>
 
 
