@@ -18,7 +18,7 @@
         选择管理团队：
         <select id="teamId" name="teamId">
 <%--            <c:forEach var="team" items="${teams}">--%>
-<%--                <option value="${team.id}">${team.name}</option>--%>
+<%--                <option value="${team.teamID}">${team.name}</option>--%>
 <%--            </c:forEach>--%>
             <option value="团队名称">团队名称</option>
         </select><br><br>

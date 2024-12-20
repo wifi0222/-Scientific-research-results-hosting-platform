@@ -2,6 +2,8 @@ package com.example.service.Impl;
 
 import com.example.mapper.AdministratorMapper;
 import com.example.mapper.UserMapper;
+import com.example.model.MemberReview;
+import com.example.model.RegistrationReview;
 import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllTeamAdmin() {
         return userReposity.findAllTeamAdmin();
+    }
+
+    @Override
+    public List<User> findAllTeamMember() {
+        return userReposity.findAllTeamMember();
     }
 
     //在用户注册、新增用户时检查用户名是否存在
@@ -75,6 +82,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int addTeamMember(User user) {
+        return userReposity.addTeamMember(user);
+    }
+
+    @Override
+    public int updateTeamMember(User user) {
+        return userReposity.updateTeamMember(user);
+    }
+
+    @Override
+    public int updateTeamMemberInfo(MemberReview memberReview) {
+        return userReposity.updateTeamMemberInfo(memberReview);
+    }
+
+    @Override
     public User getCurrentUser() {
         return currentUser;
     }
@@ -98,6 +120,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public void submitDeactivationRequest(User user) {
         userReposity.insertDeactivationRequest(user.getUserID());
+    }
+
+    @Override
+    public int addNewUser(RegistrationReview registrationReview){
+        return userReposity.addNewUser(registrationReview);
+    }
+
+    @Override
+    public List<User> findTeamMemberAndVisitor(){
+        return userReposity.findTeamMemberAndVisitor();
+    }
+
+    @Override
+    public int deleteById(int userID){
+        return userReposity.deleteById(userID);
+    }
+
+    @Override
+    public int ResetPassword(int userID,String password) {
+        return userReposity.ResetPassword(userID,password);
+    }
+
+    @Override
+    public List<User> searchUsers(String username, String roleType, Integer status, String registrationTime, String email) {
+        return userReposity.searchUsers(username,roleType,status,registrationTime,email);
     }
 
 }

@@ -113,16 +113,19 @@ public class SuperController {
     }
 
     @RequestMapping("editAdministrator")
-    public String editAdministrator(@RequestParam("set")String set,RedirectAttributes redirectAttributes,
+    public String editAdministrator(@RequestParam("set")int set,RedirectAttributes redirectAttributes,
                                     @RequestParam(required = false) boolean publishPermission,
                                     @RequestParam(required = false) boolean userPermission,
                                     @RequestParam(required = false) boolean deletePermission,
                                     @RequestParam("adminID")int adminID){
-        if(set.equals("setModelAdministrator")){
+        System.out.println(set);
+        if(set==1){
             //设置模板权限
+            System.out.println("设置模版权限");
             administratorService.setTemplePermission(adminID);
         } else{
             //全部权限设置
+            System.out.println("设置全部权限");
             administratorService.setAllPermission(publishPermission,userPermission,deletePermission,adminID);
         }
 

@@ -9,6 +9,11 @@
         WHERE roleType='TeamAdmin'
     </select>
 
+    <select id="findAllTeamMember" resultType="com.example.model.User">
+        SELECT * FROM [user]
+        WHERE roleType='TeamMember'
+    </select>
+
     <!-- 根据 userID 查询用户 -->
     <select id="findByUserId" parameterType="int" resultType="com.example.model.User">
         SELECT * FROM [user]
@@ -119,5 +124,116 @@
 
     <select id="findUsernameByUserID" resultType="String" parameterType="int">
         SELECT username FROM [User] WHERE userID=#{userID}
+    </select>
+
+    <insert id="addTeamMember" parameterType="com.example.model.User">
+        INSERT INTO [User]
+        (
+            username,
+            password,
+            roleType,
+            email,
+            registrationTime,
+            status,
+            name,
+            researchField,
+            contactInfo,
+            academicBackground,
+            researchAchievements
+        )
+        VALUES
+            (
+            #{username},
+            #{password},
+            'TeamMember',
+            #{email},
+            GETDATE(),
+            1,
+            #{name},
+            #{researchField},
+            #{contactInfo},
+            #{academicBackground},
+            #{researchAchievements}
+            );
+    </insert>
+
+    <update id="updateTeamMember" parameterType="com.example.model.User">
+        UPDATE [User]
+        SET email=#{eamil},name=#{name},researchField=#{researchField},contactInfo=#{contactInfo}
+            academicBackground=#{academicBackground}, researchAchievements=#{researchAchievements}
+        WHERE userID=#{userID}
+    </update>
+
+    <update id="updateTeamMemberInfo" parameterType="com.example.model.MemberReview">
+        UPDATE [User]
+        SET researchField=#{researchField},contactInfo=#{contactInfo},
+        academicBackground=#{academicBackground}, researchAchievements=#{researchAchievements}
+        WHERE userID=#{memberID}
+    </update>
+
+    <!-- 通过注册用户表插入用户 -->
+    <insert id="addNewUser" parameterType="com.example.model.RegistrationReview">
+        INSERT INTO [User]
+        (username,
+         password,
+         roleType,
+         email,
+         registrationTime,
+         status,)
+        VALUES
+        (
+            #{username},
+            #{password},
+            #{roleType},
+            #{email},
+            #{registrationTime},
+            #{status}
+            )
+    </insert>
+
+    <select id="findTeamMemberAndVisitor" resultType="com.example.model.User">
+        SELECT * FROM [User]
+        WHERE roleType='TeamMember' OR roleType='Visitor'
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM [User]
+        WHERE userID=#{userID}
+    </delete>
+
+    <update id="ResetPassword" parameterType="map">
+        UPDATE [User]
+        SET password=#{password}
+        WHERE userID=#{userID}
+    </update>
+
+    <!-- 使用动态 SQL 来构建查询条件 -->
+    <select id="searchUsers" resultType="com.example.model.User">
+        SELECT * FROM [User]
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+
+            <if test="roleType != null and roleType != ''">
+                AND roleType = #{roleType}
+            </if>
+
+            <if test="roleType == null or roleType == ''">
+                AND (roleType='TeamMember' OR roleType='Visitor')
+            </if>
+
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+
+            <if test="registrationTime != null and registrationTime != ''">
+                AND FORMAT(registrationTime, 'yyyy-MM-dd') = #{registrationTime}
+            </if>
+
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT('%', #{email}, '%')
+            </if>
+        </where>
     </select>
 </mapper>

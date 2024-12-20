@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>超级管理员用户管理</title>
@@ -44,8 +46,15 @@
                 <td>${user.name}</td>
                 <td>${user.email}</td>
                 <td>团队名称</td>
-                <td>${user.registrationTime}</td>
-                <td>${user.status}</td>
+                <td>
+                    <fmt:formatDate value="${user.registrationTime}" pattern="yyyy-MM-dd"/>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${user.status == 1}">正常</c:when>
+                        <c:when test="${user.status == 0}">禁用</c:when>
+                    </c:choose>
+                </td>
                 <td>
                     <div>
                         <!-- 修改链接，传递 userID 作为查询参数-->
