@@ -38,14 +38,7 @@ public class UserController {
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
 
-        // 根据角色跳转
-        if ("teammember".equals(user.getRoleType())) {
-            return "redirect:/browse?teammember=true";
-        } else if ("member".equals(user.getRoleType())) {
-            return "redirect:/browse?member=true";
-        }
-        model.addAttribute("error", "未知角色！");
-        return "login";
+        return "redirect:/browse";
     }
 
 

@@ -30,27 +30,31 @@
     </li>
   </c:forEach>
 </ul>
-<h2>软著</h2>
+<h2>软著</h2> <a href="/achievements/soft">查看更多</a>
 <ul>
-<!-- 检查列表是否为空 -->
-<c:if test="${empty softAchievements}">
-  <p>暂无成果展示</p >
-</c:if>
+  <!-- 检查列表是否为空 -->
+  <c:if test="${empty softAchievements}">
+    <p>暂无成果展示</p>
+  </c:if>
 
-<!-- 如果列表不为空，显示每一项成果 -->
+  <!-- 如果列表不为空，显示每一项成果 -->
   <c:if test="${not empty softAchievements}">
     <ul>
       <!-- 只取最新的五个 -->
       <c:forEach var="achievement" items="${softAchievements}" begin="0" end="4">
         <li>
-          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+          <!-- 构造链接，点击后跳转到成果详情 -->
+          <a href="/achievement/details?achievementID=${achievement.achievementID}">
+            <strong>${achievement.title}</strong>
+          </a>
+          ${achievement.creationTime}
         </li>
       </c:forEach>
     </ul>
   </c:if>
-
 </ul>
-<h2>专著</h2>
+
+<h2>专著</h2> <a href="/achievements/book">查看更多</a>
 <ul>
   <!-- 检查列表是否为空 -->
   <c:if test="${empty bookAchievements}">
@@ -63,7 +67,11 @@
       <!-- 只取最新的五个 -->
       <c:forEach var="achievement" items="${bookAchievements}" begin="0" end="4">
         <li>
-          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+          <!-- 构造链接，点击后跳转到成果详情 -->
+          <a href="/achievement/details?achievementID=${achievement.achievementID}">
+            <strong>${achievement.title}</strong>
+          </a>
+            ${achievement.creationTime}
         </li>
       </c:forEach>
     </ul>
@@ -71,7 +79,7 @@
 
 </ul>
 
-<h2>专利</h2>
+<h2>专利</h2> <a href="/achievements/patent">查看更多</a>
 <ul>
   <!-- 检查列表是否为空 -->
   <c:if test="${empty patentAchievements}">
@@ -84,7 +92,11 @@
       <!-- 只取最新的五个 -->
       <c:forEach var="achievement" items="${patentAchievements}" begin="0" end="4">
         <li>
-          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+          <!-- 构造链接，点击后跳转到成果详情 -->
+          <a href="/achievement/details?achievementID=${achievement.achievementID}">
+            <strong>${achievement.title}</strong>
+          </a>
+            ${achievement.creationTime}
         </li>
       </c:forEach>
     </ul>
@@ -92,7 +104,7 @@
 
 </ul>
 
-<h2>产品</h2>
+<h2>产品</h2> <a href="/achievements/product">查看更多</a>
 <ul>
   <!-- 检查列表是否为空 -->
   <c:if test="${empty productAchievements}">
@@ -105,7 +117,11 @@
       <!-- 只取最新的五个 -->
       <c:forEach var="achievement" items="${productAchievements}" begin="0" end="4">
         <li>
-          <strong>${achievement.title}</strong> - ${achievement.creationTime}
+          <!-- 构造链接，点击后跳转到成果详情 -->
+          <a href="/achievement/details?achievementID=${achievement.achievementID}">
+            <strong>${achievement.title}</strong>
+          </a>
+            ${achievement.creationTime}
         </li>
       </c:forEach>
     </ul>
@@ -113,7 +129,7 @@
 
 </ul>
 
-<h2>文章</h2>
+<h2>文章</h2> <a href="/articles">查看更多</a>
 <ul>
   <!-- 检查列表是否为空 -->
   <c:if test="${empty articles}">
@@ -124,9 +140,13 @@
   <c:if test="${not empty articles}">
     <ul>
       <!-- 只取最新的五个 -->
-      <c:forEach var="articles" items="${articles}" begin="0" end="4">
+      <c:forEach var="article" items="${articles}" begin="0" end="4">
         <li>
-          <strong>${articles.title}</strong> - ${articles.publishDate}
+          <!-- 构造链接，点击后跳转到成果详情 -->
+          <a href="/article/details?articleID=${article.articleID}">
+            <strong>${article.title}</strong>
+          </a>
+            ${article.publishDate}
         </li>
       </c:forEach>
     </ul>
@@ -161,7 +181,7 @@
 <%--</jsp:include>--%>
 
 <c:choose>
-  <c:when test="${isTeamMember}">
+  <c:when test="${userRoleType == 'teammember'}">
     <div>
       <ul>
         <li><a href="/user/profile">个人信息管理</a></li>
@@ -170,7 +190,7 @@
       </ul>
     </div>
   </c:when>
-  <c:when test="${isMember}">
+  <c:when test="${userRoleType == 'member'}">
     <div>
       <ul>
         <li><a href="/user/change-password">修改密码</a></li>

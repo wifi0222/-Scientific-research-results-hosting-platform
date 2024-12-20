@@ -37,5 +37,6 @@
 
     <button type="submit">提交</button>
 </form>
+<p><a href="/browse">返回主页</a></p>
 </body>
 </html>
