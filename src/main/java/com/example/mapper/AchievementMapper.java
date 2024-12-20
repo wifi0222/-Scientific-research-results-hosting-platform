@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.example.model.Achievement;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface AchievementMapper {
@@ -11,10 +12,10 @@ public interface AchievementMapper {
     int insertAchievement(@Param("title") String title,
                           @Param("category") String category,
                           @Param("abstractText") String abstractText,
-                          @Param("detailedDescription") String detailedDescription,
-                          @Param("content") String content,
+                          @Param("contents") String contents,
                           @Param("attachmentLink") String attachmentLink,
-                          @Param("creationTime") String creationTime,
+                          @Param("coverImage") String coverImage,
+                          @Param("creationTime") Date creationTime,
                           @Param("teamID") int teamID,
                           @Param("status") int status,
                           @Param("viewStatus") int viewStatus);
@@ -24,9 +25,9 @@ public interface AchievementMapper {
                           @Param("title") String title,
                           @Param("category") String category,
                           @Param("abstractText") String abstractText,
-                          @Param("detailedDescription") String detailedDescription,
-                          @Param("content") String content,
+                          @Param("contents") String contents,
                           @Param("attachmentLink") String attachmentLink,
+                          @Param("coverImage") String coverImage,
                           @Param("status") int status,
                           @Param("viewStatus") int viewStatus);
 
@@ -46,7 +47,7 @@ public interface AchievementMapper {
     // 获取所有科研成果
     List<Achievement> getAllAchievements();
 
-    // 更新科研成果的状态
+    // 更新科研成果状态
     int updateAchievementStatus(@Param("achievementID") int achievementID,
                                 @Param("status") int status);
 

@@ -1,0 +1,24 @@
+/* achievement-management.css */
+
+.tabs {
+    margin-bottom:10px;
+}
+.tabs a {
+    margin-right:20px;
+    text-decoration:none;
+    color: black;
+    font-size: 18px;
+}
+.tabs a.active {
+    font-weight:bold;
+    color:purple;
+}
+.section {
+    display:none; /* 默认隐藏，JS控制显示 */
+}
+.section.active {
+    display:block;
+}
+table {
+    margin-bottom:20px;
+}

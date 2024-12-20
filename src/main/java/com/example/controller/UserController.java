@@ -25,6 +25,7 @@ public class UserController {
                         @RequestParam("password") String password,
                         HttpSession session, // 注入 HttpSession 保存用户信息
                         Model model) {
+        // 判断id还是name
         User user = userService.login(usernameOrId, password);
         if (user == null) {
             model.addAttribute("error", "账号不存在或密码错误！");

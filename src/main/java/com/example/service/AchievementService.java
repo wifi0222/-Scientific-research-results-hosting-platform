@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface AchievementService {
     List<Achievement> getAchievementsByTeam(int teamID);
+
+    // 插入科研成果
+    int insertAchievement(Achievement achievement);
 }

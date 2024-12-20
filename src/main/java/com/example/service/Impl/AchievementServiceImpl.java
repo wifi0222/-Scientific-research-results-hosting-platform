@@ -18,4 +18,21 @@ public class AchievementServiceImpl implements AchievementService {
     public List<Achievement> getAchievementsByTeam(int teamID) {
         return achievementMapper.getAchievementsByTeam(teamID);
     }
+
+    // 实现新增成果方法
+    @Override
+    public int insertAchievement(Achievement achievement) {
+        return achievementMapper.insertAchievement(
+                achievement.getTitle(),
+                achievement.getCategory(),
+                achievement.getAbstractText(),
+                achievement.getContents(),          // 修改为 getContents()
+                achievement.getAttachmentLink(),
+                achievement.getCoverImage(),        // 添加 coverImage
+                achievement.getCreationTime(),
+                achievement.getTeamID(),
+                achievement.getStatus(),
+                achievement.getViewStatus()
+        );
+    }
 }

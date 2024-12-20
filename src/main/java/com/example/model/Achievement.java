@@ -1,14 +1,16 @@
 package com.example.model;
 
+import java.util.Date;
+
 public class Achievement {
     private int achievementID; // 成果ID
     private String title; // 成果标题
     private String category; // 成果类别
-    private String abstractText; // 摘要
-    private String detailedDescription; // 详细描述
-    private String content; // 内容
+    private String abstractText; // 摘要 (对应数据库字段abstract)
+    private String contents; // 内容
     private String attachmentLink; // 附件链接
-    private String creationTime; // 创建时间
+    private String coverImage; // 展示图片链接
+    private Date creationTime; // 创建时间 (数据库 datetime)
     private int teamID; // 团队ID
     private int status; // 成果状态
     private int viewStatus; // 可见状态
@@ -46,20 +48,12 @@ public class Achievement {
         this.abstractText = abstractText;
     }
 
-    public String getDetailedDescription() {
-        return detailedDescription;
+    public String getContents() {
+        return contents;
     }
 
-    public void setDetailedDescription(String detailedDescription) {
-        this.detailedDescription = detailedDescription;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
     public String getAttachmentLink() {
@@ -70,11 +64,19 @@ public class Achievement {
         this.attachmentLink = attachmentLink;
     }
 
-    public String getCreationTime() {
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
+
+    public Date getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(String creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 
