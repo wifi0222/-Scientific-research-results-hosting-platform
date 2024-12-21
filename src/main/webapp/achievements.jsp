@@ -8,6 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <title>成果展示</title>
@@ -50,7 +51,7 @@
           <a href="/achievement/details?achievementID=${achievement.achievementID}">
             <strong>${achievement.title}</strong>
           </a>
-            ${achievement.creationTime}
+          <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd" />
         </li>
       </c:forEach>
     </ul>

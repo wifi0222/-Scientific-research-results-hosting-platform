@@ -9,6 +9,8 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>成果详情</title>
@@ -41,7 +43,7 @@
 <!-- 标题、类别、创建时间等展示 -->
 <p>标题: ${achievement.title}</p>
 <p>类别: ${achievement.category}</p>
-<p>创建时间: ${achievement.creationTime}</p>
+<p>时间: <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd" /></p>
 <p>摘要: ${achievement.abstractContent}</p>
 <p>内容: ${achievement.contents}</p>
 
