@@ -22,9 +22,13 @@
             <c:choose>
                 <c:when test="${file.type == 1}">
                     <!-- 显示图片 -->
-                    <div style="text-align: center;">
-                        <img src="${file.filePath}" style="width:auto; height:30%;" />
-                    </div>
+<%--                    <div style="text-align: center;">--%>
+<%--                        <img src="${file.filePath}" style="width:auto; height:30%;" />--%>
+<%--                    </div>--%>
+                    <c:set var="encodedPath"
+                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                         width="100"/>
 
                 </c:when>
                 <c:otherwise>
@@ -63,29 +67,6 @@
     });
 </script>
 </body>
-<!-- 如果有附件，显示下载链接 -->
-<%--<p>附件:--%>
-<%--    <c:choose>--%>
-<%--        <c:when test="${not empty achievement.attachmentLink}">--%>
-<%--            <a href="${achievement.attachmentLink}" target="_blank">下载附件</a>--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            <span>无附件</span>--%>
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-<%--</p>--%>
-
-<%--<!-- 如果有封面图片，显示图片 -->--%>
-<%--<p>封面图片:--%>
-<%--    <c:choose>--%>
-<%--        <c:when test="${not empty achievement.coverImage}">--%>
-<%--            <img src="data:image/jpeg;base64,${achievement.coverImage}" alt="封面图片" />--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            <span>无封面图片</span>--%>
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-<%--</p>--%>
 
 </html>
 

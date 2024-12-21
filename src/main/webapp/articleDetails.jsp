@@ -22,13 +22,20 @@
       <c:choose>
         <c:when test="${file.type == 1}">
           <!-- 显示图片 -->
-          <div style="text-align: center;">
-            <img src="${file.filePath}" style="width:auto; height:30%;" />
-          </div>
+<%--          <div style="text-align: center;">--%>
+<%--            <img src="${file.filePath}" style="width:auto; height:30%;" />--%>
+<%--          </div>--%>
+          <c:set var="encodedPath"
+                 value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+          <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+               width="100"/>
 
         </c:when>
         <c:otherwise>
           <!-- 显示附件下载 -->
+          <%--                    <a href="/download?filePath=${fn:escapeXml(file.filePath)}" target="_blank">--%>
+          <%--                        下载附件：<c:out value="${file.fileName}" />--%>
+          <%--                    </a>--%>
           <a href="/${file.filePath}" target="_blank">${file.fileName} </a><br/>
         </c:otherwise>
       </c:choose>
