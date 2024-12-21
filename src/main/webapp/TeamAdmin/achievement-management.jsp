@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -26,10 +26,10 @@
 </div>
 
 <!-- 定义类别列表 -->
-<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}" />
+<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
 
 <!-- 定义类别列表 -->
-<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}" />
+<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
 
 <!-- 已发布的成果（status=1） -->
 <div id="publishedSection" class="section active">
@@ -69,7 +69,14 @@
                         <td>
                             <c:forEach var="file" items="${entry.value}">
                                 <c:if test="${file.type == 1}">
-                                    <img src="/${file.filePath}" alt="展示图片" width="100"><br/>
+                                    <%--<img src="/${file.filePath}" alt="展示图片" width="100"><br/>--%>
+                                    <%--<a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
+                                    <%--'\\\\'：在 JSP 中被解析成一个实际的 '\\'，再被 EL 解析时代表一个反斜杠。--%>
+                                    <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
+                                    <c:set var="encodedPath"
+                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                         width="100"/>
                                 </c:if>
                             </c:forEach>
                         </td>
@@ -124,7 +131,10 @@
                         <td>
                             <c:forEach var="file" items="${entry.value}">
                                 <c:if test="${file.type == 1}">
-                                    <img src="/${file.filePath}" alt="展示图片" width="100"><br/>
+                                    <c:set var="encodedPath"
+                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                         width="100"/>
                                 </c:if>
                             </c:forEach>
                         </td>
