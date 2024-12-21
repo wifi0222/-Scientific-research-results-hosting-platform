@@ -350,7 +350,7 @@ public class UserController {
         return "ManagementLogin";
     }
     // 退出登录
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 清除 Session 中的用户信息
         session.invalidate();
