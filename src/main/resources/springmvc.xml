@@ -10,31 +10,32 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-
-    <!--    启动注解驱动-->
+    <!-- 启动注解驱动 -->
     <mvc:annotation-driven></mvc:annotation-driven>
 
-    <!--    扫描业务代码-->
+    <!-- 扫描业务代码 -->
     <context:component-scan base-package="com.example"></context:component-scan>
 
-    <!--    视图解析器-->
-    <!--    不需要依赖注入就可以不用加id-->
+    <!-- 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
 
-    <!--配置文件上传解析器-->
+    <!-- 配置文件上传解析器 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- maxUploadSize 文件上传的最大尺寸 -->
         <property name="maxUploadSize" value="524288000"/>
-        <!--maxInMemorySize 文件上传阈值，低于此值，只保留在内存里，超过此阈值，生成硬盘上的临时文件 -->
+        <!-- maxInMemorySize 文件上传阈值，低于此值，只保留在内存里，超过此阈值，生成硬盘上的临时文件 -->
         <property name="maxInMemorySize" value="4096"/>
-        <!--resolveLazily 延迟文件解析，防止controller响应时间很长  上传大文件使用，文件小可以不用 -->
+        <!-- resolveLazily 延迟文件解析，防止controller响应时间很长  上传大文件使用，文件小可以不用 -->
         <property name="resolveLazily" value="true"/>
-        <!--defaultEncoding 设置字符集-->
+        <!-- defaultEncoding 设置字符集 -->
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <!--SpringMVC中资源路径映射本地文件图片
+    配置静态资源映射，将 /uploads/** 映射到文件系统目录 -->
+    <mvc:resources mapping="/uploads/**" location="file:///C:/Users/zwb/Desktop/JavaWeb课设/"/>
 
 </beans>

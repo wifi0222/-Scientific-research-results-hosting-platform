@@ -6,27 +6,31 @@
      useGeneratedKeys = true 表示 MyBatis 会返回数据库生成的主键
      keyProperty 指定实体类中的属性名，keyColumn 指定数据库表中的列名-->
     <!-- 插入科研成果并返回自增的 achievementID -->
-    <insert id="insertAchievement" parameterType="com.example.model.Achievement" useGeneratedKeys="true" keyProperty="achievementID" keyColumn="achievementID">
+    <insert id="insertAchievement" parameterType="com.example.model.Achievement" useGeneratedKeys="true"
+            keyProperty="achievementID" keyColumn="achievementID">
         INSERT INTO Achievement (title, category, abstract, contents, creationTime, teamID, status, viewStatus)
-        VALUES (#{title}, #{category}, #{abstractContent}, #{contents}, #{creationTime}, #{teamID}, #{status}, #{viewStatus})
+        VALUES (#{title}, #{category}, #{abstractContent}, #{contents}, #{creationTime}, #{teamID}, #{status},
+                #{viewStatus})
     </insert>
 
 
     <!-- 更新科研成果 -->
-    <update id="updateAchievement" parameterType="map">
+    <update id="updateAchievement" parameterType="com.example.model.Achievement">
         UPDATE Achievement
-        SET title = #{title},
-            category = #{category},
-            abstract = #{abstractContent},
-            contents = #{contents},
-            status = #{status},
+        SET title      = #{title},
+            category   = #{category},
+            abstract   = #{abstractContent},
+            contents   = #{contents},
+            status     = #{status},
             viewStatus = #{viewStatus}
         WHERE achievementID = #{achievementID}
     </update>
 
     <!-- 删除科研成果 -->
     <delete id="deleteAchievement" parameterType="int">
-        DELETE FROM Achievement WHERE achievementID = #{achievementID}
+        DELETE
+        FROM Achievement
+        WHERE achievementID = #{achievementID}
     </delete>
 
     <!-- 根据 ID 获取科研成果 -->

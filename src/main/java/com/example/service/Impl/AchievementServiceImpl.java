@@ -26,4 +26,14 @@ public class AchievementServiceImpl implements AchievementService {
         // 插入后，achievement对象的 achievementID 会被自动赋值
         return achievement;
     }
+
+    @Override
+    public Achievement getAchievementById(int achievementID) {
+        return achievementMapper.getAchievementById(achievementID);
+    }
+
+    @Override
+    public int updateAchievement(Achievement achievement) {
+        return achievementMapper.updateAchievement(achievement);
+    }
 }

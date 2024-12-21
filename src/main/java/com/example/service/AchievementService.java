@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.model.Achievement;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,4 +10,8 @@ public interface AchievementService {
 
     // 插入科研成果
     Achievement insertAchievement(Achievement achievement);
+
+    Achievement getAchievementById(int achievementID);
+
+    int updateAchievement(Achievement achievement);
 }

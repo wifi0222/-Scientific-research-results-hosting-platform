@@ -345,7 +345,7 @@ public class TeamAdminController {
 
                 if (attachmentFile != null && !attachmentFile.isEmpty()) {
                     attachmentName = attachmentFile.getOriginalFilename();
-                    attachmentPath = saveFile(attachmentFile, "C:\\Users\\zwb\\Desktop\\JavaWeb课设\\科研成果附件\\");
+                    attachmentPath = saveFile(attachmentFile, "科研成果附件\\");
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementFile = new AchievementFile();
                     achievementFile.setAchievementID(achievementID);
@@ -363,7 +363,7 @@ public class TeamAdminController {
 
                 if (coverImage != null && !coverImage.isEmpty()) {
                     coverImageName = coverImage.getOriginalFilename();
-                    coverImagePath = saveFile(coverImage, "C:\\Users\\zwb\\Desktop\\JavaWeb课设\\科研成果图片\\");
+                    coverImagePath = saveFile(coverImage, "科研成果图片\\");
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementImage = new AchievementFile();
                     achievementImage.setAchievementID(achievementID);
@@ -389,21 +389,142 @@ public class TeamAdminController {
 
     // 文件保存方法：文件；文件上传的目录
     private String saveFile(MultipartFile file, String uploadDir) throws Exception {
+
+        String location = "C:\\Users\\zwb\\Desktop\\JavaWeb课设\\";
+
         if (file.isEmpty()) {
             return null;
         }
         // 生成一个唯一的时间戳，防止文件名冲突
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        File dest = new File(uploadDir + fileName);
+        File dest = new File(location + uploadDir + fileName);
         // 确保上传目录存在，不存在，则创建
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
         }
         //  将上传的文件保存到指定的目录
         file.transferTo(dest);
-        return dest.getAbsolutePath();
+//        return dest.getAbsolutePath();
+        // 返回相对路径（与资源处理器映射一致）
+        return "uploads/" + uploadDir + fileName;
     }
 
+    /**
+     * 显示修改科研成果的表单
+     */
+    @GetMapping("/editAchievement")
+    public String showEditAchievementForm(@RequestParam("id") int achievementID, Model model) {
+        // 获取指定ID的成果
+        Achievement achievement = achievementService.getAchievementById(achievementID);
+        if (achievement == null) {
+            model.addAttribute("error", "未找到指定的科研成果。");
+            return "/TeamAdmin/error";
+        }
+
+        // 获取该成果的附件和图片
+        List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(achievementID);
+
+        // 将数据传递给前端
+        model.addAttribute("achievement", achievement);
+        model.addAttribute("achievementFiles", achievementFiles);
+
+        // 渲染修改科研成果的页面
+        return "/TeamAdmin/editAchievement";
+    }
+
+    /**
+     * 处理修改科研成果的表单提交
+     */
+    @PostMapping("/editAchievement/update")
+    public String updateAchievement(
+            @RequestParam("achievementID") int achievementID,
+            @RequestParam("title") String title,
+            @RequestParam("category") String category,
+            @RequestParam("abstractContent") String abstractContent,
+            @RequestParam("contents") String contents,
+            @RequestParam("attachmentFile") MultipartFile attachmentFile,
+            @RequestParam("coverImage") MultipartFile coverImage,
+            @RequestParam("creationTime") String creationTimeStr,
+            HttpSession session,
+            Model model
+    ) {
+        // 解析 creationTimeStr 为 Date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date creationTime = null;
+        try {
+            creationTime = sdf.parse(creationTimeStr);
+        } catch (ParseException e) {
+            model.addAttribute("error", "日期格式错误，请使用yyyy-MM-dd格式。");
+            return "/TeamAdmin/error";
+        }
+
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        // 获取现有的成果
+        Achievement achievement = achievementService.getAchievementById(achievementID);
+        if (achievement == null) {
+            model.addAttribute("error", "未找到指定的科研成果。");
+            return "/TeamAdmin/error";
+        }
+
+        // 更新 Achievement 对象的属性
+        achievement.setTitle(title);
+        achievement.setCategory(category);
+        achievement.setAbstractContent(abstractContent);
+        achievement.setContents(contents);
+        achievement.setCreationTime(creationTime);
+        achievement.setTeamID(teamID);
+        achievement.setStatus(0); // 默认状态为待审核
+        achievement.setViewStatus(0); // 默认不公开
+
+        try {
+            // 调用服务层更新成果
+            int success = achievementService.updateAchievement(achievement);
+            if (success == 1) {
+                // 处理附件文件（如果有上传新的附件）
+                if (attachmentFile != null && !attachmentFile.isEmpty()) {
+                    String attachmentName = attachmentFile.getOriginalFilename();
+                    String attachmentPath = saveFile(attachmentFile, "科研成果附件\\");
+                    // 创建 AchievementFile 对象并设置属性
+                    AchievementFile achievementFile = new AchievementFile();
+                    achievementFile.setAchievementID(achievementID);
+                    achievementFile.setType(0); // 附件
+                    achievementFile.setFileName(attachmentName);
+                    achievementFile.setFilePath(attachmentPath);
+                    achievementFile.setUploadTime(new Date());
+
+                    // 保存附件文件
+                    achievementFileService.insertAchievementFile(achievementFile);
+                }
+
+                // 处理封面图片（如果有上传新的图片）
+                if (coverImage != null && !coverImage.isEmpty()) {
+                    String coverImageName = coverImage.getOriginalFilename();
+                    String coverImagePath = saveFile(coverImage, "科研成果图片\\");
+                    // 创建 AchievementFile 对象并设置属性
+                    AchievementFile achievementImage = new AchievementFile();
+                    achievementImage.setAchievementID(achievementID);
+                    achievementImage.setType(1); // 图片
+                    achievementImage.setFileName(coverImageName);
+                    achievementImage.setFilePath(coverImagePath);
+                    achievementImage.setUploadTime(new Date());
+
+                    // 保存封面图片
+                    achievementFileService.insertAchievementFile(achievementImage);
+                }
+            } else {
+                model.addAttribute("error", "成果添加失败，请重试。");
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", "编辑成果过程中发生错误，请重试。");
+            e.printStackTrace();
+            return "TeamAdmin/error";
+        }
+
+        // 重定向到成果的编辑页面
+        return "redirect:/teamAdmin/editAchievement";
+    }
 
     //跳转详情界面
     @GetMapping("RegisterDetails")
@@ -440,7 +561,8 @@ public class TeamAdminController {
 
     //注销用户
     @GetMapping("logoutUser")
-    public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
+    public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession
+            session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -463,7 +585,8 @@ public class TeamAdminController {
 
     //重置密码
     @GetMapping("ResetPassword")
-    public String ResetPassword(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
+    public String ResetPassword(RedirectAttributes redirectAttributes,
+                                @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {

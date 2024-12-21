@@ -1,6 +1,6 @@
 // achievement-management.js
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const publishedTab = document.getElementById('publishedTab');
     const reviewTab = document.getElementById('reviewTab');
     const publishedSection = document.getElementById('publishedSection');
@@ -28,11 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function editAchievement(id) {
-    alert("编辑成果ID：" + id);
-    // 此处加入编辑逻辑
+    // 获取项目的上下文路径
+    var contextPath = '${pageContext.request.contextPath}';
+
+    // 构建编辑页面的URL
+    var editUrl = '/teamAdmin/editAchievement?id=' + id;
+
+    // 跳转到编辑页面
+    window.location.href = editUrl;
 }
 
 function deleteAchievement(id) {
-    alert("删除成果ID：" + id);
     // 此处加入删除逻辑
 }

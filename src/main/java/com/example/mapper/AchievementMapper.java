@@ -20,13 +20,7 @@ public interface AchievementMapper {
 //                          @Param("viewStatus") int viewStatus);
 
     // 更新科研成果
-    int updateAchievement(@Param("achievementID") int achievementID,
-                          @Param("title") String title,
-                          @Param("category") String category,
-                          @Param("abstractContent") String abstractContent,
-                          @Param("contents") String contents,
-                          @Param("status") int status,
-                          @Param("viewStatus") int viewStatus);
+    int updateAchievement(Achievement achievement);
 
     // 删除科研成果
     int deleteAchievement(@Param("achievementID") int achievementID);
