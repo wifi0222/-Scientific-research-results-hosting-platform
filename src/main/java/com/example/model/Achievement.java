@@ -13,6 +13,7 @@ public class Achievement {
     private int status; // 状态（0: 待审核，1: 审核成功，-1: 审核失败）
     private int viewStatus; // 查看状态（0: 隐藏，1: 公开）
 
+
     // Getter 和 Setter
     public int getAchievementID() {
         return achievementID;

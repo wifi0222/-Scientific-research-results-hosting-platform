@@ -34,7 +34,7 @@
     </select><br><br>
 
     <label>摘要：</label><br>
-    <textarea name="abstractText" rows="3" placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"></textarea><br><br>
+    <textarea name="abstractContent" rows="3" placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"></textarea><br><br>
 
     <label>内容：</label><br>
     <!-- Quill编辑器的容器 -->

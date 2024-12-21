@@ -3,8 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.AchievementFileMapper">
 
+    <!-- 查询指定 achievementID 的所有文件 -->
     <select id="getFilesByAchievementId" resultType="com.example.model.AchievementFile">
         SELECT * FROM AchievementFile WHERE achievementID = #{achievementID};
     </select>
+
+    <!-- 根据 achievementID 和 type 插入新的 AchievementFile 记录 -->
+    <insert id="insertAchievementFile" parameterType="com.example.model.AchievementFile" useGeneratedKeys="true" keyProperty="fileID">
+        INSERT INTO AchievementFile
+            (achievementID, type, fileName, filePath, uploadTime)
+        VALUES
+            (#{achievementID}, #{type}, #{fileName}, #{filePath}, #{uploadTime});
+    </insert>
 
 </mapper>

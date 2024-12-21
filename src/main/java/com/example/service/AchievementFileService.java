@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AchievementFileService {
     List<AchievementFile> getFilesByAchievementId(int achievementID);
+    void insertAchievementFile(AchievementFile achievementFile);
 }

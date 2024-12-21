@@ -28,6 +28,9 @@
 <!-- 定义类别列表 -->
 <c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}" />
 
+<!-- 定义类别列表 -->
+<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}" />
+
 <!-- 已发布的成果（status=1） -->
 <div id="publishedSection" class="section active">
     <h2>已发布的成果 (status = 1)</h2>
@@ -41,35 +44,39 @@
                 <th>类别</th>
                 <th>摘要</th>
                 <th>内容</th>
-                <th>附件链接</th>
-                <th>展示图片</th> <!-- 新增展示图片列 -->
+                <th>附件</th>
+                <th>展示图片</th>
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="achievement" items="${achievements}">
-                <c:if test="${achievement.status == 1 and achievement.category eq cat}">
+            <c:forEach var="entry" items="${achievementMap}">
+                <c:if test="${entry.key.status == 1 and entry.key.category eq cat}">
                     <tr>
-                        <td>${achievement.achievementID}</td>
-                        <td>${achievement.title}</td>
-                        <td>${achievement.category}</td>
-                        <td>${achievement.abstractText}</td>
-                        <td>${achievement.contents}</td> <!-- 修改为 contents -->
+                        <td>${entry.key.achievementID}</td>
+                        <td>${entry.key.title}</td>
+                        <td>${entry.key.category}</td>
+                        <td>${entry.key.abstractContent}</td>
+                        <td>${entry.key.contents}</td>
                         <td>
-                            <c:if test="${not empty achievement.attachmentLink}">
-                                <a href="${pageContext.request.contextPath}/${achievement.attachmentLink}" target="_blank">下载附件</a>
-                            </c:if>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 0}">
+                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
+                                </c:if>
+                            </c:forEach>
                         </td>
                         <td>
-                            <c:if test="${not empty achievement.coverImage}">
-                                <img src="${pageContext.request.contextPath}/${achievement.coverImage}" alt="封面图片" width="100">
-                            </c:if>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 1}">
+                                    <img src="/${file.filePath}" alt="展示图片" width="100"><br/>
+                                </c:if>
+                            </c:forEach>
                         </td>
-                        <td>${achievement.creationTime}</td>
+                        <td>${entry.key.creationTime}</td>
                         <td>
-                            <button onclick="editAchievement(${achievement.achievementID})">编辑</button>
-                            <button onclick="deleteAchievement(${achievement.achievementID})">删除</button>
+                            <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
+                            <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
                         </td>
                     </tr>
                 </c:if>
@@ -92,35 +99,39 @@
                 <th>类别</th>
                 <th>摘要</th>
                 <th>内容</th>
-                <th>附件链接</th>
-                <th>展示图片</th> <!-- 新增展示图片列 -->
+                <th>附件</th>
+                <th>展示图片</th>
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="achievement" items="${achievements}">
-                <c:if test="${achievement.status == 0 and achievement.category eq cat}">
+            <c:forEach var="entry" items="${achievementMap}">
+                <c:if test="${entry.key.status == 0 and entry.key.category eq cat}">
                     <tr>
-                        <td>${achievement.achievementID}</td>
-                        <td>${achievement.title}</td>
-                        <td>${achievement.category}</td>
-                        <td>${achievement.abstractText}</td>
-                        <td>${achievement.contents}</td> <!-- 修改为 contents -->
+                        <td>${entry.key.achievementID}</td>
+                        <td>${entry.key.title}</td>
+                        <td>${entry.key.category}</td>
+                        <td>${entry.key.abstractContent}</td>
+                        <td>${entry.key.contents}</td>
                         <td>
-                            <c:if test="${not empty achievement.attachmentLink}">
-                                <a href="${pageContext.request.contextPath}/${achievement.attachmentLink}" target="_blank">下载附件</a>
-                            </c:if>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 0}">
+                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
+                                </c:if>
+                            </c:forEach>
                         </td>
                         <td>
-                            <c:if test="${not empty achievement.coverImage}">
-                                <img src="${pageContext.request.contextPath}/${achievement.coverImage}" alt="封面图片" width="100">
-                            </c:if>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 1}">
+                                    <img src="/${file.filePath}" alt="展示图片" width="100"><br/>
+                                </c:if>
+                            </c:forEach>
                         </td>
-                        <td>${achievement.creationTime}</td>
+                        <td>${entry.key.creationTime}</td>
                         <td>
-                            <button onclick="editAchievement(${achievement.achievementID})">编辑</button>
-                            <button onclick="deleteAchievement(${achievement.achievementID})">删除</button>
+                            <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
+                            <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
                         </td>
                     </tr>
                 </c:if>

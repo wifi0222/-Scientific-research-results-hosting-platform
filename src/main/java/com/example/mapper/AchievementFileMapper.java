@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AchievementFileMapper {
     List<AchievementFile> getFilesByAchievementId(@Param("achievementID") int achievementID);
+    void insertAchievementFile(AchievementFile achievementFile);
 }

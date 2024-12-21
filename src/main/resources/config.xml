@@ -11,4 +11,5 @@
         <!--指定一个包名会在包名下搜索需要的JavaBean-->
         <package name="com.example.model"/>
     </typeAliases>
+
 </configuration>

@@ -9,25 +9,22 @@ import java.util.List;
 public interface AchievementMapper {
 
     // 插入科研成果
-    int insertAchievement(@Param("title") String title,
-                          @Param("category") String category,
-                          @Param("abstractText") String abstractText,
-                          @Param("contents") String contents,
-                          @Param("attachmentLink") String attachmentLink,
-                          @Param("coverImage") String coverImage,
-                          @Param("creationTime") Date creationTime,
-                          @Param("teamID") int teamID,
-                          @Param("status") int status,
-                          @Param("viewStatus") int viewStatus);
+    int insertAchievement(Achievement achievement);
+//    int insertAchievement(@Param("title") String title,
+//                          @Param("category") String category,
+//                          @Param("abstractContent") String abstractContent,
+//                          @Param("contents") String contents,
+//                          @Param("creationTime") Date creationTime,
+//                          @Param("teamID") int teamID,
+//                          @Param("status") int status,
+//                          @Param("viewStatus") int viewStatus);
 
     // 更新科研成果
     int updateAchievement(@Param("achievementID") int achievementID,
                           @Param("title") String title,
                           @Param("category") String category,
-                          @Param("abstractText") String abstractText,
+                          @Param("abstractContent") String abstractContent,
                           @Param("contents") String contents,
-                          @Param("attachmentLink") String attachmentLink,
-                          @Param("coverImage") String coverImage,
                           @Param("status") int status,
                           @Param("viewStatus") int viewStatus);
 

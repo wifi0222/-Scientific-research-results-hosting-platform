@@ -21,18 +21,9 @@ public class AchievementServiceImpl implements AchievementService {
 
     // 实现新增成果方法
     @Override
-    public int insertAchievement(Achievement achievement) {
-        return achievementMapper.insertAchievement(
-                achievement.getTitle(),
-                achievement.getCategory(),
-                achievement.getAbstractText(),
-                achievement.getContents(),          // 修改为 getContents()
-                achievement.getAttachmentLink(),
-                achievement.getCoverImage(),        // 添加 coverImage
-                achievement.getCreationTime(),
-                achievement.getTeamID(),
-                achievement.getStatus(),
-                achievement.getViewStatus()
-        );
+    public Achievement insertAchievement(Achievement achievement) {
+        achievementMapper.insertAchievement(achievement);
+        // 插入后，achievement对象的 achievementID 会被自动赋值
+        return achievement;
     }
 }

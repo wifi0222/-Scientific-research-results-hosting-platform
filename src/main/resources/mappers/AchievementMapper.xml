@@ -2,26 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.AchievementMapper">
-
-    <!-- 插入科研成果 -->
-    <insert id="insertAchievement" parameterType="map">
-        INSERT INTO Achievement (
-            title, category, abstract, contents, attachmentLink, coverImage, creationTime, teamID, status, viewStatus
-        )
-        VALUES (
-                   #{title}, #{category}, #{abstractText}, #{contents}, #{attachmentLink}, #{coverImage}, #{creationTime}, #{teamID}, #{status}, #{viewStatus}
-               )
+    <!-- 插入科研成果
+     useGeneratedKeys = true 表示 MyBatis 会返回数据库生成的主键
+     keyProperty 指定实体类中的属性名，keyColumn 指定数据库表中的列名-->
+    <!-- 插入科研成果并返回自增的 achievementID -->
+    <insert id="insertAchievement" parameterType="com.example.model.Achievement" useGeneratedKeys="true" keyProperty="achievementID" keyColumn="achievementID">
+        INSERT INTO Achievement (title, category, abstract, contents, creationTime, teamID, status, viewStatus)
+        VALUES (#{title}, #{category}, #{abstractContent}, #{contents}, #{creationTime}, #{teamID}, #{status}, #{viewStatus})
     </insert>
+
 
     <!-- 更新科研成果 -->
     <update id="updateAchievement" parameterType="map">
         UPDATE Achievement
         SET title = #{title},
             category = #{category},
-            abstract = #{abstractText},
+            abstract = #{abstractContent},
             contents = #{contents},
-            attachmentLink = #{attachmentLink},
-            coverImage = #{coverImage},
             status = #{status},
             viewStatus = #{viewStatus}
         WHERE achievementID = #{achievementID}
@@ -37,10 +34,8 @@
         SELECT achievementID,
                title,
                category,
-               abstract AS abstractText,
+               abstract AS abstractContent,
                contents,
-               attachmentLink,
-               coverImage,
                creationTime,
                teamID,
                status,
@@ -54,10 +49,8 @@
         SELECT achievementID,
                title,
                category,
-               abstract AS abstractText,
+               abstract AS abstractContent,
                contents,
-               attachmentLink,
-               coverImage,
                creationTime,
                teamID,
                status,
@@ -72,10 +65,8 @@
         SELECT achievementID,
                title,
                category,
-               abstract AS abstractText,
+               abstract AS abstractContent,
                contents,
-               attachmentLink,
-               coverImage,
                creationTime,
                teamID,
                status,
@@ -91,10 +82,8 @@
         SELECT achievementID,
                title,
                category,
-               abstract AS abstractText,
+               abstract AS abstractContent,
                contents,
-               attachmentLink,
-               coverImage,
                creationTime,
                teamID,
                status,

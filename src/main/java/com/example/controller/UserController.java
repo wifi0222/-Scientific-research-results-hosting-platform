@@ -67,7 +67,7 @@ public class UserController {
 //        }
         model.addAttribute("error", "未知角色！");
         return "login";
-        return "redirect:/browse";
+//        return "redirect:/browse";
     }
 
     // 信息浏览页面
