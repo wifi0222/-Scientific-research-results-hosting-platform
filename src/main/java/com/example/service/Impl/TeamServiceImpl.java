@@ -23,4 +23,9 @@ public class TeamServiceImpl implements TeamService {
     public int updateTeamInfo(Team team) {
         return teamMapper.updateTeamInfo(team);
     }
+
+    @Override
+    public List<Team> getAllTeam() {
+        return teamMapper.getAllTeam();
+    }
 }

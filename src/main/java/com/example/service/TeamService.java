@@ -7,4 +7,5 @@ import java.util.List;
 public interface TeamService {
     public Team getTeam();
     public int updateTeamInfo(Team team);
+    public List<Team> getAllTeam();
 }

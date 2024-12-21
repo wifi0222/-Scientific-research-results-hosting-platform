@@ -1,9 +1,11 @@
 package com.example.controller;
 
+import com.example.model.Team;
 import com.example.model.TeamAdministrator;
 import com.example.model.User;
 import com.example.service.AdministratorService;
 import com.example.service.ISendMailService;
+import com.example.service.TeamService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,8 @@ import java.util.List;
 public class SuperController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private TeamService teamService;
     @Autowired
     private ISendMailService sendMailService;
     @Autowired
@@ -50,6 +53,14 @@ public class SuperController {
         System.out.println(AddTeamAdminRemind);
         System.out.println(ChangeTeamAdminRemind);
         return "SuperAdmin/SuperUserManage";
+    }
+
+    //跳转到增减团队管理员界面
+    @GetMapping("ToAddTeamAdmin")
+    public String ToAddTeamAdmin(Model model){
+        List<Team> teams=teamService.getAllTeam();
+        model.addAttribute("teams", teams);
+        return "SuperAdmin/addTeamAdmin";
     }
 
     //增加团队管理员
