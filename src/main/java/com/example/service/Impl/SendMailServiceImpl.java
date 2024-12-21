@@ -34,16 +34,30 @@ public class SendMailServiceImpl implements ISendMailService {
      * 这里只调用实际实现的方法，并传递必要参数
      */
     @Override
-    public boolean sendEmail(String username, String recipient) {
-        // 检查用户名或邮箱是否已存在
-        int exists = emailMapper.checkUsernameOrEmailExists(username, recipient);
+    public boolean checkEmail(String recipient){
+        int exists = emailMapper.checkEmailExists(recipient);
         if (exists > 0) {
-            System.err.println("用户名或邮箱已存在，无法发送验证码！");
+            System.err.println("邮箱已存在！");
             return false; // 用户名或邮箱已存在
         }
+        return true;
+    }
+
+    @Override
+    public boolean checkUsername(String username){
+        int exists = emailMapper.checkUsernameExists(username);
+        if (exists > 0) {
+            System.err.println("用户名已存在，无法发送验证码！");
+            return false; // 用户名或邮箱已存在
+        }
+        return true;
+    }
+
+    @Override
+    public boolean sendEmail(String username, String recipient) {
 
         String send = "1546854529@qq.com";
-        String subject = "密码重置";
+        String subject = "验证码校验";
         String content = verifyCode(8); // 生成验证码
 
         // 保存验证码到 Redis，而不是数据库
@@ -51,39 +65,6 @@ public class SendMailServiceImpl implements ISendMailService {
             String redisKey = "email:session:" + username;
             redisUtil.set(redisKey, content, 300);
             //emailMapper.insertOrUpdateCaptcha(username, content, new Date());
-        } catch (Exception e) {
-            System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-
-
-        // 发送邮件
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        try {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            messageHelper.setFrom(send);
-            messageHelper.setTo(recipient);
-            messageHelper.setSubject(subject);
-            messageHelper.setText("您的验证码是：" + content, true);
-            mailSender.send(mimeMessage);
-            return true;
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean resendEmail(String username, String recipient) {
-        String send = "1546854529@qq.com";
-        String subject = "密码重置";
-        String content = verifyCode(8); // 生成验证码
-
-        // 保存验证码到 Redis，而不是数据库
-        try {
-            String redisKey = "email:session:" + username;
-            redisUtil.set(redisKey, content, 300);
-            // emailMapper.insertOrUpdateCaptcha(username, content, new Date());
         } catch (Exception e) {
             System.err.println("Error occurred during insertCaptcha: " + e.getMessage());
             e.printStackTrace();
