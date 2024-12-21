@@ -9,6 +9,8 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
   <title>成果详情</title>
@@ -20,7 +22,10 @@
       <c:choose>
         <c:when test="${file.type == 1}">
           <!-- 显示图片 -->
-          <img src="${file.filePath}" alt="${file.fileName}" style="width:30%; height:auto;" />
+          <div style="text-align: center;">
+            <img src="${file.filePath}" style="width:auto; height:30%;" />
+          </div>
+
         </c:when>
         <c:otherwise>
           <!-- 显示附件下载 -->
@@ -39,7 +44,7 @@
 <!-- 标题、类别、创建时间等展示 -->
 <p>标题: ${article.title}</p>
 <p>类别: ${article.category}</p>
-<p>创建时间: ${article.publishDate}</p>
+<p>时间: <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd" /></p>
 <p>摘要: ${article.abstractContent}</p>
 <p>内容: ${article.contents}</p>
 

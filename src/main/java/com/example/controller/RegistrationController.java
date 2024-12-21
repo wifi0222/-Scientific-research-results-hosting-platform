@@ -28,15 +28,29 @@ public class RegistrationController {
         try {
             System.out.println("调用发送邮件服务");
             boolean sent = sendMailService.sendEmail(username, email);
-            if (sent) {
-                System.out.println("成功发送邮件");
-                response.put("success", true);
-                response.put("message", "验证码发送成功!");
-            } else {
-                System.out.println("未成功发送邮件");
+            boolean emailcheck = sendMailService.checkEmail(email);
+            boolean usernamecheck = sendMailService.checkUsername(username);
+            if(emailcheck){
+                if(usernamecheck){
+                    if (sent) {
+                        System.out.println("成功发送邮件");
+                        response.put("success", true);
+                        response.put("message", "验证码发送成功!");
+                    } else {
+                        System.out.println("未成功发送邮件");
+                        response.put("success", false);
+                        response.put("error", "未成功发送邮件！");
+                    }
+                }else{
+                    response.put("success", false);
+                    response.put("error", "用户名已被注册，无法发送验证码！");
+                }
+
+            }else {
                 response.put("success", false);
-                response.put("error", "用户名或邮箱已被注册，无法发送验证码！");
+                response.put("error", "邮箱已被注册，无法发送验证码！");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.put("success", false);

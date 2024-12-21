@@ -37,7 +37,7 @@ public class ForgotPasswordController {
             }
 
             // 发送验证码
-            boolean sent = sendMailService.resendEmail(username, email);
+            boolean sent = sendMailService.sendEmail(username, email);
             if (sent) {
                 response.put("success", true);
                 response.put("message", "验证码已发送到您的注册邮箱！");

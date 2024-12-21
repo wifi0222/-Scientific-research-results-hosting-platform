@@ -8,6 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>文章列表</title>
@@ -56,7 +57,7 @@
                     <a href="/article/details?articleID=${article.articleID}">
                         <strong>${article.title}</strong>
                     </a>
-                        ${article.publishDate}
+                    <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd" />
                 </li>
             </c:forEach>
         </ul>

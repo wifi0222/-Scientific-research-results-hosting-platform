@@ -30,6 +30,36 @@
              ) AS combined_counts
     </select>
 
+    <select id="checkEmailExists" resultType="int">
+        SELECT SUM(count)
+        FROM (
+                 SELECT COUNT(*) AS count
+                 FROM [user]
+                 WHERE email = #{email}
+
+                 UNION ALL
+
+                 SELECT COUNT(*) AS count
+                 FROM RegistrationReview
+                 WHERE email = #{email} AND registrationStatus = 0
+             ) AS combined_counts
+    </select>
+
+    <select id="checkUsernameExists" resultType="int">
+        SELECT SUM(count)
+        FROM (
+                 SELECT COUNT(*) AS count
+                 FROM [user]
+                 WHERE username = #{username}
+
+                 UNION ALL
+
+                 SELECT COUNT(*) AS count
+                 FROM RegistrationReview
+                 WHERE username = #{username} AND registrationStatus = 0
+             ) AS combined_counts
+    </select>
+
 
 
 </mapper>
