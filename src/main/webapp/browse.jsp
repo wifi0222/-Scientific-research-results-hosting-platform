@@ -183,7 +183,7 @@
 <%--</jsp:include>--%>
 
 <c:choose>
-  <c:when test="${userRoleType == 'teammember'}">
+  <c:when test="${userRoleType == 'TeamMember'}">
     <div>
       <ul>
         <li><a href="/user/profile">个人信息管理</a></li>
@@ -199,7 +199,7 @@
       </ul>
     </div>
   </c:when>
-  <c:when test="${userRoleType == 'member'}">
+  <c:when test="${userRoleType == 'Member'}">
     <div>
       <ul>
         <li><a href="/user/askQuestion">用户互动</a></li>

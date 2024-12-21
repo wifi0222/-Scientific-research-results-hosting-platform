@@ -56,9 +56,9 @@ public class UserController {
 
         // 根据角色跳转
         if ("TeamMember".equals(user.getRoleType())) {
-            return "redirect:/user/browse?teammember=true";
+            return "redirect:/browse";
         } else if ("Visitor".equals(user.getRoleType())) {
-            return "redirect:/user/browse";
+            return "redirect:/browse";
         } else if ("TeamAdmin".equals(user.getRoleType())) {
             return "redirect:/teamAdmin/achievements"; // 跳转到团队管理员成果管理页面
         }
@@ -124,15 +124,17 @@ public class UserController {
             return "redirect:/user/login"; // 如果未登录，跳转到登录页面
         }
 
-        // 更新用户信息
-        currentUser.setName(name);
-        currentUser.setResearchField(researchField);
-        currentUser.setContactInfo(contactInfo);
-        currentUser.setAcademicBackground(academicBackground);
-        currentUser.setResearchAchievements(researchAchievements);
+        User newUser = new User();
+        newUser.setUserID(currentUser.getUserID()); // 保留当前用户的 ID
+        newUser.setName(name);
+        newUser.setResearchField(researchField);
+        newUser.setContactInfo(contactInfo);
+        newUser.setAcademicBackground(academicBackground);
+        newUser.setResearchAchievements(researchAchievements);
+
 
         // 提交更新到审核表
-        userService.submitForReview(currentUser);
+        userService.submitForReview(newUser);
 
         // 提示信息
         model.addAttribute("message", "信息已提交审核");
