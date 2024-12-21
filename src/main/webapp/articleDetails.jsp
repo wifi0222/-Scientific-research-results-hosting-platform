@@ -20,7 +20,10 @@
       <c:choose>
         <c:when test="${file.type == 1}">
           <!-- 显示图片 -->
-          <img src="${file.filePath}" alt="${file.fileName}" style="width:30%; height:auto;" />
+          <div style="text-align: center;">
+            <img src="${file.filePath}" style="width:auto; height:30%;" />
+          </div>
+
         </c:when>
         <c:otherwise>
           <!-- 显示附件下载 -->
