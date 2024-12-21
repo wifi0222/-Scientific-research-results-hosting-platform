@@ -29,9 +29,10 @@
                 </c:when>
                 <c:otherwise>
                     <!-- 显示附件下载 -->
-                    <a href="/download?filePath=${fn:escapeXml(file.filePath)}" target="_blank">
-                        下载附件：<c:out value="${file.fileName}" />
-                    </a>
+<%--                    <a href="/download?filePath=${fn:escapeXml(file.filePath)}" target="_blank">--%>
+<%--                        下载附件：<c:out value="${file.fileName}" />--%>
+<%--                    </a>--%>
+                    <a href="/${file.filePath}" target="_blank">${file.fileName} </a><br/>
                 </c:otherwise>
             </c:choose>
         </li>

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page isELIgnored="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -124,8 +125,8 @@
   <!-- 身份选择 -->
   身份:
   <select name="roleType">
-    <option value="teammember" <%= "teammember".equals(request.getAttribute("roleType")) ? "selected" : "" %>>团队成员</option>
-    <option value="member" <%= "member".equals(request.getAttribute("roleType")) ? "selected" : "" %>>普通用户</option>
+    <option value="TeamMember" <%= "TeamMember".equals(request.getAttribute("roleType")) ? "selected" : "" %>>团队成员</option>
+    <option value="Visitor" <%= "Visitor".equals(request.getAttribute("roleType")) ? "selected" : "" %>>普通用户</option>
   </select><br>
 
   <!-- 申请理由 -->

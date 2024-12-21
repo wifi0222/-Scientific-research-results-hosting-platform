@@ -10,7 +10,7 @@
 
     <!-- 团队成员 -->
     <select id="getTeamMembers" resultType="com.example.model.User">
-        SELECT * FROM [User] WHERE roleType = 'teammember';
+        SELECT * FROM [User] WHERE roleType = 'TeamMember';
     </select>
 
     <!-- 成果列表按类别 -->
