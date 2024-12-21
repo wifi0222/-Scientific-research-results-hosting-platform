@@ -199,7 +199,7 @@
       </ul>
     </div>
   </c:when>
-  <c:when test="${userRoleType == 'Member'}">
+  <c:when test="${userRoleType == 'Visitor'}">
     <div>
       <ul>
         <li><a href="/user/askQuestion">用户互动</a></li>

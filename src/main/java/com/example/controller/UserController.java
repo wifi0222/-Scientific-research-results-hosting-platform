@@ -72,8 +72,8 @@ public class UserController {
 
     // 信息浏览页面
     @GetMapping("/browse")
-    public String browsePage(@RequestParam(value = "teammember", required = false) boolean isTeamMember,
-                             @RequestParam(value = "member", required = false) boolean isMember,
+    public String browsePage(@RequestParam(value = "TeamMember", required = false) boolean isTeamMember,
+                             @RequestParam(value = "Visitor", required = false) boolean isMember,
                              HttpSession session,
                              Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
