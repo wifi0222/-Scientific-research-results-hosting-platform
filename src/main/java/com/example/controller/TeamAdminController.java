@@ -21,7 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.*;
 
@@ -345,7 +349,7 @@ public class TeamAdminController {
 
                 if (attachmentFile != null && !attachmentFile.isEmpty()) {
                     attachmentName = attachmentFile.getOriginalFilename();
-                    attachmentPath = saveFile(attachmentFile, "科研成果附件\\");
+                    attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementFile = new AchievementFile();
                     achievementFile.setAchievementID(achievementID);
@@ -363,7 +367,7 @@ public class TeamAdminController {
 
                 if (coverImage != null && !coverImage.isEmpty()) {
                     coverImageName = coverImage.getOriginalFilename();
-                    coverImagePath = saveFile(coverImage, "科研成果图片\\");
+                    coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementImage = new AchievementFile();
                     achievementImage.setAchievementID(achievementID);
@@ -388,7 +392,7 @@ public class TeamAdminController {
     }
 
     // 文件保存方法：文件；文件上传的目录
-    private String saveFile(MultipartFile file, String uploadDir) throws Exception {
+    private String saveFile(MultipartFile file, String uploadDir, int type) throws Exception {
 
         String location = "C:\\Users\\zwb\\Desktop\\JavaWeb课设\\";
 
@@ -405,8 +409,14 @@ public class TeamAdminController {
         //  将上传的文件保存到指定的目录
         file.transferTo(dest);
 //        return dest.getAbsolutePath();
-        // 返回相对路径（与资源处理器映射一致）
-        return "uploads/" + uploadDir + fileName;
+        if (type == 0) {
+            // 附件，静态资源配置
+            return "uploads\\" + uploadDir + fileName;
+        } else if (type == 1) {
+            // 图片，本地绝对地址，control解析
+            return location + uploadDir + fileName;
+        }
+        return null;
     }
 
     /**
@@ -485,7 +495,7 @@ public class TeamAdminController {
                 // 处理附件文件（如果有上传新的附件）
                 if (attachmentFile != null && !attachmentFile.isEmpty()) {
                     String attachmentName = attachmentFile.getOriginalFilename();
-                    String attachmentPath = saveFile(attachmentFile, "科研成果附件\\");
+                    String attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementFile = new AchievementFile();
                     achievementFile.setAchievementID(achievementID);
@@ -501,7 +511,7 @@ public class TeamAdminController {
                 // 处理封面图片（如果有上传新的图片）
                 if (coverImage != null && !coverImage.isEmpty()) {
                     String coverImageName = coverImage.getOriginalFilename();
-                    String coverImagePath = saveFile(coverImage, "科研成果图片\\");
+                    String coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
                     // 创建 AchievementFile 对象并设置属性
                     AchievementFile achievementImage = new AchievementFile();
                     achievementImage.setAchievementID(achievementID);
@@ -523,7 +533,7 @@ public class TeamAdminController {
         }
 
         // 重定向到成果的编辑页面
-        return "redirect:/teamAdmin/editAchievement";
+        return "redirect:/teamAdmin/editAchievement?id=" + achievementID;
     }
 
     //跳转详情界面

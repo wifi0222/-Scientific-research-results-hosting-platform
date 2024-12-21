@@ -61,7 +61,11 @@
     <label>当前展示图片：</label><br>
     <c:forEach var="file" items="${achievementFiles}">
         <c:if test="${file.type == 1}">
-            <img src="/${file.filePath}" alt="展示图片" width="200"><br/>
+            <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
+            <c:set var="encodedPath"
+                   value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+            <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                 width="100"/>
         </c:if>
     </c:forEach>
     <br>

@@ -36,6 +36,15 @@
 
     <!--SpringMVC中资源路径映射本地文件图片
     配置静态资源映射，将 /uploads/** 映射到文件系统目录 -->
+    <mvc:resources mapping="/uploads/**" location="file:C:/Users/zwb/Desktop/JavaWeb课设/"/>
+
+    <!--配置静态资源访问-->
+    <!--下面一行为项目必加-->
+    <mvc:annotation-driven/>
+    <!--将mapping映射的请求转义到location的资源文件位置
+    /img/**:不限层次地匹配img目录下的所有文件
+    -->
+    <mvc:resources mapping="/img/**" location="/img/"/>
     <mvc:resources mapping="/uploads/**" location="file:///D:/作业/大三上/javaweb/课设/"/>
 
 </beans>
