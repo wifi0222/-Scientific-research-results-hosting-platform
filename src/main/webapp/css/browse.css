@@ -28,6 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-shrink: 0;
 }
 
 .sidebar ul {
@@ -37,6 +38,7 @@ body {
 }
 
 .sidebar ul li {
+    display: block;
     margin-bottom: 15px; /* 控制导航项间距 */
 }
 
