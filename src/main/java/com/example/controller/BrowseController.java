@@ -108,11 +108,17 @@ public class BrowseController {
                                              @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder,
                                              HttpSession session,
                                              Model model) {
-        User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        // 如果用户未登录，不强制报错，提供一个默认的空角色
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
+
+        // 将用户信息传递给前端
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         // 将英文类别映射到中文
         String categoryName = getCategoryName(category);
-
 
         // 根据选择的年份和排序方式获取成果
         boolean ascending = "asc".equalsIgnoreCase(sortOrder);
@@ -156,8 +162,15 @@ public class BrowseController {
                                @RequestParam(value = "sortOrder", defaultValue = "desc") String sortOrder,
                                HttpSession session,
                                Model model) {
-        User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        // 如果用户未登录，不强制报错，提供一个默认的空角色
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
+
+        // 将用户信息传递给前端
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         boolean ascending = "asc".equalsIgnoreCase(sortOrder);
 
         // 获取筛选后的文章，并按时间排序

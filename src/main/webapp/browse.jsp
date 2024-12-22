@@ -26,7 +26,6 @@
     <div class="sidebar">
       <c:choose>
         <c:when test="${userRoleType == 'TeamMember'}">
-          <div>
             <ul>
               <li><a href="/browse" class="active">信息浏览</a></li>
               <li><a href="/user/profile">个人信息管理</a></li>
@@ -38,10 +37,8 @@
             <div class="logout">
               <a href="/user/logout">退出登录</a>
             </div>
-          </div>
         </c:when>
         <c:when test="${userRoleType == 'Visitor'}">
-          <div>
             <ul>
               <li><a href="/browse" class="active">信息浏览</a></li>
               <li><a href="/user/askQuestion">用户互动</a></li>
@@ -53,7 +50,6 @@
             <div class="logout">
               <a href="/user/logout">退出登录</a>
             </div>
-          </div>
         </c:when>
         <c:otherwise>
           <ul>

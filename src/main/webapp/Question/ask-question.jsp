@@ -4,28 +4,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提问页面</title>
+    <link rel="stylesheet" href="/css/change-password.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 </head>
 <body>
-<h2>Submit Your Question</h2>
+<div class="container">
+    <div class="content">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="/browse">信息浏览</a></li>
+                <li><a href="/user/askQuestion" class="active">用户互动</a></li>
+                <li><a href="/user/checkReply">我的反馈</a></li>
+                <li><a href="/user/change-password">修改密码</a></li>
+                <li><a href="/user/deactivate">账号注销</a></li>
+                <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+            </ul>
+            <div class="logout">
+                <a href="/user/logout">退出登录</a>
+            </div>
+        </div>
 
-<!-- 输入标题 -->
-<div>
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" placeholder="Enter your question title" style="width: 100%; padding: 8px; margin: 10px 0; font-size: 16px;">
+        <!-- Main Content -->
+        <div class="main">
+            <div class="section">
+                <h1>提问页面</h1>
+
+                <!-- 提问标题 -->
+                <div class="form-group">
+                    <label for="title">标题:</label>
+                    <input type="text" id="title" name="title" placeholder="请输入问题标题">
+                </div>
+
+                <!-- 编辑器 -->
+                <div class="form-group">
+                    <label for="editor-container">问题描述:</label>
+                    <div id="editor-container" style="height: 300px;"></div>
+                </div>
+
+                <!-- 提交表单 -->
+                <form action="/questions/submit" method="post" id="questionForm">
+                    <input type="hidden" name="questionContent" id="hiddenInput">
+                    <input type="hidden" name="userID" value="${user.userID}">
+                    <input type="hidden" name="title" id="hiddenTitle">
+                    <button type="submit" class="btn-submit">提交问题</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        ABCD组 &copy; 2024
+    </footer>
 </div>
-
-<!-- 编辑器 -->
-<div id="editor-container" style="height: 300px;"></div>
-<form action="/questions/submit" method="post" id="questionForm">
-    <!-- 隐藏字段，用于提交内容 -->
-    <input type="hidden" name="questionContent" id="hiddenInput">
-    <input type="hidden" name="userID" value=${user.userID}>
-    <!-- 隐藏字段，用于提交标题 -->
-    <input type="hidden" name="title" id="hiddenTitle">
-    <button type="submit">Submit</button>
-</form>
 
 <script>
     // 初始化 Quill 编辑器

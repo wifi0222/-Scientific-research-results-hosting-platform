@@ -8,33 +8,56 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>成员详情</title>
+    <link rel="stylesheet" href="/css/change-password.css">
 </head>
 <body>
-<h1>成员详情</h1>
+<div class="container">
+    <div class="content">
+        <!-- Main Content -->
+        <div class="main">
+            <div class="section">
+                <h1>成员详情</h1>
 
-<c:if test="${not empty error}">
-    <p style="color: red;">${error}</p>
-</c:if>
+                <!-- 错误信息 -->
+                <c:if test="${not empty error}">
+                    <p class="error-message">${error}</p>
+                </c:if>
 
-<c:if test="${not empty member}">
-    <p>姓名：<c:out value="${member.name}" /></p>
-    <p>职务：
-        <c:out value="${member.roleType}" />
-        <c:choose>
-                <c:when test="${member.roleType == 'TeamMember'}">团队成员</c:when>
-                <c:when test="${member.roleType == 'Visitor'}">普通用户</c:when>
-        </c:choose>
-    </p>
-    <p>研究方向：<c:out value="${member.researchField}" /></p>
-    <p>学术背景：<c:out value="${member.academicBackground}" /></p>
-    <p>联系方式：<c:out value="${member.contactInfo}" /></p>
-    <p>科研成果：<c:out value="${member.researchAchievements}" /></p>
-</c:if>
+                <!-- 成员信息 -->
+                <c:if test="${not empty member}">
+                    <div class="member-details">
+                        <p><strong>姓名：</strong><c:out value="${member.name}" /></p>
+                        <p><strong>职务：</strong>
+                            <c:choose>
+                                <c:when test="${member.roleType == 'TeamMember'}">团队成员</c:when>
+                                <c:when test="${member.roleType == 'Visitor'}">普通用户</c:when>
+                                <c:otherwise>未知角色</c:otherwise>
+                            </c:choose>
+                        </p>
+                        <p><strong>研究方向：</strong><c:out value="${member.researchField}" /></p>
+                        <p><strong>学术背景：</strong><c:out value="${member.academicBackground}" /></p>
+                        <p><strong>联系方式：</strong><c:out value="${member.contactInfo}" /></p>
+                        <p><strong>科研成果：</strong><c:out value="${member.researchAchievements}" /></p>
+                    </div>
+                </c:if>
 
-<a href="/browse">返回</a>
+                <div class="action-links">
+                    <a href="/browse" class="btn-submit">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        ABCD组 &copy; 2024
+    </footer>
+
+</div>
 </body>
 </html>
-

@@ -1,3 +1,4 @@
+/* 页面基础样式 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -27,15 +28,18 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-shrink: 0;
 }
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
+    padding: 0; /* 确保没有内边距 */
+    margin: 0; /* 确保没有外边距 */
 }
 
 .sidebar ul li {
-    margin: 15px 0;
+    display: block;
+    margin-bottom: 15px; /* 控制导航项间距 */
 }
 
 .sidebar ul li a {
@@ -49,11 +53,13 @@ body {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background-color: #4e73df;
-    color: #ffffff;
-    border: 2px solid #4e73df;
-    width: calc(100% - 4px);
+    background-color: #4e73df; /* 蓝色背景 */
+    color: #ffffff; /* 白色文字 */
+    border: 2px solid #4e73df; /* 蓝色边框 */
+    width: 100%; /* 宽度设置为 100% */
+    box-sizing: border-box; /* 包括边框在内计算宽度 */
     display: inline-block;
+    border-radius: 10px;
 }
 
 .logout {
@@ -117,6 +123,7 @@ body {
     left: -100%;
 }
 
+/* 各模块样式 */
 .section {
     background-color: #ffffff;
     border-radius: 10px;
@@ -141,6 +148,7 @@ body {
     text-decoration: underline;
 }
 
+/* 列表样式 */
 ul {
     padding: 0;
     margin: 0;
@@ -157,6 +165,7 @@ ul li span {
     color: #666;
 }
 
+/* 页脚样式 */
 footer {
     text-align: center;
     padding: 10px;
