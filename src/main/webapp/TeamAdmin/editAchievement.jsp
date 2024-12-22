@@ -93,9 +93,9 @@
     <label>增加展示图片（可选）：</label><br>
     <input type="file" name="coverImage"><br><br>
 
+    <%--选择上传的时间--%>
     <label>发布日期：</label><br>
-    <input type="date" name="creationTime"
-           value="<fmt:formatDate value='${achievement.creationTime}' pattern='yyyy-MM-dd'/>" required>
+    <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
 
     <button type="submit">保存修改</button>
     <!-- 返回主页按钮 -->
