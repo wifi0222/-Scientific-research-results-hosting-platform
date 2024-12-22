@@ -17,7 +17,7 @@
         function approveReview(memberID) {
             if (confirm("确定通过审核吗？")) {
                 // 通过审核，跳转并传递审核结果
-                window.location.href = "SubmitMemberReview?memberID=" + memberID + "&status=1";
+                window.location.href = "/teamAdmin/TeamManage/Member/review?memberID=" + memberID + "&status=1";
             }
         }
 
@@ -27,7 +27,7 @@
             var refuseReason = prompt("请输入拒绝理由：");
             if (refuseReason != null && refuseReason != "") {
                 // 不通过审核，跳转并传递审核结果及拒绝理由
-                window.location.href = "SubmitMemberReview?memberID=" + memberID + "&status=0"+"&refuseReason=" + encodeURIComponent(refuseReason);
+                window.location.href = "/teamAdmin/TeamManage/Member/review?memberID=" + memberID + "&status=0"+"&refuseReason=" + encodeURIComponent(refuseReason);
             } else {
                 alert("拒绝理由不能为空！");
             }

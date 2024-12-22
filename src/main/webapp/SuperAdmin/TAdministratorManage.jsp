@@ -50,7 +50,7 @@
                             <c:when test="${not teamAdmin.deletePermission}">无权限</c:when>
                         </c:choose>
                     </td>
-                    <td><a href="/ToEditTA?adminID=${teamAdmin.adminID}">编辑权限</a> </td>
+                    <td><a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}">编辑权限</a> </td>
                 </tr>
             </c:forEach>
         </tbody>

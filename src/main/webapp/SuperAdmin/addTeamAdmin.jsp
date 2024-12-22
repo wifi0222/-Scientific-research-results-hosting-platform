@@ -14,7 +14,7 @@
     <title>添加团队管理员</title>
 </head>
 <body>
-    <form action="AddTeamAdmin" method="get">
+    <form action="/SuperController/TeamAdminManage/add" method="get">
         账号：<input type="text" name="username">
         密码：<input type="text" name="password">
 
@@ -27,6 +27,6 @@
         </select><br><br>
         <input type="submit" value="提交">
     </form>
-        <a href="UserManagement">返回用户管理界面</a>
+        <a href="/SuperController/UserManagement">返回用户管理界面</a>
 </body>
 </html>

@@ -58,7 +58,7 @@
                 <td>
                     <div>
                         <!-- 修改链接，传递 userID 作为查询参数-->
-                        <a href="/ToChangeTeamAdmin?userID=${user.userID}">编辑</a>
+                        <a href="/SuperController/ToChangeTeamAdmin?userID=${user.userID}">编辑</a>
                         <!-- 删除链接，传递 userID 作为查询参数 -->
                         <a href="javascript:void(0);" onclick="confirmDelete(${user.userID})">删除</a>
                     </div>
@@ -73,7 +73,7 @@
     </table>
 
 
-    <a href="/ToAddTeamAdmin">添加团队管理员</a>
+    <a href="/SuperController/ToAddTeamAdmin">添加团队管理员</a>
 
 
     <%--显示添加团队管理员是否成功--%>
@@ -97,7 +97,7 @@
             var result = confirm("确定要删除该管理员吗？");
             if (result) {
                 // 如果确认删除，跳转到删除链接
-                window.location.href = "/DeleteTeamAdmin?userID=" + userID;
+                window.location.href = "/SuperController/TeamAdminManage/delete?userID=" + userID;
             }
         }
     </script>

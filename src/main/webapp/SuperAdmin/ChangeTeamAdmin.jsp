@@ -13,7 +13,7 @@
     <title>修改团队管理员的信息</title>
 </head>
 <body>
-    <form action="ChangeTeamAdminInfo" method="GET">
+    <form action="/SuperController/TeamAdminManage/edit" method="GET">
             <div>
                 用户ID(无法修改)：<input type="text" name="userID" value="${user.userID}" readonly>
             </div>
