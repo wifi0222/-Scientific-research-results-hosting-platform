@@ -123,13 +123,17 @@ public class RegistrationController {
     public String checkStatus(@RequestParam("email") String email, Model model) {
         // 查询注册状态
         String statusMessage = registrationService.checkApplicationStatus(email);
-
-        if (statusMessage == null) {
-            model.addAttribute("error", "邮箱未注册！");
-        } else {
-            model.addAttribute("message", statusMessage);
+        boolean emailcheck = sendMailService.checkUserEmail(email);
+        if (emailcheck){
+            if (statusMessage == null) {
+                model.addAttribute("error", "邮箱未注册！");
+            } else {
+                model.addAttribute("message", statusMessage);
+            }
         }
-
+        else{
+            model.addAttribute("message", "邮箱已注册！");
+        }
         return "status"; // 返回状态页面
     }
 }

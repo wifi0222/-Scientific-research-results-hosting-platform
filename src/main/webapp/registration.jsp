@@ -8,8 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isELIgnored="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>用户注册</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -17,11 +20,6 @@
     function sendVerificationCode() {
       const username = $("#username").val();
       const email = $("#email").val();
-
-      // 在发送验证码之前进行用户名验证
-      if (!validateUsername()) {
-        return; // 如果用户名无效，直接返回，不发送验证码
-      }
 
       if (!username || !email) {
         $("#message").text("请输入用户名和邮箱！");
@@ -35,7 +33,6 @@
         success: function (response) {
           if (response.success) {
             $("#message").css("color", "green").text(response.message);
-            // 禁用按钮并开始倒计时
             $("#sendCodeButton").prop("disabled", true);
             startCountdown();
           } else {
@@ -48,121 +45,201 @@
       });
     }
 
-    // 倒计时函数
+    // 倒计时
     function startCountdown() {
-      let countdownTime = 300; // 5分钟倒计时（300秒）
+      let countdownTime = 300;
       const button = $("#sendCodeButton");
       button.text(`重新发送（${countdownTime}s）`);
 
-      const countdownInterval = setInterval(function () {
+      const interval = setInterval(() => {
         countdownTime--;
         button.text(`重新发送（${countdownTime}s）`);
 
         if (countdownTime <= 0) {
-          clearInterval(countdownInterval);
-          button.text("重新发送");
-          button.prop("disabled", false); // 启用按钮
+          clearInterval(interval);
+          button.text("发送验证码");
+          button.prop("disabled", false);
         }
       }, 1000);
     }
-
-    // 用户名检查函数，检查是否是纯数字
-    function validateUsername() {
-      const username = $("#username").val();
-      const numericPattern = /^\d+$/; // 正则表达式，匹配纯数字
-
-      if (numericPattern.test(username)) {
-        $("#message").css("color", "red").text("用户名不能是纯数字！");
-        return false;
-      }
-      return true;
-    }
-
-    // 提交表单前验证
-    function validateForm() {
-      if (!validateUsername()) {
-        return false; // 阻止表单提交
-      }
-      return true; // 允许表单提交
-    }
   </script>
+
+  <style>
+    /* General styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: url('/resources/login.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .registration-container {
+      width: 400px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .registration-container h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #444;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .form-row label {
+      flex: 0 0 80px;
+      text-align: right;
+      margin-right: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .form-row button {
+      width: 100%;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-row button:hover {
+      background-color: #2e59d9;
+    }
+
+    #message {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+
+    .options a {
+      color: #4e73df;
+      text-decoration: none;
+    }
+
+    .options a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<h2>注册页面</h2>
+<div class="registration-container">
+  <h2>用户注册</h2>
 
-<form action="/registration/submit" method="post" onsubmit="return validateForm()">
-  <!-- 用户名 -->
-  <div>
-    <label for="username">用户名：</label>
-    <input type="text" id="username" name="username" required
-           value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>">
+  <form action="/registration/submit" method="post">
+    <!-- 用户名 -->
+    <div class="form-row">
+      <label for="username">用户名：</label>
+      <input type="text" id="username" name="username" required
+             value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : "" %>">
+    </div>
+
+    <!-- 邮箱 -->
+    <div class="form-row">
+      <label for="email">邮箱：</label>
+      <input type="email" id="email" name="email" required
+             value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>">
+    </div>
+
+    <!-- 发送验证码按钮 -->
+    <div class="form-row">
+      <button type="button" id="sendCodeButton" onclick="sendVerificationCode()">发送验证码</button>
+    </div>
+
+    <!-- 验证码输入框 -->
+    <div class="form-row">
+      <label for="verificationCode">验证码：</label>
+      <input type="text" name="verificationCode" required>
+    </div>
+
+    <!-- 身份选择 -->
+    <div class="form-row">
+      <label for="roleType">身份：</label>
+      <select name="roleType">
+        <option value="TeamMember" <%= "TeamMember".equals(request.getAttribute("roleType")) ? "selected" : "" %>>团队成员</option>
+        <option value="Visitor" <%= "Visitor".equals(request.getAttribute("roleType")) ? "selected" : "" %>>普通用户</option>
+      </select>
+    </div>
+
+    <!-- 申请理由 -->
+    <div class="form-row">
+      <label for="reason">申请理由：</label>
+      <textarea name="reason" rows="3"><%= request.getAttribute("reason") != null ? request.getAttribute("reason") : "" %></textarea>
+    </div>
+
+    <!-- 新密码 -->
+    <div class="form-row">
+      <label for="password">新密码：</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+
+    <!-- 确认密码 -->
+    <div class="form-row">
+      <label for="confirmpassword">确认密码：</label>
+      <input type="password" id="confirmpassword" name="confirmpassword" required>
+    </div>
+
+    <!-- 提交注册 -->
+    <div class="form-row">
+      <button type="submit">提交注册申请</button>
+    </div>
+  </form>
+
+  <!-- 提示信息 -->
+  <div id="message">
+    <% String message = (String) request.getAttribute("message");
+      String error = (String) request.getAttribute("error");
+      if (message != null) { %>
+    <span style="color: green"><%= message %></span>
+    <% } else if (error != null) { %>
+    <span style="color: red"><%= error %></span>
+    <% } %>
   </div>
 
-  <!-- 邮箱 -->
-  <div>
-    <label for="email">邮箱：</label>
-    <input type="email" id="email" name="email" required
-           value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>">
-  </div>
-
-  <!-- 发送验证码按钮 -->
-  <div>
-    <button type="button" id="sendCodeButton" onclick="sendVerificationCode()">发送验证码</button>
-  </div>
-
-  <!-- 新密码 -->
-  <div>
-    <label for="password">新密码：</label>
-    <input type="password" id="password" name="password" required>
-  </div>
-
-  <!-- 确认新密码 -->
-  <div>
-    <label for="confirmpassword">确认新密码：</label>
-    <input type="password" id="confirmpassword" name="confirmpassword" required>
-  </div>
-
-  <!-- 身份选择 -->
-  身份:
-  <select name="roleType">
-    <option value="TeamMember" <%= "TeamMember".equals(request.getAttribute("roleType")) ? "selected" : "" %>>团队成员</option>
-    <option value="Visitor" <%= "Visitor".equals(request.getAttribute("roleType")) ? "selected" : "" %>>普通用户</option>
-  </select><br>
-
-  <!-- 申请理由 -->
-  申请理由:
-  <textarea name="reason"><%= request.getAttribute("reason") != null ? request.getAttribute("reason") : "" %></textarea><br>
-
-  <!-- 验证码输入 -->
-  验证码: <input type="text" name="verificationCode" required/><br>
-
-  <!-- 提交注册 -->
-  <input type="submit" value="提交注册申请"/>
-</form>
-
-<!-- 提示信息 -->
-<div id="message" style="margin-top: 20px;">
-  <%-- 显示消息 --%>
-  <%
-    String message = (String) request.getAttribute("message");
-    String error = (String) request.getAttribute("error");
-
-    if (message != null) {
-  %>
-  <span style="color: green"><%= message %></span>
-  <%
-  } else if (error != null) {
-  %>
-  <span style="color: red"><%= error %></span>
-  <%
-    }
-  %>
-</div>
-<ul>
   <!-- 其他功能 -->
-  <li><a href="/login.jsp">登录</a></li>
-  <li><a href="/status.jsp">查询注册状态</a></li>
-
-</ul>
+  <div class="options">
+    <a href="/login.jsp">登录</a>
+    <a href="/status.jsp">查询注册状态</a>
+  </div>
+</div>
 </body>
 </html>
