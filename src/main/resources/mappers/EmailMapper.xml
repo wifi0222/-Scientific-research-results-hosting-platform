@@ -45,6 +45,15 @@
              ) AS combined_counts
     </select>
 
+    <select id="checkUserEmailExists" resultType="int">
+        SELECT SUM(count)
+        FROM (
+                 SELECT COUNT(*) AS count
+                 FROM [user]
+                 WHERE email = #{email}
+             ) AS combined_counts
+    </select>
+
     <select id="checkUsernameExists" resultType="int">
         SELECT SUM(count)
         FROM (

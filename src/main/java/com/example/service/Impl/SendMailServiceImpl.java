@@ -44,6 +44,16 @@ public class SendMailServiceImpl implements ISendMailService {
     }
 
     @Override
+    public boolean checkUserEmail(String recipient){
+        int exists = emailMapper.checkUserEmailExists(recipient);
+        if (exists > 0) {
+            System.err.println("邮箱已存在！");
+            return false; // 用户名或邮箱已存在
+        }
+        return true;
+    }
+
+    @Override
     public boolean checkUsername(String username){
         int exists = emailMapper.checkUsernameExists(username);
         if (exists > 0) {

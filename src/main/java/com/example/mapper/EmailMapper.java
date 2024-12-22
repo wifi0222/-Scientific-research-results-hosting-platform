@@ -13,4 +13,5 @@ public interface EmailMapper {
                                    @Param("email") String email);
     int checkEmailExists(@Param("email") String email);
     int checkUsernameExists(@Param("username") String username);
+    int checkUserEmailExists (@Param("email") String email);
 }
