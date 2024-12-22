@@ -3,8 +3,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     const publishedTab = document.getElementById('publishedTab');
     const reviewTab = document.getElementById('reviewTab');
+    const rejectedTab = document.getElementById('rejectedTab'); // 新增
     const publishedSection = document.getElementById('publishedSection');
     const reviewSection = document.getElementById('reviewSection');
+    const rejectedSection = document.getElementById('rejectedSection'); // 新增
     const searchButton = document.getElementById('searchButton');
     const resetButton = document.getElementById('resetButton');
 
@@ -12,20 +14,36 @@ document.addEventListener('DOMContentLoaded', function () {
     function showPublished() {
         publishedSection.classList.add('active');
         reviewSection.classList.remove('active');
+        rejectedSection.classList.remove('active'); // 新增
         publishedTab.classList.add('active');
         reviewTab.classList.remove('active');
+        rejectedTab.classList.remove('active'); // 新增
     }
 
     // 显示正在审核成果
     function showReview() {
         reviewSection.classList.add('active');
         publishedSection.classList.remove('active');
+        rejectedSection.classList.remove('active'); // 新增
         reviewTab.classList.add('active');
         publishedTab.classList.remove('active');
+        rejectedTab.classList.remove('active'); // 新增
     }
 
+    // 显示审核被拒绝成果
+    function showRejected() {
+        rejectedSection.classList.add('active');
+        publishedSection.classList.remove('active');
+        reviewSection.classList.remove('active');
+        rejectedTab.classList.add('active');
+        publishedTab.classList.remove('active');
+        reviewTab.classList.remove('active');
+    }
+
+    // 给每个 tab 绑定事件
     publishedTab.addEventListener('click', showPublished);
     reviewTab.addEventListener('click', showReview);
+    rejectedTab.addEventListener('click', showRejected); // 新增
 
     // 默认显示已发布的成果
     showPublished();
@@ -47,60 +65,37 @@ document.addEventListener('DOMContentLoaded', function () {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
 
-        // 创建 Date 对象并设置为当天的零点
         let startDateObj = null;
         if (startDate) {
             startDateObj = new Date(startDate);
-            startDateObj.setHours(0, 0, 0, 0); // 设置为当天起始
+            startDateObj.setHours(0, 0, 0, 0);
         }
 
         let endDateObj = null;
         if (endDate) {
             endDateObj = new Date(endDate);
-            endDateObj.setHours(23, 59, 59, 59); // 设置为当天结束
+            endDateObj.setHours(23, 59, 59, 999);
         }
-
-        // 打印 startDateObj 和 endDateObj
-        console.log("startDateObj:", startDateObj);
-        console.log("endDateObj:", endDateObj);
 
         // 获取所有成果行
         const rows = document.querySelectorAll('.achievement-row');
-
         rows.forEach(function (row) {
             const title = row.getAttribute('data-title').toLowerCase();
             const rowCategory = row.getAttribute('data-category');
             const creationTime = row.getAttribute('data-creationTime');
             const creationTimeObj = new Date(creationTime);
 
-            // 打印 creationTimeObj
-            console.log("creationTimeObj for row:", creationTimeObj);
-
             // 关键词过滤
-            let keywordMatch = true;
-            if (keyword !== '') {
-                keywordMatch = title.includes(keyword);
-            }
+            let keywordMatch = !keyword || title.includes(keyword);
 
             // 类别过滤
-            let categoryMatch = true;
-            if (category !== '') {
-                categoryMatch = (rowCategory === category);
-            }
+            let categoryMatch = !category || (rowCategory === category);
 
-            // 开始日期过滤
-            let startDateMatch = true;
-            if (startDate !== '') {
-                startDateMatch = (creationTimeObj >= startDateObj);
-            }
+            // 时间过滤
+            let startDateMatch = !startDate || (creationTimeObj >= startDateObj);
+            let endDateMatch = !endDate || (creationTimeObj <= endDateObj);
 
-            // 结束日期过滤
-            let endDateMatch = true;
-            if (endDate !== '') {
-                endDateMatch = (creationTimeObj <= endDateObj);
-            }
-
-            // 综合判断
+            // 合并判断
             if (keywordMatch && categoryMatch && startDateMatch && endDateMatch) {
                 row.style.display = '';
             } else {
@@ -111,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 重置筛选条件
     function resetFilters() {
-        // 清空所有输入字段
         document.getElementById('keyword').value = '';
         document.getElementById('category').selectedIndex = 0;
         document.getElementById('startDate').value = '';

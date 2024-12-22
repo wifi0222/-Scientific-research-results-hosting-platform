@@ -19,4 +19,6 @@ public interface AchievementService {
     int deleteAchievement(int achievementID);
 
     int updateAchievementVisibility(int achievementID, int viewStatus);
+
+    int updateAchievementStatus(int achievementID, int status);
 }

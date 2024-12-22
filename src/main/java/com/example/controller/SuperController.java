@@ -211,24 +211,44 @@ public class SuperController {
      * 超级用户审核研究成果
      */
     @GetMapping("/auditAchievements")
-    public String viewAchievements(HttpSession session, Model model) {
+    public String auditAchievements(HttpSession session, Model model) {
         // 目前只有一个团队
         int teamID = 1;
 
         // 获取团队所有成果列表
         List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
 
-        Map<Achievement, List<AchievementFile>> achievementMap = new HashMap<Achievement, List<AchievementFile>>();
+        Map<Achievement, List<AchievementFile>> auditAchievementMap = new HashMap<Achievement, List<AchievementFile>>();
 
         for (Achievement a : achievements) {
-            // 获取每个成果的附件和图片
-            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
-            achievementMap.put(a, achievementFiles);
+            if (a.getStatus() == 0) {
+                // 获取待审核的成果的附件和图片
+                List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
+                auditAchievementMap.put(a, achievementFiles);
+            }
         }
 
-        model.addAttribute("achievementMap", achievementMap);
-        // 渲染科研成果管理页面
-        return "";
+        model.addAttribute("auditAchievementMap", auditAchievementMap);
+
+        return "/SuperAdmin/auditAchievements";
+    }
+
+    /**
+     * 超级用户通过审核
+     */
+    @GetMapping("/auditAchievements/pass")
+    public String passAchievementReview(@RequestParam("id") int achievementID, Model model) {
+        achievementService.updateAchievementStatus(achievementID, 1);
+        return "redirect:/SuperController/auditAchievements";
+    }
+
+    /**
+     * 超级用户拒绝审核
+     */
+    @GetMapping("/auditAchievements/reject")
+    public String rejectAchievementReview(@RequestParam("id") int achievementID, Model model) {
+        achievementService.updateAchievementStatus(achievementID, -1);
+        return "redirect:/SuperController/auditAchievements";
     }
 }
 

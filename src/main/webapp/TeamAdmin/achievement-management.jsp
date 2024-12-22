@@ -48,6 +48,7 @@
 <div class="tabs">
     <a href="javascript:void(0)" id="publishedTab" class="active">已发布的成果</a>
     <a href="javascript:void(0)" id="reviewTab">正在审核的成果</a>
+    <a href="javascript:void(0)" id="rejectedTab">审核被拒绝的成果</a>
     <a href="${pageContext.request.contextPath}/TeamAdmin/addAchievement.jsp" style="margin-left:20px;">新增成果</a>
 </div>
 
@@ -106,7 +107,7 @@
                                 </c:if>
                             </c:forEach>
                         </td>
-                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+                        <td><fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
                         <td>
                                 <%-- <c:choose>里面不能加注释--%>
                             <c:choose>
@@ -179,7 +180,7 @@
                                 </c:if>
                             </c:forEach>
                         </td>
-                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+                        <td><fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
                         <td>
                                 <%-- <c:choose>里面不能加注释--%>
                             <c:choose>
@@ -199,6 +200,80 @@
         </table>
     </c:forEach>
 </div>
+
+<!-- 审核被拒绝的成果（status=-1） -->
+<div id="rejectedSection" class="section">
+    <h2>审核被拒绝的成果 (status = -1)</h2>
+    <c:forEach var="cat" items="${categories}">
+        <h3>${cat}</h3>
+        <table class="achievement-table" data-status="-1" data-category="${cat}">
+            <thead>
+            <tr>
+                <th>成果ID</th>
+                <th>标题</th>
+                <th>类别</th>
+                <th>摘要</th>
+                <th>内容</th>
+                <th>附件</th>
+                <th>展示图片</th>
+                <th>创建时间</th>
+                <th>审核状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="entry" items="${achievementMap}">
+                <c:if test="${entry.key.status == -1 and entry.key.category eq cat}">
+                    <tr class="achievement-row"
+                        data-title="${fn:escapeXml(entry.key.title)}"
+                        data-category="${entry.key.category}"
+                        data-creationTime="${entry.key.creationTime}"
+                        data-status="${entry.key.status}">
+
+                        <td>${entry.key.achievementID}</td>
+                        <td>${entry.key.title}</td>
+                        <td>${entry.key.category}</td>
+                        <td>${entry.key.abstractContent}</td>
+                        <td>${entry.key.contents}</td>
+                        <td>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 0}">
+                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td>
+                            <c:forEach var="file" items="${entry.value}">
+                                <c:if test="${file.type == 1}">
+                                    <c:set var="encodedPath"
+                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />"
+                                         alt="展示图片" width="100"/>
+                                </c:if>
+                            </c:forEach>
+                        </td>
+                        <td>
+                            <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${entry.key.status == -1}">不通过</c:when>
+                                <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                                <c:otherwise>未知</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
+                            <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
+                        </td>
+                    </tr>
+                </c:if>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:forEach>
+</div>
+
 
 <!-- 引入外部JS文件，确保标签切换功能 -->
 <script src="../js/achievement-management.js"></script>

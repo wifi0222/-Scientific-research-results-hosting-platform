@@ -61,6 +61,8 @@ public class UserController {
             return "redirect:/browse";
         } else if ("TeamAdmin".equals(user.getRoleType())) {
             return "redirect:/teamAdmin/achievements"; // 跳转到团队管理员成果管理页面
+        } else if ("SuperAdmin".equals(user.getRoleType())) {
+            return "redirect:/SuperController/auditAchievements";
         }
 //        else if("SuperAdmin".equals(user.getRoleType())){
 //
@@ -349,6 +351,7 @@ public class UserController {
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
     }
+
     // 退出登录
     @GetMapping("/logout")
     public String logout(HttpSession session) {
