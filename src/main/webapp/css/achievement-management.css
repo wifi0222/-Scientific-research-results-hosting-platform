@@ -1,24 +1,224 @@
 /* achievement-management.css */
 
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #4a4a4a;
+    margin-bottom: 30px;
+}
+
+/* 搜索与筛选表单样式 */
+.search-filter {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-filter label {
+    margin-right: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.search-filter input[type="text"],
+.search-filter select,
+.search-filter input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+    width: 200px;
+}
+
+.search-filter input[type="text"]:focus,
+.search-filter select:focus,
+.search-filter input[type="date"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.search-filter button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.search-filter button:hover {
+    background-color: #0056b3;
+}
+
+.search-filter button#resetButton {
+    background-color: #6c757d;
+}
+
+.search-filter button#resetButton:hover {
+    background-color: #5a6268;
+}
+
+/* Tabs 样式 */
 .tabs {
-    margin-bottom:10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
 }
+
 .tabs a {
-    margin-right:20px;
-    text-decoration:none;
-    color: black;
+    margin-right: 20px;
+    text-decoration: none;
+    color: #555;
     font-size: 18px;
+    padding: 10px 15px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.3s, border-bottom-color 0.3s;
 }
+
+.tabs a:hover {
+    color: #007BFF;
+}
+
 .tabs a.active {
-    font-weight:bold;
-    color:purple;
+    font-weight: bold;
+    color: purple;
+    border-bottom-color: purple;
 }
+
+/* Section 样式 */
 .section {
-    display:none; /* 默认隐藏，JS控制显示 */
+    display: none; /* 默认隐藏，JS控制显示 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .section.active {
-    display:block;
+    display: block;
 }
-table {
-    margin-bottom:20px;
+
+/* 表格样式 */
+.achievement-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.achievement-table th,
+.achievement-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.achievement-table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+.achievement-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.achievement-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 图片样式 */
+.achievement-table img {
+    border-radius: 4px;
+    transition: transform 0.3s;
+}
+
+.achievement-table img:hover {
+    transform: scale(1.05);
+}
+
+/* 按钮样式 */
+button {
+    margin-right: 5px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:nth-child(1) { /* 编辑按钮 */
+    background-color: #28a745;
+}
+
+button:nth-child(2) { /* 删除按钮 */
+    background-color: #dc3545;
+}
+
+button:nth-child(3) { /* 公开/隐藏按钮 */
+    background-color: #17a2b8;
+}
+
+/* 新增成果链接样式 */
+.tabs a.add-achievement {
+    margin-left: auto;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tabs a.add-achievement:hover {
+    background-color: #218838;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .search-filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-filter input[type="text"],
+    .search-filter select,
+    .search-filter input[type="date"] {
+        width: 100%;
+    }
+
+    .tabs {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tabs a {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .tabs a.add-achievement {
+        margin-left: 0;
+    }
 }

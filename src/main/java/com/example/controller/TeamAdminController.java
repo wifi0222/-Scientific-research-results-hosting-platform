@@ -301,7 +301,7 @@ public class TeamAdminController {
     /**
      * 团队管理员新增科研成果
      */
-    @PostMapping("/addAchievement/add")
+    @PostMapping("/achievements/add")
     public String addAchievement(
             @RequestParam("title") String title,
             @RequestParam("category") String category,
@@ -313,13 +313,31 @@ public class TeamAdminController {
             HttpSession session,
             Model model
     ) {
-        // 解析 creationTimeStr 为 Date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
+        // 判断该团队管理员是否具有新增科研成果的权限
+        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+        if (!teamAdministrator.isPublishPermission()) {
+            model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
+            return "/TeamAdmin/error";
+        }
+
+        // 定义日期格式模式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
         Date creationTime = null;
         try {
             creationTime = sdf.parse(creationTimeStr);
         } catch (ParseException e) {
-            model.addAttribute("error", "日期格式错误，请使用yyyy-MM-dd格式。");
+            model.addAttribute("error", "日期格式错误");
             return "/TeamAdmin/error";
         }
 
@@ -422,7 +440,7 @@ public class TeamAdminController {
     /**
      * 显示修改科研成果的表单
      */
-    @GetMapping("/editAchievement")
+    @GetMapping("/achievements/edit")
     public String showEditAchievementForm(@RequestParam("id") int achievementID, Model model) {
         // 获取指定ID的成果
         Achievement achievement = achievementService.getAchievementById(achievementID);
@@ -445,7 +463,7 @@ public class TeamAdminController {
     /**
      * 处理修改科研成果的表单提交
      */
-    @PostMapping("/editAchievement/update")
+    @PostMapping("/achievements/edit/update")
     public String updateAchievement(
             @RequestParam("achievementID") int achievementID,
             @RequestParam("title") String title,
@@ -458,13 +476,13 @@ public class TeamAdminController {
             HttpSession session,
             Model model
     ) {
-        // 解析 creationTimeStr 为 Date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // 定义日期格式模式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date creationTime = null;
         try {
             creationTime = sdf.parse(creationTimeStr);
         } catch (ParseException e) {
-            model.addAttribute("error", "日期格式错误，请使用yyyy-MM-dd格式。");
+            model.addAttribute("error", "日期格式错误");
             return "/TeamAdmin/error";
         }
 
@@ -533,7 +551,154 @@ public class TeamAdminController {
         }
 
         // 重定向到成果的编辑页面
-        return "redirect:/teamAdmin/editAchievement?id=" + achievementID;
+        return "redirect:/teamAdmin/achievements/edit?id=" + achievementID;
+    }
+
+    /**
+     * 处理删除科研成果
+     */
+    @GetMapping("/achievements/delete")
+    public String deleteAchievement(@RequestParam("id") int achievementID, Model model, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
+        // 判断该团队管理员是否具有删除科研成果的权限
+        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+        if (!teamAdministrator.isDeletePermission()) {
+            model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
+            return "/TeamAdmin/error";
+        }
+
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        // 获取现有的成果
+        Achievement achievement = achievementService.getAchievementById(achievementID);
+        if (achievement == null) {
+            model.addAttribute("error", "未找到指定的科研成果。");
+            return "/TeamAdmin/error";
+        }
+
+        // 获取该成果的附件和图片
+        List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(achievementID);
+
+        // 删除该成果的所有附件和图片
+        for (AchievementFile file : achievementFiles) {
+            // 删除本地的附件/图片
+            deleteLocationFile(file.getFilePath(), file.getType());
+
+            // 从数据库中删除 AchievementFile 记录
+            achievementFileService.deleteAchievementFile(file.getFileID());
+        }
+
+        // 从数据库中删除 Achievement 记录
+        achievementService.deleteAchievement(achievementID);
+
+        // 重定向到成果展示页面
+        return "redirect:/teamAdmin/achievements";
+    }
+
+    /**
+     * 处理切换可见性
+     */
+    @GetMapping("/achievements/switchViewStatus")
+    public String switchViewStatus(@RequestParam("id") int achievementID, Model model) {
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        // 获取现有的成果
+        Achievement achievement = achievementService.getAchievementById(achievementID);
+        if (achievement == null) {
+            model.addAttribute("error", "未找到指定的科研成果。");
+            return "/TeamAdmin/error";
+        }
+
+        // 切换可见性
+        if (achievement.getViewStatus() == 1) {
+            achievementService.updateAchievementVisibility(achievementID, 0);
+        } else if (achievement.getViewStatus() == 0) {
+            achievementService.updateAchievementVisibility(achievementID, 1);
+        } else {
+            model.addAttribute("error", "科研成果可见性的值异常！。");
+            return "/TeamAdmin/error";
+        }
+
+        // 重定向到成果展示页面
+        return "redirect:/teamAdmin/achievements";
+    }
+
+    /**
+     * 处理删除文件的请求
+     */
+    @PostMapping("/achievements/edit/deleteFile")
+    public String deleteFile(
+            @RequestParam("fileID") int fileID,
+            @RequestParam("achievementID") int achievementID,
+            HttpServletResponse response,
+            Model model
+    ) {
+        try {
+            // 根据 fileID 获取 AchievementFile 对象
+            AchievementFile file = achievementFileService.getFilesByfileID(fileID);
+            if (file == null) {
+                model.addAttribute("error", "未找到指定的文件。");
+                return "/TeamAdmin/error";
+            }
+
+            // 删除本地的附件/图片
+            deleteLocationFile(file.getFilePath(), file.getType());
+
+            // 从数据库中删除 AchievementFile 记录
+            achievementFileService.deleteAchievementFile(fileID);
+
+        } catch (Exception e) {
+            model.addAttribute("error", "删除文件时发生错误，请重试。");
+            e.printStackTrace();
+            return "/TeamAdmin/error";
+        }
+
+        // 重定向回编辑页面，刷新附件和图片列表
+        return "redirect:/teamAdmin/achievements/edit?id=" + achievementID;
+    }
+
+    // type=0，删除文件； type=1，删除图片；
+    public Boolean deleteLocationFile(String filePath, int type) {
+        // 构建文件的绝对路径
+        String baseDir = "C:/Users/zwb/Desktop/JavaWeb课设/";
+
+        // 确保 filePath 以 "uploads\" 开头
+        if (filePath.startsWith("uploads\\")) {
+            filePath = filePath.substring("uploads\\".length());
+        }
+        // 替换所有正斜杠为系统路径分隔符（Windows 为 '\\'）
+        filePath = filePath.replace("/", "\\");
+
+        File physicalFile = null;
+        if (type == 0) {
+            physicalFile = new File(baseDir + filePath);
+        } else if (type == 1) {
+            physicalFile = new File(filePath);
+        }
+
+        if (physicalFile.exists()) {
+            boolean deleted = physicalFile.delete();
+            if (!deleted) {
+                System.out.println("权限不足，无法删除！");
+                return false;
+            }
+        } else {
+            // 文件不存在，可能已经被手动删除
+            System.out.println("文件在本地不存在！");
+            return false;
+        }
+        return true;
     }
 
     //跳转详情界面

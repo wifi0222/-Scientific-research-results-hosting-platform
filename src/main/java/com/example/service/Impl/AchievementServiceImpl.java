@@ -36,4 +36,14 @@ public class AchievementServiceImpl implements AchievementService {
     public int updateAchievement(Achievement achievement) {
         return achievementMapper.updateAchievement(achievement);
     }
+
+    @Override
+    public int deleteAchievement(int achievementID) {
+        return achievementMapper.deleteAchievement(achievementID);
+    }
+
+    @Override
+    public int updateAchievementVisibility(int achievementID, int viewStatus) {
+        return achievementMapper.updateAchievementVisibility(achievementID, viewStatus);
+    }
 }
