@@ -70,25 +70,6 @@ public class UserController {
 //        return "redirect:/browse";
     }
 
-    // 信息浏览页面
-    @GetMapping("/browse")
-    public String browsePage(@RequestParam(value = "TeamMember", required = false) boolean isTeamMember,
-                             @RequestParam(value = "Visitor", required = false) boolean isMember,
-                             HttpSession session,
-                             Model model) {
-        User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
-        if (currentUser == null) {
-            return "redirect:/user/login"; // 如果用户未登录，跳转到登录页面
-        }
-
-        // 将用户信息传递给前端
-        model.addAttribute("isTeamMember", isTeamMember);
-        model.addAttribute("isMember", isMember);
-        model.addAttribute("user", currentUser);
-
-        return "browse"; // 返回信息浏览页面
-    }
-
     // 显示登录页面
     @GetMapping("/login")
     public String showLoginPage() {
@@ -176,7 +157,18 @@ public class UserController {
 
     // 显示修改密码页面
     @GetMapping("/change-password")
-    public String showChangePasswordPage() {
+    public String showChangePasswordPage(HttpSession session, // 从 Session 中获取当前用户
+                                         Model model) {
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+        String userRoleType = currentUser.getRoleType();
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         return "change-password"; // 确保存在 change-password.jsp
     }
 
@@ -187,28 +179,44 @@ public class UserController {
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  HttpSession session, // 从 Session 中获取当前用户
                                  Model model) {
+        // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "redirect:/user/login"; // 如果未登录，跳转到登录页面
         }
+        String userRoleType = currentUser.getRoleType();
 
         // 验证旧密码是否正确
         if (!currentUser.getPassword().equals(oldPassword)) {
             model.addAttribute("error", "旧密码错误！");
+            // 将用户信息传递给前端
+            model.addAttribute("user", currentUser);
+            model.addAttribute("userRoleType", userRoleType);
             return "change-password";
         }
 
         // 验证新密码是否与旧密码相同
         if (newPassword.equals(oldPassword)) {
             model.addAttribute("error", "新密码不能与旧密码相同！");
+            // 将用户信息传递给前端
+            model.addAttribute("user", currentUser);
+            model.addAttribute("userRoleType", userRoleType);
             return "change-password";
         }
 
         // 验证两次输入的新密码是否一致
         if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("error", "两次输入的新密码不一致！");
+            // 将用户信息传递给前端
+            model.addAttribute("user", currentUser);
+            model.addAttribute("userRoleType", userRoleType);
             return "change-password";
         }
+
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
 
         // 更新密码
         currentUser.setPassword(newPassword);
@@ -221,7 +229,18 @@ public class UserController {
 
     // 显示注销申请页面
     @GetMapping("/deactivate")
-    public String showDeactivationPage() {
+    public String showDeactivationPage(HttpSession session, // 从 Session 中获取当前用户
+                                       Model model) {
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+        String userRoleType = currentUser.getRoleType();
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         return "deactivate"; // 确保存在 deactivate.jsp
     }
 
@@ -230,27 +249,33 @@ public class UserController {
     public String handleDeactivationRequest(@RequestParam("password") String password,
                                             HttpSession session, // 从 Session 获取当前用户
                                             Model model) {
-        // 获取当前用户
+        // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "redirect:/user/login"; // 如果未登录，跳转到登录页面
         }
+        String userRoleType = currentUser.getRoleType();
 
         // 验证密码是否正确
         if (!currentUser.getPassword().equals(password)) {
+            model.addAttribute("user", currentUser);
+            model.addAttribute("userRoleType", userRoleType);
             model.addAttribute("error", "密码错误！");
             return "deactivate";
         }
 
         // 检查注销信息审核表中是否已有记录
         if (userService.isDeactivationPending(currentUser.getUserID())) {
+            model.addAttribute("user", currentUser);
+            model.addAttribute("userRoleType", userRoleType);
             model.addAttribute("error", "您已申请注销，请耐心等待！");
             return "deactivate";
         }
 
         // 插入注销申请到注销信息审核表
         userService.submitDeactivationRequest(currentUser);
-
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("message", "注销申请已提交，等待管理员审核！");
         return "deactivate";
     }
@@ -264,6 +289,7 @@ public class UserController {
             model.addAttribute("error", "用户未登录，请先登录！");
             return "login"; // 如果未登录，跳转到登录页面
         }
+        String userRoleType = currentUser.getRoleType();
 
         int memberID = currentUser.getUserID();
 
@@ -278,6 +304,7 @@ public class UserController {
             model.addAttribute("deactivationStatus", null);
         }
 
+        model.addAttribute("userRoleType", userRoleType);
         return "deactivationStatus"; // 返回对应的 JSP 页面
     }
 
