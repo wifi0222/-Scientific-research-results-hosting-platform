@@ -250,5 +250,27 @@ public class SuperController {
         achievementService.updateAchievementStatus(achievementID, -1);
         return "redirect:/SuperController/auditAchievements";
     }
+
+    /**
+     * 超级用户拒绝审核
+     */
+    @GetMapping("/auditAchievements/preview")
+    public String previewAchievement(@RequestParam("id") int achievementID, Model model) {
+        // 获取指定ID的成果
+        Achievement achievement = achievementService.getAchievementById(achievementID);
+        if (achievement == null) {
+            model.addAttribute("error", "未找到指定的科研成果。");
+            return "/TeamAdmin/error";
+        }
+
+        // 获取该成果的附件和图片
+        List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(achievementID);
+
+        // 将数据传递给前端
+        model.addAttribute("achievement", achievement);
+        model.addAttribute("achievementFiles", achievementFiles);
+
+        return "/SuperAdmin/previewAchievement";
+    }
 }
 

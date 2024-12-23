@@ -119,9 +119,9 @@
                     ['link', 'image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
-                handlers: {
-                    image: imageHandler // 自定义图片处理（可根据需要实现）
-                }
+                // handlers: {
+                //     image: imageHandler // 自定义图片处理（可根据需要实现）
+                // }
             }
         }
     });
