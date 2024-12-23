@@ -272,12 +272,14 @@ public class TeamAdminController {
             return "redirect:/login";
         }
 
-        // 假设当前用户是 User 类型，获取 userID
-        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+//        // 如果存在多个团队，这样获取团队管理员所属的团队的ID
+//        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+//
+//        // 查询团队管理员
+//        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+//        int teamID = teamAdministrator.getTeamID();
 
-        // 查询团队管理员
-        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-        int teamID = teamAdministrator.getTeamID();
+        int teamID = 1;
 
         // 获取团队所有成果列表
         List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);

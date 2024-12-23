@@ -119,6 +119,19 @@
         var content = quill.root.innerHTML; // 获取编辑器内容的HTML
         document.getElementById('hiddenInput').value = content;
     };
+
+    window.onload = function() {
+        const now = new Date();
+        // 格式化为 yyyy-MM-ddTHH:mm
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const defaultValue = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        document.getElementById('creationTime').value = defaultValue;
+    };
 </script>
 </body>
 </html>

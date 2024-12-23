@@ -44,4 +44,8 @@
     -->
     <mvc:resources mapping="/img/**" location="/img/"/>
 
+    <!--SpringMVc中资源路径映射本地文件图片
+    配置静态资源映射，将/uploads/**映射到文件系统目录-->
+    <mvc:resources mapping="/uploads/**" location="file:///C:/Users/zwb/Desktop/JavaWeb课设/"/>
+
 </beans>
