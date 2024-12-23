@@ -78,45 +78,9 @@
                     ['image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
-                handlers: {
-                    image: imageHandler // 自定义图片处理
-                }
             }
         }
     });
-
-    // 自定义图片上传逻辑
-    function imageHandler() {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-
-        input.onchange = async () => {
-            const file = input.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                // 上传图片到服务器
-                const response = await fetch('/questions/upload-image', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    // 在编辑器中插入图片
-                    const range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'image', result.imageUrl);
-                } else {
-                    console.error('Image upload failed');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        };
-    }
 
     // 表单提交前，将编辑器内容和标题同步到隐藏字段
     document.getElementById('questionForm').onsubmit = function () {

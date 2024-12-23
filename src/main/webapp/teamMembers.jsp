@@ -1,0 +1,96 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 王斐
+  Date: 2024/12/23
+  Time: 12:34
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>团队成员</title>
+  <link rel="stylesheet" href="/css/change-password.css">
+</head>
+<body>
+<div class="container">
+  <div class="content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <c:choose>
+        <c:when test="${userRoleType == 'TeamMember'}">
+          <ul>
+            <li><a href="/browse" class="active">信息浏览</a></li>
+            <li><a href="/user/memberProfile">个人信息</a></li>
+            <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
+            <li><a href="/user/change-password">修改密码</a></li>
+            <li><a href="/user/deactivate">账号注销</a></li>
+            <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+          </ul>
+          <div class="logout">
+            <a href="/user/logout">退出登录</a>
+          </div>
+        </c:when>
+        <c:when test="${userRoleType == 'Visitor'}">
+          <ul>
+            <li><a href="/browse" class="active">信息浏览</a></li>
+            <li><a href="/user/askQuestion">用户互动</a></li>
+            <li><a href="/user/checkReply">我的反馈</a></li>
+            <li><a href="/user/change-password">修改密码</a></li>
+            <li><a href="/user/deactivate">账号注销</a></li>
+            <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+          </ul>
+          <div class="logout">
+            <a href="/user/logout">退出登录</a>
+          </div>
+        </c:when>
+        <c:otherwise>
+          <ul>
+            <li><a href="/login.jsp">登录</a></li>
+          </ul>
+        </c:otherwise>
+      </c:choose>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <h1>团队成员</h1>
+      <div class="members-list">
+        <c:forEach var="member" items="${teamMembers}">
+          <div class="member-card">
+            <c:choose>
+              <c:when test="${not empty member.avatarFile}">
+                <a href="/member/details?teamMembersID=${member.userID}">
+                  <c:set var="encodedPath"
+                         value="${fn:replace(fn:replace(member.avatarFile, '\\\\', '/'), ' ', '%20')}"/>
+                  <img src="<c:url value='/getImage?filePath=${encodedPath}' />" class="member-avatar">
+                </a>
+              </c:when>
+              <c:otherwise>
+                <a href="/member/details?teamMembersID=${member.userID}">
+                  <img src="/resources/OIP.jpg" class="member-avatar">
+                </a>
+              </c:otherwise>
+            </c:choose>
+            <div class="member-name">
+              <a href="/member/details?teamMembersID=${member.userID}">
+                <c:out value="${member.name}" />
+              </a>
+            </div>
+          </div>
+        </c:forEach>
+      </div>
+  </div>
+  </div>
+
+  <footer>
+    ABCD组 &copy; 2024
+  </footer>
+</div>
+</body>
+</html>

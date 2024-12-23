@@ -43,5 +43,6 @@
     /img/**:不限层次地匹配img目录下的所有文件
     -->
     <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/uploads/**" location="file:///D:/作业/大三上/javaweb/课设/"/>
 
 </beans>
