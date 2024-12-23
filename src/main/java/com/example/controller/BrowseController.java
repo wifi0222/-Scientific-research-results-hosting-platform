@@ -65,6 +65,25 @@ public class BrowseController {
         return "browse"; // 返回信息浏览页面
     }
 
+    @GetMapping("/team/members")
+    public String viewTeamMembers(HttpSession session,Model model) {
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        // 如果用户未登录，不强制报错，提供一个默认的空角色
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
+
+        // 加载团队成员
+        List<User> teamMembers = browseService.getTeamMembers();
+        model.addAttribute("teamMembers", teamMembers);
+
+        return "teamMembers"; // 返回团队成员 JSP 页面名称
+    }
+
 
 
 

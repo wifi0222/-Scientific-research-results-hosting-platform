@@ -28,7 +28,7 @@
         <c:when test="${userRoleType == 'TeamMember'}">
             <ul>
               <li><a href="/browse" class="active">信息浏览</a></li>
-              <li><a href="/user/profile">个人信息管理</a></li>
+              <li><a href="/user/memberProfile">个人信息</a></li>
               <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
               <li><a href="/user/change-password">修改密码</a></li>
               <li><a href="/user/deactivate">账号注销</a></li>
@@ -73,15 +73,7 @@
         <p>团队名称：<c:out value="${team.teamName}"/></p>
         <p>研究方向：<c:out value="${team.researchArea}"/></p>
         <p>简介：<c:out value="${team.introduction}"/></p>
-        <h3>团队成员</h3>
-        <ul>
-          <c:forEach var="member" items="${teamMembers}">
-            <li>
-              姓名：<c:out value="${member.name}"/>，研究方向：<c:out value="${member.researchField}"/>
-              <a href="/member/details?teamMembersID=${member.userID}">查看详情</a>
-            </li>
-          </c:forEach>
-        </ul>
+        <a href="/team/members" class="btn-submit">查看成员</a> <!-- 添加跳转链接到成员页面 -->
       </div>
 
       <div class="section articles">
