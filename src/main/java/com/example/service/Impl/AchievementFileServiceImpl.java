@@ -25,4 +25,14 @@ public class AchievementFileServiceImpl implements AchievementFileService {
     public void insertAchievementFile(AchievementFile achievementFile) {
         achievementFileMapper.insertAchievementFile(achievementFile);
     }
+
+    @Override
+    public AchievementFile getFilesByfileID(int fileID) {
+        return achievementFileMapper.getFilesByfileID(fileID);
+    }
+
+    @Override
+    public int deleteAchievementFile(int fileID) {
+        return achievementFileMapper.deleteAchievementFile(fileID);
+    }
 }

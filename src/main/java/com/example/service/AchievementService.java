@@ -14,4 +14,9 @@ public interface AchievementService {
     Achievement getAchievementById(int achievementID);
 
     int updateAchievement(Achievement achievement);
+
+    // 删除成果
+    int deleteAchievement(int achievementID);
+
+    int updateAchievementVisibility(int achievementID, int viewStatus);
 }

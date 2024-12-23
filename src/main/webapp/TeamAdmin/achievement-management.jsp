@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -18,25 +19,44 @@
 <body>
 <h1>科研成果管理</h1>
 
+<!-- 定义类别列表 -->
+<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
+
+<!-- 搜索与筛选表单 -->
+<div class="search-filter">
+    <label for="keyword">关键词：</label>
+    <input type="text" id="keyword" placeholder="请输入成果标题关键词">
+
+    <label for="category">类别：</label>
+    <select id="category">
+        <option value="">全部</option>
+        <c:forEach var="cat" items="${categories}">
+            <option value="${cat}">${cat}</option>
+        </c:forEach>
+    </select>
+
+    <label for="startDate">发布日期从：</label>
+    <input type="date" id="startDate">
+
+    <label for="endDate">到：</label>
+    <input type="date" id="endDate">
+
+    <button type="button" id="searchButton">搜索</button>
+    <button type="button" id="resetButton">重置</button>
+</div>
+
 <div class="tabs">
     <a href="javascript:void(0)" id="publishedTab" class="active">已发布的成果</a>
     <a href="javascript:void(0)" id="reviewTab">正在审核的成果</a>
-    <!-- 修改新增成果链接，指向控制器的路径 -->
     <a href="${pageContext.request.contextPath}/TeamAdmin/addAchievement.jsp" style="margin-left:20px;">新增成果</a>
 </div>
-
-<!-- 定义类别列表 -->
-<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
-
-<!-- 定义类别列表 -->
-<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
 
 <!-- 已发布的成果（status=1） -->
 <div id="publishedSection" class="section active">
     <h2>已发布的成果 (status = 1)</h2>
     <c:forEach var="cat" items="${categories}">
         <h3>${cat}</h3>
-        <table border="1" cellpadding="5" cellspacing="0">
+        <table class="achievement-table" data-status="1" data-category="${cat}">
             <thead>
             <tr>
                 <th>成果ID</th>
@@ -47,13 +67,19 @@
                 <th>附件</th>
                 <th>展示图片</th>
                 <th>创建时间</th>
+                <th>公开/隐藏</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="entry" items="${achievementMap}">
                 <c:if test="${entry.key.status == 1 and entry.key.category eq cat}">
-                    <tr>
+                    <tr class="achievement-row"
+                        data-title="${fn:escapeXml(entry.key.title)}"
+                        data-category="${entry.key.category}"
+                        data-creationTime="${entry.key.creationTime}"
+                        data-status="${entry.key.status}">
+
                         <td>${entry.key.achievementID}</td>
                         <td>${entry.key.title}</td>
                         <td>${entry.key.category}</td>
@@ -80,10 +106,19 @@
                                 </c:if>
                             </c:forEach>
                         </td>
-                        <td>${entry.key.creationTime}</td>
+                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+                        <td>
+                                <%-- <c:choose>里面不能加注释--%>
+                            <c:choose>
+                                <c:when test="${entry.key.viewStatus == 1}">公开</c:when>
+                                <c:when test="${entry.key.viewStatus == 0}">隐藏</c:when>
+                                <c:otherwise>未知</c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>
                             <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
                             <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
+                            <button onclick="switchViewStatus(${entry.key.achievementID})">公开/隐藏</button>
                         </td>
                     </tr>
                 </c:if>
@@ -98,7 +133,7 @@
     <h2>正在审核的成果 (status = 0)</h2>
     <c:forEach var="cat" items="${categories}">
         <h3>${cat}</h3>
-        <table border="1" cellpadding="5" cellspacing="0">
+        <table class="achievement-table" data-status="0" data-category="${cat}">
             <thead>
             <tr>
                 <th>成果ID</th>
@@ -109,13 +144,19 @@
                 <th>附件</th>
                 <th>展示图片</th>
                 <th>创建时间</th>
+                <th>审核状态</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="entry" items="${achievementMap}">
                 <c:if test="${entry.key.status == 0 and entry.key.category eq cat}">
-                    <tr>
+                    <tr class="achievement-row"
+                        data-title="${fn:escapeXml(entry.key.title)}"
+                        data-category="${entry.key.category}"
+                        data-creationTime="${entry.key.creationTime}"
+                        data-status="${entry.key.status}">
+
                         <td>${entry.key.achievementID}</td>
                         <td>${entry.key.title}</td>
                         <td>${entry.key.category}</td>
@@ -138,7 +179,15 @@
                                 </c:if>
                             </c:forEach>
                         </td>
-                        <td>${entry.key.creationTime}</td>
+                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+                        <td>
+                                <%-- <c:choose>里面不能加注释--%>
+                            <c:choose>
+                                <c:when test="${entry.key.status == -1}">不通过</c:when>
+                                <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                                <c:otherwise>未知</c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>
                             <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
                             <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>

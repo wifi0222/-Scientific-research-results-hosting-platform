@@ -8,6 +8,20 @@
         SELECT * FROM AchievementFile WHERE achievementID = #{achievementID};
     </select>
 
+    <!-- 查询指定 fileID 的文件 -->
+    <select id="getFilesByfileID" resultType="com.example.model.AchievementFile">
+        SELECT*
+        FROM AchievementFile
+        WHERE fileID = #{fileID};
+    </select>
+
+
+    <!-- 删除指定 fileID 的文件 -->
+    <delete id="deleteAchievementFile" parameterType="int">
+        DELETE FROM AchievementFile
+        WHERE fileID = #{fileID}
+    </delete>
+
     <!-- 根据 achievementID 和 type 插入新的 AchievementFile 记录 -->
     <insert id="insertAchievementFile" parameterType="com.example.model.AchievementFile" useGeneratedKeys="true" keyProperty="fileID">
         INSERT INTO AchievementFile
@@ -15,5 +29,7 @@
         VALUES
             (#{achievementID}, #{type}, #{fileName}, #{filePath}, #{uploadTime});
     </insert>
+
+
 
 </mapper>
