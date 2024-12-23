@@ -23,7 +23,7 @@
         <div class="sidebar">
             <ul>
                 <li><a href="/browse">信息浏览</a></li>
-                <li><a href="/user/profile">个人信息管理</a></li>
+                <li><a href="/user/memberProfile">个人信息</a></li>
                 <li><a href="/user/profile/status" class="active">查询信息修改审核进度</a></li>
 
                 <li><a href="/user/change-password">修改密码</a></li>
