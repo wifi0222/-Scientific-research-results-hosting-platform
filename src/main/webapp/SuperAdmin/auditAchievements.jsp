@@ -11,7 +11,7 @@
 <head>
     <title>内容管理 - 审核科研成果</title>
     <!-- 引入外部CSS文件 -->
-    <link rel="stylesheet" type="text/css" href="../css/achievement-management.css">
+    <link rel="stylesheet" type="text/css" href="../css/auditAchievements.css">
 </head>
 <body>
 <h1>内容管理 - 审核科研成果</h1>
@@ -44,75 +44,89 @@
 
 <!-- 正在审核的成果（status=0） -->
 <div id="reviewSection" class="section active">
-    <h2>正在审核的成果 (status = 0)</h2>
-    <c:forEach var="cat" items="${categories}">
-        <h3>${cat}</h3>
-        <table class="achievement-table" data-status="0" data-category="${cat}">
-            <thead>
-            <tr>
-                <th>成果ID</th>
-                <th>标题</th>
-                <th>类别</th>
-                <th>摘要</th>
-                <th>内容</th>
-                <th>附件</th>
-                <th>展示图片</th>
-                <th>创建时间</th>
-                <th>审核状态</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="entry" items="${auditAchievementMap}">
-                <c:if test="${entry.key.status == 0 and entry.key.category eq cat}">
-                    <tr class="achievement-row"
-                        data-title="${fn:escapeXml(entry.key.title)}"
-                        data-category="${entry.key.category}"
-                        data-creationTime="${entry.key.creationTime}"
-                        data-status="${entry.key.status}">
+    <h2></h2>
+    <h3>${cat}</h3>
+    <table class="achievement-table" data-status="0" data-category="${cat}">
+        <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="selectAllCheckbox"/>
+                全选
+            </th>
+            <th>ID</th>
+            <th>标题</th>
+            <th>类别</th>
+            <th>摘要</th>
+            <th>内容</th>
+<%--            <th>附件</th>--%>
+<%--            <th>展示图片</th>--%>
+            <th>创建时间</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="entry" items="${auditAchievementMap}">
+            <c:if test="${entry.key.status == 0}">
+                <tr class="achievement-row"
+                    data-title="${fn:escapeXml(entry.key.title)}"
+                    data-category="${entry.key.category}"
+                    data-creationTime="${entry.key.creationTime}"
+                    data-status="${entry.key.status}">
 
-                        <td>${entry.key.achievementID}</td>
-                        <td>${entry.key.title}</td>
-                        <td>${entry.key.category}</td>
-                        <td>${entry.key.abstractContent}</td>
-                        <td>${entry.key.contents}</td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 0}">
-                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 1}">
-                                    <c:set var="encodedPath"
-                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />"
-                                         alt="展示图片" width="100"/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${entry.key.status == -1}">不通过</c:when>
-                                <c:when test="${entry.key.status == 0}">正在审核</c:when>
-                                <c:otherwise>未知</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <button onclick="passAchievementReview(${entry.key.achievementID})">通过</button>
-                            <button onclick="rejectAchievementReview(${entry.key.achievementID})">拒绝</button>
-                        </td>
-                    </tr>
-                </c:if>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:forEach>
+                    <td>
+                        <input type="checkbox"
+                               class="rowCheckbox"
+                               name="selectedRows"
+                               value="${entry.key.achievementID}">
+                    </td>
+                    <td>${entry.key.achievementID}</td>
+                    <td>${entry.key.title}</td>
+                    <td>${entry.key.category}</td>
+                    <td>${entry.key.abstractContent}</td>
+                    <td>${entry.key.contents}</td>
+<%--                    <td>--%>
+<%--                        <c:forEach var="file" items="${entry.value}">--%>
+<%--                            <c:if test="${file.type == 0}">--%>
+<%--                                <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
+<%--                            </c:if>--%>
+<%--                        </c:forEach>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        <c:forEach var="file" items="${entry.value}">--%>
+<%--                            <c:if test="${file.type == 1}">--%>
+<%--                                <c:set var="encodedPath"--%>
+<%--                                       value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
+<%--                                <img src="<c:url value='/getImage?filePath=${encodedPath}' />"--%>
+<%--                                     alt="展示图片" width="100"/>--%>
+<%--                            </c:if>--%>
+<%--                        </c:forEach>--%>
+<%--                    </td>--%>
+                    <td>
+                        <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${entry.key.status == -1}">不通过</c:when>
+                            <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                            <c:otherwise>未知</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <button class="btn-preview" onclick="previewAchievement(${entry.key.achievementID})">预览</button>
+                        <button class="btn-pass" onclick="passAchievementReview(${entry.key.achievementID})">通过</button>
+                        <button class="btn-reject" onclick="rejectAchievementReview(${entry.key.achievementID})">拒绝</button>
+                    </td>
+                </tr>
+            </c:if>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 10px;">
+        <button type="button" id="batchPassButton">通过</button>
+    </div>
+
 </div>
 
 <!-- 引入外部JS文件 -->

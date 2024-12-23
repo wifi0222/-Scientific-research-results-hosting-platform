@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// 通过审核
 function passAchievementReview(id) {
     if (!confirm('确定通过审核吗？')) {
         return;
@@ -97,10 +98,7 @@ function passAchievementReview(id) {
     window.location.href = passUrl;
 }
 
-/**
- * 拒绝审核
- * @param {number} id - 成果ID
- */
+// 拒绝审核
 function rejectAchievementReview(id) {
     if (!confirm('确定拒绝此成果吗？')) {
         return;
@@ -109,3 +107,47 @@ function rejectAchievementReview(id) {
 
     window.location.href = passUrl;
 }
+
+// 预览审核
+function previewAchievement(id) {
+
+    var passUrl = '/SuperController/auditAchievements/preview?id=' + id;
+
+    window.location.href = passUrl;
+}
+
+// 全选/取消全选
+const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+selectAllCheckbox.addEventListener('change', function () {
+    const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+    rowCheckboxes.forEach(function (checkbox) {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+});
+
+// 批量通过选中行
+const batchPassButton = document.getElementById('batchPassButton');
+batchPassButton.addEventListener('click', function () {
+    const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+    const selectedIds = [];
+    rowCheckboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            selectedIds.push(checkbox.value);
+        }
+    });
+
+    if (selectedIds.length === 0) {
+        alert("请先勾选要通过的成果！");
+        return;
+    }
+
+    // 这里根据你的后端实现方式，可通过 AJAX、表单提交等方式将 selectedIds 传到后端
+    // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
+    // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
+
+    selectedIds.forEach(function (id) {
+        passAchievementReview(id);
+    });
+});
+
+
