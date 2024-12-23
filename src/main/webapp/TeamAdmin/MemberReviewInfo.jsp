@@ -216,11 +216,11 @@
 <%--                                <br>--%>
 <%--                                <a href="javascript:void(0);" onclick="rejectReview(${review.memberID})" >不通过</a>--%>
                                 <button class="btn-pass" onclick="approveReview(${review.memberID})">
-                                    <span>通过</span>
+                                    <i class="fas fa-edit"></i><span>通过</span>
                                 </button>
 
                                 <button class="btn-reject" onclick="rejectReview(${review.memberID})">
-                                    <span>拒绝</span>
+                                    <i class="fas fa-edit"></i><span>拒绝</span>
                                 </button>
                             </td>
                         </tr>

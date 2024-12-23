@@ -1,5 +1,5 @@
 /* ======== 表格整体 & 列宽固定，并启用省略号 ======== */
-.styled-table{
+.styled-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* 关键：固定布局，结合每列 width 生效 */
@@ -12,8 +12,9 @@
 
 /* 头部背景、字体颜色 */
 .styled-table thead tr {
-    background-color: #4e73df;
-    color: #ffffff;
+    background-color: #4e73df; /* 蓝色背景 */
+    color: #ffffff; /* 白色字体 */
+    font-weight: bold; /* 字体加粗 */
 }
 
 /* 统一设置表头和单元格的内边距和边框 */
@@ -25,7 +26,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
     /* 设置为居中显示 */
     text-align: center;
 }
@@ -34,67 +34,64 @@
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
     width: 50px;  /* 选择框列 */
-    background-color: mediumpurple; /* 你也可以换成其他颜色 */
+    /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
 }
 
 /* 第2列：用户ID */
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
     width: 50px;
-    background-color: #2e59d9;
+    /*background-color: #2e59d9;*/
 }
 
 /* 第3列：用户名 */
 .styled-table th:nth-child(3),
 .styled-table td:nth-child(3) {
     width: 60px;
-    background-color: #3e8e41;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第4列：姓名*/
 .styled-table th:nth-child(4),
 .styled-table td:nth-child(4) {
     width: 60px;
-    background-color: #333333;
+    /*background-color: #333333;*/
 }
-
 
 /* 第5列：邮箱*/
 .styled-table th:nth-child(5),
 .styled-table td:nth-child(5) {
     width: 80px; /* 摘要列 */
-    background-color: darkorange;
+    /*background-color: darkorange;*/
 }
 
 /* 第6列：管理团队 */
 .styled-table th:nth-child(6),
 .styled-table td:nth-child(6) {
     width: 60px; /* 摘要列 */
-    background-color: yellowgreen;
+    /*background-color: yellowgreen;*/
 }
 
 /* 第7列：注册时间 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
     width: 60px; /* 摘要列 */
-    background-color: yellowgreen;
+    /*background-color: yellowgreen;*/
 }
 
 /* 第8列：账号状态 */
 .styled-table th:nth-child(8),
 .styled-table td:nth-child(8) {
     width: 60px; /* 摘要列 */
-    background-color: darksalmon;
+    /*background-color: darksalmon;*/
 }
-
 
 /* 第9列：操作 */
 .styled-table th:nth-child(9),
 .styled-table td:nth-child(9) {
     width: 100px; /* 摘要列 */
-    background-color: #bee5eb;
+    /*background-color: #bee5eb;*/
 }
-
 
 /* 隔行变色 */
 .styled-table tbody tr:nth-of-type(even) {
@@ -204,4 +201,3 @@
     cursor: pointer;
     font-weight: bold;
 }
-

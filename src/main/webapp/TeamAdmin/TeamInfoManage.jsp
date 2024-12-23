@@ -21,54 +21,92 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <style>
         h1 {
-            text-align: center;
-            color: #4e73df;
-            margin-bottom: 20px;
-        }
-
-        /*form {*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    gap: 20px;*/
-        /*}*/
-
-        label {
-            font-size: 16px;
+            font-size: 24px;
+            font-weight: 600;
             color: #333;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        input[type="text"], input[type="date"] {
-            padding: 8px;
+        /* 表单样式 */
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        form div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        form input[type="text"],
+        form input[type="date"] {
+            padding: 10px;
             font-size: 14px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            outline: none;
             width: 100%;
             box-sizing: border-box;
         }
 
-        input[type="text"]:focus, input[type="date"]:focus {
-            border-color: #4e73df;
-            box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
+        form input[type="text"]:focus,
+        form input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
-        input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 16px;
+        form .readonly {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        /* 提交按钮样式 */
+        form input[type="submit"] {
+            background-color: #007bff;
             color: white;
-            background-color: #4e73df;
+            font-size: 16px;
+            padding: 12px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
-        input[type="submit"]:hover {
-            background-color: #2e59d9;
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
         }
 
-        .readonly {
-            background-color: #f1f1f1;
+        /* 使表单更加响应式 */
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+
+            .section {
+                width: 100%;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            form label {
+                font-size: 14px;
+            }
+
+            form input[type="submit"] {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
         }
 
     </style>

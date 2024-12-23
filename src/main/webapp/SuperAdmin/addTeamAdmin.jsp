@@ -42,12 +42,13 @@
     <div class="content">
         <div class="main">
             <div class="section">
+
+                <button class="back-btn">
+                    <a href="/SuperController/UserManagement">返回用户管理</a>
+                </button>
+
                 <form action="/SuperController/TeamAdminManage/add" method="get">
                     <h2>管理员添加</h2>
-
-                    <button class="back-btn">
-                        <a href="/SuperController/UserManagement">返回用户管理</a>
-                    </button>
 
                     <div class="form-group">
                         <label for="username">账号：</label>
@@ -68,6 +69,8 @@
                             </c:forEach>
                         </select>
                     </div>
+
+                    <input type="submit" value="提交" class="btn-submit"/>
 
                 </form>
             </div>

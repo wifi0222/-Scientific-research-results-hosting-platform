@@ -127,10 +127,6 @@
             transform: translateY(-50%); /* 垂直居中 */
             transition: transform 0.3s ease-in-out; /* 平滑过渡 */
         }
-
-
-
-
     </style>
 </head>
 <body>

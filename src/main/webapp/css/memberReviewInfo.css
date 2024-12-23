@@ -1,5 +1,5 @@
 /* ======== 表格整体 & 列宽固定，并启用省略号 ======== */
-.styled-table{
+.styled-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* 关键：固定布局，结合每列 width 生效 */
@@ -12,8 +12,9 @@
 
 /* 头部背景、字体颜色 */
 .styled-table thead tr {
-    background-color: #4e73df;
-    color: #ffffff;
+    background-color: #4e73df; /* 蓝色背景 */
+    color: #ffffff; /* 白色字体 */
+    font-weight: bold; /* 字体加粗 */
 }
 
 /* 统一设置表头和单元格的内边距和边框 */
@@ -25,7 +26,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
     /* 设置为居中显示 */
     text-align: center;
 }
@@ -34,56 +34,56 @@
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
     width: 60px;  /* 选择框列 */
-    background-color: mediumpurple; /* 你也可以换成其他颜色 */
+    /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
 }
 
 /* 第2列：用户ID */
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
     width: 60px;
-    background-color: #2e59d9;
+    /*background-color: #2e59d9;*/
 }
 
 /* 第3列：姓名 */
 .styled-table th:nth-child(3),
 .styled-table td:nth-child(3) {
     width: 80px;
-    background-color: #3e8e41;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第4列：研究方向*/
 .styled-table th:nth-child(4),
 .styled-table td:nth-child(4) {
     width: 160px;
-    background-color: #333333;
+    /*background-color: #333333;*/
 }
 
 /* 第5列：联系方式 */
 .styled-table th:nth-child(5),
 .styled-table td:nth-child(5) {
     width: 150px; /* 摘要列 */
-    background-color: #3e8e41;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第6列：学术背景 */
 .styled-table th:nth-child(6),
 .styled-table td:nth-child(6) {
     width: 200px; /* 内容列 */
-    background-color: #007bff;
+    /*background-color: #007bff;*/
 }
 
 /* 第7列：科研成果 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
     width: 110px; /* 创建时间列 */
-    background-color: #4a4a4a;
+    /*background-color: #4a4a4a;*/
 }
 
 /* 第8列：审核操作 */
 .styled-table th:nth-child(8),
 .styled-table td:nth-child(8) {
     width: 60px;  /* 审核状态列 */
-    background-color: #007bff;
+    /*background-color: #007bff;*/
 }
 
 

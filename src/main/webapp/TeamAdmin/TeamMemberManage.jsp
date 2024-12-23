@@ -29,6 +29,49 @@
             }
         };
     </script>
+
+    <style>
+            /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-add {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-add:hover {
+            background-color: darkgreen;
+        }
+
+        .btn-add i {
+            margin-right: 8px;
+        }
+
+        .btn-edit{
+            background-color: #ff9800; /* 橙色 */
+            font-weight: bold;
+            color: #fff;
+            border: none; /* 去除边框 */
+            outline: none; /* 去除按钮聚焦时的边框 */
+        }
+
+        .btn-edit:hover{
+            background-color: #e68a00;
+        }
+    </style>
 </head>
 
 <body>
@@ -140,16 +183,18 @@
                             <td>${member.researchField}</td>
                             <td>${member.contactInfo}</td>
                             <td>
-                                <form action="/teamAdmin/ToChangeTeamMember" method="get">
-                                    <input type="hidden" name="userID" value="${member.userID}">
-                                    <input type="submit" value="编辑" class="edit-button">
-                                </form>
+                                <button class="btn-edit" onclick="window.location.href='/teamAdmin/ToChangeTeamMember?userID=${member.userID}'">
+                                    <i class="fas fa-edit"></i> 编辑
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="/TeamAdmin/addTeamMember.jsp" class="add-member">添加新团队成员</a>
+
+                    <button onclick="window.location.href='/TeamAdmin/addTeamMember.jsp'" class="btn btn-add">
+                        <i class="fas fa-plus-circle"></i>添加新团队成员
+                    </button>
             </div>
             </div>
         </div>

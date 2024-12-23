@@ -44,6 +44,28 @@
             margin-right: 5px;
         }
 
+        /* 编辑按钮样式 */
+        .btn-edit {
+            background-color: #4e73df;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-edit i {
+            margin-right: 8px;
+        }
+
+        .btn-edit:hover {
+            background-color: #3578f3;
+        }
+
     </style>
 </head>
 <body>
@@ -73,13 +95,10 @@
             <div class="section">
 
                 <h1>超级用户权限管理</h1>
-
-                <%-- 提示信息 --%>
-                <c:if test="${not empty message}">
-                    <div class="alert alert-info">${message}</div>
-                </c:if>
-
-
+<%--                &lt;%&ndash; 提示信息 &ndash;%&gt;--%>
+<%--                <c:if test="${not empty message}">--%>
+<%--                    <div class="alert alert-info">${message}</div>--%>
+<%--                </c:if>--%>
                 <!-- 权限管理表格 -->
                 <table class="styled-table">
                     <thead>
@@ -116,9 +135,12 @@
                                         </span>
                             </td>
                             <td>
-                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">
-                                    <i class="fas fa-edit"></i> 编辑权限
-                                </a>
+<%--                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">--%>
+<%--                                    <i class="fas fa-edit"></i> 编辑权限--%>
+<%--                                </a>--%>
+                                    <button onclick="window.location.href='/SuperController/ToEditTA?adminID=${teamAdmin.adminID}'" class="btn-edit">
+                                        <i class="fas fa-edit"></i> 编辑权限
+                                    </button>
                             </td>
                         </tr>
                     </c:forEach>

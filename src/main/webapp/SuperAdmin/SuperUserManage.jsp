@@ -66,6 +66,38 @@
             }, 300);
         }
     </script>
+
+    <style>
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-add {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-add:hover {
+            background-color: darkgreen;
+        }
+
+        .btn-add i {
+            margin-right: 8px;
+        }
+
+    </style>
 </head>
 <body>
 <div class="container">
@@ -92,13 +124,16 @@
     <div class="content">
         <div class="main">
             <div class="section">
+                <!-- 如果存在error属性，显示弹窗提示 -->
+                <div th:if="${AddTeamAdminRemind}" th:text="${AddTeamAdminRemind}" class="alert alert-error"></div>
 
+                <h1 class="page-title">团队管理员列表</h1>
                 <!-- 搜索与筛选表单 -->
                 <div class="search-filter">
                     <label for="keyword">姓名：</label>
                     <input type="text" id="keyword" placeholder="请输入姓名">
 
-                    <label for="startDate">申请时间从：</label>
+                    <label for="startDate">注册时间从：</label>
                     <input type="date" id="startDate">
 
                     <label for="endDate">到：</label>
@@ -108,16 +143,6 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
 
-                <%-- 展示团队管理员列表 --%>
-                <c:if test="${not empty message}">
-                    <div class="alert alert-info">${message}</div>
-                </c:if>
-
-                <!-- 如果存在error属性，显示弹窗提示 -->
-                <div th:if="${AddTeamAdminRemind}" th:text="${AddTeamAdminRemind}" class="alert alert-error"></div>
-
-                <h1 class="page-title">团队管理员</h1>
-                <div class="section">
                     <table class="styled-table">
                         <thead>
                         <tr>
@@ -160,23 +185,36 @@
                                         <c:when test="${user.status == 0}">禁用</c:when>
                                     </c:choose>
                                 </td>
+<%--                                <td>--%>
+<%--                                    <div class="action-links">--%>
+<%--                                        <a href="/SuperController/ToChangeTeamAdmin?userID=${user.userID}" class="btn-preview">--%>
+<%--                                            <i class="fas fa-edit"></i> 编辑--%>
+<%--                                        </a>--%>
+<%--                                        <a href="javascript:void(0);" onclick="confirmDelete(${user.userID})" class="btn-reject">--%>
+<%--                                            <i class="fas fa-trash-alt"></i> 删除--%>
+<%--                                        </a>--%>
+<%--                                    </div>--%>
+<%--                                </td>--%>
                                 <td>
                                     <div class="action-links">
-                                        <a href="/SuperController/ToChangeTeamAdmin?userID=${user.userID}" class="btn-preview">
+                                        <button onclick="window.location.href='/SuperController/ToChangeTeamAdmin?userID=${user.userID}'" class="btn-preview">
                                             <i class="fas fa-edit"></i> 编辑
-                                        </a>
-                                        <a href="javascript:void(0);" onclick="confirmDelete(${user.userID})" class="btn-reject">
+                                        </button>
+
+                                        <button onclick="confirmDelete(${user.userID})" class="btn-reject">
                                             <i class="fas fa-trash-alt"></i> 删除
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
-                </div>
 
-                <a href="/SuperController/ToAddTeamAdmin" class="btn btn-add">添加团队管理员</a>
+                <button onclick="window.location.href='/SuperController/ToAddTeamAdmin'" class="btn btn-add">
+                    <i class="fas fa-plus-circle"></i> 添加团队管理员
+                </button>
+
             </div>
         </div>
     </div>
