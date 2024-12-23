@@ -11,73 +11,106 @@
 <html>
 <head>
     <title>修改团队管理员的信息</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/Inputform.css">
 </head>
 <body>
-    <form action="/SuperController/TeamAdminManage/edit" method="GET">
-            <div>
-                用户ID(无法修改)：<input type="text" name="userID" value="${user.userID}" readonly>
-            </div>
-            <div>
-                用户名（无法修改)：<input type="text" name="username" value="${user.username}" readonly>
-            </div>
-            <div>
-                密码：<input type="text" name="password" value="${user.password}">
-            </div>
+<div class="container">
+    <div class="sidebar">
+        <c:choose>
+            <c:when test="${userRoleType == 'SuperAdmin'}">
+                <ul>
+                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                    <li><a href="/user/checkReply">内容审核</a></li>
+                </ul>
+                <div class="logout">
+                    <a href="/user/logout">退出登录</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <ul>
+                    <li><a href="/login.jsp">登录</a></li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
-            <!-- 角色类型单选框 -->
-            <div>
-                角色类型：
-                <input type="radio" id="roleTypeTeamAdmin" name="roleType" value="TeamAdmin" ${user.roleType == 'TeamAdmin' ? 'checked' : ''}>
-                <label for="roleTypeTeamAdmin">团队管理员</label>
+    <div class="content">
+        <div class="main">
+            <div class="section">
+                <form action="/SuperController/TeamAdminManage/edit" method="GET">
+                        <div>
+                            用户ID(无法修改)：<input type="text" name="userID" value="${user.userID}" readonly>
+                        </div>
+                        <div>
+                            用户名（无法修改)：<input type="text" name="username" value="${user.username}" readonly>
+                        </div>
+                        <div>
+                            密码：<input type="text" name="password" value="${user.password}">
+                        </div>
 
-                <input type="radio" id="roleTypeTeamMember" name="roleType" value="TeamMember" ${user.roleType == 'TeamMember' ? 'checked' : ''}>
-                <label for="roleTypeTeamMember">团队成员</label>
+                        <!-- 角色类型单选框 -->
+                        <div>
+                            角色类型：
+                            <input type="radio" id="roleTypeTeamAdmin" name="roleType" value="TeamAdmin" ${user.roleType == 'TeamAdmin' ? 'checked' : ''}>
+                            <label for="roleTypeTeamAdmin">团队管理员</label>
 
-                <input type="radio" id="roleTypeVisitor" name="roleType" value="Visitor" ${user.roleType == 'Visitor' ? 'checked' : ''}>
-                <label for="roleTypeVisitor">普通用户</label>
-            </div>
+                            <input type="radio" id="roleTypeTeamMember" name="roleType" value="TeamMember" ${user.roleType == 'TeamMember' ? 'checked' : ''}>
+                            <label for="roleTypeTeamMember">团队成员</label>
 
-            <div>
-                邮箱：
-                <input type="text" id="email" name="email" value="${user.email}">
-                <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span>
-            </div>
+                            <input type="radio" id="roleTypeVisitor" name="roleType" value="Visitor" ${user.roleType == 'Visitor' ? 'checked' : ''}>
+                            <label for="roleTypeVisitor">普通用户</label>
+                        </div>
 
-            <div>
-                <label for="registrationTime">注册时间（无法修改）：
-                    <input type="text" id="registrationTime" name="registrationTime"
-                           value="${user.registrationTime}" readonly />
-                </label>
-            </div>
+                        <div>
+                            邮箱：
+                            <input type="text" id="email" name="email" value="${user.email}">
+                            <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span>
+                        </div>
 
-            <!-- 账号状态单选框 -->
-            <div>
-                账号状态：
-                <input type="radio" id="statusActive" name="status" value="1" ${user.status == 1 ? 'checked' : ''}>
-                <label for="statusActive">正常使用</label>
+                        <div>
+                            <label for="registrationTime">注册时间（无法修改）：
+                                <input type="text" id="registrationTime" name="registrationTime"
+                                       value="${user.registrationTime}" readonly />
+                            </label>
+                        </div>
 
-                <input type="radio" id="statusInactive" name="status" value="0" ${user.status == 0 ? 'checked' : ''}>
-                <label for="statusInactive">禁用</label>
-            </div>
+                        <!-- 账号状态单选框 -->
+                        <div>
+                            账号状态：
+                            <input type="radio" id="statusActive" name="status" value="1" ${user.status == 1 ? 'checked' : ''}>
+                            <label for="statusActive">正常使用</label>
 
-            <div>
-                姓名：<input type="text" name="name" value="${user.name}">
-            </div>
-            <div>
-                研究方向：<input type="text" name="researchField" value="${user.researchField}">
-            </div>
-            <div>
-                联系方式：<input type="text" name="contactInfo" value="${user.contactInfo}">
-            </div>
-            <div>
-                科研成果：<input type="text" name="researchAchievements" value="${user.researchAchievements}">
-            </div>
-            <div>
-                学术背景：<input type="text" name="academicBackground" value="${user.academicBackground}">
-            </div>
+                            <input type="radio" id="statusInactive" name="status" value="0" ${user.status == 0 ? 'checked' : ''}>
+                            <label for="statusInactive">禁用</label>
+                        </div>
 
-            <input type="submit" value="提交">
-    </form>
+                        <div>
+                            姓名：<input type="text" name="name" value="${user.name}">
+                        </div>
+                        <div>
+                            研究方向：<input type="text" name="researchField" value="${user.researchField}">
+                        </div>
+                        <div>
+                            联系方式：<input type="text" name="contactInfo" value="${user.contactInfo}">
+                        </div>
+
+                        <div>
+                            学术背景：<input type="text" name="academicBackground" value="${user.academicBackground}">
+                        </div>
+
+                        <div>
+                            科研成果：<input type="text" name="researchAchievements" value="${user.researchAchievements}">
+                        </div>
+
+                        <input type="submit" value="提交">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
         // 获取邮箱输入框和提示信息元素
         var emailInput = document.getElementById('email');

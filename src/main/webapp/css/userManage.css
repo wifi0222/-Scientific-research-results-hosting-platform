@@ -1,0 +1,213 @@
+/* ======== 表格整体 & 列宽固定，并启用省略号 ======== */
+.styled-table{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* 关键：固定布局，结合每列 width 生效 */
+    margin-top: 10px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 头部背景、字体颜色 */
+.styled-table thead tr {
+    background-color: #4e73df;
+    color: #ffffff;
+}
+
+/* 统一设置表头和单元格的内边距和边框 */
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dddddd;
+    /* 使文本不会换行，并能出现省略号 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* 设置为居中显示 */
+    text-align: center;
+}
+
+/* 新增第1列：选择框 */
+.styled-table th:nth-child(1),
+.styled-table td:nth-child(1) {
+    width: 50px;  /* 选择框列 */
+    background-color: mediumpurple; /* 你也可以换成其他颜色 */
+}
+
+/* 第2列：用户ID */
+.styled-table th:nth-child(2),
+.styled-table td:nth-child(2) {
+    width: 50px;
+    background-color: #2e59d9;
+}
+
+/* 第3列：用户名 */
+.styled-table th:nth-child(3),
+.styled-table td:nth-child(3) {
+    width: 60px;
+    background-color: #3e8e41;
+}
+
+/* 第4列：姓名*/
+.styled-table th:nth-child(4),
+.styled-table td:nth-child(4) {
+    width: 60px;
+    background-color: #333333;
+}
+
+/* 第5列：角色 */
+.styled-table th:nth-child(5),
+.styled-table td:nth-child(5) {
+    width: 70px; /* 摘要列 */
+    background-color: #3e8e41;
+}
+
+/* 第6列：邮箱*/
+.styled-table th:nth-child(6),
+.styled-table td:nth-child(6) {
+    width: 80px; /* 摘要列 */
+    background-color: darkorange;
+}
+
+/* 第7列：注册时间 */
+.styled-table th:nth-child(7),
+.styled-table td:nth-child(7) {
+    width: 60px; /* 摘要列 */
+    background-color: yellowgreen;
+}
+
+/* 第8列：账号状态 */
+.styled-table th:nth-child(8),
+.styled-table td:nth-child(8) {
+    width: 60px; /* 摘要列 */
+    background-color: darksalmon;
+}
+
+/* 第9列：联系方式 */
+.styled-table th:nth-child(9),
+.styled-table td:nth-child(9) {
+    width: 60px; /* 摘要列 */
+    background-color: khaki;
+}
+
+/* 第10列：操作 */
+.styled-table th:nth-child(10),
+.styled-table td:nth-child(10) {
+    width: 100px; /* 摘要列 */
+    background-color: #bee5eb;
+}
+
+
+
+/* 隔行变色 */
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+/* 鼠标悬停高亮 */
+.styled-table tbody tr:hover {
+    background-color: #eaf4fc;
+}
+
+/* ======== 操作按钮，颜色区分 ======== */
+.one-row td button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* 不同按钮不同颜色，你可按需改色 */
+.btn-preview {
+    background-color: #ff9800; /* 橙色 */
+    color: #fff;
+}
+.btn-preview:hover {
+    background-color: #e68a00;
+}
+
+.btn-pass {
+    background-color: #4caf50; /* 绿色 */
+    color: #fff;
+}
+.btn-pass:hover {
+    background-color: #3e8e41;
+}
+
+.btn-reject {
+    background-color: #f44336; /* 红色 */
+    color: #fff;
+}
+.btn-reject:hover {
+    background-color: #e53935;
+}
+
+/* ======== 搜索与筛选区域，与之前类似，可酌情再做微调 ======== */
+.search-filter {
+    display: flex;
+    flex-wrap: wrap; /* 当空间不足时换行 */
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.search-filter label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+.search-filter input[type="text"],
+.search-filter input[type="date"],
+.search-filter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+.search-filter button {
+    background-color: #4e73df;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.search-filter button:hover {
+    background-color: #355db3;
+}
+
+/* ======== 审核区块本身（.section） ======== */
+.section {
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.section h2 {
+    color: #4e73df;
+    margin-top: 0;
+}
+.section.active {
+    border: 2px solid #4e73df;
+}
+
+.batch-button{
+    padding: 6px 12px;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+

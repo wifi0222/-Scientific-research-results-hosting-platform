@@ -1,0 +1,106 @@
+
+/* 输入框样式 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 按钮样式 */
+input[type="submit"], .btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+input[type="submit"]:hover, .btn:hover {
+    background-color: #0056b3;
+}
+
+/* 返回按钮 */
+.btn-secondary {
+    background-color: #6c757d;
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* 表单按钮容器 */
+.form-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 按钮样式 */
+.back-btn {
+    background-color: #4e73df; /* 按钮背景色 */
+    border: none;
+    border-radius: 5px; /* 圆角边框 */
+    padding: 12px 20px;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    position: relative; /* 相对定位，为了放置箭头 */
+}
+
+.back-btn a{
+    font-size: 16px;
+    color: white;
+    text-align: center;
+}
+
+/* 按钮悬停时 */
+.back-btn:hover {
+    background-color: #355db3; /* 悬停时背景色 */
+    transform: translateX(5px); /* 向右移动 */
+}
+
+/* 在悬停时显示箭头 */
+.back-btn:hover::after {
+    font-size: 20px;
+    margin-left: 10px; /* 箭头和文字之间的间距 */
+    position: absolute;
+    right: -25px; /* 箭头位于按钮的右侧 */
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+    transition: transform 0.3s ease-in-out; /* 平滑过渡 */
+}
+
+/* 自适应 */
+@media (max-width: 768px) {
+    .main {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .section {
+        padding: 20px;
+    }
+}

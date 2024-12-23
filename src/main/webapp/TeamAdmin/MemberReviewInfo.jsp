@@ -212,16 +212,23 @@
                             <td>${review.academicBackground}</td>
                             <td>${review.researchAchievements}</td>
                             <td>
-                                <a href="javascript:void(0);" onclick="approveReview(${review.memberID})" >通过</a>
-                                <br>
-                                <a href="javascript:void(0);" onclick="rejectReview(${review.memberID})" >不通过</a>
+<%--                                <a href="javascript:void(0);" onclick="approveReview(${review.memberID})" >通过</a>--%>
+<%--                                <br>--%>
+<%--                                <a href="javascript:void(0);" onclick="rejectReview(${review.memberID})" >不通过</a>--%>
+                                <button class="btn-pass" onclick="approveReview(${review.memberID})">
+                                    <span>通过</span>
+                                </button>
+
+                                <button class="btn-reject" onclick="rejectReview(${review.memberID})">
+                                    <span>拒绝</span>
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
 
-                <div class="batch-button">
+                <div class="btn-pass">
                     <button type="button" id="batchPassButton">批量通过</button>
                 </div>
             </div>

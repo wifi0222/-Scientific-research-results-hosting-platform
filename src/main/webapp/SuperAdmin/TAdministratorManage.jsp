@@ -14,163 +14,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>超级用户进行权限管理</title>
-
-    <!-- 引入一些基础样式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/superuserManage.css">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 80%;
-            margin: 50px auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #4e73df;
-            margin-bottom: 30px;
-        }
-
-        /* 表格样式 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4e73df;
-            color: white;
-        }
-
-        td {
-            border-top: 1px solid #f1f1f1;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* 权限列的显示 */
-        .permission {
-            text-align: center;
+        /* 权限状态的颜色和图标 */
+        .has {
+            color: #28a745;
             font-weight: bold;
         }
 
-        .permission span {
-            padding: 4px 8px;
-            border-radius: 5px;
-        }
-
-        .permission .has {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .permission .no {
-            background-color: #e74a3b;
-            color: white;
-        }
-
-        /* 编辑按钮 */
-        a.btn-edit {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 5px;
-            color: #fff;
-            background-color: #4e73df;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        a.btn-edit:hover {
-            background-color: #2e59d9;
-        }
-
-        /* 警告框样式 */
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+        .no {
+            color: #dc3545;
             font-weight: bold;
-            text-align: center;
         }
 
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+        .has::before {
+            content: "\f00c"; /* FontAwesome check icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 5px;
+        }
+
+        .no::before {
+            content: "\f00d"; /* FontAwesome times icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 5px;
         }
 
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>超级用户权限管理</h1>
+    <div class="sidebar">
+        <c:choose>
+            <c:when test="${userRoleType == 'SuperAdmin'}">
+                <ul>
+                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                    <li><a href="/user/checkReply">内容审核</a></li>
+                </ul>
+                <div class="logout">
+                    <a href="/user/logout">退出登录</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <ul>
+                    <li><a href="/login.jsp">登录</a></li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
-    <%-- 提示信息 --%>
-    <c:if test="${not empty message}">
-        <div class="alert alert-info">${message}</div>
-    </c:if>
+    <div class="content">
+        <div class="main">
+            <div class="section">
 
-    <!-- 权限管理表格 -->
-    <table>
-        <thead>
-        <tr>
-            <th>用户ID</th>
-            <th>用户名</th>
-            <th>管理员姓名</th>
-            <th>发布权限</th>
-            <th>用户权限</th>
-            <th>删除权限</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${teamAdministrators}" var="teamAdmin">
-            <tr>
-                <td>${teamAdmin.adminID}</td>
-                <td>${teamAdmin.adminUsername}</td>
-                <td>${teamAdmin.adminName}</td>
-                <td class="permission">
-                            <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
-                                    ${teamAdmin.publishPermission ? '有权限' : '无权限'}
-                            </span>
-                </td>
-                <td class="permission">
-                            <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
-                                    ${teamAdmin.userPermission ? '有权限' : '无权限'}
-                            </span>
-                </td>
-                <td class="permission">
-                            <span class="${teamAdmin.deletePermission ? 'has' : 'no'}">
-                                    ${teamAdmin.deletePermission ? '有权限' : '无权限'}
-                            </span>
-                </td>
-                <td>
-                    <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">
-                        <i class="fas fa-edit"></i> 编辑权限
-                    </a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+                <h1>超级用户权限管理</h1>
+
+                <%-- 提示信息 --%>
+                <c:if test="${not empty message}">
+                    <div class="alert alert-info">${message}</div>
+                </c:if>
+
+
+                <!-- 权限管理表格 -->
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>用户名</th>
+                        <th>管理员姓名</th>
+                        <th>发布权限</th>
+                        <th>用户权限</th>
+                        <th>删除权限</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${teamAdministrators}" var="teamAdmin">
+                        <tr class="one-row"
+                            data-name="${teamAdmin.adminName}">
+                            <td>${teamAdmin.adminID}</td>
+                            <td>${teamAdmin.adminUsername}</td>
+                            <td>${teamAdmin.adminName}</td>
+                            <td class="permission">
+                                        <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
+                                                ${teamAdmin.publishPermission ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td class="permission">
+                                        <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
+                                                ${teamAdmin.userPermission ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td class="permission">
+                                        <span class="${teamAdmin.deletePermission ? 'has' : 'no'}">
+                                                ${teamAdmin.deletePermission ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td>
+                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">
+                                    <i class="fas fa-edit"></i> 编辑权限
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 <script>
     // 检查信息并弹出提示框
