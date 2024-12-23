@@ -211,42 +211,6 @@ footer {
     display: block;
 }
 
-/* 表格样式 */
-.styled-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 25px 0;
-    font-size: 16px;
-    text-align: left;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.styled-table thead tr {
-    background-color: #4e73df;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-}
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.styled-table tbody tr:hover {
-    background-color: #eaf4fc;
-}
-
 .edit-button {
     padding: 6px 12px;
     background-color: #4e73df;
