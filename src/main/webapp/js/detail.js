@@ -29,3 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 });
+
+// 检查是否直接访问，或者浏览历史长度
+function goBack() {
+    if (document.referrer && document.referrer !== "") {
+        // 如果有来源页，返回到上一页
+        window.history.back();
+    } else {
+        // 如果没有来源页（直接访问），跳转到默认页面
+        window.location.href = '/browse';  // 或者你希望跳转的其他默认页面
+    }
+}

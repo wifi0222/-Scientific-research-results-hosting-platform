@@ -176,12 +176,59 @@
 </head>
 <body>
 <div class="container">
-    <!-- 页面标题 -->
-    <div class="page-title">成员详情</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="title">
+            <a href="/browse">
+                <h1>信息浏览</h1>
+            </a>
+        </div>
+        <c:choose>
+            <c:when test="${empty user}">
+                <div class="login-btn">
+                    <a href="/login.jsp" class="btn-submit">登录</a>
+                </div>
+            </c:when>
+        </c:choose>
+    </header>
 
     <div class="content">
+        <!-- 左侧边栏 -->
+        <c:if test="${not empty user}">
+            <div class="sidebar">
+                <c:choose>
+                    <c:when test="${userRoleType == 'TeamMember'}">
+                        <ul>
+                            <li><a href="/browse" class="active">信息浏览</a></li>
+                            <li><a href="/user/memberProfile">个人信息</a></li>
+                            <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
+                            <li><a href="/user/change-password">修改密码</a></li>
+                            <li><a href="/user/deactivate">账号注销</a></li>
+                            <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+                        </ul>
+                        <div class="logout">
+                            <a href="/user/logout">退出登录</a>
+                        </div>
+                    </c:when>
+                    <c:when test="${userRoleType == 'Visitor'}">
+                        <ul>
+                            <li><a href="/browse" class="active">信息浏览</a></li>
+                            <li><a href="/user/askQuestion">用户互动</a></li>
+                            <li><a href="/user/checkReply">我的反馈</a></li>
+                            <li><a href="/user/change-password">修改密码</a></li>
+                            <li><a href="/user/deactivate">账号注销</a></li>
+                            <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+                        </ul>
+                        <div class="logout">
+                            <a href="/user/logout">退出登录</a>
+                        </div>
+                    </c:when>
+                </c:choose>
+            </div>
+        </c:if>
         <!-- Main Content -->
         <div class="main">
+            <div class="page-title">个人详情</div>
             <!-- 头部个人信息展示 -->
             <c:if test="${not empty member}">
                 <div class="profile-header">
@@ -229,7 +276,7 @@
 
             <!-- 返回按钮 -->
             <div class="action-links">
-                <a href="/browse" class="btn-submit">返回</a>
+                <a href="/team/members" class="btn-submit">返回</a>
             </div>
         </div>
     </div>

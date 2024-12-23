@@ -18,6 +18,21 @@
 </head>
 <body>
 <div class="container">
+    <!-- Header -->
+    <header class="header">
+        <div class="title">
+                  <a href="/browse">
+        <h1>信息浏览</h1>
+      </a>
+        </div>
+        <c:choose>
+            <c:when test="${empty user}">
+                <div class="login-btn">
+                    <a href="/login.jsp" class="btn-submit">登录</a>
+                </div>
+            </c:when>
+        </c:choose>
+    </header>
     <!-- 内容部分 -->
     <div class="content">
         <!-- 左侧边栏 -->

@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Question;
+import com.example.model.User;
 import com.example.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +119,7 @@ public class QuestionController {
     @GetMapping("/my-questions")
     public String getQuestionsByUserID(HttpSession session, Model model) {
         // 从 Session 中获取当前用户的 userID
+        User currentUser = (User) session.getAttribute("currentUser");
         Integer userID = (Integer) session.getAttribute("userID");
         if (userID == null) {
             return "redirect:/user/login"; // 如果用户未登录，跳转到登录页面
@@ -126,6 +128,7 @@ public class QuestionController {
         // 获取该用户的所有问题
         List<Question> questions = questionService.getQuestionsByUserID(userID);
         model.addAttribute("questions", questions);
+        model.addAttribute("user", currentUser);
         return "Question/ask-question-management";
     }
 

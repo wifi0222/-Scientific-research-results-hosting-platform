@@ -92,5 +92,9 @@
 <%--    }--%>
 <%--  });--%>
 <%--</script>--%>
+
+<!-- 返回按钮 -->
+<button style="background-color: transparent; border: none; font-size: 30px; color: #4e73df; position: fixed; top: 20px; left: 20px; cursor: pointer; z-index: 1000;" onclick="goBack()">&#10094;</button>
+
 </body>
 </html>

@@ -93,6 +93,7 @@ body {
     "intro articles"
     "soft book"
     "patent product";
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
 }
 
@@ -125,6 +126,7 @@ body {
 
 /* 各模块样式 */
 .section {
+    height: 200px;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 15px;
@@ -172,4 +174,62 @@ footer {
     background-color: #e1effd;
     font-size: 14px;
     color: #555;
+}
+
+/* Header 样式 */
+.header {
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;  /* 默认情况下，Flexbox 子元素从左边开始排列 */
+    align-items: center;  /* 垂直居中对齐 */
+    padding: 10px 20px;  /* 上下和左右的内边距 */
+    background-color: white;  /* 设置背景颜色为白色 */
+}
+
+.header .title {
+    color: #333333;
+    flex-grow: 1;  /* 使标题区域可以占用剩余空间 */
+    text-align: center;  /* 使标题在其容器内居中 */
+}
+
+.header .login-btn {
+    text-align: right;  /* 确保按钮在右端 */
+}
+
+.header a.btn-submit {
+    background-color: #4e73df;
+    color: white;
+    text-decoration: none;  /* 去掉默认的链接下划线 */
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.header a.btn-submit:hover {
+    background-color: #2e59d9;  /* 按钮悬停时的颜色 */
+}
+
+/* 团队调整 */
+.section.intro {
+    display: flex;
+    flex-direction: column;
+}
+
+.section.intro .intro-content {
+    overflow: auto; /* 如果内容超出会出现滚动条 */
+}
+
+.section.intro p {
+    margin-bottom: 15px; /* 为每个段落标签增加底部外边距 */
+}
+
+.section.intro p:last-child {
+    margin-bottom: 0; /* 最后一个段落不增加底部外边距 */
+}
+
+.section.intro a.btn-submit {
+    margin-top: 10px; /* 给按钮添加一点上边距，使其和上面内容隔开一点距离 */
+    align-self: flex-start; /* 让按钮靠左侧对齐 */
 }
