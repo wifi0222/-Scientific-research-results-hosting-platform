@@ -368,12 +368,13 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
-
+        session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+//            return "redirect:/";
+            return "HomePage";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+            return "HomePage";
         }
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
