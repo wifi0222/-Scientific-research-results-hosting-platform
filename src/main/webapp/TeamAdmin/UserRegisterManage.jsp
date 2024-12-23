@@ -17,7 +17,7 @@
         function approveReview(username) {
             if (confirm("确定通过审核吗？")) {
                 // 通过审核，跳转并传递审核结果
-                window.location.href = "SubmitRegisterReview?username=" + username + "&status=1";
+                window.location.href = "/teamAdmin/RegisterReview?username=" + username + "&status=1";
             }
         }
 
@@ -27,7 +27,7 @@
             var refuseReason = prompt("请输入拒绝理由：");
             if (refuseReason != null && refuseReason != "") {
                 // 不通过审核，跳转并传递审核结果及拒绝理由
-                window.location.href = "SubmitRegisterReview?username=" + username + "&status=0"+"&refuseReason=" + encodeURIComponent(refuseReason);
+                window.location.href = "/teamAdmin/RegisterReview?username=" + username + "&status=0"+"&refuseReason=" + encodeURIComponent(refuseReason);
             } else {
                 alert("拒绝理由不能为空！");
             }
@@ -65,7 +65,7 @@
             <td>${user.applicationReason}</td>
             <td>
                 <!-- 详情按钮 -->
-                <a href="RegisterDetails?username=${user.username}">详情</a>
+                <a href="/teamAdmin/RegisterReview/Details?username=${user.username}">详情</a>
                 <a href="javascript:void(0);" onclick="approveReview('${user.username}')">通过</a> |
                 <a href="javascript:void(0);" onclick="rejectReview('${user.username}')">不通过</a>
             </td>

@@ -15,7 +15,7 @@
 </head>
 <body>
 <h2>修改用户信息</h2>
-<form action="TeamMemberEdit" method="post">
+<form action="/teamAdmin/TeamManage/Member/edit" method="post">
     <!-- 用户ID (只读) -->
     用户ID：<input type="text" name="userID" value="${user.userID}" readonly><br>
 

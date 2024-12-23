@@ -26,6 +26,6 @@
     用户邮箱：<span>${registrationReview.email}</span>
     用户注册时间：<span><fmt:formatDate value="${registrationReview.registrationTime}" pattern="yyyy-MM-dd" /></span>
     用户申请理由：<span>${registrationReview.applicationReason}</span>
-    <a href="ToUserRegisterManage">返回审核注册页面</a>
+    <a href="/teamAdmin/ToUserRegisterManage">返回审核注册页面</a>
 </body>
 </html>

@@ -69,13 +69,13 @@
             <td>
                 <div>
                     <!-- 修改链接，传递 userID 作为查询参数-->
-                    <a href="/ToChangeTeamMember?userID=${member.userID}">编辑</a>
+                    <a href="/teamAdmin/ToChangeTeamMember?userID=${member.userID}">编辑</a>
                 </div>
             </td>
             <!-- 这里根据用户对象的属性输出信息 -->
         </tr>
     </c:forEach>
-    <a href="addTeamMember.jsp">添加新团队成员</a>
+    <a href="/TeamAdmin/addTeamMember.jsp">添加新团队成员</a>
     </tbody>
 </table>
 </body>

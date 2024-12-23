@@ -18,14 +18,14 @@
         function confirmLogout(userId) {
             if (confirm("确定注销此账户吗？注销后该用户将无法登录。")) {
                 // 向后端发送注销请求
-                window.location.href = "/logoutUser?userID=" + userId;
+                window.location.href = "/teamAdmin/UserManage/logoutUser?userID=" + userId;
             }
         }
 
         //确认重置密码
         function confirmReset(userId) {
             if (confirm("是否为用户生成新密码？系统将发送临时密码至注册邮箱。")) {
-                window.location.href = "/ResetPassword?userID=" + userId;
+                window.location.href = "/teamAdmin/UserManage/ResetPassword?userID=" + userId;
             }
         }
 
@@ -44,7 +44,7 @@
 <body>
 <h1>全部团队成员和普通用户</h1>
     <!-- 搜索框 -->
-    <form action="/searchUsers" method="get">
+    <form action="/teamAdmin/UserManage/searchUsers" method="get">
         <label for="username">用户名：</label>
         <input type="text" id="username" name="username" placeholder="请输入用户名"/>
 
@@ -71,11 +71,11 @@
         <button type="submit">搜索</button>
     </form>
     <br>
-    <form action="ToUserManage">
+    <form action="/teamAdmin/ToUserManage">
         <button type="submit">查看全部</button>
     </form>
     <br>
-    <form action="ToLogoutList">
+    <form action="/teamAdmin/UserManage/ToLogoutList">
         <button type="submit">查看申请注销的用户</button>
     </form>
 

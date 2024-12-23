@@ -9,6 +9,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>申请注销用户</title>
@@ -17,7 +18,7 @@
         function confirmLogout(userId) {
             if (confirm("确定注销此账户吗？注销后该用户将无法登录。")) {
                 // 向后端发送注销请求
-                window.location.href = "/logoutUser?userID=" + userId;
+                window.location.href = "/teamAdmin/UserManage/logoutUser?userID=" + userId;
             }
         }
     </script>
@@ -43,6 +44,7 @@
         </tr>
         </thead>
         <tbody>
+        <h1>${users.toString()}</h1>
         <c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.userID}</td>
@@ -100,7 +102,7 @@
         </tbody>
     </table>
 
-    <form action="ToUserManage">
+    <form action="/teamAdmin/ToUserManage">
         <button>返回用户管理界面</button>
     </form>
 </body>

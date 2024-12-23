@@ -13,7 +13,7 @@
     <title>添加团队成员</title>
 </head>
 <body>
-    <form action="addTeamMember" method="get">
+    <form action="/teamAdmin/TeamManage/Member/add" method="get">
         <!-- 用户名 -->
         用户名：<input type="text" name="username"><br>
 
@@ -24,7 +24,8 @@
 
         <!-- 邮箱 -->
         邮箱：
-        <input type="text" id="email" name="email" value="${user.email}">
+<%--        <input type="text" id="email" name="email" value="${user.email}">--%>
+        <input type="text" id="email" name="email">
         <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span>
 
         <!-- 姓名 -->

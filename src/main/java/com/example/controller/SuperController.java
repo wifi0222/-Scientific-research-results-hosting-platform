@@ -68,7 +68,7 @@ public class SuperController {
     }
 
     //增加团队管理员
-    @GetMapping("/AddTeamAdmin")
+    @GetMapping("/TeamAdminManage/add")
     public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("password") String password,
                                RedirectAttributes redirectAttributes, HttpSession session) {
         // 获取当前用户
@@ -87,7 +87,7 @@ public class SuperController {
             userService.addTeamAdmin(username, password);
         }
         redirectAttributes.addAttribute("AddTeamAdminRemind", information);
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //跳转到编辑信息界面
@@ -108,7 +108,7 @@ public class SuperController {
     }
 
     //编辑团队管理员信息
-    @RequestMapping("ChangeTeamAdminInfo")
+    @RequestMapping("/TeamAdminManage/edit")
     public String ChangeTeamAdminInfo(RedirectAttributes redirectAttributes, @ModelAttribute User user, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -126,11 +126,11 @@ public class SuperController {
         } else {
             redirectAttributes.addAttribute("ChangeTeamAdminRemind", "修改失败");
         }
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //删除团队管理员
-    @RequestMapping("DeleteTeamAdmin")
+    @RequestMapping("/TeamAdminManage/delete")
     public String DeleteTeamAdmin(@RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -141,7 +141,7 @@ public class SuperController {
         }
 
         userService.deleteTeamAdmin(userID);
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //跳转到权限管理的界面：
@@ -176,7 +176,7 @@ public class SuperController {
         return "SuperAdmin/editTA";
     }
 
-    @RequestMapping("editAdministrator")
+    @RequestMapping("/TeamAdministrator/edit")
     public String editAdministrator(@RequestParam("set") int set, RedirectAttributes redirectAttributes,
                                     @RequestParam(required = false) boolean publishPermission,
                                     @RequestParam(required = false) boolean userPermission,
@@ -203,7 +203,7 @@ public class SuperController {
         }
 
         redirectAttributes.addAttribute("message", "成功修改权限");
-        return "redirect:/TeamAdministratorManagement";
+        return "redirect:/SuperController/TeamAdministratorManagement";
     }
 
 

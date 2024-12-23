@@ -16,13 +16,13 @@
     <h1>为${teamAdministrator.adminName}设置权限</h1>
     <p>${teamAdministrator.adminID}</p>
     <h2>
-        <a href="/editAdministrator?set=1&adminID=${teamAdministrator.adminID}">
+        <a href="/SuperController/TeamAdministrator/edit?set=1&adminID=${teamAdministrator.adminID}">
             一键为用户设置团队管理员基本权限（包括发布权限、用户管理权限)
         </a>
     </h2>
 
     <h2>设置全部权限：</h2>
-    <form action="editAdministrator" method="get">
+    <form action="/SuperController/TeamAdministrator/edit" method="get">
         <input type="text" name="set" value="0" hidden="hidden">
         <input type="text" name="adminID" value="${teamAdministrator.adminID}" hidden="hidden">
         <!-- 发布科研成果权限 -->

@@ -14,7 +14,7 @@
     <title>团队基本信息维护</title>
 </head>
 <body>
-        <form action="TeamInfoEdit" method="get">
+        <form action="/teamAdmin/TeamManage/Info/edit" method="get">
             团队ID：<input type="text" name="teamID" value="${team.teamID}" readonly>
             <br>
             团队名称：<input type="text" name="teamName" value="${team.teamName}">

@@ -65,7 +65,7 @@ public class TeamAdminController {
     private AchievementFileService achievementFileService;
 
     //跳转到团队基本信息维护
-    @RequestMapping("/TeamInfo")
+    @RequestMapping("/TeamManage/Info")
     public String TeamInfo(Model model, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -82,7 +82,7 @@ public class TeamAdminController {
     }
 
     //更新团队信息
-    @RequestMapping("/TeamInfoEdit")
+    @RequestMapping("/TeamManage/Info/edit")
     public String TeamInfoEdit(Model model, @ModelAttribute Team team, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -98,7 +98,7 @@ public class TeamAdminController {
     }
 
     //跳转到团队成员管理
-    @RequestMapping("/TeamMember")
+    @RequestMapping("/TeamManage/Member")
     public String TeamMember(Model model, @RequestParam(required = false) String information, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -115,7 +115,7 @@ public class TeamAdminController {
     }
 
     //添加团队成员
-    @RequestMapping("/addTeamMember")
+    @RequestMapping("/TeamManage/Member/add")
     public String addTeamMember(RedirectAttributes redirectAttributes, @ModelAttribute User TeamMember, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -133,7 +133,7 @@ public class TeamAdminController {
             userService.addTeamMember(TeamMember);
         }
         redirectAttributes.addAttribute("information", information);
-        return "redirect:/TeamMember";
+        return "redirect:/teamAdmin/TeamManage/Member";
     }
 
     //跳转编辑团队成员信息
@@ -153,7 +153,7 @@ public class TeamAdminController {
     }
 
     //编辑团队成员信息
-    @PostMapping("TeamMemberEdit")
+    @PostMapping("/TeamManage/Member/edit")
     public String TeamMemberEdit(Model model, @ModelAttribute User TeamMember, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -165,7 +165,7 @@ public class TeamAdminController {
 
         System.out.println(TeamMember);
         userService.updateTeamMember(TeamMember);
-        return "redirect:/TeamMember";
+        return "redirect:/teamAdmin/TeamManage/Member";
     }
 
     //跳转用户审核
@@ -188,7 +188,7 @@ public class TeamAdminController {
     }
 
     //处理审核
-    @GetMapping("SubmitMemberReview")
+    @GetMapping("/TeamManage/Member/review")
     public String SubmitMemberReview(RedirectAttributes redirectAttributes, @RequestParam("memberID") int memberID, @RequestParam("status") int status,
                                      @RequestParam(required = false) String refuseReason, HttpSession session) {
         // 获取当前用户
@@ -210,7 +210,7 @@ public class TeamAdminController {
             memberViewService.updateFailResult(memberID, refuseReason);
         }
         redirectAttributes.addAttribute("message", "审核成功");
-        return "redirect:/ToMemberInfoReview";
+        return "redirect:/teamAdmin/ToMemberInfoReview";
     }
 
     //跳转到用户管理模块
@@ -231,7 +231,7 @@ public class TeamAdminController {
     }
 
     //处理审核
-    @GetMapping("SubmitRegisterReview")
+    @GetMapping("/RegisterReview")
     public String SubmitRegisterReview(RedirectAttributes redirectAttributes, @RequestParam("username") String username, @RequestParam("status") int status,
                                        @RequestParam(required = false) String refuseReason, HttpSession session) {
         // 获取当前用户
@@ -257,7 +257,7 @@ public class TeamAdminController {
         }
         sendMailService.sendMessageEmail(sendEmail, sendMessage);
         redirectAttributes.addAttribute("message", "审核成功");
-        return "redirect:/ToUserRegisterManage";
+        return "redirect:/teamAdmin/ToUserRegisterManage";
     }
 
     /**
@@ -702,7 +702,7 @@ public class TeamAdminController {
     }
 
     //跳转详情界面
-    @GetMapping("RegisterDetails")
+    @GetMapping("/RegisterReview/Details")
     public String RegisterDetails(Model model, @RequestParam("username") String username, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -735,7 +735,7 @@ public class TeamAdminController {
     }
 
     //注销用户
-    @GetMapping("logoutUser")
+    @GetMapping("UserManage/logoutUser")
     public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession
             session) {
         // 获取当前用户
@@ -755,11 +755,11 @@ public class TeamAdminController {
         } else {
             redirectAttributes.addAttribute("message", "注销用户失败");
         }
-        return "redirect:/ToUserManage";
+        return "redirect:/teamAdmin/ToUserManage";
     }
 
     //重置密码
-    @GetMapping("ResetPassword")
+    @GetMapping("/UserManage/ResetPassword")
     public String ResetPassword(RedirectAttributes redirectAttributes,
                                 @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
@@ -778,11 +778,11 @@ public class TeamAdminController {
             int r = userService.ResetPassword(userID, password);
             redirectAttributes.addAttribute("message", "重置密码成功");
         }
-        return "redirect:/ToUserManage";
+        return "redirect:/teamAdmin/ToUserManage";
     }
 
     //用户搜索
-    @GetMapping("searchUsers")
+    @GetMapping("/UserManage/searchUsers")
     public String searchUsers(Model model, @RequestParam(value = "username", required = false) String username,
                               @RequestParam(value = "roleType", required = false) String roleType,
                               @RequestParam(value = "status", required = false) Integer status,
@@ -809,7 +809,7 @@ public class TeamAdminController {
 
 
     //跳转到申请注销用户列表
-    @GetMapping("ToLogoutList")
+    @GetMapping("/UserManage/ToLogoutList")
     public String ToLogoutList(Model model, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -824,6 +824,7 @@ public class TeamAdminController {
         for (DeactivationReview deactivationReview : list) {
             users.add(userService.findById(deactivationReview.getUserID()));
         }
+
         model.addAttribute("users", users);
         return "TeamAdmin/LogoutList";
     }
