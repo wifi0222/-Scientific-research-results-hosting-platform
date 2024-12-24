@@ -21,37 +21,37 @@
 
 <!-- 轮播图 -->
 <c:if test="${fn:length(files) > 0}">
-<div class="carousel">
-  <div class="carousel-images">
-    <c:forEach var="imageFile" items="${files}">
-      <c:if test="${imageFile.type == 1}">
-        <!-- 显示图片 -->
-        <%--          <div style="text-align: center;">--%>
-        <%--            <img src="${file.filePath}" style="width:auto; height:30%;" />--%>
-        <%--          </div>--%>
-        <c:set var="encodedPath"
-               value="${fn:replace(fn:replace(imageFile.filePath, '\\\\', '/'), ' ', '%20')}"/>
-        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" class="carousel-img">
-      </c:if>
-    </c:forEach>
+  <div class="carousel">
+    <div class="carousel-images">
+      <c:forEach var="imageFile" items="${files}">
+        <c:if test="${imageFile.type == 1}">
+          <!-- 显示图片 -->
+          <%--          <div style="text-align: center;">--%>
+          <%--            <img src="${file.filePath}" style="width:auto; height:30%;" />--%>
+          <%--          </div>--%>
+          <c:set var="encodedPath"
+                 value="${fn:replace(fn:replace(imageFile.filePath, '\\\\', '/'), ' ', '%20')}"/>
+          <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" class="carousel-img">
+        </c:if>
+      </c:forEach>
+    </div>
+    <div class="carousel-controls">
+      <button onclick="moveCarousel(-1)">&#10094;</button>
+      <button onclick="moveCarousel(1)">&#10095;</button>
+    </div>
   </div>
-  <div class="carousel-controls">
-    <button onclick="moveCarousel(-1)">&#10094;</button>
-    <button onclick="moveCarousel(1)">&#10095;</button>
-  </div>
-</div>
 </c:if>
 
 <h2 class="title">${article.title}</h2>
 
 <div class="content-wrapper">
-  <!-- 类别和时间居中显示 -->
+   <!-- 类别和时间居中显示 -->
   <div class="category-time">
     <p>类别: ${article.category}</p>
     <p>时间: <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd" /></p>
   </div>
 
-  <!-- 摘要 -->
+   <!-- 摘要 -->
   <p class="abstract-label">摘要:</p>
   <p class="abstract">${article.abstractContent}</p>
 
@@ -93,6 +93,9 @@
 <%--  });--%>
 <%--</script>--%>
 
+
+<!-- 返回按钮 -->
+<button style="background-color: transparent; border: none; font-size: 30px; color: #4e73df; position: fixed; top: 20px; left: 20px; cursor: pointer; z-index: 1000;" onclick="goBack()">&#10094;</button>
 </body>
 </html>
 

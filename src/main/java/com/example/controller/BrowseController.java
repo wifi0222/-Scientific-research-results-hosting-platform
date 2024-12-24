@@ -65,6 +65,25 @@ public class BrowseController {
         return "browse"; // 返回信息浏览页面
     }
 
+    @GetMapping("/team/members")
+    public String viewTeamMembers(HttpSession session,Model model) {
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        // 如果用户未登录，不强制报错，提供一个默认的空角色
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
+
+        // 加载团队成员
+        List<User> teamMembers = browseService.getTeamMembers();
+        model.addAttribute("teamMembers", teamMembers);
+
+        return "teamMembers"; // 返回团队成员 JSP 页面名称
+    }
+
 
 
 
@@ -72,8 +91,10 @@ public class BrowseController {
     @GetMapping("/member/details")
     public String memberDetails(@RequestParam("teamMembersID") int userID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         User member = browseService.getMemberDetails(userID);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("member", member);
         return "TeamAdmin/memberDetails"; // 返回成员详情页面
     }
@@ -82,10 +103,12 @@ public class BrowseController {
     @GetMapping("/achievement/details")
     public String achievementDetails(@RequestParam("achievementID") int achievementID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Achievement achievement = browseService.getAchievementDetails(achievementID);
         List<AchievementFile> files = achievementFileService.getFilesByAchievementId(achievementID);
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("achievement", achievement);
         return "achievementDetails"; // 返回成果详情页面
     }
@@ -94,10 +117,12 @@ public class BrowseController {
     @GetMapping("/article/details")
     public String articleDetails(@RequestParam("articleID") int articleID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Article article = browseService.getArticleDetails(articleID);
         List<ArticleFile> files = articleFileService.getFilesByArticleId(articleID);
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("article", article);
         return "articleDetails"; // 返回文章详情页面
     }

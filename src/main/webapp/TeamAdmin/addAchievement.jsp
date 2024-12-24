@@ -21,7 +21,7 @@
 </head>
 <body>
 <h1>新增科研成果</h1>
-<form action="/teamAdmin/addAchievement/add" method="post" id="quillForm" enctype="multipart/form-data">
+<form action="/teamAdmin/achievements/add" method="post" id="quillForm" enctype="multipart/form-data">
     <label>成果标题：</label><br>
     <input type="text" name="title" placeholder="如：基于深度学习的遥感图像分类技术" required><br><br>
 
@@ -48,8 +48,10 @@
     <label>展示图片上传（可选）：</label><br>
     <input type="file" name="coverImage"><br><br>
 
+    <%--选择上传的时间--%>
     <label>发布日期：</label><br>
-    <input type="date" name="creationTime" required><br><br>
+    <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
+
 
     <button type="submit">保存并发布</button>
     <!-- 返回主页按钮 -->

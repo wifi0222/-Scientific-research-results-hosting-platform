@@ -21,6 +21,8 @@ public class User implements Serializable { // 如果不加 implements Serializa
     private String contactInfo; // 联系方式
     private String academicBackground; // 学术背景
     private String researchAchievements; // 科研成果
+    private String avatarFile; // 头像文件路径
+
 
     // Getters 和 Setters
     public int getUserID() { return userID; }
@@ -59,6 +61,9 @@ public class User implements Serializable { // 如果不加 implements Serializa
     public String getResearchAchievements() { return researchAchievements; }
     public void setResearchAchievements(String researchAchievements) { this.researchAchievements = researchAchievements; }
 
+    public String getAvatarFile() { return avatarFile; }
+    public void setAvatarFile(String avatarFile) { this.avatarFile = avatarFile; }
+
     @Override
     public String toString() {
         return "User{" +
@@ -74,6 +79,7 @@ public class User implements Serializable { // 如果不加 implements Serializa
                 ", contactInfo='" + contactInfo + '\'' +
                 ", academicBackground='" + academicBackground + '\'' +
                 ", researchAchievements='" + researchAchievements + '\'' +
+                ", avatarFile='" + avatarFile + '\'' +
                 '}';
     }
 }
