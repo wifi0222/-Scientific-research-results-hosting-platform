@@ -21,7 +21,7 @@
         <c:choose>
             <c:when test="${userRoleType == 'SuperAdmin'}">
                 <ul>
-                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                    <li><a href="/SuperController/UserManagement">用户管理</a></li>
                     <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
                     <li><a href="/user/checkReply">内容审核</a></li>
                 </ul>

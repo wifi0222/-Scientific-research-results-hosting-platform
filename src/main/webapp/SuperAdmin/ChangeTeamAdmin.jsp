@@ -205,8 +205,8 @@
         }
 
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #4e73df;
+            border-color: #4e73df;
             padding: 10px 20px;
             border-radius: 4px;
         }
@@ -252,6 +252,8 @@
             font-size: 16px;
             color: white;
             text-align: center;
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 设置字体加粗 */
         }
 
         /* 按钮悬停时 */
@@ -269,6 +271,48 @@
             top: 50%;
             transform: translateY(-50%); /* 垂直居中 */
             transition: transform 0.3s ease-in-out; /* 平滑过渡 */
+        }
+
+        /* ======== 自定义单选框样式 ======== */
+        input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        input[type="radio"]:checked {
+            border-color: #4e73df;
+            background-color: #4e73df;
+        }
+
+        input[type="radio"]:checked::after {
+            content: '\f00c'; /* Unicode勾选符号 */
+            font-family: "Font Awesome 5 Free", sans-serif;
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        /* 鼠标悬停时改变单选框颜色 */
+        input[type="radio"]:hover {
+            border-color: #3578f3;
+        }
+
+        input[type="radio"]:checked:hover {
+            background-color: #3578f3;
+            border-color: #3578f3;
         }
 
     </style>
@@ -299,6 +343,12 @@
     <div class="content">
         <div class="main">
             <div class="section">
+                <h1>修改团队管理员信息</h1>
+
+                <button class="back-btn">
+                    <a href="/SuperController/UserManagement">返回用户管理</a>
+                </button>
+
                 <form action="/SuperController/TeamAdminManage/edit" method="GET" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="userID">用户ID(无法修改)：</label>
@@ -386,9 +436,6 @@
                         <input type="submit" value="提交" class="btn btn-primary">
                     </div>
 
-                    <button class="back-btn">
-                        <a href="/SuperController/UserManagement">返回用户管理</a>
-                    </button>
                 </form>
             </div>
         </div>

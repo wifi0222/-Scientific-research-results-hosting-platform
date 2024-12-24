@@ -16,6 +16,32 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userRegisterManage.css">
+    <style>
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
+    </style>
 
     <script>
         // 检查错误信息并弹出提示框
@@ -229,17 +255,17 @@
                                 <td>
                                     <!-- 详情按钮 -->
                                     <button class="btn-preview" onclick="window.location.href='/teamAdmin/RegisterReview/Details?username=${user.username}'">
-                                        <span>详情</span>
+                                        <i class="fas fa-eye"></i><span>详情</span>
                                     </button>
 
                                     <!-- 通过按钮 -->
                                     <button class="btn-pass" onclick="approveReview('${user.username}')">
-                                        <span>通过</span>
+                                        <i class="fas fa-check"></i><span>通过</span>
                                     </button>
 
                                     <!-- 不通过按钮 -->
                                     <button class="btn-reject" onclick="rejectReview('${user.username}')">
-                                        <span>不通过</span>
+                                        <i class="fas fa-times"></i><span>不通过</span>
                                     </button>
                                 </td>
                             </tr>
@@ -247,9 +273,10 @@
                         </tbody>
                     </table>
 
-                <div class="btn-pass">
-                    <button type="button" id="batchPassButton">批量通过</button>
-                </div>
+                    <button type="button" id="batchPassButton" class="btn btn-pass">
+                        批量通过
+                    </button>
+
 
             </div>
         </div>

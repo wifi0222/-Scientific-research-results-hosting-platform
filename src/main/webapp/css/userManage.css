@@ -20,6 +20,7 @@
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
+    border: none;
     border-bottom: 1px solid #dddddd;
     /* 使文本不会换行，并能出现省略号 */
     white-space: nowrap;
@@ -34,70 +35,70 @@
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
     width: 50px;  /* 选择框列 */
-    background-color: mediumpurple; /* 你也可以换成其他颜色 */
+    /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
 }
 
 /* 第2列：用户ID */
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
-    width: 50px;
-    background-color: #2e59d9;
+    width: 40px;
+    /*background-color: #2e59d9;*/
 }
 
 /* 第3列：用户名 */
 .styled-table th:nth-child(3),
 .styled-table td:nth-child(3) {
     width: 60px;
-    background-color: #3e8e41;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第4列：姓名*/
 .styled-table th:nth-child(4),
 .styled-table td:nth-child(4) {
     width: 60px;
-    background-color: #333333;
+    /*background-color: #333333;*/
 }
 
 /* 第5列：角色 */
 .styled-table th:nth-child(5),
 .styled-table td:nth-child(5) {
     width: 70px; /* 摘要列 */
-    background-color: #3e8e41;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第6列：邮箱*/
 .styled-table th:nth-child(6),
 .styled-table td:nth-child(6) {
     width: 80px; /* 摘要列 */
-    background-color: darkorange;
+    /*background-color: darkorange;*/
 }
 
 /* 第7列：注册时间 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
     width: 60px; /* 摘要列 */
-    background-color: yellowgreen;
+    /*background-color: yellowgreen;*/
 }
 
 /* 第8列：账号状态 */
 .styled-table th:nth-child(8),
 .styled-table td:nth-child(8) {
     width: 60px; /* 摘要列 */
-    background-color: darksalmon;
+    /*background-color: darksalmon;*/
 }
 
 /* 第9列：联系方式 */
 .styled-table th:nth-child(9),
 .styled-table td:nth-child(9) {
     width: 60px; /* 摘要列 */
-    background-color: khaki;
+    /*background-color: khaki;*/
 }
 
 /* 第10列：操作 */
 .styled-table th:nth-child(10),
 .styled-table td:nth-child(10) {
-    width: 100px; /* 摘要列 */
-    background-color: #bee5eb;
+    width: 150px; /* 摘要列 */
+    /*background-color: #bee5eb;*/
 }
 
 

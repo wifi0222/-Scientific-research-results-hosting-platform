@@ -60,17 +60,13 @@
             margin-right: 8px;
         }
 
-        .btn-edit{
-            background-color: #ff9800; /* 橙色 */
+        .btn-preview{
+            padding: 6px 12px;
             font-weight: bold;
-            color: #fff;
-            border: none; /* 去除边框 */
-            outline: none; /* 去除按钮聚焦时的边框 */
+            border: none;
+            border-radius: 5px;
         }
 
-        .btn-edit:hover{
-            background-color: #e68a00;
-        }
     </style>
 </head>
 
@@ -129,11 +125,11 @@
         <div class="main">
             <!-- 这里填充主内容，例如文章、图片等 -->
             <div class="section">
-                <h1>团队成员管理</h1>
+                <h1>团队成员信息管理</h1>
 
                 <!-- 搜索与筛选表单 -->
                 <div class="search-filter">
-                    <label for="keyword">关键词：</label>
+                    <label for="keyword">用户名：</label>
                     <input type="text" id="keyword" placeholder="请输入用户姓名">
 
 
@@ -183,7 +179,7 @@
                             <td>${member.researchField}</td>
                             <td>${member.contactInfo}</td>
                             <td>
-                                <button class="btn-edit" onclick="window.location.href='/teamAdmin/ToChangeTeamMember?userID=${member.userID}'">
+                                <button class="btn-preview" onclick="window.location.href='/teamAdmin/ToChangeTeamMember?userID=${member.userID}'">
                                     <i class="fas fa-edit"></i> 编辑
                                 </button>
                             </td>

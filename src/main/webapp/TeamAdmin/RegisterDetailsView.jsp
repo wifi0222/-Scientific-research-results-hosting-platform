@@ -58,12 +58,20 @@
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
             position: relative; /* 相对定位，为了放置箭头 */
+            display: block;
+
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            font-weight: bold; /* 设置字体加粗 */
         }
 
         .back-btn a{
             font-size: 16px;
             color: white;
             text-align: center;
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 设置字体加粗 */
         }
 
         /* 按钮悬停时 */

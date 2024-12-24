@@ -86,6 +86,15 @@
     background-color: #355db3;
 }
 
+.one-row td button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
 /* 不同按钮不同颜色，你可按需改色 */
 .btn-preview {
     background-color: #ff9800; /* 橙色 */

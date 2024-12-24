@@ -16,6 +16,33 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/memberReviewInfo.css">
+    <style>
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
+
+    </style>
 
     <script type="text/javascript">
         // 通过审核的函数
@@ -167,7 +194,7 @@
     <div class="content">
         <div class="main">
             <div class="section">
-                <h1>用户信息审核</h1>
+                <h1>团队成员信息审核</h1>
 
                 <!-- 搜索与筛选表单 -->
                 <div class="search-filter">
@@ -185,7 +212,7 @@
                             <input type="checkbox" id="selectAllCheckbox"/>
                             全选
                         </th>
-                        <th>用户ID</th>
+                        <th>ID</th>
                         <th>姓名</th>
                         <th>研究方向</th>
                         <th>联系方式</th>
@@ -216,11 +243,11 @@
 <%--                                <br>--%>
 <%--                                <a href="javascript:void(0);" onclick="rejectReview(${review.memberID})" >不通过</a>--%>
                                 <button class="btn-pass" onclick="approveReview(${review.memberID})">
-                                    <i class="fas fa-edit"></i><span>通过</span>
+                                    <i class="fas fa-check"></i><span>通过</span>
                                 </button>
 
                                 <button class="btn-reject" onclick="rejectReview(${review.memberID})">
-                                    <i class="fas fa-edit"></i><span>拒绝</span>
+                                    <i class="fas fa-times"></i><span>拒绝</span>
                                 </button>
                             </td>
                         </tr>
@@ -228,9 +255,11 @@
                     </tbody>
                 </table>
 
-                <div class="btn-pass">
-                    <button type="button" id="batchPassButton">批量通过</button>
-                </div>
+
+                <button type="button" id="batchPassButton" class="btn btn-pass">
+                    批量通过
+                </button>
+
             </div>
         </div>
     </div>

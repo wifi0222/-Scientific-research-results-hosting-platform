@@ -18,7 +18,138 @@
     <link rel="stylesheet" href="/css/userManage.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <style>
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
+
+        /* ======== 搜索与筛选区域 ======== */
+        .search-filter {
+            display: flex;
+            flex-wrap: wrap; /* 当空间不足时换行 */
+            align-items: center;
+            gap: 20px; /* 增加间距 */
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-filter label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .search-filter input[type="text"],
+        .search-filter input[type="date"],
+        .search-filter select {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px; /* 控制输入框宽度 */
+            transition: border-color 0.3s ease;
+        }
+
+        .search-filter input[type="text"]:focus,
+        .search-filter input[type="date"]:focus,
+        .search-filter select:focus {
+            border-color: #3e8e41; /* 聚焦时边框变绿色 */
+            outline: none;
+        }
+
+        .search-filter button {
+            background-color: #4e73df;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-filter button:hover {
+            background-color: #355db3;
+        }
+
+        /* 将前三个条件放在同一行，后三个条件放在下一行 */
+        .search-filter .first-row,
+        .search-filter .second-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .search-filter .first-row input,
+        .search-filter .first-row select {
+            width: auto;
+        }
+
+        .search-filter .second-row input,
+        .search-filter .second-row select {
+            width: auto;
+        }
+
+        /* 搜索按钮与“查看全部”和“查看申请注销”按钮并列显示 */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-view-all {
+            background-color: #4e73df;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-view-all:hover {
+            background-color: #355db3;
+        }
+
+        .btn-view-cancel {
+            background-color: #f0ad4e;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-view-cancel:hover {
+            background-color: #ec971f;
+        }
+
+        /* 响应式布局 */
+        @media (max-width: 768px) {
+            .search-filter .first-row,
+            .search-filter .second-row {
+                flex-direction: column;
+            }
+        }
+
+
+    </style>
     <script type="text/javascript">
         //确认注销
         function confirmLogout(userId) {
@@ -178,48 +309,49 @@
                 <h1>全部团队成员和普通用户</h1>
 
                     <!-- 搜索框 -->
-                    <form action="/teamAdmin/UserManage/searchUsers" method="get">
-                        <label for="username">用户名：</label>
-                        <input type="text" id="username" name="username" placeholder="请输入用户名"/>
+                    <form action="/teamAdmin/UserManage/searchUsers" method="get" class="search-filter">
+                        <div class="first-row">
+                            <label for="username">用户名：</label>
+                            <input type="text" id="username" name="username" placeholder="请输入用户名"/>
 
-                        <label for="roleType">用户角色：</label>
-                        <select name="roleType" id="roleType">
-                            <option value="">选择角色</option>
-                            <option value="TeamMember">团队成员</option>
-                            <option value="Visitor">普通用户</option>
-                        </select>
+                            <label for="roleType">用户角色：</label>
+                            <select name="roleType" id="roleType">
+                                <option value="">选择角色</option>
+                                <option value="TeamMember">团队成员</option>
+                                <option value="Visitor">普通用户</option>
+                            </select>
 
-                        <label for="status">账号状态：</label>
-                        <select name="status" id="status">
-                            <option value="">选择状态</option>
-                            <option value=1>正常</option>
-                            <option value=0>禁用</option>
-                        </select>
+                            <label for="status">账号状态：</label>
+                            <select name="status" id="status">
+                                <option value="">选择状态</option>
+                                <option value=1>正常</option>
+                                <option value=0>禁用</option>
+                            </select>
+                        </div>
 
-                        <label for="registrationTime">注册时间</label>
-                        <input type="date" id="registrationTime" name="registrationTime">
+                        <br>
 
-                        <label for="email">邮箱地址</label>
-                        <input type="text" id="email" name="email" placeholder="请输入邮箱地址">
+                        <div class="second-row">
+                            <label for="registrationTime">注册时间</label>
+                            <input type="date" id="registrationTime" name="registrationTime">
 
-                        <button type="submit">搜索</button>
+                            <label for="email">邮箱地址</label>
+                            <input type="text" id="email" name="email" placeholder="请输入邮箱地址">
+
+                            <button type="submit">搜索</button>
+                        </div>
                     </form>
                     <br>
+
+                <div class="button-group">
                     <form action="/teamAdmin/ToUserManage">
-                        <button type="submit">查看全部</button>
+                        <button type="submit" class="btn btn-view-all">查看全部</button>
                     </form>
-                    <br>
+
                     <form action="/teamAdmin/UserManage/ToLogoutList">
-                        <button type="submit">查看申请注销的用户</button>
+                        <button type="submit" class="btn btn-view-cancel">查看申请注销的用户</button>
                     </form>
-
-                    <div class="btn-pass">
-                        <button type="button" id="batchLogoutButton">批量注销</button>
-                    </div>
-
-                    <div class="btn-pass">
-                        <button type="button" id="batchPassButton">批量重置</button>
-                    </div>
+                </div>
 
                     <table border="1" class="styled-table">
                         <thead>
@@ -228,7 +360,7 @@
                                 <input type="checkbox" id="selectAllCheckbox"/>
                                 全选
                             </th>
-                            <th>用户ID</th>
+                            <th>ID</th>
                             <th>用户名</th>
                             <th>姓名</th>
                             <th>用户角色</th>
@@ -307,6 +439,11 @@
                         </c:forEach>
                         </tbody>
                     </table>
+
+                <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
+
+                <button type="button" id="batchPassButton" class="btn btn-pass">批量重置</button>
+
             </div>
         </div>
     </div>

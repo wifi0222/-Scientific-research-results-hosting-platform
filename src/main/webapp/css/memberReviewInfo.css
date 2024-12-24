@@ -33,21 +33,21 @@
 /* 新增第1列：选择框 */
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
-    width: 60px;  /* 选择框列 */
+    width: 50px;  /* 选择框列 */
     /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
 }
 
 /* 第2列：用户ID */
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
-    width: 60px;
+    width: 30px;
     /*background-color: #2e59d9;*/
 }
 
 /* 第3列：姓名 */
 .styled-table th:nth-child(3),
 .styled-table td:nth-child(3) {
-    width: 80px;
+    width: 60px;
     /*background-color: #3e8e41;*/
 }
 
@@ -61,28 +61,28 @@
 /* 第5列：联系方式 */
 .styled-table th:nth-child(5),
 .styled-table td:nth-child(5) {
-    width: 150px; /* 摘要列 */
+    width: 100px; /* 摘要列 */
     /*background-color: #3e8e41;*/
 }
 
 /* 第6列：学术背景 */
 .styled-table th:nth-child(6),
 .styled-table td:nth-child(6) {
-    width: 200px; /* 内容列 */
+    width: 100px; /* 内容列 */
     /*background-color: #007bff;*/
 }
 
 /* 第7列：科研成果 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
-    width: 110px; /* 创建时间列 */
+    width: 120px; /* 创建时间列 */
     /*background-color: #4a4a4a;*/
 }
 
 /* 第8列：审核操作 */
 .styled-table th:nth-child(8),
 .styled-table td:nth-child(8) {
-    width: 60px;  /* 审核状态列 */
+    width: 180px;  /* 审核状态列 */
     /*background-color: #007bff;*/
 }
 
@@ -98,6 +98,7 @@
 }
 
 /* ======== 操作按钮，颜色区分 ======== */
+
 .one-row td button {
     border: none;
     padding: 6px 12px;
@@ -186,13 +187,13 @@
     border: 2px solid #4e73df;
 }
 
-.batch-button{
-    padding: 6px 12px;
-    background-color: #4e73df;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
+/*.batch-button{*/
+/*    padding: 6px 12px;*/
+/*    background-color: #4e73df;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    font-weight: bold;*/
+/*}*/
 

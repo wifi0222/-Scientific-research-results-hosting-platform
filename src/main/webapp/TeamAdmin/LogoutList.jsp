@@ -18,6 +18,66 @@
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userManage.css">
 
+    <style>
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
+
+        /* 按钮样式 */
+        .back-btn {
+            background-color: #4e73df; /* 按钮背景色 */
+            border: none;
+            border-radius: 5px; /* 圆角边框 */
+            padding: 12px 20px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            position: relative; /* 相对定位，为了放置箭头 */
+
+            font-size: 16px;
+            color: white;
+            text-align: center;
+        }
+
+        /* 按钮悬停时 */
+        .back-btn:hover {
+            background-color: #355db3; /* 悬停时背景色 */
+            transform: translateX(5px); /* 向右移动 */
+        }
+
+        /* 在悬停时显示箭头 */
+        .back-btn:hover::after {
+            font-size: 20px;
+            margin-left: 10px; /* 箭头和文字之间的间距 */
+            position: absolute;
+            right: -25px; /* 箭头位于按钮的右侧 */
+            top: 50%;
+            transform: translateY(-50%); /* 垂直居中 */
+            transition: transform 0.3s ease-in-out; /* 平滑过渡 */
+        }
+
+    </style>
     <script type="text/javascript">
         //确认注销
         function confirmLogout(userId) {
@@ -121,9 +181,8 @@
             <div class="section">
                 <h1>申请注销用户列表</h1>
 
-                <div class="btn-pass">
-                    <button type="button" id="batchLogoutButton">批量注销</button>
-                </div>
+                <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
+
 
                 <table border="1" class="styled-table">
                     <thead>
@@ -149,7 +208,7 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${users}" var="user">
-                        <tr>
+                        <tr class="one-row">
                             <td>
                                 <input type="checkbox"
                                        class="rowCheckbox"
@@ -211,7 +270,7 @@
                 </table>
 
                 <form action="/teamAdmin/ToUserManage">
-                    <button>返回用户管理界面</button>
+                    <button class="back-btn">返回用户管理界面</button>
                 </form>
             </div>
         </div>

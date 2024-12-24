@@ -59,7 +59,7 @@
 
         form input[type="text"]:focus,
         form input[type="date"]:focus {
-            border-color: #007bff;
+            border-color: #4e73df;
             outline: none;
         }
 
@@ -70,7 +70,7 @@
 
         /* 提交按钮样式 */
         form input[type="submit"] {
-            background-color: #007bff;
+            background-color: #4e73df;
             color: white;
             font-size: 16px;
             padding: 12px 20px;

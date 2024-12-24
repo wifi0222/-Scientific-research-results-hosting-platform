@@ -18,6 +18,10 @@
 
     <style>
         /* 表单样式 */
+        .h1{
+            text-align: center;
+            padding: 6px;
+        }
         form {
             background-color: #ffffff;
             padding: 20px;
@@ -109,6 +113,8 @@
             font-size: 16px;
             color: white;
             text-align: center;
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 设置字体加粗 */
         }
 
         /* 按钮悬停时 */
