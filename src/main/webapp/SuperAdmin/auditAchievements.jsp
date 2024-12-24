@@ -124,7 +124,7 @@
     </table>
 
     <div style="margin-top: 10px;">
-        <button type="button" id="batchPassButton">通过</button>
+        <button type="button" id="batchPassButton">批量通过</button>
     </div>
 
 </div>

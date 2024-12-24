@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.*;
 
@@ -281,10 +282,28 @@ public class TeamAdminController {
 
         int teamID = 1;
 
+        // 定义类别的排序优先级
+        List<String> categoryOrder = Arrays.asList("专著", "专利", "软著", "产品");
+
         // 获取团队所有成果列表
         List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
 
-        Map<Achievement, List<AchievementFile>> achievementMap = new HashMap<Achievement, List<AchievementFile>>();
+        // 排序成果列表
+        achievements.sort((a1, a2) -> {
+            // 按类别顺序排序
+            int categoryComparison = Integer.compare(
+                    categoryOrder.indexOf(a1.getCategory()),
+                    categoryOrder.indexOf(a2.getCategory())
+            );
+            if (categoryComparison != 0) {
+                return categoryComparison; // 如果类别不同，按类别排序
+            }
+            // 如果类别相同，按 ID 升序排序
+            return Integer.compare(a1.getAchievementID(), a2.getAchievementID());
+        });
+
+        // 创建排序后的 Map，用 LinkedHashMap 保证顺序
+        Map<Achievement, List<AchievementFile>> achievementMap = new LinkedHashMap<>();
 
         for (Achievement a : achievements) {
             // 获取每个成果的附件和图片
@@ -557,7 +576,7 @@ public class TeamAdminController {
     }
 
     /**
-     * 处理删除科研成果
+     * 处理单独删除科研成果
      */
     @GetMapping("/achievements/delete")
     public String deleteAchievement(@RequestParam("id") int achievementID, Model model, HttpSession session) {
@@ -608,7 +627,60 @@ public class TeamAdminController {
     }
 
     /**
-     * 处理切换可见性
+     * 处理批量删除科研成果
+     */
+    @GetMapping("/achievements/batchDelete")
+    public String batchDeleteAchievement(@RequestParam("ids") List<Integer> selectedIds,
+                                         Model model, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
+        // 判断该团队管理员是否具有删除科研成果的权限
+        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+        if (!teamAdministrator.isDeletePermission()) {
+            model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
+            return "/TeamAdmin/error";
+        }
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        for (int id : selectedIds) {
+            // 获取现有的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+
+            // 获取该成果的附件和图片
+            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(id);
+
+            // 删除该成果的所有附件和图片
+            for (AchievementFile file : achievementFiles) {
+                // 删除本地的附件/图片
+                deleteLocationFile(file.getFilePath(), file.getType());
+
+                // 从数据库中删除 AchievementFile 记录
+                achievementFileService.deleteAchievementFile(file.getFileID());
+            }
+
+            // 从数据库中删除 Achievement 记录
+            achievementService.deleteAchievement(id);
+        }
+
+        // 重定向到成果展示页面
+        return "redirect:/teamAdmin/achievements";
+    }
+
+    /**
+     * 处理单独自动处理切换可见性
      */
     @GetMapping("/achievements/switchViewStatus")
     public String switchViewStatus(@RequestParam("id") int achievementID, Model model) {
@@ -636,6 +708,27 @@ public class TeamAdminController {
         return "redirect:/teamAdmin/achievements";
     }
 
+    // 根据传入的状态切换可见性
+    @GetMapping("/achievements/switchViewStatusByStatus")
+    public String switchViewStatusByStatus(@RequestParam("ids") List<Integer> selectedIds,
+                                           @RequestParam("status") int status, Model model) {
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        for (int id : selectedIds) {
+            // 获取现有的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+            // 切换可见性
+            achievementService.updateAchievementVisibility(id, status);
+        }
+        // 重定向到成果展示页面
+        return "redirect:/teamAdmin/achievements";
+    }
+
     /**
      * 处理删除文件的请求
      */
@@ -648,7 +741,7 @@ public class TeamAdminController {
     ) {
         try {
             // 根据 fileID 获取 AchievementFile 对象
-            AchievementFile file = achievementFileService.getFilesByfileID(fileID);
+            AchievementFile file = achievementFileService.getFilesByFileID(fileID);
             if (file == null) {
                 model.addAttribute("error", "未找到指定的文件。");
                 return "/TeamAdmin/error";
