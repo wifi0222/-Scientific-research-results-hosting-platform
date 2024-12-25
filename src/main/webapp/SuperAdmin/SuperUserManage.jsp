@@ -20,6 +20,32 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/superuserManage.css">
+    <style>
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
+    </style>
 
     <script type="text/javascript">
         // 在删除按钮点击时，弹出确认框
@@ -213,6 +239,10 @@
 
                 <button onclick="window.location.href='/SuperController/ToAddTeamAdmin'" class="btn btn-add">
                     <i class="fas fa-plus-circle"></i> 添加团队管理员
+                </button>
+
+                <button type="button" id="batchPassButton" class="btn btn-pass">
+                    批量删除
                 </button>
 
             </div>

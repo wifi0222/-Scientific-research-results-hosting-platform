@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
-    <link rel="stylesheet" href="/css/superuserManage.css">
+    <link rel="stylesheet" href="/css/administrator.css">
     <style>
         /* 权限状态的颜色和图标 */
         .has {
@@ -66,6 +66,30 @@
             background-color: #3578f3;
         }
 
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-pass {
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #3e8e41;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-pass:hover {
+            background-color: darkgreen;
+        }
     </style>
 </head>
 <body>
@@ -94,21 +118,36 @@
         <div class="main">
             <div class="section">
 
-                <h1>超级用户权限管理</h1>
-<%--                &lt;%&ndash; 提示信息 &ndash;%&gt;--%>
-<%--                <c:if test="${not empty message}">--%>
-<%--                    <div class="alert alert-info">${message}</div>--%>
-<%--                </c:if>--%>
+                <h1>管理团队管理员操作权限</h1>
+                <!-- 搜索与筛选表单 -->
+                <div class="search-filter">
+                    <label for="keyword">姓名：</label>
+                    <input type="text" id="keyword" placeholder="请输入姓名">
+
+                    <button type="button" id="searchButton">搜索</button>
+                    <button type="button" id="resetButton">重置</button>
+                </div>
+
                 <!-- 权限管理表格 -->
                 <table class="styled-table">
                     <thead>
                     <tr>
-                        <th>用户ID</th>
-                        <th>用户名</th>
-                        <th>管理员姓名</th>
-                        <th>发布权限</th>
-                        <th>用户权限</th>
-                        <th>删除权限</th>
+                        <th>
+                            <input type="checkbox" id="selectAllCheckbox"/>
+                            全选
+                        </th>
+                        <th>ID</th>
+<%--                        <th>用户名</th>--%>
+                        <th>姓名</th>
+                        <th>用户管理</th>
+                        <th>成果发布</th>
+                        <th>成果删除</th>
+                        <th>成果编辑</th>
+                        <th>成果状态</th>
+                        <th>文章发布</th>
+                        <th>文章删除</th>
+                        <th>文章编辑</th>
+                        <th>文章状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -116,17 +155,23 @@
                     <c:forEach items="${teamAdministrators}" var="teamAdmin">
                         <tr class="one-row"
                             data-name="${teamAdmin.adminName}">
-                            <td>${teamAdmin.adminID}</td>
-                            <td>${teamAdmin.adminUsername}</td>
-                            <td>${teamAdmin.adminName}</td>
-                            <td class="permission">
-                                        <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
-                                                ${teamAdmin.publishPermission ? '有权限' : '无权限'}
-                                        </span>
+                            <td>
+                                <input type="checkbox"
+                                       class="rowCheckbox"
+                                       name="selectedRows"
+                                       value="${teamAdmin.adminID}}">
                             </td>
+                            <td>${teamAdmin.adminID}</td>
+<%--                            <td>${teamAdmin.adminUsername}</td>--%>
+                            <td>${teamAdmin.adminName}</td>
                             <td class="permission">
                                         <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
                                                 ${teamAdmin.userPermission ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td class="permission">
+                                        <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
+                                                ${teamAdmin.publishPermission ? '有权限' : '无权限'}
                                         </span>
                             </td>
                             <td class="permission">
@@ -134,24 +179,71 @@
                                                 ${teamAdmin.deletePermission ? '有权限' : '无权限'}
                                         </span>
                             </td>
+                            <td class="permission">
+                                <span class="${teamAdmin.editPermission ? 'has':'no'}">
+                                    ${teamAdmin.editPermission ? '有权限' : '无权限'}
+                                </span>
+                            </td>
+                            <td class="permission">
+                                <span class="${teamAdmin.setStatusPermission ? 'has':'no'}">
+                                        ${teamAdmin.setStatusPermission ? '有权限' : '无权限'}
+                                </span>
+                            </td>
+
+                            <td class="permission">
+                                        <span class="${teamAdmin.publishArticle ? 'has' : 'no'}">
+                                                ${teamAdmin.publishArticle ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td class="permission">
+                                        <span class="${teamAdmin.deleteArticle ? 'has' : 'no'}">
+                                                ${teamAdmin.deleteArticle ? '有权限' : '无权限'}
+                                        </span>
+                            </td>
+                            <td class="permission">
+                                <span class="${teamAdmin.editArticle ? 'has':'no'}">
+                                        ${teamAdmin.editArticle ? '有权限' : '无权限'}
+                                </span>
+                            </td>
+                            <td class="permission">
+                                <span class="${teamAdmin.setArticleStatus ? 'has':'no'}">
+                                        ${teamAdmin.setArticleStatus ? '有权限' : '无权限'}
+                                </span>
+                            </td>
+
                             <td>
 <%--                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">--%>
 <%--                                    <i class="fas fa-edit"></i> 编辑权限--%>
 <%--                                </a>--%>
                                     <button onclick="window.location.href='/SuperController/ToEditTA?adminID=${teamAdmin.adminID}'" class="btn-edit">
-                                        <i class="fas fa-edit"></i> 编辑权限
+                                        <i class="fas fa-edit"></i> 编辑
                                     </button>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+
+                <button type="button" id="batchUserButton" class="btn btn-pass">
+                    设置用户权限
+                </button>
+
+                <button type="button" id="batchResearchButton" class="btn btn-pass">
+                    设置科研成果权限
+                </button>
+
+                <button type="button" id="batchArticleButton" class="btn btn-pass">
+                    设置文章权限
+                </button>
+
             </div>
         </div>
     </div>
 </div>
 
-
+<footer>
+    ABCD组 &copy; 2024
+</footer>
 
 <script>
     // 检查信息并弹出提示框
@@ -162,5 +254,7 @@
         }
     };
 </script>
+
+<script src="../js/administrator.js"></script>
 </body>
 </html>

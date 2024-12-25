@@ -7,6 +7,15 @@ public class TeamAdministrator {
     private boolean publishPermission; // 权限1：发布科研成果权限
     private boolean userPermission;    // 权限2：审核用户权限
     private boolean deletePermission;  // 权限3：删除科研成果权限
+    private boolean editPermission; //权限4：编辑科研成果权限
+    private boolean setStatusPermission; //权限5：公开/隐藏科研成果权限
+
+    private boolean publishArticle; //权限6：发布文章权限
+    private boolean deleteArticle; //权限7：删除文章权限
+    private boolean editArticle; //权限8：编辑文章权限
+    private boolean setArticleStatus; //权限9:公开/隐藏文章权限
+
+
     private int teamID;             // 团队ID
 
     // Getter 和 Setter 方法
@@ -67,16 +76,52 @@ public class TeamAdministrator {
         this.teamID = teamID;
     }
 
-    @Override
-    public String toString() {
-        return "TeamAdministrator{" +
-                "adminID=" + adminID +
-                ", adminName='" + adminName + '\'' +
-                ", adminUsername='" + adminUsername + '\'' +
-                ", publishPermission=" + publishPermission +
-                ", userPermission=" + userPermission +
-                ", deletePermission=" + deletePermission +
-                ", teamID=" + teamID +
-                '}';
+    public void setEditPermission(boolean editPermission) {
+        this.editPermission = editPermission;
+    }
+    public void setSetStatusPermission(boolean setStatusPermission) {
+        this.setStatusPermission = setStatusPermission;
+    }
+
+
+    public void setPublishArticle(boolean publishArticle) {
+        this.publishArticle = publishArticle;
+    }
+
+
+    public void setDeleteArticle(boolean deleteArticle) {
+        this.deleteArticle = deleteArticle;
+    }
+
+    public void setEditArticle(boolean editArticle) {
+        this.editArticle = editArticle;
+    }
+
+    public void setSetArticleStatus(boolean setArticleStatus) {
+        this.setArticleStatus = setArticleStatus;
+    }
+
+    public boolean getEditPermission() {
+        return editPermission;
+    }
+
+    public boolean getSetStatusPermission() {
+        return setStatusPermission;
+    }
+
+    public boolean getPublishArticle() {
+        return publishArticle;
+    }
+
+    public boolean getDeleteArticle() {
+        return deleteArticle;
+    }
+
+    public boolean getEditArticle() {
+        return editArticle;
+    }
+
+    public boolean getSetArticleStatus() {
+        return setArticleStatus;
     }
 }

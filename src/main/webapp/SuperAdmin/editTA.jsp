@@ -14,6 +14,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/TaEdit.css">
+    <style>
+        .t1{
+            /*background-color: red;*/
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -41,33 +47,19 @@
         <div class="main">
             <div class="section">
                 <h1 class="admin-title">为 <span class="admin-name">${teamAdministrator.adminName}</span> 设置权限</h1>
-                <h2 class="permission-link">
-                    <a href="/SuperController/TeamAdministrator/edit?set=1&adminID=${teamAdministrator.adminID}" class="one-click-btn">
-                        一键为用户设置团队管理员基本权限（包括发布权限、用户管理权限)
-                    </a>
-                </h2>
+<%--                <h2 class="permission-link">--%>
+<%--                    <a href="/SuperController/TeamAdministrator/edit?set=1&adminID=${teamAdministrator.adminID}" class="one-click-btn">--%>
+<%--                        一键为用户设置团队管理员基本权限（包括发布权限、用户管理权限)--%>
+<%--                    </a>--%>
+<%--                </h2>--%>
 
-                <br>
-
-                <h2>全部权限设置：</h2>
                 <form action="/SuperController/TeamAdministrator/edit" method="get" class="permissions-form">
-                    <input type="text" name="set" value="0" hidden="hidden">
+<%--                    <input type="text" name="set" value="0" hidden="hidden">--%>
                     <input type="text" name="adminID" value="${teamAdministrator.adminID}" hidden="hidden">
-
-                    <!-- 发布科研成果权限 -->
-                    <div class="permission-option">
-                        <label>发布科研成果权限：</label>
-                        <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="1" ${teamAdministrator.publishPermission == true ? 'checked' : ''}> 有权限
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="0" ${teamAdministrator.publishPermission == false ? 'checked' : ''}> 无权限
-                        </label>
-                    </div>
 
                     <!-- 审核用户权限 -->
                     <div class="permission-option">
-                        <label>审核用户权限：</label>
+                        <label class="t1">审核用户权限：</label>
                         <label class="radio-label">
                             <input type="radio" name="userPermission" value="1" ${teamAdministrator.userPermission == true ? 'checked' : ''}> 有权限
                         </label>
@@ -76,14 +68,91 @@
                         </label>
                     </div>
 
+                    <!-- 发布科研成果权限 -->
+                    <div class="permission-option">
+                        <label class="t1">发布科研成果权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="publishPermission" value="1" ${teamAdministrator.publishPermission == true ? 'checked' : ''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="publishPermission" value="0" ${teamAdministrator.publishPermission == false ? 'checked' : ''}> 无权限
+                        </label>
+                    </div>
+
                     <!-- 删除科研成果权限 -->
                     <div class="permission-option">
-                        <label>删除科研成果权限：</label>
+                        <label class="t1">删除科研成果权限：</label>
                         <label class="radio-label">
                             <input type="radio" name="deletePermission" value="1" ${teamAdministrator.deletePermission == true ? 'checked' : ''}> 有权限
                         </label>
                         <label class="radio-label">
                             <input type="radio" name="deletePermission" value="0" ${teamAdministrator.deletePermission == false ? 'checked' : ''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 编辑科研成果权限 -->
+                    <div class="permission-option">
+                        <label class="t1">编辑科研成果权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="editPermission" value="1" ${teamAdministrator.editPermission == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="editPermission" value="0" ${teamAdministrator.editPermission == false ? 'checked':''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 公开/隐藏科研成果权限 -->
+                    <div class="permission-option">
+                        <label class="t1">公开/隐藏科研成果权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="setStatusPermission" value="1" ${teamAdministrator.setStatusPermission == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="setStatusPermission" value="0" ${teamAdministrator.setStatusPermission == false ? 'checked':''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 发布文章权限 -->
+                    <div class="permission-option">
+                        <label class="t1">发布文章权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="publishArticle" value="1" ${teamAdministrator.publishArticle == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="publishArticle" value="0" ${teamAdministrator.publishArticle == false ? 'checked':''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 删除文章权限 -->
+                    <div class="permission-option">
+                        <label class="t1">删除文章权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="deleteArticle" value="1" ${teamAdministrator.deleteArticle == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="deleteArticle" value="0" ${teamAdministrator.deleteArticle == false ? 'checked':''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 编辑文章权限 -->
+                    <div class="permission-option">
+                        <label class="t1">编辑文章权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="editArticle" value="1" ${teamAdministrator.editArticle == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="editArticle" value="0" ${teamAdministrator.editArticle== false ? 'checked':''}> 无权限
+                        </label>
+                    </div>
+
+                    <!-- 公开/隐藏文章权限 -->
+                    <div class="permission-option">
+                        <label class="t1">公开/隐藏文章权限：</label>
+                        <label class="radio-label">
+                            <input type="radio" name="setArticleStatus" value="1" ${teamAdministrator.setArticleStatus == true ? 'checked':''}> 有权限
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="setArticleStatus" value="0" ${teamAdministrator.setArticleStatus == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 

@@ -107,7 +107,6 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
-
         List<User> members = userService.findAllTeamMember();
         model.addAttribute("members", members);
         model.addAttribute("information", information);
@@ -224,6 +223,11 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
 
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
+        }
+
         List<RegistrationReview> users = registrationService.getAllRegistrationReviews();
         model.addAttribute("users", users);
         model.addAttribute("message", message);
@@ -241,6 +245,7 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
+
         System.out.println("获得的信息" + username);
         RegistrationReview registrationReview = registrationService.getRegisterByusername(username);
         String sendMessage; //通过邮件发送的通知
@@ -729,6 +734,10 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
+        }
 
         List<User> users = userService.findTeamMemberAndVisitor();
         model.addAttribute("users", users);
@@ -746,6 +755,10 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
         }
 
         User logoutUser = userService.findById(userID);
@@ -770,6 +783,10 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
         }
 
         User user = userService.findById(userID);
@@ -819,6 +836,10 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
         }
 
         ArrayList<User> users = new ArrayList<User>();

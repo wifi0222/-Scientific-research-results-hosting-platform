@@ -27,7 +27,14 @@
 
     <update id="setAllPermission">
         UPDATE [TeamAdministrator]
-        SET publishPermission=#{publishPermission},userPermission=#{userPermission},deletePermission=#{deletePermission}
+        SET userPermission=#{userPermission},publishPermission=#{publishPermission},deletePermission=#{deletePermission},
+            editPermission=#{editPermission},setStatusPermission=#{setStatusPermission},publishArticle=#{publishArticle},
+            deleteArticle=#{deleteArticle},editArticle=#{editArticle},setArticleStatus=#{setArticleStatus}
         WHERE adminID=#{adminID}
     </update>
+
+    <select id="getUserManageAdministrator" resultType="Boolean">
+        SELECT userPermission FROM TeamAdministrator
+        WHERE  adminID=#{adminID}
+    </select>
 </mapper>
