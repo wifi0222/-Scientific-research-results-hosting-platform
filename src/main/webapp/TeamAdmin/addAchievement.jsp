@@ -29,11 +29,7 @@
 
         <div class="main">
             <h1>新增科研成果</h1>
-            <!-- 返回主页按钮 -->
-            <button type="button" class="back-button"
-                    onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
-                返回主页
-            </button>
+
             <form action="/teamAdmin/achievements/add?type=0" method="post" id="quillForm"
                   enctype="multipart/form-data">
 
@@ -71,6 +67,11 @@
 
 
                 <button type="submit">保存并发布</button>
+                <!-- 返回主页按钮 -->
+                <button type="button" class="back-button"
+                        onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
+                    返回主页
+                </button>
             </form>
         </div>
     </div>
@@ -106,18 +107,22 @@
         document.getElementById('hiddenInput').value = content;
     };
 
-    window.onload = function () {
+    window.addEventListener('pageshow', function (event) {
         const now = new Date();
         // 格式化为 yyyy-MM-ddTHH:mm
         const year = now.getFullYear();
+        console.log(year)
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        const defaultValue = `${year}-${month}-${day}T${hours}:${minutes}`;
+        const defaultValue = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+        console.log(defaultValue)
+        console.log("设置时间成功")
 
+        // 设置 datetime-local 的 value
         document.getElementById('creationTime').value = defaultValue;
-    };
+    });
 </script>
 
 <script>

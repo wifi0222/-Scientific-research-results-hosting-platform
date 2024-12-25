@@ -13,7 +13,7 @@
             </ul>
         </li>
         <li>
-            <a href="/teamAdmin/achievements?type=0">科研成果管理与发布</a>
+            <a href="/teamAdmin/achievements?type=0">科研成果管理</a>
         </li>
         <li>
             <a href="/teamAdmin/achievements?type=1">文章管理</a>
