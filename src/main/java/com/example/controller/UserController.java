@@ -108,7 +108,7 @@ public class UserController {
         String userRoleType = currentUser.getRoleType();
 
         // 将用户信息传递给前端
-        model.addAttribute("member", currentUser);
+        model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
         return "memberProfile";
     }
@@ -154,6 +154,8 @@ public class UserController {
 
         // 设置提示信息
         model.addAttribute("message", "信息已提交审核");
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
 
         return "profile"; // 返回个人信息页面
     }
@@ -217,6 +219,8 @@ public class UserController {
             // 如果没有找到审核记录
             model.addAttribute("modificationStatus", null);
         }
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
 
         return "profileStatus"; // 返回对应的 JSP 页面
     }
@@ -370,6 +374,7 @@ public class UserController {
             model.addAttribute("deactivationStatus", null);
         }
 
+        model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
         return "deactivationStatus"; // 返回对应的 JSP 页面
     }
