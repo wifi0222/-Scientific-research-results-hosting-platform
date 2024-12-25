@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -22,9 +22,9 @@
 </head>
 <body>
 <h1>修改科研成果</h1>
-<form action="/teamAdmin/achievements/edit/update" method="post" id="quillForm" enctype="multipart/form-data">
+<form action="/teamAdmin/achievements/edit/update?type=0" method="post" id="quillForm" enctype="multipart/form-data">
     <!-- 隐藏字段，用于存储成果ID -->
-    <input type="hidden" name="achievementID" value="${achievement.achievementID}"/>
+    <input type="hidden" name="id" value="${achievement.achievementID}"/>
 
     <label>成果标题：</label><br>
     <input type="text" name="title" value="${achievement.title}" placeholder="如：基于深度学习的遥感图像分类技术"
@@ -56,11 +56,11 @@
             <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
             <!-- 删除附件按钮 -->
             <%--在 HTML 标准 中，不允许将一个 <form> 放在另一个 <form> 的内部--%>
-<%--            <form action="/teamAdmin/deleteFile" method="post" style="display:inline;">--%>
-<%--                <input type="hidden" name="fileID" value="${file.fileID}"/>--%>
-<%--                <input type="hidden" name="achievementID" value="${achievement.achievementID}"/>--%>
-<%--                <button type="submit" onclick="return confirm('确定要删除这个附件吗？');">删除</button>--%>
-<%--            </form>--%>
+            <%--            <form action="/teamAdmin/deleteFile" method="post" style="display:inline;">--%>
+            <%--                <input type="hidden" name="fileID" value="${file.fileID}"/>--%>
+            <%--                <input type="hidden" name="achievementID" value="${achievement.achievementID}"/>--%>
+            <%--                <button type="submit" onclick="return confirm('确定要删除这个附件吗？');">删除</button>--%>
+            <%--            </form>--%>
             <!-- 删除附件按钮（用JS创建并提交表单） -->
             <button type="button"
                     onclick="deleteFile('${file.fileID}', '${achievement.achievementID}')">
@@ -99,7 +99,8 @@
 
     <button type="submit">保存修改</button>
     <!-- 返回主页按钮 -->
-    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements'">返回主页
+    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
+        返回主页
     </button>
 </form>
 
@@ -178,7 +179,7 @@
         // 2. 创建一个表单
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = '/teamAdmin/achievements/edit/deleteFile';
+        form.action = '/teamAdmin/achievements/edit/deleteFile?type=0';
 
         // 3. 创建隐藏表单域，填入 fileID、achievementID
         const fileIDInput = document.createElement('input');
@@ -189,7 +190,7 @@
 
         const achievementIDInput = document.createElement('input');
         achievementIDInput.type = 'hidden';
-        achievementIDInput.name = 'achievementID';
+        achievementIDInput.name = 'id';
         achievementIDInput.value = achievementID;
         form.appendChild(achievementIDInput);
 
@@ -201,7 +202,7 @@
         // window.location.href = '/teamAdmin/deleteFile?fileID=' + fileID + '&achievementID=' + achievementID;
     }
 
-    window.onload = function() {
+    window.onload = function () {
         const now = new Date();
         // 格式化为 yyyy-MM-ddTHH:mm
         const year = now.getFullYear();

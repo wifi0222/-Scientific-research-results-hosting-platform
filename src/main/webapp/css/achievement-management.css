@@ -50,6 +50,7 @@ h1 {
     transition: border-color 0.3s;
     width: 200px;
 }
+
 .search-filter input[type="text"]:focus,
 .search-filter input[type="date"]:focus,
 .search-filter select:focus {
@@ -99,9 +100,11 @@ h1 {
     border-bottom: 3px solid transparent;
     transition: color 0.3s, border-bottom-color 0.3s;
 }
+
 .tabs a:hover {
     color: #007BFF;
 }
+
 .tabs a.active {
     font-weight: bold;
     color: purple;
@@ -117,6 +120,7 @@ h1 {
     border-radius: 4px;
     transition: background-color 0.3s;
 }
+
 .tabs a.add-achievement:hover {
     background-color: #218838;
 }
@@ -282,6 +286,7 @@ h1 {
     background-color: #ff9800; /* 橙色 */
     color: #fff;
 }
+
 .btn-preview:hover {
     background-color: #e68a00;
 }
@@ -290,6 +295,7 @@ h1 {
     background-color: #4caf50; /* 绿色 */
     color: #fff;
 }
+
 .btn-pass:hover {
     background-color: #3e8e41;
 }
@@ -298,6 +304,7 @@ h1 {
     background-color: #f44336; /* 红色 */
     color: #fff;
 }
+
 .btn-reject:hover {
     background-color: #e53935;
 }
@@ -315,6 +322,7 @@ button {
     font-size: 14px;
     transition: opacity 0.3s;
 }
+
 button:hover {
     opacity: 0.9;
 }
@@ -343,6 +351,7 @@ button:nth-child(3) {
         align-items: flex-start;
         margin: 20px 0; /* 上下margin 20, 横向可省略 */
     }
+
     .search-filter input[type="text"],
     .search-filter input[type="date"],
     .search-filter select {
@@ -353,10 +362,12 @@ button:nth-child(3) {
         flex-direction: column;
         align-items: flex-start;
     }
+
     .tabs a {
         margin-right: 0;
         margin-bottom: 10px;
     }
+
     .tabs a.add-achievement {
         margin-left: 0;
     }
@@ -367,4 +378,40 @@ button:nth-child(3) {
         /* 例如隐藏“类别列” */
         /* display: none; */
     }
+}
+
+/* 模态框样式 */
+.modal {
+    display: none; /* 隐藏 */
+    position: fixed; /* 固定位置 */
+    z-index: 1000; /* 确保在最上层 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全屏 */
+    height: 100%;
+    overflow: auto; /* 如果需要滚动 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% 从顶部，居中 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* 宽度 */
+    border-radius: 5px;
+}
+
+.modal-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.modal-footer button {
+    margin-left: 5px;
 }

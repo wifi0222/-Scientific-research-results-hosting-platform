@@ -21,4 +21,6 @@ public interface AchievementService {
     int updateAchievementVisibility(int achievementID, int viewStatus);
 
     int updateAchievementStatus(int achievementID, int status);
+
+    int updateRefusalReason(int achievementID, String refusalReason);
 }

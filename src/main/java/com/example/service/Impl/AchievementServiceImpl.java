@@ -51,4 +51,9 @@ public class AchievementServiceImpl implements AchievementService {
     public int updateAchievementStatus(int achievementID, int status) {
         return achievementMapper.updateAchievementStatus(achievementID, status);
     }
+
+    @Override
+    public int updateRefusalReason(int achievementID, String refusalReason) {
+        return achievementMapper.updateRefusalReason(achievementID, refusalReason);
+    }
 }

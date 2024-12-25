@@ -124,7 +124,7 @@ function editAchievement(id) {
     var contextPath = '${pageContext.request.contextPath}';
 
     // 构建编辑页面的URL
-    var editUrl = '/teamAdmin/achievements/edit?id=' + id + "&type=0";
+    var editUrl = '/teamAdmin/achievements/edit?id=' + id + "&type=1";
 
     // 跳转到编辑页面
     window.location.href = editUrl;
@@ -139,7 +139,7 @@ function deleteAchievement(id) {
     // 获取项目的上下文路径
     var contextPath = '${pageContext.request.contextPath}';
     // 构建编辑页面的URL
-    var editUrl = '/teamAdmin/achievements/delete?id=' + id + "&type=0";
+    var editUrl = '/teamAdmin/achievements/delete?id=' + id + "&type=1";
     // 跳转到编辑页面
     window.location.href = editUrl;
 }
@@ -152,7 +152,7 @@ function switchViewStatus(id) {
     var contextPath = '${pageContext.request.contextPath}';
 
     // 构建编辑页面的URL
-    var editUrl = '/teamAdmin/achievements/switchViewStatus?id=' + id + "&type=0";
+    var editUrl = '/teamAdmin/achievements/switchViewStatus?id=' + id + "&type=1";
 
     // 跳转到编辑页面
     window.location.href = editUrl;
@@ -182,12 +182,10 @@ document.getElementById("batchDeletePublished").addEventListener("click", functi
     // selectedIds.forEach(function (id) {
     //     deleteAchievement(id);
     // });
-
-    if (!confirm(`确定要批量删除 ${selectedIds.length} 个成果吗？`)) {
+    if (!confirm(`确定要删除 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
-
-    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=0";
+    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 });
 
@@ -208,10 +206,10 @@ document.getElementById("batchPublicPublished").addEventListener("click", functi
     //     .catch(error => {
     //         console.error('操作失败:', error);
     //     });
-    if (!confirm(`确定要批量公开 ${selectedIds.length} 个成果吗？`)) {
+    if (!confirm(`确定要公开 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
-    const url = '/teamAdmin/achievements/switchViewStatusByStatus?ids=' + selectedIds.join(',') + '&status=1' + "&type=0";
+    const url = '/teamAdmin/achievements/switchViewStatusByStatus?ids=' + selectedIds.join(',') + '&status=1' + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 });
 
@@ -221,11 +219,11 @@ document.getElementById("batchHidePublished").addEventListener("click", function
         alert("请先勾选要隐藏的成果！");
         return;
     }
-    if (!confirm(`确定要批量隐藏 ${selectedIds.length} 个成果吗？`)) {
+    if (!confirm(`确定要隐藏 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
     // 批量隐藏逻辑
-    const url = '/teamAdmin/achievements/switchViewStatusByStatus?ids=' + selectedIds.join(',') + '&status=0' + "&type=0";
+    const url = '/teamAdmin/achievements/switchViewStatusByStatus?ids=' + selectedIds.join(',') + '&status=0' + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面
 });
 
@@ -248,10 +246,10 @@ document.getElementById("batchDeleteReview").addEventListener("click", function 
         alert("请先勾选要删除的成果！");
         return;
     }
-    if (!confirm(`确定要批量删除 ${selectedIds.length} 个成果吗？`)) {
+    if (!confirm(`确定要删除 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
-    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=0";
+    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 });
 
@@ -274,10 +272,10 @@ document.getElementById("batchDeleteRejected").addEventListener("click", functio
         alert("请先勾选要删除的成果！");
         return;
     }
-    if (!confirm(`确定要批量删除 ${selectedIds.length} 个成果吗？`)) {
+    if (!confirm(`确定要删除 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
-    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=0";
+    const url = '/teamAdmin/achievements/batchDelete?ids=' + selectedIds.join(',') + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 });
 
@@ -290,28 +288,4 @@ function getSelectedIds(checkboxes) {
         }
     });
     return ids;
-}
-
-function showReasonModal(reason) {
-    const reasonModal = document.getElementById("reasonModal");
-    const closeReasonModalBtn = document.getElementById("closeReasonModal");
-    const reasonText = document.getElementById("reasonText");
-
-    // 将传入的拒绝理由赋值给模态框中的文本
-    reasonText.textContent = reason;
-
-    // 显示模态框
-    reasonModal.style.display = "block";
-
-    // 点击“关闭”按钮时，隐藏模态框
-    closeReasonModalBtn.onclick = function () {
-        reasonModal.style.display = "none";
-    };
-
-    // 点击模态框外部区域时，隐藏模态框
-    window.onclick = function (event) {
-        if (event.target === reasonModal) {
-            reasonModal.style.display = "none";
-        }
-    };
 }

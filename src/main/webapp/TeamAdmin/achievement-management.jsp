@@ -64,7 +64,7 @@
                     <input type="checkbox" id="selectAllPublished" />
                     全选
                 </th>
-                <th>成果ID</th>
+                <th>ID</th>
                 <th>标题</th>
                 <th>类别</th>
                 <th>摘要</th>
@@ -154,7 +154,7 @@
                     <input type="checkbox" id="selectAllReview" />
                     全选
                 </th>
-                <th>成果ID</th>
+                <th>ID</th>
                 <th>标题</th>
                 <th>类别</th>
                 <th>摘要</th>
@@ -235,7 +235,7 @@
                     <input type="checkbox" id="selectAllRejected" />
                     全选
                 </th>
-                <th>成果ID</th>
+                <th>ID</th>
                 <th>标题</th>
                 <th>类别</th>
                 <th>摘要</th>
@@ -295,6 +295,8 @@
                         <td>
                             <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
                             <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
+                            <!-- 触发按钮，点击后打开模态框并传入拒绝理由 -->
+                            <button onclick="showReasonModal('${entry.key.refusalReason}')">拒绝理由</button>
                         </td>
                     </tr>
                 </c:if>
@@ -306,6 +308,15 @@
     </div>
 </div>
 
+<!-- 模态框 -->
+<div id="reasonModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span id="closeReasonModal" class="close">&times;</span>
+        <h2>拒绝理由</h2>
+        <!-- 这个地方用于显示拒绝理由 -->
+        <p id="reasonText"></p>
+    </div>
+</div>
 
 <!-- 引入外部JS文件，确保标签切换功能 -->
 <script src="../js/achievement-management.js"></script>

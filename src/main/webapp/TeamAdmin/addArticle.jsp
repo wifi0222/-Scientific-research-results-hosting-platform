@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>新增科研成果</title>
+    <title>新增文章</title>
     <link rel="stylesheet" type="text/css" href="../css/addAchievement.css">
 
     <!-- 引入Quill编辑器所需的CSS和JS -->
@@ -20,21 +20,20 @@
 
 </head>
 <body>
-<h1>新增科研成果</h1>
-<form action="/teamAdmin/achievements/add?type=0" method="post" id="quillForm" enctype="multipart/form-data">
-    <label>成果标题：</label><br>
+<h1>新增文章</h1>
+<form action="/teamAdmin/achievements/add?type=1" method="post" id="quillForm" enctype="multipart/form-data">
+    <label>文章标题：</label><br>
     <input type="text" name="title" placeholder="如：基于深度学习的遥感图像分类技术" required><br><br>
 
-    <label>成果类别：</label><br>
+    <label>文章类别：</label><br>
     <select name="category">
-        <option value="专著">专著</option>
-        <option value="专利">专利</option>
-        <option value="软著">软著</option>
-        <option value="产品">产品</option>
+        <option value="SCI">SCI</option>
+        <option value="EI">EI</option>
+        <option value="核心">核心</option>
     </select><br><br>
 
     <label>摘要：</label><br>
-    <textarea name="abstractContent" rows="3" placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"
+    <textarea name="abstractContent" rows="3" placeholder="如：本文章提供了一种新型遥感图像分类算法，可提高分类准确率"
               required></textarea><br><br>
 
     <label>内容：</label><br>
@@ -56,7 +55,7 @@
 
     <button type="submit">保存并发布</button>
     <!-- 返回主页按钮 -->
-    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
+    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=1'">
         返回主页
     </button>
 </form>

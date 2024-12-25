@@ -33,14 +33,14 @@
 /* 新增第1列：选择框 */
 .achievement-table th:nth-child(1),
 .achievement-table td:nth-child(1) {
-    width: 60px;  /* 选择框列 */
+    width: 60px; /* 选择框列 */
     background-color: #f2f2f2; /* 你也可以换成其他颜色 */
 }
 
 /* 第2列：成果ID */
 .achievement-table th:nth-child(2),
 .achievement-table td:nth-child(2) {
-    width: 40px;  /* 成果ID列 */
+    width: 40px; /* 成果ID列 */
     background-color: #2e59d9;
 }
 
@@ -54,7 +54,7 @@
 /* 第4列：类别 */
 .achievement-table th:nth-child(4),
 .achievement-table td:nth-child(4) {
-    width: 40px;  /* 类别列 */
+    width: 40px; /* 类别列 */
     background-color: #333333;
 }
 
@@ -82,7 +82,7 @@
 /* 第8列：审核状态 */
 .achievement-table th:nth-child(8),
 .achievement-table td:nth-child(8) {
-    width: 60px;  /* 审核状态列 */
+    width: 60px; /* 审核状态列 */
     background-color: #007bff;
 }
 
@@ -118,6 +118,7 @@
     background-color: #ff9800; /* 橙色 */
     color: #fff;
 }
+
 .btn-preview:hover {
     background-color: #e68a00;
 }
@@ -126,6 +127,7 @@
     background-color: #4caf50; /* 绿色 */
     color: #fff;
 }
+
 .btn-pass:hover {
     background-color: #3e8e41;
 }
@@ -134,8 +136,31 @@
     background-color: #f44336; /* 红色 */
     color: #fff;
 }
+
 .btn-reject:hover {
     background-color: #e53935;
+}
+
+.btn-batchPass {
+    background-color: #4caf50; /* 绿色 */
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.btn-batchPass:hover {
+    background-color: #3e8e41;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 /* ======== 搜索与筛选区域，与之前类似，可酌情再做微调 ======== */
@@ -150,10 +175,12 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .search-filter label {
     font-weight: bold;
     margin-right: 5px;
 }
+
 .search-filter input[type="text"],
 .search-filter input[type="date"],
 .search-filter select {
@@ -163,6 +190,7 @@
     outline: none;
     font-size: 14px;
 }
+
 .search-filter button {
     background-color: #4e73df;
     color: #ffffff;
@@ -172,6 +200,7 @@
     cursor: pointer;
     font-weight: bold;
 }
+
 .search-filter button:hover {
     background-color: #355db3;
 }
@@ -184,10 +213,48 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .section h2 {
     color: #4e73df;
     margin-top: 0;
 }
+
 .section.active {
     border: 2px solid #4e73df;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none; /* 隐藏 */
+    position: fixed; /* 固定位置 */
+    z-index: 1000; /* 确保在最上层 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全屏 */
+    height: 100%;
+    overflow: auto; /* 如果需要滚动 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% 从顶部，居中 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* 宽度 */
+    border-radius: 5px;
+}
+
+.modal-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.modal-footer button {
+    margin-left: 5px;
 }

@@ -17,13 +17,13 @@
     <!-- 更新文章 -->
     <update id="updateArticle" parameterType="com.example.model.Article">
         UPDATE Article
-        SET title        = #{title},
-            category     = #{category},
-            abstract     = #{abstractContent},
-            contents     = #{contents},
-            publishDate  = #{publishDate},
-            status       = #{status},
-            viewStatus   = #{viewStatus}
+        SET title       = #{title},
+            category    = #{category},
+            abstract    = #{abstractContent},
+            contents    = #{contents},
+            publishDate = #{publishDate},
+            status      = #{status},
+            viewStatus  = #{viewStatus}
         WHERE articleID = #{articleID}
     </update>
 
@@ -44,7 +44,8 @@
                publishDate,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Article
         WHERE articleID = #{articleID}
     </select>
@@ -59,7 +60,8 @@
                publishDate,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Article
         WHERE teamID = #{teamID}
         ORDER BY publishDate DESC
@@ -92,7 +94,8 @@
                publishDate,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Article
         ORDER BY publishDate DESC
     </select>
@@ -108,6 +111,13 @@
     <update id="updateArticleVisibility" parameterType="map">
         UPDATE Article
         SET viewStatus = #{viewStatus}
+        WHERE articleID = #{articleID}
+    </update>
+
+    <!-- 新增的更新 refusalReason 的 SQL 语句 -->
+    <update id="updateRefusalReason" parameterType="map">
+        UPDATE Article
+        SET refusalReason = #{refusalReason}
         WHERE articleID = #{articleID}
     </update>
 
