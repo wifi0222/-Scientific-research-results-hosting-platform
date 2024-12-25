@@ -13,7 +13,7 @@
 <head>
     <title>注销账号、重置密码</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/newSidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userManage.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -255,54 +255,55 @@
 <body>
 <div class="container">
     <!-- Sidebar -->
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'TeamAdmin'}">
-                <ul>
-                    <li><a href="javascript:void(0);">团队管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                            <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                            <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                        <ul class="submenu">
-                            <li><a href="/research/submenu1">子菜单项1</a></li>
-                            <li><a href="/research/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">文章管理</a>
-                        <ul class="submenu">
-                            <li><a href="/article/submenu1">子菜单项1</a></li>
-                            <li><a href="/article/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">用户管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                            <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">在线交流与反馈</a>
-                        <ul class="submenu">
-                            <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                            <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <!-- 普通用户的菜单项，若有的话 -->
-                <a href="user/ManagementLogin">管理员登录</a>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+        <div class="sidebar">
+            <c:choose>
+                <c:when test="${userRoleType == 'TeamAdmin'}">
+                    <ul>
+                        <li><a href="javascript:void(0);">团队管理</a>
+                            <ul class="submenu">
+                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
+                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
+                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0);">科研成果管理与发布</a>
+                            <ul class="submenu">
+                                <li><a href="/research/submenu1">子菜单项1</a></li>
+                                <li><a href="/research/submenu2">子菜单项2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0);">文章管理</a>
+                            <ul class="submenu">
+                                <li><a href="/article/submenu1">子菜单项1</a></li>
+                                <li><a href="/article/submenu2">子菜单项2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0);">用户管理</a>
+                            <ul class="submenu">
+                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
+                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0);">在线交流与反馈</a>
+                            <ul class="submenu">
+                                <li><a href="/feedback/submenu1">子菜单项1</a></li>
+                                <li><a href="/feedback/submenu2">子菜单项2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="logout">
+                        <a href="/user/logout">退出登录</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <!-- 普通用户的菜单项，若有的话 -->
+                    <a href="user/ManagementLogin">管理员登录</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+
         <div class="main">
             <div class="section">
                 <h1>全部团队成员和普通用户</h1>

@@ -17,7 +17,7 @@
     <title>超级管理员用户管理</title>
     <!-- 引入基本样式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/newSidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/superuserManage.css">
     <style>
@@ -127,27 +127,27 @@
 </head>
 <body>
 <div class="container">
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'SuperAdmin'}">
-                <ul>
-                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
-                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                    <li><a href="/user/checkReply">内容审核</a></li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <ul>
-                    <li><a href="/login.jsp">登录</a></li>
-                </ul>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+        <div class="sidebar">
+            <c:choose>
+                <c:when test="${userRoleType == 'SuperAdmin'}">
+                    <ul>
+                        <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                        <li><a href="/user/checkReply">内容审核</a></li>
+                    </ul>
+                    <div class="logout">
+                        <a href="/user/logout">退出登录</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <ul>
+                        <li><a href="/login.jsp">登录</a></li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
         <div class="main">
             <div class="section">
                 <!-- 如果存在error属性，显示弹窗提示 -->

@@ -170,7 +170,7 @@
     <update id="updateTeamMemberInfo" parameterType="com.example.model.MemberReview">
         UPDATE [User]
         SET researchField=#{researchField},contactInfo=#{contactInfo},
-        academicBackground=#{academicBackground}, researchAchievements=#{researchAchievements}
+        academicBackground=#{academicBackground}, researchAchievements=#{researchAchievements},avatarFile=#{avatarFile}
         WHERE userID=#{memberID}
     </update>
 

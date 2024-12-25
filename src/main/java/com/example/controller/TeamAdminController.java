@@ -212,6 +212,21 @@ public class TeamAdminController {
         return "redirect:/teamAdmin/ToMemberInfoReview";
     }
 
+    //用户修改信息详情
+    @RequestMapping("/TeamManage/Member/ReviewDetail")
+    public String MemberReviewDetail(Model model, @RequestParam("memberID") int memberID, HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        MemberReview memberReview = memberViewService.findByMemberID(memberID);
+        model.addAttribute("member", memberReview);
+        return "TeamAdmin/MemberReviewDetail";
+    }
+
 
     //批量通过审核
     @RequestMapping("/TeamManage/Member/BatchReview")

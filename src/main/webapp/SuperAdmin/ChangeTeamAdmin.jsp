@@ -183,7 +183,7 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/newSidebar.css">
     <style>
         .form-group {
             margin-bottom: 15px;
@@ -320,27 +320,27 @@
 <body>
 
 <div class="container">
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'SuperAdmin'}">
-                <ul>
-                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
-                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                    <li><a href="/user/checkReply">内容审核</a></li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <ul>
-                    <li><a href="/login.jsp">登录</a></li>
-                </ul>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+        <div class="sidebar">
+            <c:choose>
+                <c:when test="${userRoleType == 'SuperAdmin'}">
+                    <ul>
+                        <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                        <li><a href="/user/checkReply">内容审核</a></li>
+                    </ul>
+                    <div class="logout">
+                        <a href="/user/logout">退出登录</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <ul>
+                        <li><a href="/login.jsp">登录</a></li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
         <div class="main">
             <div class="section">
                 <h1>修改团队管理员信息</h1>
