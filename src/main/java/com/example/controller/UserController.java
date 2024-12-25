@@ -64,6 +64,7 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
+        session.setMaxInactiveInterval(525600 * 60); // 525600 分钟 * 60 秒 = 一年
 
         // 根据角色跳转
         if ("TeamMember".equals(user.getRoleType())) {
@@ -71,7 +72,9 @@ public class UserController {
         } else if ("Visitor".equals(user.getRoleType())) {
             return "redirect:/browse";
         } else if ("TeamAdmin".equals(user.getRoleType())) {
-            return "redirect:/teamAdmin/achievements"; // 跳转到团队管理员成果管理页面
+            return "redirect:/teamAdmin/achievements?type=1"; // 跳转到团队管理员成果管理页面
+        } else if ("SuperAdmin".equals(user.getRoleType())) {
+            return "redirect:/SuperController/auditAchievements?type=1";
         }
 //        else if("SuperAdmin".equals(user.getRoleType())){
 //
@@ -443,16 +446,18 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
-
+        session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+//            return "redirect:/";
+            return "HomePage";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+            return "HomePage";
         }
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
     }
+
     // 退出登录
     @GetMapping("/logout")
     public String logout(HttpSession session) {

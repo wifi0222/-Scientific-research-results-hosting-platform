@@ -3,31 +3,56 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.AdministratorMapper">
     <select id="findAllAdministrators" resultType="com.example.model.TeamAdministrator">
-        SELECT * FROM TeamAdministrator
+        SELECT *
+        FROM TeamAdministrator
     </select>
 
     <insert id="insertTeamAdminToAdministrator">
-        INSERT INTO [TeamAdministrator](adminID,publishPermission,userPermission,deletePermission)
-        VALUES (#{adminID},1,1,0)
+        INSERT INTO TeamAdministrator (
+            adminID, publishAchievement, userPermission, deleteAchievement, teamID
+        )
+        VALUES (
+                   #{adminID}, 1, 1, 0, 1
+               )
     </insert>
 
+
     <delete id="deleteTeamAdminFromAdministrator">
-        DELETE FROM [TeamAdministrator] WHERE adminID=#{adminID}
+        DELETE
+        FROM [TeamAdministrator]
+        WHERE adminID=#{adminID}
     </delete>
 
     <select id="findAdministratorById" parameterType="int" resultType="com.example.model.TeamAdministrator">
-        SELECT * FROM [TeamAdministrator] WHERE adminID=#{adminID}
+        SELECT *
+        FROM [TeamAdministrator]
+        WHERE adminID=#{adminID}
     </select>
 
     <update id="setTemplePermission">
         UPDATE [TeamAdministrator]
-        SET publishPermission=1,userPermission=1
+        SET publishAchievement=1, userPermission=1
         WHERE adminID=#{adminID}
     </update>
 
     <update id="setAllPermission">
-        UPDATE [TeamAdministrator]
-        SET publishPermission=#{publishPermission},userPermission=#{userPermission},deletePermission=#{deletePermission}
+        UPDATE TeamAdministrator
+        SET
+            userPermission=#{userPermission},
+            publishAchievement=#{publishAchievement},
+            deleteAchievement=#{deleteAchievement},
+            editAchievement=#{editAchievement},
+            setAchievementStatus=#{setAchievementStatus},
+            publishArticle=#{publishArticle},
+            deleteArticle=#{deleteArticle},
+            editArticle=#{editArticle},
+            setArticleStatus=#{setArticleStatus}
         WHERE adminID=#{adminID}
     </update>
+
+    <select id="getUserManageAdministrator" resultType="Boolean">
+        SELECT userPermission
+        FROM TeamAdministrator
+        WHERE adminID = #{adminID}
+    </select>
 </mapper>

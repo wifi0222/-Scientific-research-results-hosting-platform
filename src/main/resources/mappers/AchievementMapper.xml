@@ -43,7 +43,8 @@
                creationTime,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Achievement
         WHERE achievementID = #{achievementID}
     </select>
@@ -58,7 +59,8 @@
                creationTime,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Achievement
         WHERE teamID = #{teamID}
         ORDER BY creationTime DESC
@@ -91,7 +93,8 @@
                creationTime,
                teamID,
                status,
-               viewStatus
+               viewStatus,
+               refusalReason
         FROM Achievement
         ORDER BY creationTime DESC
     </select>
@@ -107,6 +110,13 @@
     <update id="updateAchievementVisibility" parameterType="map">
         UPDATE Achievement
         SET viewStatus = #{viewStatus}
+        WHERE achievementID = #{achievementID}
+    </update>
+
+    <!-- 新增的更新 refusalReason 的 SQL 语句 -->
+    <update id="updateRefusalReason" parameterType="map">
+        UPDATE Achievement
+        SET refusalReason = #{refusalReason}
         WHERE achievementID = #{achievementID}
     </update>
 

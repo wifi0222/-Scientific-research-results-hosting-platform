@@ -3,8 +3,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.ArticleFileMapper">
 
-    <select id="getFilesByArticleId" resultType="com.example.model.ArticleFile">
-        SELECT * FROM ArticleFile WHERE articleID = #{articleID};
+    <!-- 查询指定 articleID 的所有文件 -->
+    <select id="getFilesByArticleId" parameterType="int" resultType="com.example.model.ArticleFile">
+        SELECT *
+        FROM ArticleFile
+        WHERE articleID = #{articleID};
     </select>
+
+    <!-- 查询指定 fileID 的文件 -->
+    <select id="getFileByFileID" parameterType="int" resultType="com.example.model.ArticleFile">
+        SELECT *
+        FROM ArticleFile
+        WHERE fileID = #{fileID};
+    </select>
+
+    <!-- 删除指定 fileID 的文件 -->
+    <delete id="deleteArticleFile" parameterType="int">
+        DELETE FROM ArticleFile
+        WHERE fileID = #{fileID}
+    </delete>
+
+    <!-- 根据 articleID 和 type 插入新的 ArticleFile 记录 -->
+    <insert id="insertArticleFile" parameterType="com.example.model.ArticleFile" useGeneratedKeys="true" keyProperty="fileID" keyColumn="fileID">
+        INSERT INTO ArticleFile
+            (articleID, type, fileName, filePath, uploadTime)
+        VALUES
+            (#{articleID}, #{type}, #{fileName}, #{filePath}, #{uploadTime});
+    </insert>
 
 </mapper>

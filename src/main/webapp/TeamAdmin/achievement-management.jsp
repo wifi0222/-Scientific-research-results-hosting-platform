@@ -48,24 +48,29 @@
 <div class="tabs">
     <a href="javascript:void(0)" id="publishedTab" class="active">已发布的成果</a>
     <a href="javascript:void(0)" id="reviewTab">正在审核的成果</a>
+    <a href="javascript:void(0)" id="rejectedTab">审核被拒绝的成果</a>
     <a href="${pageContext.request.contextPath}/TeamAdmin/addAchievement.jsp" style="margin-left:20px;">新增成果</a>
 </div>
 
 <!-- 已发布的成果（status=1） -->
 <div id="publishedSection" class="section active">
-    <h2>已发布的成果 (status = 1)</h2>
-    <c:forEach var="cat" items="${categories}">
+<%--    <h2>已发布的成果 (status = 1)</h2>--%>
+<%--    <c:forEach var="cat" items="${categories}">--%>
         <h3>${cat}</h3>
         <table class="achievement-table" data-status="1" data-category="${cat}">
             <thead>
             <tr>
-                <th>成果ID</th>
+                <th>
+                    <input type="checkbox" id="selectAllPublished" />
+                    全选
+                </th>
+                <th>ID</th>
                 <th>标题</th>
                 <th>类别</th>
                 <th>摘要</th>
                 <th>内容</th>
-                <th>附件</th>
-                <th>展示图片</th>
+<%--                <th>附件</th>--%>
+<%--                <th>展示图片</th>--%>
                 <th>创建时间</th>
                 <th>公开/隐藏</th>
                 <th>操作</th>
@@ -73,40 +78,45 @@
             </thead>
             <tbody>
             <c:forEach var="entry" items="${achievementMap}">
-                <c:if test="${entry.key.status == 1 and entry.key.category eq cat}">
+                <c:if test="${entry.key.status == 1}">
+<%--                <c:if test="${entry.key.status == 1 and entry.key.category eq cat}">--%>
                     <tr class="achievement-row"
                         data-title="${fn:escapeXml(entry.key.title)}"
                         data-category="${entry.key.category}"
                         data-creationTime="${entry.key.creationTime}"
                         data-status="${entry.key.status}">
 
+                        <td>
+                            <input type="checkbox" class="rowCheckboxPublished"
+                                   value="${entry.key.achievementID}" />
+                        </td>
                         <td>${entry.key.achievementID}</td>
                         <td>${entry.key.title}</td>
                         <td>${entry.key.category}</td>
                         <td>${entry.key.abstractContent}</td>
                         <td>${entry.key.contents}</td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 0}">
-                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 1}">
-                                    <%--<img src="/${file.filePath}" alt="展示图片" width="100"><br/>--%>
-                                    <%--<a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
-                                    <%--'\\\\'：在 JSP 中被解析成一个实际的 '\\'，再被 EL 解析时代表一个反斜杠。--%>
-                                    <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
-                                    <c:set var="encodedPath"
-                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
-                                         width="100"/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 0}">--%>
+<%--                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 1}">--%>
+<%--                                    &lt;%&ndash;<img src="/${file.filePath}" alt="展示图片" width="100"><br/>&ndash;%&gt;--%>
+<%--                                    &lt;%&ndash;<a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>&ndash;%&gt;--%>
+<%--                                    &lt;%&ndash;'\\\\'：在 JSP 中被解析成一个实际的 '\\'，再被 EL 解析时代表一个反斜杠。&ndash;%&gt;--%>
+<%--                                    &lt;%&ndash;先用 \\ 替换反斜杠，再用 %20 替换空格&ndash;%&gt;--%>
+<%--                                    <c:set var="encodedPath"--%>
+<%--                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
+<%--                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"--%>
+<%--                                         width="100"/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+                        <td><fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
                         <td>
                                 <%-- <c:choose>里面不能加注释--%>
                             <c:choose>
@@ -125,24 +135,32 @@
             </c:forEach>
             </tbody>
         </table>
-    </c:forEach>
+    <div style="margin-top:10px;">
+        <button id="batchDeletePublished">批量删除</button>
+        <button id="batchPublicPublished">批量公开</button>
+        <button id="batchHidePublished">批量隐藏</button>
+    </div>
+<%--    </c:forEach>--%>
 </div>
 
 <!-- 正在审核的成果（status=0） -->
 <div id="reviewSection" class="section">
-    <h2>正在审核的成果 (status = 0)</h2>
-    <c:forEach var="cat" items="${categories}">
+<%--    <h2>正在审核的成果 (status = 0)</h2>--%>
         <h3>${cat}</h3>
         <table class="achievement-table" data-status="0" data-category="${cat}">
             <thead>
             <tr>
-                <th>成果ID</th>
+                <th>
+                    <input type="checkbox" id="selectAllReview" />
+                    全选
+                </th>
+                <th>ID</th>
                 <th>标题</th>
                 <th>类别</th>
                 <th>摘要</th>
                 <th>内容</th>
-                <th>附件</th>
-                <th>展示图片</th>
+<%--                <th>附件</th>--%>
+<%--                <th>展示图片</th>--%>
                 <th>创建时间</th>
                 <th>审核状态</th>
                 <th>操作</th>
@@ -150,36 +168,40 @@
             </thead>
             <tbody>
             <c:forEach var="entry" items="${achievementMap}">
-                <c:if test="${entry.key.status == 0 and entry.key.category eq cat}">
+                <c:if test="${entry.key.status == 0}">
                     <tr class="achievement-row"
                         data-title="${fn:escapeXml(entry.key.title)}"
                         data-category="${entry.key.category}"
                         data-creationTime="${entry.key.creationTime}"
                         data-status="${entry.key.status}">
 
+                        <td>
+                            <input type="checkbox" class="rowCheckboxReview"
+                                   value="${entry.key.achievementID}" />
+                        </td>
                         <td>${entry.key.achievementID}</td>
                         <td>${entry.key.title}</td>
                         <td>${entry.key.category}</td>
                         <td>${entry.key.abstractContent}</td>
                         <td>${entry.key.contents}</td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 0}">
-                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <c:forEach var="file" items="${entry.value}">
-                                <c:if test="${file.type == 1}">
-                                    <c:set var="encodedPath"
-                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
-                                         width="100"/>
-                                </c:if>
-                            </c:forEach>
-                        </td>
-                        <td> <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 0}">--%>
+<%--                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 1}">--%>
+<%--                                    <c:set var="encodedPath"--%>
+<%--                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
+<%--                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"--%>
+<%--                                         width="100"/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+                        <td><fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/></td>
                         <td>
                                 <%-- <c:choose>里面不能加注释--%>
                             <c:choose>
@@ -197,7 +219,103 @@
             </c:forEach>
             </tbody>
         </table>
-    </c:forEach>
+    <div style="margin-top:10px;">
+        <button id="batchDeleteReview">批量删除</button>
+    </div>
+</div>
+
+<!-- 审核被拒绝的成果（status=-1） -->
+<div id="rejectedSection" class="section">
+<%--    <h2>审核被拒绝的成果 (status = -1)</h2>--%>
+        <h3>${cat}</h3>
+        <table class="achievement-table" data-status="-1" data-category="${cat}">
+            <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="selectAllRejected" />
+                    全选
+                </th>
+                <th>ID</th>
+                <th>标题</th>
+                <th>类别</th>
+                <th>摘要</th>
+                <th>内容</th>
+<%--                <th>附件</th>--%>
+<%--                <th>展示图片</th>--%>
+                <th>创建时间</th>
+                <th>审核状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="entry" items="${achievementMap}">
+                <c:if test="${entry.key.status == -1}">
+                    <tr class="achievement-row"
+                        data-title="${fn:escapeXml(entry.key.title)}"
+                        data-category="${entry.key.category}"
+                        data-creationTime="${entry.key.creationTime}"
+                        data-status="${entry.key.status}">
+
+                        <td>
+                            <input type="checkbox" class="rowCheckboxRejected"
+                                   value="${entry.key.achievementID}" />
+                        </td>
+                        <td>${entry.key.achievementID}</td>
+                        <td>${entry.key.title}</td>
+                        <td>${entry.key.category}</td>
+                        <td>${entry.key.abstractContent}</td>
+                        <td>${entry.key.contents}</td>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 0}">--%>
+<%--                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+<%--                        <td>--%>
+<%--                            <c:forEach var="file" items="${entry.value}">--%>
+<%--                                <c:if test="${file.type == 1}">--%>
+<%--                                    <c:set var="encodedPath"--%>
+<%--                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
+<%--                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />"--%>
+<%--                                         alt="展示图片" width="100"/>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </td>--%>
+                        <td>
+                            <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${entry.key.status == -1}">不通过</c:when>
+                                <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                                <c:otherwise>未知</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <button onclick="editAchievement(${entry.key.achievementID})">编辑</button>
+                            <button onclick="deleteAchievement(${entry.key.achievementID})">删除</button>
+                            <!-- 触发按钮，点击后打开模态框并传入拒绝理由 -->
+                            <button onclick="showReasonModal('${entry.key.refusalReason}')">拒绝理由</button>
+                        </td>
+                    </tr>
+                </c:if>
+            </c:forEach>
+            </tbody>
+        </table>
+    <div style="margin-top:10px;">
+        <button id="batchDeleteRejected">批量删除</button>
+    </div>
+</div>
+
+<!-- 模态框 -->
+<div id="reasonModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span id="closeReasonModal" class="close">&times;</span>
+        <h2>拒绝理由</h2>
+        <!-- 这个地方用于显示拒绝理由 -->
+        <p id="reasonText"></p>
+    </div>
 </div>
 
 <!-- 引入外部JS文件，确保标签切换功能 -->

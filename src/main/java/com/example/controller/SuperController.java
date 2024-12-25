@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,10 @@ public class SuperController {
     private AchievementService achievementService;
     @Autowired
     private AchievementFileService achievementFileService;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private ArticleFileService articleFileService;
 
     //超级管理员用户点击用户管理进行
     @GetMapping("/UserManagement")
@@ -68,7 +73,7 @@ public class SuperController {
     }
 
     //增加团队管理员
-    @GetMapping("/AddTeamAdmin")
+    @GetMapping("/TeamAdminManage/add")
     public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("password") String password,
                                RedirectAttributes redirectAttributes, HttpSession session) {
         // 获取当前用户
@@ -87,7 +92,7 @@ public class SuperController {
             userService.addTeamAdmin(username, password);
         }
         redirectAttributes.addAttribute("AddTeamAdminRemind", information);
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //跳转到编辑信息界面
@@ -108,7 +113,7 @@ public class SuperController {
     }
 
     //编辑团队管理员信息
-    @RequestMapping("ChangeTeamAdminInfo")
+    @RequestMapping("/TeamAdminManage/edit")
     public String ChangeTeamAdminInfo(RedirectAttributes redirectAttributes, @ModelAttribute User user, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -126,11 +131,11 @@ public class SuperController {
         } else {
             redirectAttributes.addAttribute("ChangeTeamAdminRemind", "修改失败");
         }
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //删除团队管理员
-    @RequestMapping("DeleteTeamAdmin")
+    @RequestMapping("/TeamAdminManage/delete")
     public String DeleteTeamAdmin(@RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -141,7 +146,7 @@ public class SuperController {
         }
 
         userService.deleteTeamAdmin(userID);
-        return "redirect:/UserManagement";
+        return "redirect:/SuperController/UserManagement";
     }
 
     //跳转到权限管理的界面：
@@ -176,11 +181,18 @@ public class SuperController {
         return "SuperAdmin/editTA";
     }
 
-    @RequestMapping("editAdministrator")
-    public String editAdministrator(@RequestParam("set") int set, RedirectAttributes redirectAttributes,
-                                    @RequestParam(required = false) boolean publishPermission,
+    @RequestMapping("/TeamAdministrator/edit")
+    public String editAdministrator( RedirectAttributes redirectAttributes,
+//                                     @RequestParam("set") int set,
                                     @RequestParam(required = false) boolean userPermission,
+                                    @RequestParam(required = false) boolean publishPermission,
                                     @RequestParam(required = false) boolean deletePermission,
+                                    @RequestParam(required = false) boolean editPermission,
+                                    @RequestParam(required = false) boolean setStatusPermission,
+                                    @RequestParam(required = false) boolean publishArticle,
+                                    @RequestParam(required = false) boolean deleteArticle,
+                                    @RequestParam(required = false) boolean editArticle,
+                                    @RequestParam(required = false) boolean setArticleStatus,
                                     @RequestParam("adminID") int adminID,
                                     HttpSession session) {
         // 获取当前用户
@@ -191,19 +203,23 @@ public class SuperController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
 
-        System.out.println(set);
-        if (set == 1) {
-            //设置模板权限
-            System.out.println("设置模版权限");
-            administratorService.setTemplePermission(adminID);
-        } else {
-            //全部权限设置
-            System.out.println("设置全部权限");
-            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
-        }
+//        System.out.println(set);
+//        if (set == 1) {
+//            //设置模板权限
+//            System.out.println("设置模版权限");
+//            administratorService.setTemplePermission(adminID);
+//        } else {
+//            //全部权限设置
+//            System.out.println("设置全部权限");
+//            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
+//        }
+        administratorService.setAllPermission(
+                userPermission,publishPermission,deletePermission,editPermission,setStatusPermission,
+                publishArticle,deleteArticle,editArticle,setArticleStatus,adminID
+        );
 
         redirectAttributes.addAttribute("message", "成功修改权限");
-        return "redirect:/TeamAdministratorManagement";
+        return "redirect:/SuperController/TeamAdministratorManagement";
     }
 
 
@@ -211,24 +227,131 @@ public class SuperController {
      * 超级用户审核研究成果
      */
     @GetMapping("/auditAchievements")
-    public String viewAchievements(HttpSession session, Model model) {
+    public String auditAchievements(@RequestParam("type") int type, HttpSession session, Model model) {
         // 目前只有一个团队
         int teamID = 1;
 
-        // 获取团队所有成果列表
-        List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
-
-        Map<Achievement, List<AchievementFile>> achievementMap = new HashMap<Achievement, List<AchievementFile>>();
-
-        for (Achievement a : achievements) {
-            // 获取每个成果的附件和图片
-            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
-            achievementMap.put(a, achievementFiles);
+        if (type == 0) {
+            // 获取团队所有成果列表
+            List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
+            Map<Achievement, List<AchievementFile>> auditAchievementMap = new LinkedHashMap<>();
+            for (Achievement a : achievements) {
+                if (a.getStatus() == 0) {
+                    // 获取待审核的成果的附件和图片
+                    List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
+                    auditAchievementMap.put(a, achievementFiles);
+                }
+            }
+            model.addAttribute("auditAchievementMap", auditAchievementMap);
+            return "/SuperAdmin/auditAchievements";
+        } else if (type == 1) {
+            // 获取团队所有成果列表
+            List<Article> articles = articleService.getArticlesByTeam(teamID);
+            Map<Article, List<ArticleFile>> auditArticleMap = new LinkedHashMap<>();
+            for (Article a : articles) {
+                if (a.getStatus() == 0) {
+                    // 获取待审核的成果的附件和图片
+                    List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(a.getArticleID());
+                    auditArticleMap.put(a, articleFiles);
+                }
+            }
+            model.addAttribute("auditArticleMap", auditArticleMap);
+            return "/SuperAdmin/auditArticles";
         }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/SuperAdmin/error";
+    }
 
-        model.addAttribute("achievementMap", achievementMap);
-        // 渲染科研成果管理页面
-        return "";
+    /**
+     * 超级用户通过审核
+     */
+    @GetMapping("/auditAchievements/pass")
+    public String passAchievementReview(@RequestParam("id") int id, @RequestParam("type") int type, Model model) {
+        if (type == 0) {
+            achievementService.updateAchievementStatus(id, 1);
+            return "redirect:/SuperController/auditAchievements?type=0";
+        } else if (type == 1) {
+            articleService.updateArticleStatus(id, 1);
+            return "redirect:/SuperController/auditAchievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/SuperAdmin/error";
+    }
+
+    /**
+     * 处理批量通过科研成果
+     */
+    @GetMapping("/auditAchievements/batchPass")
+    public String batchDeleteAchievement(@RequestParam("ids") List<Integer> selectedIds, @RequestParam("type") int type, Model model, HttpSession session) {
+        // 目前只有一个团队
+        Integer teamID = 1;
+        if (type == 0) {
+            for (int id : selectedIds) {
+                achievementService.updateAchievementStatus(id, 1);
+            }
+            return "redirect:/SuperController/auditAchievements?type=0";
+        } else if (type == 1) {
+            for (int id : selectedIds) {
+                articleService.updateArticleStatus(id, 1);
+            }
+            return "redirect:/SuperController/auditAchievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/SuperAdmin/error";
+    }
+
+    /**
+     * 超级用户拒绝审核
+     */
+    @PostMapping("/auditAchievements/reject")
+    public String rejectAchievementReview(@RequestParam("id") int id, @RequestParam("refusalReason") String refusalReason, @RequestParam("type") int type, Model model) {
+        if (type == 0) {
+            achievementService.updateAchievementStatus(id, -1);
+            achievementService.updateRefusalReason(id, refusalReason);
+            return "redirect:/SuperController/auditAchievements?type=0";
+        } else if (type == 1) {
+            articleService.updateArticleStatus(id, -1);
+            articleService.updateRefusalReason(id, refusalReason);
+            return "redirect:/SuperController/auditAchievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/SuperAdmin/error";
+    }
+
+    /**
+     * 超级用户预览审核
+     */
+    @GetMapping("/auditAchievements/preview")
+    public String previewAchievement(@RequestParam("id") int id, @RequestParam("type") int type, Model model) {
+        if (type == 0) {
+            // 获取指定ID的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+            // 获取该成果的附件和图片
+            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(id);
+            // 将数据传递给前端
+            model.addAttribute("achievement", achievement);
+            model.addAttribute("achievementFiles", achievementFiles);
+            return "/SuperAdmin/previewAchievement";
+        } else if (type == 1) {
+            // 获取指定ID的成果
+            Article article = articleService.getArticleById(id);
+            if (article == null) {
+                model.addAttribute("error", "未找到指定的文章。");
+                return "/TeamAdmin/error";
+            }
+            // 获取该文章的附件和图片
+            List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(id);
+            // 将数据传递给前端
+            model.addAttribute("article", article);
+            model.addAttribute("articleFiles", articleFiles);
+            return "/SuperAdmin/previewArticle";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/SuperAdmin/error";
     }
 }
 

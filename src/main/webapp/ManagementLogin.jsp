@@ -8,23 +8,129 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <title>登录</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <style>
+        /* General reset and styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: url('/resources/login.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        /* Container for login box */
+        .login-container {
+            width: 350px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        /* Form styling */
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container label {
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Button styling */
+        .login-container button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #4e73df;
+        }
+
+        /* Error message */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        /* Additional options */
+        .login-container .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .login-container .options a {
+            color: #4e73df;
+            text-decoration: none;
+        }
+
+        .login-container .options a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h2>用户登录</h2>
-<!-- 显示错误信息 -->
-<c:if test="${not empty error}">
-    <p style="color:red;">${error}</p>
-</c:if>
-<form action="/user/ManagementLogin" method="get">
-    用户名或ID: <input type="text" name="usernameOrId" required/><br>
-    密码: <input type="password" name="password" required/><br>
-    <input type="submit" value="登录"/>
-</form>
+<div class="login-container">
+    <h2>管理员登录</h2>
 
-</body>
-</html>
+    <!-- Display error message if there is one -->
+    <c:if test="${not empty error}">
+        <div class="error-message">${error}</div>
+    </c:if>
+
+    <form action="/user/ManagementLogin" method="GET">
+        <label for="usernameOrId">用户名或ID:</label>
+        <input type="text" id="usernameOrId" name="usernameOrId" required placeholder="请输入用户名或ID"/>
+
+        <label for="password">密码:</label>
+        <input type="password" id="password" name="password" required placeholder="请输入密码"/>
+
+        <button type="submit">登录</button>
+    </form>
+</div>
 </body>
 </html>

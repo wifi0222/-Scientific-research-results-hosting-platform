@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -21,7 +21,7 @@
 </head>
 <body>
 <h1>新增科研成果</h1>
-<form action="/teamAdmin/achievements/add" method="post" id="quillForm" enctype="multipart/form-data">
+<form action="/teamAdmin/achievements/add?type=0" method="post" id="quillForm" enctype="multipart/form-data">
     <label>成果标题：</label><br>
     <input type="text" name="title" placeholder="如：基于深度学习的遥感图像分类技术" required><br><br>
 
@@ -34,7 +34,8 @@
     </select><br><br>
 
     <label>摘要：</label><br>
-    <textarea name="abstractContent" rows="3" placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率" required></textarea><br><br>
+    <textarea name="abstractContent" rows="3" placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"
+              required></textarea><br><br>
 
     <label>内容：</label><br>
     <!-- Quill编辑器的容器 -->
@@ -55,7 +56,9 @@
 
     <button type="submit">保存并发布</button>
     <!-- 返回主页按钮 -->
-    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements'">返回主页</button>
+    <button type="button" onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
+        返回主页
+    </button>
 </form>
 
 <script>
@@ -67,57 +70,70 @@
                 container: [
                     ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
                     ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }], // 标题
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
-                    [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
-                    [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
+                    [{'header': 1}, {'header': 2}], // 标题
+                    [{'list': 'ordered'}, {'list': 'bullet'}], // 列表
+                    [{'script': 'sub'}, {'script': 'super'}], // 上标/下标
+                    [{'indent': '-1'}, {'indent': '+1'}], // 缩进
                     ['link', 'image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
-                handlers: {
-                    image: imageHandler // 自定义图片处理（可根据需要实现）
-                }
+                // handlers: {
+                //     image: imageHandler // 自定义图片处理（可根据需要实现）
+                // }
             }
         }
     });
 
-    // 可选：自定义图片上传逻辑，如不需要可删除imageHandler方法并在toolbar中移除'image'
-    function imageHandler() {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-
-        input.onchange = async () => {
-            const file = input.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                // 上传图片到服务器（请根据实际情况修改URL和逻辑）
-                const response = await fetch('/questions/upload-image', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    // 在编辑器中插入图片
-                    const range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'image', result.imageUrl);
-                } else {
-                    console.error('Image upload failed');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        };
-    }
+    // // 可选：自定义图片上传逻辑，如不需要可删除imageHandler方法并在toolbar中移除'image'
+    // function imageHandler() {
+    //     const input = document.createElement('input');
+    //     input.setAttribute('type', 'file');
+    //     input.setAttribute('accept', 'image/*');
+    //     input.click();
+    //
+    //     input.onchange = async () => {
+    //         const file = input.files[0];
+    //         const formData = new FormData();
+    //         formData.append('image', file);
+    //
+    //         try {
+    //             // 上传图片到服务器（请根据实际情况修改URL和逻辑）
+    //             const response = await fetch('/questions/upload-image', {
+    //                 method: 'POST',
+    //                 body: formData
+    //             });
+    //
+    //             const result = await response.json();
+    //             if (result.success) {
+    //                 // 在编辑器中插入图片
+    //                 const range = quill.getSelection();
+    //                 quill.insertEmbed(range.index, 'image', result.imageUrl);
+    //             } else {
+    //                 console.error('Image upload failed');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error uploading image:', error);
+    //         }
+    //     };
+    // }
 
     // 表单提交前，将编辑器内容同步到隐藏字段
     document.getElementById('quillForm').onsubmit = function () {
         var content = quill.root.innerHTML; // 获取编辑器内容的HTML
         document.getElementById('hiddenInput').value = content;
+    };
+
+    window.onload = function () {
+        const now = new Date();
+        // 格式化为 yyyy-MM-ddTHH:mm
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const defaultValue = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        document.getElementById('creationTime').value = defaultValue;
     };
 </script>
 </body>
