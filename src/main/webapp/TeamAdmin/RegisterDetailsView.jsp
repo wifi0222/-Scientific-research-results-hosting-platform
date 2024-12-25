@@ -13,7 +13,9 @@
 <head>
     <title>审核用户注册查看详情</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/newSidebar.css">
+<%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
+
     <STYLE>
         /* 章节标题 */
         h1 {
@@ -46,6 +48,19 @@
         .detail-row span {
             color: #777;
         }
+        /* 新增：父容器使用flex布局，使Toptitle和back-btn并列展示 */
+        .header-container {
+            display: flex;
+            justify-content: center;  /* 水平居中对齐 */
+            align-items: center;      /* 垂直居中对齐 */
+            gap: 20px;                /* 在标题和按钮之间添加间距 */
+        }
+
+        /* 使Toptitle居中 */
+        .Toptitle {
+            text-align: center;
+            flex-grow: 1;             /* 使标题占据可用空间 */
+        }
 
         /* 按钮样式 */
         .back-btn {
@@ -57,96 +72,92 @@
             display: inline-block;
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
-            position: relative; /* 相对定位，为了放置箭头 */
-            display: block;
-
-            font-size: 16px;
-            color: white;
             text-align: center;
-            font-weight: bold; /* 设置字体加粗 */
         }
 
-        .back-btn a{
-            font-size: 16px;
+        .back-btn a {
+            text-decoration: none;
             color: white;
-            text-align: center;
-            text-decoration: none; /* 去掉下划线 */
-            font-weight: bold; /* 设置字体加粗 */
+            display: flex;  /* 使用flex布局使图标居中 */
+            align-items: center;
+            justify-content: center;
         }
 
-        /* 按钮悬停时 */
+        /* 隐藏链接中的文字，只显示图标 */
+        .back-btn a i {
+            font-size: 20px; /* 设置图标大小 */
+        }
+
         .back-btn:hover {
             background-color: #355db3; /* 悬停时背景色 */
             transform: translateX(5px); /* 向右移动 */
-        }
-
-        /* 在悬停时显示箭头 */
-        .back-btn:hover::after {
-            font-size: 20px;
-            margin-left: 10px; /* 箭头和文字之间的间距 */
-            position: absolute;
-            right: -25px; /* 箭头位于按钮的右侧 */
-            top: 50%;
-            transform: translateY(-50%); /* 垂直居中 */
-            transition: transform 0.3s ease-in-out; /* 平滑过渡 */
         }
     </STYLE>
 </head>
 <body>
 <div class="container">
     <div class="content">
-    <!-- Sidebar -->
-        <div class="sidebar">
-            <c:choose>
-                <c:when test="${userRoleType == 'TeamAdmin'}">
-                    <ul>
-                        <li><a href="javascript:void(0);">团队管理</a>
-                            <ul class="submenu">
-                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                            <ul class="submenu">
-                                <li><a href="/research/submenu1">子菜单项1</a></li>
-                                <li><a href="/research/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">文章管理</a>
-                            <ul class="submenu">
-                                <li><a href="/article/submenu1">子菜单项1</a></li>
-                                <li><a href="/article/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">用户管理</a>
-                            <ul class="submenu">
-                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">在线交流与反馈</a>
-                            <ul class="submenu">
-                                <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                                <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="logout">
-                        <a href="/user/logout">退出登录</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <!-- 普通用户的菜单项，若有的话 -->
-                    <a href="user/ManagementLogin">管理员登录</a>
-                </c:otherwise>
-            </c:choose>
-        </div>
+<%--    <!-- Sidebar -->--%>
+<%--        <div class="sidebar">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
+<%--                    <ul>--%>
+<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
+<%--                    <div class="logout">--%>
+<%--                        <a href="/user/logout">退出登录</a>--%>
+<%--                    </div>--%>
+<%--                </c:when>--%>
+<%--                <c:otherwise>--%>
+<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
+<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
+<%--                </c:otherwise>--%>
+<%--            </c:choose>--%>
+<%--        </div>--%>
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
 
         <div class="main">
             <div class="section">
-                <h1>待审核用户详情</h1>
+                <div class="header-container">
+                    <button class="back-btn">
+                        <a href="/teamAdmin/ToUserRegisterManage">
+                            <i class="fas fa-arrow-left"></i>  <!-- 使用 FontAwesome 返回箭头图标 -->
+                        </a>
+                    </button>
+                    <h1 class="Toptitle">待审核用户详情</h1>
+                </div>
 
                 <div class="user-details">
                     <div class="detail-row">

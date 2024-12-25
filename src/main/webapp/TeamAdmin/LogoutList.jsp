@@ -14,9 +14,12 @@
 <head>
     <title>申请注销用户</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/newSidebar.css">
+<%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userManage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 
     <style>
         .btn {
@@ -43,6 +46,20 @@
             background-color: darkgreen;
         }
 
+        /* 新增：父容器使用flex布局，使Toptitle和back-btn并列展示 */
+        .header-container {
+            display: flex;
+            justify-content: center;  /* 水平居中对齐 */
+            align-items: center;      /* 垂直居中对齐 */
+            gap: 20px;                /* 在标题和按钮之间添加间距 */
+        }
+
+        /* 使Toptitle居中 */
+        .Toptitle {
+            text-align: center;
+            flex-grow: 1;             /* 使标题占据可用空间 */
+        }
+
         /* 按钮样式 */
         .back-btn {
             background-color: #4e73df; /* 按钮背景色 */
@@ -53,28 +70,25 @@
             display: inline-block;
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
-            position: relative; /* 相对定位，为了放置箭头 */
-
-            font-size: 16px;
-            color: white;
             text-align: center;
         }
 
-        /* 按钮悬停时 */
+        .back-btn a {
+            text-decoration: none;
+            color: white;
+            display: flex;  /* 使用flex布局使图标居中 */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 隐藏链接中的文字，只显示图标 */
+        .back-btn a i {
+            font-size: 20px; /* 设置图标大小 */
+        }
+
         .back-btn:hover {
             background-color: #355db3; /* 悬停时背景色 */
             transform: translateX(5px); /* 向右移动 */
-        }
-
-        /* 在悬停时显示箭头 */
-        .back-btn:hover::after {
-            font-size: 20px;
-            margin-left: 10px; /* 箭头和文字之间的间距 */
-            position: absolute;
-            right: -25px; /* 箭头位于按钮的右侧 */
-            top: 50%;
-            transform: translateY(-50%); /* 垂直居中 */
-            transition: transform 0.3s ease-in-out; /* 平滑过渡 */
         }
 
     </style>
@@ -130,57 +144,66 @@
 <div class="container">
     <div class="content">
     <!-- Sidebar -->
-        <div class="sidebar">
-            <c:choose>
-                <c:when test="${userRoleType == 'TeamAdmin'}">
-                    <ul>
-                        <li><a href="javascript:void(0);">团队管理</a>
-                            <ul class="submenu">
-                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                            <ul class="submenu">
-                                <li><a href="/research/submenu1">子菜单项1</a></li>
-                                <li><a href="/research/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">文章管理</a>
-                            <ul class="submenu">
-                                <li><a href="/article/submenu1">子菜单项1</a></li>
-                                <li><a href="/article/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">用户管理</a>
-                            <ul class="submenu">
-                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:void(0);">在线交流与反馈</a>
-                            <ul class="submenu">
-                                <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                                <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="logout">
-                        <a href="/user/logout">退出登录</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <!-- 普通用户的菜单项，若有的话 -->
-                    <a href="user/ManagementLogin">管理员登录</a>
-                </c:otherwise>
-            </c:choose>
-        </div>
+<%--        <div class="sidebar">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
+<%--                    <ul>--%>
+<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
+<%--                    <div class="logout">--%>
+<%--                        <a href="/user/logout">退出登录</a>--%>
+<%--                    </div>--%>
+<%--                </c:when>--%>
+<%--                <c:otherwise>--%>
+<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
+<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
+<%--                </c:otherwise>--%>
+<%--            </c:choose>--%>
+<%--        </div>--%>
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
 
         <div class="main">
             <div class="section">
-                <h1>申请注销用户列表</h1>
+                <div class="header-container">
+                    <button class="back-btn">
+                        <a href="/teamAdmin/ToUserManage">
+                            <i class="fas fa-arrow-left"></i>  <!-- 使用 FontAwesome 返回箭头图标 -->
+                        </a>
+                    </button>
+                    <h1 class="Toptitle">申请注销用户列表</h1>
+                </div>
 
                 <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
 
@@ -200,11 +223,7 @@
                         <th>注册时间</th>
                         <th>账号状态</th>
                         <th>联系方式</th>
-            <%--            <th>研究方向</th>--%>
-            <%--            <th>学术背景</th>--%>
-            <%--            <th>科研成果</th>--%>
                         <th>操作</th>
-                        <!-- 这里可以根据实际需要增加更多的列 -->
                     </tr>
                     </thead>
                     <tbody>
@@ -241,24 +260,6 @@
                                     <c:otherwise>${user.contactInfo}</c:otherwise>
                                 </c:choose>
                             </td>
-            <%--                <td>--%>
-            <%--                    <c:choose>--%>
-            <%--                        <c:when test="${empty user.researchField}">无</c:when>--%>
-            <%--                        <c:otherwise>${user.researchField}</c:otherwise>--%>
-            <%--                    </c:choose>--%>
-            <%--                </td>--%>
-            <%--                <td>--%>
-            <%--                    <c:choose>--%>
-            <%--                        <c:when test="${empty user.academicBackground}">无</c:when>--%>
-            <%--                        <c:otherwise>${user.academicBackground}</c:otherwise>--%>
-            <%--                    </c:choose>--%>
-            <%--                </td>--%>
-            <%--                <td>--%>
-            <%--                    <c:choose>--%>
-            <%--                        <c:when test="${empty user.researchAchievements}">无</c:when>--%>
-            <%--                        <c:otherwise>${user.researchAchievements}</c:otherwise>--%>
-            <%--                    </c:choose>--%>
-            <%--                </td>--%>
                             <td>
                                 <div>
                                     <!-- 注销用户-->
@@ -269,10 +270,6 @@
                     </c:forEach>
                     </tbody>
                 </table>
-
-                <form action="/teamAdmin/ToUserManage">
-                    <button class="back-btn">返回用户管理界面</button>
-                </form>
             </div>
         </div>
     </div>
