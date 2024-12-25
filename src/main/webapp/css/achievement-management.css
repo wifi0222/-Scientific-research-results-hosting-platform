@@ -9,7 +9,7 @@
 /*    padding: 20px;*/
 /*}*/
 
-h1 {
+.main h1 {
     text-align: center;
     color: #4a4a4a;
     margin-bottom: 30px;
@@ -19,25 +19,37 @@ h1 {
    搜索与筛选表单样式
    ============================== */
 .search-filter {
-    /* 在此合并了新样式和原有样式 */
     display: flex;
-    flex-wrap: wrap; /* 当空间不足时换行 */
+    flex-wrap: wrap; /* 允许内容换行 */
     align-items: center;
     gap: 10px;
-
-    /* 原有的外观及间距配置 */
     background-color: #fff;
-    padding: 15px 20px; /* 如果需要严格统一，也可都改成 15px */
+    padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px; /* 保持与 section 相同的左右边距风格 */
+    margin: 20px;
 }
 
-.search-filter label {
-    font-weight: bold;
-    margin-right: 5px;
-    color: #555; /* 保留原颜色，也可自行调整 */
+/*.search-filter label {*/
+/*    font-weight: bold;*/
+/*    margin-right: 5px;*/
+/*    color: #555;*/
+/*}*/
+
+.date-container {
+    display: flex;
+    gap: 10px; /* 控制日期字段之间的间距 */
+    align-items: center;
 }
+
+.date-container label {
+    margin-right: 5px;
+}
+
+#startDate, #endDate {
+    width: auto; /* 根据内容自动调整宽度 */
+}
+
 
 .search-filter input[type="text"],
 .search-filter input[type="date"],
@@ -48,7 +60,7 @@ h1 {
     outline: none;
     font-size: 14px;
     transition: border-color 0.3s;
-    width: 200px;
+    width: 160px;
 }
 
 .search-filter input[type="text"]:focus,
@@ -92,7 +104,7 @@ h1 {
 
 /* 普通 tab 链接 */
 .tabs a {
-    margin-right: 20px;
+    margin-left: 20px;
     text-decoration: none;
     color: #555;
     font-size: 18px;
@@ -193,69 +205,61 @@ h1 {
 /* 第一列：选择框 */
 .achievement-table th:nth-child(1),
 .achievement-table td:nth-child(1) {
-    width: 60px;
-    background-color: #f2f2f2; /* 可换为其他颜色 */
+    width: 55px;
+    /*background-color: #f2f2f2; !* 可换为其他颜色 *!*/
 }
 
 /* 第二列：成果ID */
 .achievement-table th:nth-child(2),
 .achievement-table td:nth-child(2) {
     width: 40px; /* 可微调 */
-    background-color: #2e59d9;
+    /*background-color: #2e59d9;*/
 }
 
 /* 第三列：标题 */
 .achievement-table th:nth-child(3),
 .achievement-table td:nth-child(3) {
-    width: 140px;
-    background-color: #3e8e41;
+    width: 200px;
+    /*background-color: #3e8e41;*/
 }
 
 /* 第四列：类别 */
 .achievement-table th:nth-child(4),
 .achievement-table td:nth-child(4) {
     width: 40px;
-    background-color: #333333;
-    color: #ffffff; /* 如底色太暗，可改成白字 */
+    /*background-color: #333333;*/
+    /*color: #ffffff; !* 如底色太暗，可改成白字 *!*/
 }
 
-/* 第五列：摘要 */
-.achievement-table th:nth-child(5),
-.achievement-table td:nth-child(5) {
-    width: 140px;
-    background-color: #3e8e41;
-}
-
-/* 第六列：内容 */
-.achievement-table th:nth-child(6),
-.achievement-table td:nth-child(6) {
-    width: 180px;
-    background-color: #007bff;
-    color: #ffffff; /* 同理，若底色太亮可改字色 */
-}
+/*!* 第五列：摘要 *!*/
+/*.achievement-table th:nth-child(5),*/
+/*.achievement-table td:nth-child(5) {*/
+/*    width: 100px;*/
+/*    background-color: #3e8e41;*/
+/*}*/
 
 /* 第七列：创建时间 */
-.achievement-table th:nth-child(7),
-.achievement-table td:nth-child(7) {
-    width: 110px;
-    background-color: #4a4a4a;
-    color: #ffffff;
+.achievement-table th:nth-child(5),
+.achievement-table td:nth-child(5) {
+    width: 130px;
+    /*background-color: #4a4a4a;*/
+    /*color: #ffffff;*/
 }
 
 /* 第八列：审核状态 */
-.achievement-table th:nth-child(8),
-.achievement-table td:nth-child(8) {
+.achievement-table th:nth-child(6),
+.achievement-table td:nth-child(6) {
     width: 60px;
-    background-color: #007bff;
-    color: #ffffff;
+    /*background-color: #007bff;*/
+    /*color: #ffffff;*/
 }
 
 /* 第九列：操作 */
-.achievement-table th:nth-child(9),
-.achievement-table td:nth-child(9) {
-    width: 200px;
-    background-color: #6c757d;
-    color: #ffffff;
+.achievement-table th:nth-child(7),
+.achievement-table td:nth-child(7) {
+    width: 210px;
+    /*background-color: #6c757d;*/
+    /*color: #ffffff;*/
 }
 
 /* 隔行变色 */
