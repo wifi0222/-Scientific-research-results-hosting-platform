@@ -118,32 +118,50 @@
 </head>
 <body>
 <div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="title">
+            <a href="/browse">
+        <h1>信息浏览</h1>
+      </a>
+    </div>
+    <c:choose>
+      <c:when test="${empty user}">
+        <div class="login-btn">
+          <a href="/login.jsp" class="btn-submit">登录</a>
+        </div>
+      </c:when>
+    </c:choose>
+  </header>
+
   <div class="content">
     <!-- 左侧边栏 -->
-    <div class="sidebar">
-      <ul>
-        <li><a href="/browse">信息浏览</a></li>
-        <li><a href="/user/memberProfile" class="active">个人信息</a></li>
-        <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
-        <li><a href="/user/change-password">修改密码</a></li>
-        <li><a href="/user/deactivate">账号注销</a></li>
-        <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
-      </ul>
-      <div class="logout">
-        <a href="/user/logout">退出登录</a>
+  <c:if test="${not empty user}">
+      <div class="sidebar">
+        <ul>
+          <li><a href="/browse">信息浏览</a></li>
+          <li><a href="/user/memberProfile" class="active">个人信息</a></li>
+          <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
+          <li><a href="/user/change-password">修改密码</a></li>
+          <li><a href="/user/deactivate">账号注销</a></li>
+          <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+        </ul>
+        <div class="logout">
+          <a href="/user/logout">退出登录</a>
+        </div>
       </div>
-    </div>
+  </c:if>
     <!-- Main Content -->
     <div class="main">
       <div class="page-title">个人详情</div>
       <!-- 头部个人信息展示 -->
-      <c:if test="${not empty member}">
+      <c:if test="${not empty user}">
         <div class="profile-header">
           <c:choose>
-            <c:when test="${not empty member.avatarFile}">
+            <c:when test="${not empty user.avatarFile}">
               <!-- 如果头像存在，显示头像 -->
               <c:set var="encodedPath"
-                     value="${fn:replace(fn:replace(member.avatarFile, '\\\\', '/'), ' ', '%20')}"/>
+                     value="${fn:replace(fn:replace(user.avatarFile, '\\\\', '/'), ' ', '%20')}"/>
               <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="头像"/>
             </c:when>
             <c:otherwise>
@@ -152,15 +170,15 @@
             </c:otherwise>
           </c:choose>
           <div class="profile-info">
-            <h1><c:out value="${member.name}" /></h1>
+            <h1><c:out value="${user.name}" /></h1>
             <p>职务：<c:choose>
-              <c:when test="${member.roleType == 'TeamMember'}">团队成员</c:when>
-              <c:when test="${member.roleType == 'Visitor'}">普通用户</c:when>
+              <c:when test="${user.roleType == 'TeamMember'}">团队成员</c:when>
+              <c:when test="${user.roleType == 'Visitor'}">普通用户</c:when>
               <c:otherwise>未知角色</c:otherwise>
             </c:choose>
             </p>
-            <p><strong>联系方式：</strong><c:out value="${member.contactInfo}" /></p>
-            <p><strong>Email：</strong><c:out value="${member.email}" /></p>
+            <p><strong>联系方式：</strong><c:out value="${user.contactInfo}" /></p>
+            <p><strong>Email：</strong><c:out value="${user.email}" /></p>
           </div>
         </div>
       </c:if>
@@ -168,17 +186,17 @@
       <!-- 研究方向 -->
       <div class="content-section">
         <h2 class="section-title">研究方向</h2>
-        <p><c:out value="${member.researchField}" /></p>
+        <p><c:out value="${user.researchField}" /></p>
       </div>
 
       <div class="content-section">
         <h2 class="section-title">学术背景</h2>
-        <p><c:out value="${member.academicBackground}" /></p>
+        <p><c:out value="${user.academicBackground}" /></p>
       </div>
 
       <div class="content-section">
         <h2 class="section-title">科研成果</h2>
-        <p><c:out value="${member.researchAchievements}" escapeXml="false" /></p>
+        <p><c:out value="${user.researchAchievements}" escapeXml="false" /></p>
       </div>
 
       <div class="action-links">

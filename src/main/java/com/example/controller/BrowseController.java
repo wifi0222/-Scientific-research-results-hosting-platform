@@ -91,8 +91,10 @@ public class BrowseController {
     @GetMapping("/member/details")
     public String memberDetails(@RequestParam("teamMembersID") int userID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         User member = browseService.getMemberDetails(userID);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("member", member);
         return "TeamAdmin/memberDetails"; // 返回成员详情页面
     }
@@ -101,10 +103,12 @@ public class BrowseController {
     @GetMapping("/achievement/details")
     public String achievementDetails(@RequestParam("achievementID") int achievementID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Achievement achievement = browseService.getAchievementDetails(achievementID);
         List<AchievementFile> files = achievementFileService.getFilesByAchievementId(achievementID);
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("achievement", achievement);
         return "achievementDetails"; // 返回成果详情页面
     }
@@ -113,10 +117,12 @@ public class BrowseController {
     @GetMapping("/article/details")
     public String articleDetails(@RequestParam("articleID") int articleID, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Article article = browseService.getArticleDetails(articleID);
         List<ArticleFile> files = articleFileService.getFilesByArticleId(articleID);
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("article", article);
         return "articleDetails"; // 返回文章详情页面
     }
