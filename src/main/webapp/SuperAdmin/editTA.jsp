@@ -72,10 +72,10 @@
                     <div class="permission-option">
                         <label class="t1">发布科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="1" ${teamAdministrator.publishPermission == true ? 'checked' : ''}> 有权限
+                            <input type="radio" name="publishAchievement" value="1" ${teamAdministrator.publishAchievement == true ? 'checked' : ''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="0" ${teamAdministrator.publishPermission == false ? 'checked' : ''}> 无权限
+                            <input type="radio" name="publishAchievement" value="0" ${teamAdministrator.publishAchievement == false ? 'checked' : ''}> 无权限
                         </label>
                     </div>
 
@@ -83,10 +83,10 @@
                     <div class="permission-option">
                         <label class="t1">删除科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="deletePermission" value="1" ${teamAdministrator.deletePermission == true ? 'checked' : ''}> 有权限
+                            <input type="radio" name="deleteAchievement" value="1" ${teamAdministrator.deleteAchievement == true ? 'checked' : ''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="deletePermission" value="0" ${teamAdministrator.deletePermission == false ? 'checked' : ''}> 无权限
+                            <input type="radio" name="deleteAchievement" value="0" ${teamAdministrator.deleteAchievement == false ? 'checked' : ''}> 无权限
                         </label>
                     </div>
 
@@ -94,10 +94,10 @@
                     <div class="permission-option">
                         <label class="t1">编辑科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="editPermission" value="1" ${teamAdministrator.editPermission == true ? 'checked':''}> 有权限
+                            <input type="radio" name="editAchievement" value="1" ${teamAdministrator.editAchievement == true ? 'checked':''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="editPermission" value="0" ${teamAdministrator.editPermission == false ? 'checked':''}> 无权限
+                            <input type="radio" name="editAchievement" value="0" ${teamAdministrator.editAchievement == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 
@@ -105,10 +105,10 @@
                     <div class="permission-option">
                         <label class="t1">公开/隐藏科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusPermission" value="1" ${teamAdministrator.setStatusPermission == true ? 'checked':''}> 有权限
+                            <input type="radio" name="setStatusAchievement" value="1" ${teamAdministrator.setStatusAchievement == true ? 'checked':''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusPermission" value="0" ${teamAdministrator.setStatusPermission == false ? 'checked':''}> 无权限
+                            <input type="radio" name="setStatusAchievement" value="0" ${teamAdministrator.setStatusAchievement == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 

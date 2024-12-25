@@ -222,10 +222,10 @@ public class SuperController {
     public String editAdministrator( RedirectAttributes redirectAttributes,
 //                                     @RequestParam("set") int set,
                                     @RequestParam(required = false) boolean userPermission,
-                                    @RequestParam(required = false) boolean publishPermission,
-                                    @RequestParam(required = false) boolean deletePermission,
-                                    @RequestParam(required = false) boolean editPermission,
-                                    @RequestParam(required = false) boolean setStatusPermission,
+                                    @RequestParam(required = false) boolean publishAchievement,
+                                    @RequestParam(required = false) boolean deleteAchievement,
+                                    @RequestParam(required = false) boolean editAchievement,
+                                    @RequestParam(required = false) boolean setStatusAchievement,
                                     @RequestParam(required = false) boolean publishArticle,
                                     @RequestParam(required = false) boolean deleteArticle,
                                     @RequestParam(required = false) boolean editArticle,
@@ -251,7 +251,7 @@ public class SuperController {
 //            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
 //        }
         administratorService.setAllPermission(
-                userPermission,publishPermission,deletePermission,editPermission,setStatusPermission,
+                userPermission,publishAchievement,deleteAchievement,editAchievement,setStatusAchievement,
                 publishArticle,deleteArticle,editArticle,setArticleStatus,adminID
         );
 

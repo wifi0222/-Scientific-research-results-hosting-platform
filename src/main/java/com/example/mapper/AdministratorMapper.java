@@ -13,10 +13,10 @@ public interface AdministratorMapper {
     public int deleteTeamAdminFromAdministrator(@Param("adminID")int adminID);
     public int setTemplePermission(@Param("adminID")int adminID);
     public int setAllPermission(@Param("userPermission")boolean userPermission,
-                                @Param("publishPermission")boolean publishPermission,
-                                @Param("deletePermission")boolean deletePermission,
-                                @Param("editPermission")boolean editPermission,
-                                @Param("setStatusPermission")boolean setStatusPermission,
+                                @Param("publishAchievement")boolean publishAchievement,
+                                @Param("deleteAchievement")boolean deleteAchievement,
+                                @Param("editAchievement")boolean editAchievement,
+                                @Param("setStatusAchievement")boolean setStatusAchievement,
                                 @Param("publishArticle")boolean publishArticle,
                                 @Param("deleteArticle")boolean deleteArticle,
                                 @Param("editArticle")boolean editArticle,

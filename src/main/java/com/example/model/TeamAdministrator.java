@@ -4,11 +4,12 @@ public class TeamAdministrator {
     private int adminID;            // 团队管理员ID
     private String adminName;       // 团队管理员姓名
     private String adminUsername;   // 团队管理员用户名
-    private boolean publishPermission; // 权限1：发布科研成果权限
+
+    private boolean publishAchievement; // 权限1：发布科研成果权限
     private boolean userPermission;    // 权限2：审核用户权限
-    private boolean deletePermission;  // 权限3：删除科研成果权限
-    private boolean editPermission; //权限4：编辑科研成果权限
-    private boolean setStatusPermission; //权限5：公开/隐藏科研成果权限
+    private boolean deleteAchievement;  // 权限3：删除科研成果权限
+    private boolean editAchievement; //权限4：编辑科研成果权限
+    private boolean setStatusAchievement; //权限5：公开/隐藏科研成果权限
 
     private boolean publishArticle; //权限6：发布文章权限
     private boolean deleteArticle; //权限7：删除文章权限
@@ -17,8 +18,6 @@ public class TeamAdministrator {
 
 
     private int teamID;             // 团队ID
-
-    // Getter 和 Setter 方法
 
     public int getAdminID() {
         return adminID;
@@ -44,12 +43,12 @@ public class TeamAdministrator {
         this.adminUsername = adminUsername;
     }
 
-    public boolean isPublishPermission() {
-        return publishPermission;
+    public boolean isPublishAchievement() {
+        return publishAchievement;
     }
 
-    public void setPublishPermission(boolean publishPermission) {
-        this.publishPermission = publishPermission;
+    public void setPublishAchievement(boolean publishAchievement) {
+        this.publishAchievement = publishAchievement;
     }
 
     public boolean isUserPermission() {
@@ -60,12 +59,60 @@ public class TeamAdministrator {
         this.userPermission = userPermission;
     }
 
-    public boolean isDeletePermission() {
-        return deletePermission;
+    public boolean isDeleteAchievement() {
+        return deleteAchievement;
     }
 
-    public void setDeletePermission(boolean deletePermission) {
-        this.deletePermission = deletePermission;
+    public void setDeleteAchievement(boolean deleteAchievement) {
+        this.deleteAchievement = deleteAchievement;
+    }
+
+    public boolean isEditAchievement() {
+        return editAchievement;
+    }
+
+    public void setEditAchievement(boolean editAchievement) {
+        this.editAchievement = editAchievement;
+    }
+
+    public boolean isSetStatusAchievement() {
+        return setStatusAchievement;
+    }
+
+    public void setSetStatusAchievement(boolean setStatusAchievement) {
+        this.setStatusAchievement = setStatusAchievement;
+    }
+
+    public boolean isPublishArticle() {
+        return publishArticle;
+    }
+
+    public void setPublishArticle(boolean publishArticle) {
+        this.publishArticle = publishArticle;
+    }
+
+    public boolean isDeleteArticle() {
+        return deleteArticle;
+    }
+
+    public void setDeleteArticle(boolean deleteArticle) {
+        this.deleteArticle = deleteArticle;
+    }
+
+    public boolean isEditArticle() {
+        return editArticle;
+    }
+
+    public void setEditArticle(boolean editArticle) {
+        this.editArticle = editArticle;
+    }
+
+    public boolean isSetArticleStatus() {
+        return setArticleStatus;
+    }
+
+    public void setSetArticleStatus(boolean setArticleStatus) {
+        this.setArticleStatus = setArticleStatus;
     }
 
     public int getTeamID() {
@@ -74,54 +121,5 @@ public class TeamAdministrator {
 
     public void setTeamID(int teamID) {
         this.teamID = teamID;
-    }
-
-    public void setEditPermission(boolean editPermission) {
-        this.editPermission = editPermission;
-    }
-    public void setSetStatusPermission(boolean setStatusPermission) {
-        this.setStatusPermission = setStatusPermission;
-    }
-
-
-    public void setPublishArticle(boolean publishArticle) {
-        this.publishArticle = publishArticle;
-    }
-
-
-    public void setDeleteArticle(boolean deleteArticle) {
-        this.deleteArticle = deleteArticle;
-    }
-
-    public void setEditArticle(boolean editArticle) {
-        this.editArticle = editArticle;
-    }
-
-    public void setSetArticleStatus(boolean setArticleStatus) {
-        this.setArticleStatus = setArticleStatus;
-    }
-
-    public boolean getEditPermission() {
-        return editPermission;
-    }
-
-    public boolean getSetStatusPermission() {
-        return setStatusPermission;
-    }
-
-    public boolean getPublishArticle() {
-        return publishArticle;
-    }
-
-    public boolean getDeleteArticle() {
-        return deleteArticle;
-    }
-
-    public boolean getEditArticle() {
-        return editArticle;
-    }
-
-    public boolean getSetArticleStatus() {
-        return setArticleStatus;
     }
 }

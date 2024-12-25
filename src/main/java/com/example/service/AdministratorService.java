@@ -10,7 +10,7 @@ public interface AdministratorService {
     public TeamAdministrator findAdministratorById(int id);
     public int setTemplePermission(int adminID);
     public int setAllPermission(
-            Boolean userPermission,Boolean publishPermission,Boolean deletePermission,Boolean editPermission,Boolean setStatusPermission,
+            Boolean userPermission,Boolean publishAchievement,Boolean deleteAchievement,Boolean editAchievement,Boolean setStatusAchievement,
             Boolean publishArticle,Boolean deleteArticle,Boolean editArticle,Boolean setStatusArticle,int adminID
     );
     public boolean getUserManageAdministrator(int adminID); //获取团队管理员用户管理的权限

@@ -170,23 +170,23 @@
                                         </span>
                             </td>
                             <td class="permission">
-                                        <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
-                                                ${teamAdmin.publishPermission ? '有权限' : '无权限'}
+                                        <span class="${teamAdmin.publishAchievement ? 'has' : 'no'}">
+                                                ${teamAdmin.publishAchievement ? '有权限' : '无权限'}
                                         </span>
                             </td>
                             <td class="permission">
-                                        <span class="${teamAdmin.deletePermission ? 'has' : 'no'}">
-                                                ${teamAdmin.deletePermission ? '有权限' : '无权限'}
+                                        <span class="${teamAdmin.deleteAchievement ? 'has' : 'no'}">
+                                                ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}
                                         </span>
                             </td>
                             <td class="permission">
-                                <span class="${teamAdmin.editPermission ? 'has':'no'}">
-                                    ${teamAdmin.editPermission ? '有权限' : '无权限'}
+                                <span class="${teamAdmin.editAchievement ? 'has':'no'}">
+                                    ${teamAdmin.editAchievement ? '有权限' : '无权限'}
                                 </span>
                             </td>
                             <td class="permission">
-                                <span class="${teamAdmin.setStatusPermission ? 'has':'no'}">
-                                        ${teamAdmin.setStatusPermission ? '有权限' : '无权限'}
+                                <span class="${teamAdmin.setStatusAchievement ? 'has':'no'}">
+                                        ${teamAdmin.setStatusAchievement ? '有权限' : '无权限'}
                                 </span>
                             </td>
 

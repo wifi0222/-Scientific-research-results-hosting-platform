@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userManage.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
         /* 按钮样式 */
         .btn {
@@ -519,7 +518,6 @@
     });
 </script>
 
-<script src="../js/userManage.js"></script>
-
+<script src="../js/userManage.js?v21"></script>
 </body>
 </html>
