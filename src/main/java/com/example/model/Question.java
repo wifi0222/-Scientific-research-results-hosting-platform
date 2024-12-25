@@ -1,9 +1,10 @@
 package com.example.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Question {
+public class Question implements Serializable { // 如果不加 implements Serializable 那么就无法向 Redis 传 Question
     private int questionID;
     private String title;
     private String questionContent;

@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.Question;
 import com.example.model.User;
 import com.example.service.QuestionService;
+import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     // 提交问题
     @PostMapping("/submit")
@@ -78,6 +81,9 @@ public class QuestionController {
     @PostMapping("/{id}/reply")
     public ResponseEntity<String> replyQuestion(@PathVariable("id") int questionID,
                                                 @RequestParam("replyContent") String replyContent) {
+        // 将过期的Redis删掉
+        String cacheKey = "question:" + questionID;
+        redisUtil.del(cacheKey);
         // 更新数据库
         questionService.replyQuestion(questionID, replyContent, new Date());
         return ResponseEntity.ok("Reply submitted successfully!");
@@ -102,6 +108,9 @@ public class QuestionController {
         System.out.println("Received questionID: " + questionID);
         System.out.println("Received status: " + status);
 
+        // 将过期的Redis删掉
+        String cacheKey = "question:" + questionID;
+        redisUtil.del(cacheKey);
         questionService.updateQuestionStatus(questionID, status);
         return "redirect:/questions/ans-details/" + questionID;
     }
@@ -110,7 +119,16 @@ public class QuestionController {
     @RequestMapping("/ans-details/{id}")
     public String showQuestionDetails(@PathVariable("id") int questionID, Model model) {
         System.out.println("in questions/ans-details/{id} " + questionID);
-        Question question = questionService.getQuestionById(questionID);
+
+        // 先从 Redis 缓存中获取
+        String cacheKey = "question:" + questionID;
+        Question question = (Question) redisUtil.get(cacheKey);
+        if (question == null) {
+            // 如果缓存不存在，从数据库查询并写入缓存
+            question = questionService.getQuestionById(questionID);
+            redisUtil.set(cacheKey, question, 300);
+        }
+
         model.addAttribute("question", question);
         return "Question/ans-question-details";
     }
@@ -136,7 +154,16 @@ public class QuestionController {
     @RequestMapping("/ask-details/{id}")
     public String showQuestionDetailsToAsk(@PathVariable("id") int questionID, Model model) {
         System.out.println("in questions/ask-details/{id} " + questionID);
-        Question question = questionService.getQuestionById(questionID);
+
+        // 先从 Redis 缓存中获取
+        String cacheKey = "question:" + questionID;
+        Question question = (Question) redisUtil.get(cacheKey);
+        if (question == null) {
+            // 如果缓存不存在，从数据库查询并写入缓存
+            question = questionService.getQuestionById(questionID);
+            redisUtil.set(cacheKey, question, 300);
+        }
+
         model.addAttribute("question", question);
         return "Question/ask-question-details";
     }

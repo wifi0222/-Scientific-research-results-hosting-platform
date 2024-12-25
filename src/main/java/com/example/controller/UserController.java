@@ -6,6 +6,7 @@ import com.example.model.User;
 import com.example.service.DeactivationService;
 import com.example.service.MemberViewService;
 import com.example.service.UserService;
+import com.example.tool.OpenSSLUtil;
 import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,13 @@ public class UserController {
                         @RequestParam("password") String password,
                         HttpSession session, // 注入 HttpSession 保存用户信息
                         Model model) {
+        // 加密
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
+        System.out.println("Encrypted Password: " + encryptedPassword);
+
+        // 解密
+        String decryptedPassword = OpenSSLUtil.decrypt(encryptedPassword);
+        System.out.println("Decrypted Password: " + decryptedPassword);
         // 判断id还是name
         User user = userService.login(usernameOrId, password);
         if (user == null) {
