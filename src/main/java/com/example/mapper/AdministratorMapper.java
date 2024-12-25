@@ -23,4 +23,7 @@ public interface AdministratorMapper {
                                 @Param("setArticleStatus")boolean setArticleStatus,
                                 @Param("adminID")int adminID);
     public boolean getUserManageAdministrator(int adminID);
+    public int setUserManageAdministrator(int adminID);
+    public int setResearchAdministrator(int adminID);
+    public int setArticleAdministrator(int adminID);
 }

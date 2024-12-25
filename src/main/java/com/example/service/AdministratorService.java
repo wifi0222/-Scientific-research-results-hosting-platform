@@ -14,6 +14,9 @@ public interface AdministratorService {
             Boolean publishArticle,Boolean deleteArticle,Boolean editArticle,Boolean setStatusArticle,int adminID
     );
     public boolean getUserManageAdministrator(int adminID); //获取团队管理员用户管理的权限
+    public int setUserManageAdministrator(int adminID);
+    public int setResearchAdministrator(int adminID);
+    public int setArticleAdministrator(int adminID);
 }
 
 

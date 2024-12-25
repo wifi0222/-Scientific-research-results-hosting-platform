@@ -28,8 +28,8 @@ selectAllCheckbox.addEventListener('change', function () {
         // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
         // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
 
-        var modal = document.getElementById("LogoutModal");
-        var modalContent = document.querySelector("#LogoutModal .modal-content");
+        var modal = document.getElementById("BatchLogoutModal");
+        var modalContent = document.querySelector("#BatchLogoutModal .modal-content");
         modal.style.display = "block";
 
         // 添加显示动画
@@ -38,10 +38,10 @@ selectAllCheckbox.addEventListener('change', function () {
         }, 10);
 
         // 关闭按钮事件
-        var closeBtn = document.getElementsByClassName("close-logout")[0];
+        var closeBtn = document.getElementsByClassName("batch-close-logout")[0];
         closeBtn.onclick = function () {
-            var modal = document.getElementById("LogoutModal");
-            var modalContent = document.querySelector("#LogoutModal .modal-content");
+            var modal = document.getElementById("BatchLogoutModal");
+            var modalContent = document.querySelector("#BatchLogoutModal .modal-content");
 
             // 隐藏模态框的动画效果
             modalContent.classList.remove("show");
@@ -55,8 +55,36 @@ selectAllCheckbox.addEventListener('change', function () {
         // 确定按钮事件
         var approveLogoutButton = document.getElementById("approve-logout-Button");
         approveLogoutButton.onclick = function() {
-            // 注销用户
-            window.location.href = "/teamAdmin/UserManage/logoutUser?userID=" + userId;
+            // 批量操作
+            fetch('/teamAdmin/UserManage/BatchLogoutUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userIds: selectedIds })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 处理结果
+                    if (data.success) {
+                        alert("注销成功！");
+                        location.reload(); // 刷新页面
+                    } else {
+                        alert("注销失败！");
+                    }
+                })
+                .catch(error => {
+                    alert(error);
+                });
+
+            // 关闭模态框
+            var modal = document.getElementById("BatchLogoutModal");
+            var modalContent = document.querySelector("#BatchLogoutModal .modal-content");
+            modalContent.classList.remove("show");
+
+            setTimeout(function() {
+                modal.style.display = "none";
+            }, 300);
         };
 
     });
@@ -81,8 +109,8 @@ selectAllCheckbox.addEventListener('change', function () {
         // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
         // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
 
-        var modal = document.getElementById("ResetModal");
-        var modalContent = document.querySelector("#ResetModal .modal-content");
+        var modal = document.getElementById("BatchResetModal");
+        var modalContent = document.querySelector("#BatchResetModal .modal-content");
         modal.style.display = "block";
 
         // 添加显示动画
@@ -91,10 +119,10 @@ selectAllCheckbox.addEventListener('change', function () {
         }, 10);
 
         // 关闭按钮事件
-        var closeBtn = document.getElementsByClassName("close-reset")[0];
+        var closeBtn = document.getElementsByClassName("batch-close-reset")[0];
         closeBtn.onclick = function () {
-            var modal = document.getElementById("ResetModal");
-            var modalContent = document.querySelector("#ResetModal .modal-content");
+            var modal = document.getElementById("BatchResetModal");
+            var modalContent = document.querySelector("#BatchResetModal .modal-content");
 
             // 隐藏模态框的动画效果
             modalContent.classList.remove("show");
@@ -106,12 +134,38 @@ selectAllCheckbox.addEventListener('change', function () {
         };
 
         // 确定按钮事件
-        var approveButton = document.getElementById("approveButton");
+        var approveButton = document.getElementById("batch-reset-button");
         approveButton.onclick = function () {
-            selectedIds.forEach(function (userId) {
-                // 重置密码
-                window.location.href = "/teamAdmin/UserManage/ResetPassword?userID=" + userId;
-            });
+            // 批量操作
+            fetch('/teamAdmin/UserManage/BatchResetUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userIds: selectedIds })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 处理结果
+                    if (data.success) {
+                        alert("重置成功！");
+                        location.reload(); // 刷新页面
+                    } else {
+                        alert("重置失败！");
+                    }
+                })
+                .catch(error => {
+                    alert(error);
+                });
+
+            // 关闭模态框
+            var modal = document.getElementById("BatchLogoutModal");
+            var modalContent = document.querySelector("#BatchLogoutModal .modal-content");
+            modalContent.classList.remove("show");
+
+            setTimeout(function() {
+                modal.style.display = "none";
+            }, 300);
         };
 
     });

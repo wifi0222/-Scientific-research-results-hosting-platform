@@ -88,7 +88,7 @@ selectAllCheckbox.addEventListener('change', function () {
     });
 });
 
-// 批量通过选中行
+// 批量删除选中行
 const batchPassButton = document.getElementById('batchPassButton');
 batchPassButton.addEventListener('click', function () {
     const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
@@ -100,7 +100,7 @@ batchPassButton.addEventListener('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert("请先勾选要通过的成果！");
+        alert("请先勾选要删除的管理员！");
         return;
     }
 
@@ -109,8 +109,8 @@ batchPassButton.addEventListener('click', function () {
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
 
     //弹出确认框
-    var modal = document.getElementById("deleteModal");
-    var modalContent = document.querySelector("#deleteModal .modal-content");
+    var modal = document.getElementById("batchDeleteModal");
+    var modalContent = document.querySelector("#batchDeleteModal .modal-content");
     modal.style.display = "block";
 
     // 添加显示动画
@@ -119,10 +119,10 @@ batchPassButton.addEventListener('click', function () {
     }, 10);
 
     // 关闭按钮事件
-    var closeBtn = document.getElementsByClassName("close-approve")[0];
+    var closeBtn = document.getElementsByClassName("close-batchApprove")[0];
     closeBtn.onclick = function() {
-        var modal = document.getElementById("deleteModal");
-        var modalContent = document.querySelector("#deleteModal .modal-content");
+        var modal = document.getElementById("batchDeleteModal");
+        var modalContent = document.querySelector("#batchDeleteModal .modal-content");
         // 隐藏模态框的动画效果
         modalContent.classList.remove("show");
 
@@ -133,13 +133,38 @@ batchPassButton.addEventListener('click', function () {
     };
 
     // 确定按钮事件
-    var approveButton = document.getElementById("approveButton");
+    var approveButton = document.getElementById("approveBatchButton");
     approveButton.onclick = function() {
-        // 通过审核，跳转并传递审核结果
-        selectedIds.forEach(function (userID) {
-            window.location.href = "/SuperController/TeamAdminManage/delete?userID=" + userID;
-            // window.location.href = "/teamAdmin/RegisterReview?username=" + username + "&status=1";
-        });
+        // 批量删除操作
+        fetch('/SuperController/TeamAdminManage/deleteBatch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userIds: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理删除结果
+                if (data.success) {
+                    alert("删除成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("删除失败！");
+                }
+            })
+            .catch(error => {
+                alert("删除失败，网络错误！");
+            });
+
+        // 关闭模态框
+        var modal = document.getElementById("batchDeleteModal");
+        var modalContent = document.querySelector("#batchDeleteModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
     };
 });
 

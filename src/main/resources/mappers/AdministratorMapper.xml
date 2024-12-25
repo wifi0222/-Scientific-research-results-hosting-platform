@@ -37,4 +37,24 @@
         SELECT userPermission FROM TeamAdministrator
         WHERE  adminID=#{adminID}
     </select>
+
+    <update id="setUserManageAdministrator">
+        UPDATE TeamAdministrator
+        SET userPermission=1
+        WHERE adminID=#{adminID}
+    </update>
+
+    <update id="setResearchAdministrator">
+        UPDATE TeamAdministrator
+        SET publishPermission=1,deletePermission=1,
+            editPermission=1,setStatusPermission=1
+        WHERE adminID=#{adminID}
+    </update>
+
+    <update id="setArticleAdministrator">
+        UPDATE TeamAdministrator
+        SET publishArticle=1,deleteArticle=1,
+            editArticle=1,setArticleStatus=1
+        WHERE adminID=#{adminID}
+    </update>
 </mapper>

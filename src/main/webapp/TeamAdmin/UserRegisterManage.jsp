@@ -276,8 +276,6 @@
                     <button type="button" id="batchPassButton" class="btn btn-pass">
                         批量通过
                     </button>
-
-
             </div>
         </div>
     </div>
@@ -303,6 +301,15 @@
         <h3>审核通过</h3>
         <p>确定通过该成员的注册申请吗？</p>
         <button id="approveButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<div id="batchModal" class="modal">
+    <div class="modal-content">
+        <span class="close-batch">&times;</span>
+        <h3>审核通过</h3>
+        <p>确定通过全部选中成员的注册吗？</p>
+        <button id="batchButton" class="modal-button">确定</button>
     </div>
 </div>
 

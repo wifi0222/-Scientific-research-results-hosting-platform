@@ -159,7 +159,7 @@
                                 <input type="checkbox"
                                        class="rowCheckbox"
                                        name="selectedRows"
-                                       value="${teamAdmin.adminID}}">
+                                       value="${teamAdmin.adminID}">
                             </td>
                             <td>${teamAdmin.adminID}</td>
 <%--                            <td>${teamAdmin.adminUsername}</td>--%>
@@ -245,6 +245,32 @@
     ABCD组 &copy; 2024
 </footer>
 
+<!-- 用户权限设置模态框 -->
+<div id="UserModal" class="modal">
+    <div class="modal-content">
+        <span class="close-user">&times;</span>
+        <p>确定要为选中的管理员设置用户管理权限吗？</p>
+        <button id="userButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<!-- 科研成果设置模态框 -->
+<div id="researchModal" class="modal">
+    <div class="modal-content">
+        <span class="close-research">&times;</span>
+        <p>确定要为选中的管理员设置科研成果的全部权限吗？</p>
+        <button id="researchButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<!-- 文章设置模态框 -->
+<div id="articleModal" class="modal">
+    <div class="modal-content">
+        <span class="close-article">&times;</span>
+        <p>确定要为选中的管理员设置文章的全部权限吗？</p>
+        <button id="articleButton" class="modal-button">确定</button>
+    </div>
+</div>
 <script>
     // 检查信息并弹出提示框
     window.onload = function() {

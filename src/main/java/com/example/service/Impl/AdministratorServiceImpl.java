@@ -55,4 +55,19 @@ public class AdministratorServiceImpl implements AdministratorService {
     public boolean getUserManageAdministrator(int adminID) {
         return administratorMapper.getUserManageAdministrator(adminID);
     }
+
+    @Override
+    public int setUserManageAdministrator(int adminID) {
+        return administratorMapper.setUserManageAdministrator(adminID);
+    }
+
+    @Override
+    public int setResearchAdministrator(int adminID) {
+        return administratorMapper.setResearchAdministrator(adminID);
+    }
+
+    @Override
+    public int setArticleAdministrator(int adminID) {
+        return administratorMapper.setArticleAdministrator(adminID);
+    }
 }

@@ -212,6 +212,49 @@ public class TeamAdminController {
         return "redirect:/teamAdmin/ToMemberInfoReview";
     }
 
+
+    //批量通过审核
+    @RequestMapping("/TeamManage/Member/BatchReview")
+    @ResponseBody
+    public Map<String, Object> ReviewBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                                         HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        }
+
+        List<Integer> memberIds = requestData.get("memberIds");
+        System.out.println("Received member IDs: " + memberIds); // 打印接收到的用户ID列表
+        if (memberIds == null || memberIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的成员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer memberId : memberIds) {
+                MemberReview memberReview = memberViewService.findByMemberID(memberId);
+                userService.updateTeamMemberInfo(memberReview);
+                memberViewService.deleteSuccess(memberId);
+            }
+            response.put("success", true);
+            response.put("message", "设置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "设置失败：" + e.getMessage());
+        }
+        return response;
+    }
+
+
     //跳转到用户管理模块
     @GetMapping("ToUserRegisterManage")
     public String ToTeamUserManage(Model model, @RequestParam(required = false) String message, HttpSession session) {
@@ -263,6 +306,52 @@ public class TeamAdminController {
         sendMailService.sendMessageEmail(sendEmail, sendMessage);
         redirectAttributes.addAttribute("message", "审核成功");
         return "redirect:/teamAdmin/ToUserRegisterManage";
+    }
+
+    //批量通过审核
+    @RequestMapping("/BatchRegisterReview")
+    @ResponseBody
+    public Map<String, Object> RegisterReviewBatch(@RequestBody Map<String, List<String>> requestData,
+                                           HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        }
+
+        List<String> userNames = requestData.get("userNames");
+        System.out.println("Received user Names: " + userNames); // 打印接收到的用户ID列表
+        if (userNames == null || userNames.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的成员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (String username : userNames) {
+                RegistrationReview registrationReview = registrationService.getRegisterByusername(username);
+                String sendMessage; //通过邮件发送的通知
+                String sendEmail = registrationReview.getEmail(); //发送邮件的邮箱
+                //通过审核---插入用户表里面，更新状态，发送通知
+                sendMessage = "您的注册申请审核已通过,请及时登录";
+                userService.addNewUser(registrationReview);
+                registrationService.updateSuccessResult(username);
+                sendMailService.sendMessageEmail(sendEmail, sendMessage);
+            }
+            response.put("success", true);
+            response.put("message", "设置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "设置失败：" + e.getMessage());
+        }
+        return response;
     }
 
     /**
@@ -773,6 +862,48 @@ public class TeamAdminController {
         return "redirect:/teamAdmin/ToUserManage";
     }
 
+    //批量注销
+    @RequestMapping("/UserManage/BatchLogoutUser")
+    @ResponseBody
+    public Map<String, Object> LogoutUserBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                                   HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        }
+
+        List<Integer> userIds = requestData.get("userIds");
+        System.out.println("Received user IDs: " + userIds); // 打印接收到的用户ID列表
+        if (userIds == null || userIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的成员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer userID : userIds) {
+                User logoutUser = userService.findById(userID);
+                String ReceviceAddress = logoutUser.getEmail();
+                int r = userService.deleteById(userID);
+                sendMailService.sendMessageEmail(ReceviceAddress, "注销成功");
+            }
+            response.put("success", true);
+            response.put("message", "注销成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "注销失败：" + e.getMessage());
+        }
+        return response;
+    }
+
     //重置密码
     @GetMapping("/UserManage/ResetPassword")
     public String ResetPassword(RedirectAttributes redirectAttributes,
@@ -798,6 +929,47 @@ public class TeamAdminController {
             redirectAttributes.addAttribute("message", "重置密码成功");
         }
         return "redirect:/teamAdmin/ToUserManage";
+    }
+
+    //批量重置
+    @RequestMapping("/UserManage/BatchResetUser")
+    @ResponseBody
+    public Map<String, Object> ResetUserBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                               HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        }
+
+        List<Integer> userIds = requestData.get("userIds");
+        System.out.println("Received user IDs: " + userIds); // 打印接收到的用户ID列表
+        if (userIds == null || userIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的成员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer userID : userIds) {
+                User user = userService.findById(userID);
+                String password = sendMailService.resetPassword(user.getEmail());
+                userService.ResetPassword(userID, password);
+            }
+            response.put("success", true);
+            response.put("message", "重置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "重置失败：" + e.getMessage());
+        }
+        return response;
     }
 
     //用户搜索

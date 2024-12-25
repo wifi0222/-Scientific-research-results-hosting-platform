@@ -289,6 +289,15 @@
     </div>
 </div>
 
+<div id="batchModal" class="modal">
+    <div class="modal-content">
+        <span class="close-batch">&times;</span>
+        <h3>审核通过</h3>
+        <p>确定通过全部选中成员的审核吗？</p>
+        <button id="batchButton" class="modal-button">确定</button>
+    </div>
+</div>
+
 <script>
     // 检查错误信息并弹出提示框
     window.onload = function() {

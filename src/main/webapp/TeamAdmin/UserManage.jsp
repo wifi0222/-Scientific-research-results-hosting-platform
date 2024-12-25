@@ -442,7 +442,7 @@
 
                 <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
 
-                <button type="button" id="batchPassButton" class="btn btn-pass">批量重置</button>
+                <button type="button" id="batchResetButton" class="btn btn-pass">批量重置</button>
 
             </div>
         </div>
@@ -465,6 +465,25 @@
         <h3>重置用户密码</h3>
         <p>是否为用户生成新密码？系统将发送临时密码至注册邮箱。</p>
         <button id="approveButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<!-- 批量-->
+<div id="BatchLogoutModal" class="modal">
+    <div class="modal-content">
+        <span class="batch-close-logout">&times;</span>
+        <h3>注销用户</h3>
+        <p>确定注销选中的全部用户吗？注销后将无法登录。</p>
+        <button id="batch-logout-Button" class="modal-button">确定</button>
+    </div>
+</div>
+
+<div id="BatchResetModal" class="modal">
+    <div class="modal-content">
+        <span class="batch-close-reset">&times;</span>
+        <h3>重置用户密码</h3>
+        <p>是否为选中的用户生成新密码？系统将发送临时密码至注册邮箱。</p>
+        <button id="batch-reset-button" class="modal-button">确定</button>
     </div>
 </div>
 
@@ -500,7 +519,7 @@
     });
 </script>
 
-<script src="/js/userManage.js"></script>
+<script src="../js/userManage.js"></script>
 
 </body>
 </html>

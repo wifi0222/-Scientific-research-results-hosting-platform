@@ -195,7 +195,7 @@
                                     <input type="checkbox"
                                            class="rowCheckbox"
                                            name="selectedRows"
-                                           value="${user.username}">
+                                           value="${user.userID}">
                                 </td>
                                 <td>${user.userID}</td>
                                 <td>${user.username}</td>
@@ -259,7 +259,14 @@
     </div>
 </div>
 
-
+<!-- 批量删除确认模态框 -->
+<div id="batchDeleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-batchApprove">&times;</span>
+        <p>确定要删除选中的管理员吗？</p>
+        <button id="approveBatchButton" class="modal-button">确定</button>
+    </div>
+</div>
 
 <footer>
     ABCD组 &copy; 2024
