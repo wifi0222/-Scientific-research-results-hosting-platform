@@ -48,7 +48,7 @@ public class UserController {
         String decryptedPassword = OpenSSLUtil.decrypt(encryptedPassword);
         System.out.println("Decrypted Password: " + decryptedPassword);
         // 判断id还是name
-        User user = userService.login(usernameOrId, password);
+        User user = userService.login(usernameOrId, encryptedPassword);
         if (user == null) {
             model.addAttribute("error", "账号不存在或密码错误！");
             return "login";
@@ -265,8 +265,13 @@ public class UserController {
         }
         String userRoleType = currentUser.getRoleType();
 
+        // 加密
+        String encryptedOldPassword = OpenSSLUtil.encrypt(oldPassword);
+        String encryptedNewPassword = OpenSSLUtil.encrypt(newPassword);
+        String encryptedConfirmPassword = OpenSSLUtil.encrypt(confirmPassword);
+
         // 验证旧密码是否正确
-        if (!currentUser.getPassword().equals(oldPassword)) {
+        if (!currentUser.getPassword().equals(encryptedOldPassword)) {
             model.addAttribute("error", "旧密码错误！");
             // 将用户信息传递给前端
             model.addAttribute("user", currentUser);
@@ -298,7 +303,7 @@ public class UserController {
         model.addAttribute("userRoleType", userRoleType);
 
         // 更新密码
-        currentUser.setPassword(newPassword);
+        currentUser.setPassword(encryptedNewPassword);
         userService.updatePasswordbyid(currentUser);
 
         // 提示成功信息

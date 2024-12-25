@@ -8,8 +8,6 @@
     <title>问题详细信息</title>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
@@ -141,25 +139,6 @@
     </c:otherwise>
 </c:choose>
 
-
-<!-- 弹窗结构 -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">提交成功</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
-            </div>
-            <div class="modal-body">
-                回复提交成功！
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="refreshButton" data-bs-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     // Quill 初始化
     var quill = new Quill('#editor-container', {
@@ -237,21 +216,14 @@
                 }
             })
             .then(data => {
-                console.log("回复成功：", data);
-
-                // 显示成功弹窗
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
+                alert("问题提交成功！");
+                // 刷新页面
+                location.reload();
             })
             .catch(error => {
                 console.error("提交错误：", error);
                 alert("提交失败，请稍后重试！");
             });
-    });
-
-    // 弹窗关闭后刷新页面
-    document.getElementById("refreshButton").addEventListener("click", function () {
-        location.reload(); // 刷新页面
     });
 </script>
 
