@@ -230,7 +230,7 @@ public class TeamAdminController {
         }
 
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -377,7 +377,7 @@ public class TeamAdminController {
         if (type == 0) {
             // 判断该团队管理员是否具有新增科研成果的权限
             TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-            if (!teamAdministrator.isPublishPermission()) {
+            if (!teamAdministrator.isPublishAchievement()) {
                 model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
                 return "/TeamAdmin/error";
             }
@@ -790,7 +790,7 @@ public class TeamAdminController {
         if (type == 0) {
             // 判断该团队管理员是否具有删除科研成果的权限
             TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-            if (!teamAdministrator.isDeletePermission()) {
+            if (!teamAdministrator.isDeleteAchievement()) {
                 model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
                 return "/TeamAdmin/error";
             }
@@ -883,7 +883,7 @@ public class TeamAdminController {
         if (type == 0) {
             // 判断该团队管理员是否具有删除科研成果的权限
             TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-            if (!teamAdministrator.isDeletePermission()) {
+            if (!teamAdministrator.isDeleteAchievement()) {
                 model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
                 return "/TeamAdmin/error";
             }
@@ -1159,7 +1159,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -1180,7 +1180,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -1207,7 +1207,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -1255,7 +1255,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
