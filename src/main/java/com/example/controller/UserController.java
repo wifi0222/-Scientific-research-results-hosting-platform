@@ -439,7 +439,8 @@ public class UserController {
                                   @RequestParam("password") String password,
                                   HttpSession session, // 注入 HttpSession 保存用户信息
                                   Model model) {
-        User user = userService.login(usernameOrId, password);
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
+        User user = userService.login(usernameOrId, encryptedPassword);
         if (user == null) {
             model.addAttribute("error", "账号不存在或密码错误！");
             return "ManagementLogin";
