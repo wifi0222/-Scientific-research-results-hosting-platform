@@ -185,8 +185,8 @@
                                 </span>
                             </td>
                             <td class="permission">
-                                <span class="${teamAdmin.setStatusAchievement ? 'has':'no'}">
-                                        ${teamAdmin.setStatusAchievement ? '有权限' : '无权限'}
+                                <span class="${teamAdmin.setAchievementStatus ? 'has':'no'}">
+                                        ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}
                                 </span>
                             </td>
 

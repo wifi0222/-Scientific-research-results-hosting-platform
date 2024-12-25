@@ -16,7 +16,7 @@ public interface AdministratorMapper {
                                 @Param("publishAchievement")boolean publishAchievement,
                                 @Param("deleteAchievement")boolean deleteAchievement,
                                 @Param("editAchievement")boolean editAchievement,
-                                @Param("setStatusAchievement")boolean setStatusAchievement,
+                                @Param("setAchievementStatus")boolean setAchievementStatus,
                                 @Param("publishArticle")boolean publishArticle,
                                 @Param("deleteArticle")boolean deleteArticle,
                                 @Param("editArticle")boolean editArticle,

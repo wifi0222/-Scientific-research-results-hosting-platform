@@ -45,9 +45,9 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public int setAllPermission(Boolean userPermission,Boolean publishAchievement,Boolean deleteAchievement,Boolean editAchievement,Boolean setStatusAchievement,
+    public int setAllPermission(Boolean userPermission,Boolean publishAchievement,Boolean deleteAchievement,Boolean editAchievement,Boolean setAchievementStatus,
                                 Boolean publishArticle,Boolean deleteArticle,Boolean editArticle,Boolean setArticleStatus,int adminID) {
-        return administratorMapper.setAllPermission(userPermission, publishAchievement,deleteAchievement,editAchievement,setStatusAchievement,
+        return administratorMapper.setAllPermission(userPermission, publishAchievement,deleteAchievement,editAchievement,setAchievementStatus,
                 publishArticle,deleteArticle,editArticle,setArticleStatus,adminID);
     }
 

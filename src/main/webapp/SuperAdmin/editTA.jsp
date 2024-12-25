@@ -105,10 +105,10 @@
                     <div class="permission-option">
                         <label class="t1">公开/隐藏科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusAchievement" value="1" ${teamAdministrator.setStatusAchievement == true ? 'checked':''}> 有权限
+                            <input type="radio" name="setAchievementStatus" value="1" ${teamAdministrator.setAchievementStatus == true ? 'checked':''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusAchievement" value="0" ${teamAdministrator.setStatusAchievement == false ? 'checked':''}> 无权限
+                            <input type="radio" name="setAchievementStatus" value="0" ${teamAdministrator.setAchievementStatus == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 

@@ -9,7 +9,7 @@ public class TeamAdministrator {
     private boolean userPermission;    // 权限2：审核用户权限
     private boolean deleteAchievement;  // 权限3：删除科研成果权限
     private boolean editAchievement; //权限4：编辑科研成果权限
-    private boolean setStatusAchievement; //权限5：公开/隐藏科研成果权限
+    private boolean setAchievementStatus; //权限5：公开/隐藏科研成果权限
 
     private boolean publishArticle; //权限6：发布文章权限
     private boolean deleteArticle; //权限7：删除文章权限
@@ -75,12 +75,12 @@ public class TeamAdministrator {
         this.editAchievement = editAchievement;
     }
 
-    public boolean isSetStatusAchievement() {
-        return setStatusAchievement;
+    public boolean isSetAchievementStatus() {
+        return setAchievementStatus;
     }
 
-    public void setSetStatusAchievement(boolean setStatusAchievement) {
-        this.setStatusAchievement = setStatusAchievement;
+    public void setSetAchievementStatus(boolean setAchievementStatus) {
+        this.setAchievementStatus = setAchievementStatus;
     }
 
     public boolean isPublishArticle() {

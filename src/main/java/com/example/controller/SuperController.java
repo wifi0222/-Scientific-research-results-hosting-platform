@@ -225,7 +225,7 @@ public class SuperController {
                                     @RequestParam(required = false) boolean publishAchievement,
                                     @RequestParam(required = false) boolean deleteAchievement,
                                     @RequestParam(required = false) boolean editAchievement,
-                                    @RequestParam(required = false) boolean setStatusAchievement,
+                                    @RequestParam(required = false) boolean setAchievementStatus,
                                     @RequestParam(required = false) boolean publishArticle,
                                     @RequestParam(required = false) boolean deleteArticle,
                                     @RequestParam(required = false) boolean editArticle,
@@ -251,7 +251,7 @@ public class SuperController {
 //            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
 //        }
         administratorService.setAllPermission(
-                userPermission,publishAchievement,deleteAchievement,editAchievement,setStatusAchievement,
+                userPermission,publishAchievement,deleteAchievement,editAchievement,setAchievementStatus,
                 publishArticle,deleteArticle,editArticle,setArticleStatus,adminID
         );
 
