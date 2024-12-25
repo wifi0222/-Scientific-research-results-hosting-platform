@@ -49,18 +49,10 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript:void(0);">科研成果管理与发布</a>
-                            <ul class="submenu">
-                                <li><a href="/research/submenu1">子菜单项1</a></li>
-                                <li><a href="/research/submenu2">子菜单项2</a></li>
-                            </ul>
+                            <a href="/teamAdmin/achievements?type=0">科研成果管理与发布</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);">文章管理</a>
-                            <ul class="submenu">
-                                <li><a href="/article/submenu1">子菜单项1</a></li>
-                                <li><a href="/article/submenu2">子菜单项2</a></li>
-                            </ul>
+                            <a href="/teamAdmin/achievements?type=1">文章管理</a>
                         </li>
                         <li>
                             <a href="javascript:void(0);">用户管理</a>
@@ -98,6 +90,8 @@
                 </c:otherwise>
             </c:choose>
         </div>
+
+
     </div>
 </div>
 
