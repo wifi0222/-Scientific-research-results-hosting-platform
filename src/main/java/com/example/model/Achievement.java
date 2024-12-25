@@ -12,6 +12,7 @@ public class Achievement {
     private int teamID; // 团队ID
     private int status; // 状态（0: 待审核，1: 审核成功，-1: 审核失败）
     private int viewStatus; // 查看状态（0: 隐藏，1: 公开）
+    private String refusalReason; // 审核拒绝的理由
 
 
     // Getter 和 Setter
@@ -85,5 +86,13 @@ public class Achievement {
 
     public void setViewStatus(int viewStatus) {
         this.viewStatus = viewStatus;
+    }
+
+    public String getRefusalReason() {
+        return refusalReason;
+    }
+
+    public void setRefusalReason(String refusalReason) {
+        this.refusalReason = refusalReason;
     }
 }

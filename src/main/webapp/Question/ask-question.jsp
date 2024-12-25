@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/change-password.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -66,7 +67,7 @@
                     <input type="hidden" name="questionContent" id="hiddenInput">
                     <input type="hidden" name="userID" value="${user.userID}">
                     <input type="hidden" name="title" id="hiddenTitle">
-                    <button type="submit" class="btn-submit">提交问题</button>
+                    <button type="submit" class="btn-submit btn btn-primary">提交问题</button>
                 </form>
             </div>
         </div>
@@ -93,9 +94,45 @@
                     ['image'], // 链接和图片
                     ['clean'] // 清除格式
                 ],
+                // handlers: {
+                //     image: imageHandler // 自定义图片处理
+                // }
             }
         }
     });
+
+    // 自定义图片上传逻辑
+    function imageHandler() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                // 上传图片到服务器
+                const response = await fetch('/questions/upload-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    // 在编辑器中插入图片
+                    const range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', result.imageUrl);
+                } else {
+                    console.error('Image upload failed');
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        };
+    }
 
     // 表单提交前，将编辑器内容和标题同步到隐藏字段
     document.getElementById('questionForm').onsubmit = function () {
@@ -105,6 +142,35 @@
         var title = document.getElementById('title').value; // 获取标题内容
         document.getElementById('hiddenTitle').value = title;
     };
+
+    document.getElementById('questionForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 阻止默认表单提交
+
+        // 获取表单数据
+        const formData = new FormData(this);
+
+        // 发送POST请求到后端
+        fetch('/questions/submit', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // 如果后端返回JSON，使用response.json()
+                } else {
+                    throw new Error("提交失败");
+                }
+            })
+            .then(data => {
+                alert("问题提交成功！");
+                // 刷新页面
+                location.reload();
+            })
+            .catch(error => {
+                console.error("提交错误：", error);
+                alert("提交失败，请稍后重试！");
+            });
+    });
 </script>
 </body>
 </html>

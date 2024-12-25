@@ -6,6 +6,7 @@ import com.example.model.User;
 import com.example.service.DeactivationService;
 import com.example.service.MemberViewService;
 import com.example.service.UserService;
+import com.example.tool.OpenSSLUtil;
 import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,15 @@ public class UserController {
                         @RequestParam("password") String password,
                         HttpSession session, // 注入 HttpSession 保存用户信息
                         Model model) {
+        // 加密
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
+        System.out.println("Encrypted Password: " + encryptedPassword);
+
+        // 解密
+        String decryptedPassword = OpenSSLUtil.decrypt(encryptedPassword);
+        System.out.println("Decrypted Password: " + decryptedPassword);
         // 判断id还是name
-        User user = userService.login(usernameOrId, password);
+        User user = userService.login(usernameOrId, encryptedPassword);
         if (user == null) {
             model.addAttribute("error", "账号不存在或密码错误！");
             return "login";
@@ -56,6 +64,7 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
+        session.setMaxInactiveInterval(525600 * 60); // 525600 分钟 * 60 秒 = 一年
 
         // 根据角色跳转
         if ("TeamMember".equals(user.getRoleType())) {
@@ -63,9 +72,9 @@ public class UserController {
         } else if ("Visitor".equals(user.getRoleType())) {
             return "redirect:/browse";
         } else if ("TeamAdmin".equals(user.getRoleType())) {
-            return "redirect:/teamAdmin/achievements"; // 跳转到团队管理员成果管理页面
+            return "redirect:/teamAdmin/achievements?type=1"; // 跳转到团队管理员成果管理页面
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "redirect:/SuperController/auditAchievements";
+            return "redirect:/SuperController/auditAchievements?type=1";
         }
 //        else if("SuperAdmin".equals(user.getRoleType())){
 //
@@ -256,8 +265,13 @@ public class UserController {
         }
         String userRoleType = currentUser.getRoleType();
 
+        // 加密
+        String encryptedOldPassword = OpenSSLUtil.encrypt(oldPassword);
+        String encryptedNewPassword = OpenSSLUtil.encrypt(newPassword);
+        String encryptedConfirmPassword = OpenSSLUtil.encrypt(confirmPassword);
+
         // 验证旧密码是否正确
-        if (!currentUser.getPassword().equals(oldPassword)) {
+        if (!currentUser.getPassword().equals(encryptedOldPassword)) {
             model.addAttribute("error", "旧密码错误！");
             // 将用户信息传递给前端
             model.addAttribute("user", currentUser);
@@ -289,7 +303,7 @@ public class UserController {
         model.addAttribute("userRoleType", userRoleType);
 
         // 更新密码
-        currentUser.setPassword(newPassword);
+        currentUser.setPassword(encryptedNewPassword);
         userService.updatePasswordbyid(currentUser);
 
         // 提示成功信息
@@ -425,7 +439,8 @@ public class UserController {
                                   @RequestParam("password") String password,
                                   HttpSession session, // 注入 HttpSession 保存用户信息
                                   Model model) {
-        User user = userService.login(usernameOrId, password);
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
+        User user = userService.login(usernameOrId, encryptedPassword);
         if (user == null) {
             model.addAttribute("error", "账号不存在或密码错误！");
             return "ManagementLogin";

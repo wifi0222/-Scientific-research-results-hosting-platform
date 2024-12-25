@@ -1,69 +1,88 @@
-/* achievement-management.css */
+/* ==============================
+   全局样式
+   ============================== */
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    background-color: #f9f9f9;*/
+/*    color: #333;*/
+/*    margin: 0;*/
+/*    padding: 20px;*/
+/*}*/
 
-/* 全局样式 */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 20px;
-}
-
-h1 {
+.main h1 {
     text-align: center;
     color: #4a4a4a;
     margin-bottom: 30px;
 }
 
-/* 搜索与筛选表单样式 */
+/* ==============================
+   搜索与筛选表单样式
+   ============================== */
 .search-filter {
+    display: flex;
+    flex-wrap: wrap; /* 允许内容换行 */
+    align-items: center;
+    gap: 10px;
     background-color: #fff;
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 25px;
+    margin: 20px;
+}
+
+/*.search-filter label {*/
+/*    font-weight: bold;*/
+/*    margin-right: 5px;*/
+/*    color: #555;*/
+/*}*/
+
+.date-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px; /* 控制日期字段之间的间距 */
     align-items: center;
 }
 
-.search-filter label {
+.date-container label {
     margin-right: 5px;
-    font-weight: bold;
-    color: #555;
 }
 
+#startDate, #endDate {
+    width: auto; /* 根据内容自动调整宽度 */
+}
+
+
 .search-filter input[type="text"],
-.search-filter select,
-.search-filter input[type="date"] {
-    padding: 8px 12px;
+.search-filter input[type="date"],
+.search-filter select {
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    outline: none;
+    font-size: 14px;
     transition: border-color 0.3s;
-    width: 200px;
+    width: 160px;
 }
 
 .search-filter input[type="text"]:focus,
-.search-filter select:focus,
-.search-filter input[type="date"]:focus {
+.search-filter input[type="date"]:focus,
+.search-filter select:focus {
     border-color: #007BFF;
-    outline: none;
 }
 
+/* 按钮样式 (搜索 / 重置) */
 .search-filter button {
-    padding: 8px 16px;
+    background-color: #4e73df;
+    color: #ffffff;
     border: none;
+    padding: 8px 12px;
     border-radius: 4px;
-    background-color: #007BFF;
-    color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s, opacity 0.3s;
 }
 
 .search-filter button:hover {
-    background-color: #0056b3;
+    background-color: #355db3;
 }
 
 .search-filter button#resetButton {
@@ -74,15 +93,18 @@ h1 {
     background-color: #5a6268;
 }
 
-/* Tabs 样式 */
+/* ==============================
+   Tabs 样式
+   ============================== */
 .tabs {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
 }
 
+/* 普通 tab 链接 */
 .tabs a {
-    margin-right: 20px;
+    margin-left: 20px;
     text-decoration: none;
     color: #555;
     font-size: 18px;
@@ -101,59 +123,199 @@ h1 {
     border-bottom-color: purple;
 }
 
-/* Section 样式 */
+/* 新增成果链接样式（如果需要时） */
+.tabs a.add-achievement {
+    margin-left: auto;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tabs a.add-achievement:hover {
+    background-color: #218838;
+}
+
+/* ==============================
+   Section 样式
+   ============================== */
 .section {
-    display: none; /* 默认隐藏，JS控制显示 */
+    /* 原先是 display:none; 通过 JS 切换 .active */
+    display: none;
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    /* 新增统一的 margin，让区块与周围保持一致 */
+    margin: 20px;
 }
 
 .section.active {
     display: block;
+    border: 2px solid #4e73df; /* 参考之前的示例，可以去掉或保留 */
 }
 
-/* 表格样式 */
+.section h2 {
+    color: #4e73df;
+    margin-top: 0;
+}
+
+/* ==============================
+   表格样式：固定列宽 + 省略号 + 新配色
+   ============================== */
 .achievement-table {
+    /* 固定表格布局，使列宽生效 */
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    table-layout: fixed;
+    margin-top: 10px; /* 若需要可微调 */
+    margin-bottom: 20px; /* 原有表格与底部间距 */
+
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* 使圆角生效 */
 }
 
+/* 表头背景、字体颜色 */
+.achievement-table thead tr {
+    background-color: #4e73df;
+    color: #ffffff;
+}
+
+/* 统一设置表头和单元格的内边距/边框等 */
 .achievement-table th,
 .achievement-table td {
-    border: 1px solid #ddd;
     padding: 12px 15px;
-    text-align: left;
-    vertical-align: top;
+    border-bottom: 1px solid #dddddd;
+
+    /* 使文本不会换行，并能出现省略号 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* 居中显示 */
+    text-align: center;
 }
 
-.achievement-table th {
-    background-color: #f2f2f2;
-    color: #333;
+/* 对齐方式若需区分，可针对列做调整，比如 ID 列右对齐、标题列左对齐等 */
+
+/* 第一列：选择框 */
+.achievement-table th:nth-child(1),
+.achievement-table td:nth-child(1) {
+    width: 55px;
+    /*background-color: #f2f2f2; !* 可换为其他颜色 *!*/
+}
+
+/* 第二列：成果ID */
+.achievement-table th:nth-child(2),
+.achievement-table td:nth-child(2) {
+    width: 40px; /* 可微调 */
+    /*background-color: #2e59d9;*/
+}
+
+/* 第三列：标题 */
+.achievement-table th:nth-child(3),
+.achievement-table td:nth-child(3) {
+    width: 200px;
+    /*background-color: #3e8e41;*/
+}
+
+/* 第四列：类别 */
+.achievement-table th:nth-child(4),
+.achievement-table td:nth-child(4) {
+    width: 40px;
+    /*background-color: #333333;*/
+    /*color: #ffffff; !* 如底色太暗，可改成白字 *!*/
+}
+
+/*!* 第五列：摘要 *!*/
+/*.achievement-table th:nth-child(5),*/
+/*.achievement-table td:nth-child(5) {*/
+/*    width: 100px;*/
+/*    background-color: #3e8e41;*/
+/*}*/
+
+/* 第七列：创建时间 */
+.achievement-table th:nth-child(5),
+.achievement-table td:nth-child(5) {
+    width: 130px;
+    /*background-color: #4a4a4a;*/
+    /*color: #ffffff;*/
+}
+
+/* 第八列：审核状态 */
+.achievement-table th:nth-child(6),
+.achievement-table td:nth-child(6) {
+    width: 60px;
+    /*background-color: #007bff;*/
+    /*color: #ffffff;*/
+}
+
+/* 第九列：操作 */
+.achievement-table th:nth-child(7),
+.achievement-table td:nth-child(7) {
+    width: 210px;
+    /*background-color: #6c757d;*/
+    /*color: #ffffff;*/
+}
+
+/* 隔行变色 */
+.achievement-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+/* 鼠标悬停高亮 */
+.achievement-table tbody tr:hover {
+    background-color: #eaf4fc;
+}
+
+/* ==============================
+   操作按钮区分（如有多种类型）
+   ============================== */
+/* 如果有按行区分的按钮，可这样写： */
+.achievement-row td button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
     font-weight: bold;
+    margin-right: 5px;
 }
 
-.achievement-table tr:nth-child(even) {
-    background-color: #fafafa;
+/* 示例：三种不同按钮颜色 */
+.btn-preview {
+    background-color: #ff9800; /* 橙色 */
+    color: #fff;
 }
 
-.achievement-table tr:hover {
-    background-color: #f1f1f1;
+.btn-preview:hover {
+    background-color: #e68a00;
 }
 
-/* 图片样式 */
-.achievement-table img {
-    border-radius: 4px;
-    transition: transform 0.3s;
+.btn-pass {
+    background-color: #4caf50; /* 绿色 */
+    color: #fff;
 }
 
-.achievement-table img:hover {
-    transform: scale(1.05);
+.btn-pass:hover {
+    background-color: #3e8e41;
 }
 
-/* 按钮样式 */
+.btn-reject {
+    background-color: #f44336; /* 红色 */
+    color: #fff;
+}
+
+.btn-reject:hover {
+    background-color: #e53935;
+}
+
+/* ==============================
+   其他按钮（编辑 / 删除 / 公开隐藏） (若还需要区分)
+   ============================== */
 button {
     margin-right: 5px;
     padding: 6px 12px;
@@ -169,42 +331,34 @@ button:hover {
     opacity: 0.9;
 }
 
-button:nth-child(1) { /* 编辑按钮 */
+/* 默认第1个按钮：编辑 */
+button:nth-child(1) {
     background-color: #28a745;
 }
 
-button:nth-child(2) { /* 删除按钮 */
+/* 默认第2个按钮：删除 */
+button:nth-child(2) {
     background-color: #dc3545;
 }
 
-button:nth-child(3) { /* 公开/隐藏按钮 */
+/* 默认第3个按钮：公开/隐藏 */
+button:nth-child(3) {
     background-color: #17a2b8;
 }
 
-/* 新增成果链接样式 */
-.tabs a.add-achievement {
-    margin-left: auto;
-    background-color: #28a745;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.tabs a.add-achievement:hover {
-    background-color: #218838;
-}
-
-/* 响应式设计 */
+/* ==============================
+   响应式设计
+   ============================== */
 @media (max-width: 768px) {
     .search-filter {
         flex-direction: column;
         align-items: flex-start;
+        margin: 20px 0; /* 上下margin 20, 横向可省略 */
     }
 
     .search-filter input[type="text"],
-    .search-filter select,
-    .search-filter input[type="date"] {
+    .search-filter input[type="date"],
+    .search-filter select {
         width: 100%;
     }
 
@@ -221,4 +375,47 @@ button:nth-child(3) { /* 公开/隐藏按钮 */
     .tabs a.add-achievement {
         margin-left: 0;
     }
+
+    /* 如果在小屏幕上需要隐藏部分列，可再写相应的媒体查询 */
+    .achievement-table th:nth-child(4),
+    .achievement-table td:nth-child(4) {
+        /* 例如隐藏“类别列” */
+        /* display: none; */
+    }
+}
+
+/* 模态框样式 */
+.modal {
+    display: none; /* 隐藏 */
+    position: fixed; /* 固定位置 */
+    z-index: 1000; /* 确保在最上层 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全屏 */
+    height: 100%;
+    overflow: auto; /* 如果需要滚动 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% 从顶部，居中 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* 宽度 */
+    border-radius: 5px;
+}
+
+.modal-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.modal-footer button {
+    margin-left: 5px;
 }

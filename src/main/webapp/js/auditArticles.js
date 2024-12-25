@@ -93,7 +93,7 @@ function passAchievementReview(id) {
         return;
     }
 
-    var passUrl = '/SuperController/auditAchievements/pass?id=' + id + "&type=0";
+    var passUrl = '/SuperController/auditAchievements/pass?id=' + id + "&type=1";
 
     window.location.href = passUrl;
 }
@@ -149,7 +149,7 @@ function rejectAchievementReview(id) {
 // 预览审核
 function previewAchievement(id) {
 
-    var passUrl = '/SuperController/auditAchievements/preview?id=' + id + "&type=0";
+    var passUrl = '/SuperController/auditAchievements/preview?id=' + id + "&type=1";
 
     window.location.href = passUrl;
 }
@@ -186,7 +186,7 @@ batchPassButton.addEventListener('click', function () {
         return;
     }
 
-    const url = '/SuperController/auditAchievements/batchPass?ids=' + selectedIds.join(',') + "&type=0";
+    const url = '/SuperController/auditAchievements/batchPass?ids=' + selectedIds.join(',') + "&type=1";
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 
 });

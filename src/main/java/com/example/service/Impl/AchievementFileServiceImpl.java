@@ -27,8 +27,8 @@ public class AchievementFileServiceImpl implements AchievementFileService {
     }
 
     @Override
-    public AchievementFile getFilesByfileID(int fileID) {
-        return achievementFileMapper.getFilesByfileID(fileID);
+    public AchievementFile getFilesByFileID(int fileID) {
+        return achievementFileMapper.getFilesByFileID(fileID);
     }
 
     @Override

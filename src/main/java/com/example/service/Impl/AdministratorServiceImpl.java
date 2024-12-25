@@ -44,12 +44,20 @@ public class AdministratorServiceImpl implements AdministratorService {
         return administratorMapper.setTemplePermission(adminID);
     }
 
+//    @Override
+//    public int setAllPermission(Boolean userPermission, Boolean publishPermission, Boolean deletePermission, Boolean editPermission, Boolean setStatusPermission,
+//                                Boolean publishArticle, Boolean deleteArticle, Boolean editArticle, Boolean setArticleStatus, int adminID) {
+//        return administratorMapper.setAllPermission(userPermission, publishPermission, deletePermission, editPermission, setStatusPermission,
+//                publishArticle, deleteArticle, editArticle, setArticleStatus, adminID);
+//    }
+
     @Override
-    public int setAllPermission(Boolean userPermission,Boolean publishAchievement,Boolean deleteAchievement,Boolean editAchievement,Boolean setAchievementStatus,
-                                Boolean publishArticle,Boolean deleteArticle,Boolean editArticle,Boolean setArticleStatus,int adminID) {
-        return administratorMapper.setAllPermission(userPermission, publishAchievement,deleteAchievement,editAchievement,setAchievementStatus,
-                publishArticle,deleteArticle,editArticle,setArticleStatus,adminID);
+    public int setAllPermission(Boolean userPermission, Boolean publishAchievement, Boolean deleteAchievement, Boolean editAchievement, Boolean setAchievementStatus,
+                                Boolean publishArticle, Boolean deleteArticle, Boolean editArticle, Boolean setArticleStatus, int adminID) {
+        return administratorMapper.setAllPermission(userPermission, publishAchievement, deleteAchievement, editAchievement, setAchievementStatus,
+                publishArticle, deleteArticle, editArticle, setArticleStatus, adminID);
     }
+
 
     @Override
     public boolean getUserManageAdministrator(int adminID) {

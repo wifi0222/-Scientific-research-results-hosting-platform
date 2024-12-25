@@ -9,15 +9,15 @@
 
 <html>
 <head>
-    <title>内容管理 - 审核科研成果</title>
+    <title>内容管理 - 审核文章</title>
     <!-- 引入外部CSS文件 -->
     <link rel="stylesheet" type="text/css" href="../css/auditAchievements.css">
 </head>
 <body>
-<h1>内容管理 - 审核科研成果</h1>
+<h1>内容管理 - 审核文章</h1>
 
 <!-- 定义类别列表 -->
-<c:set var="categories" value="${fn:split('专著,专利,软著,产品', ',')}"/>
+<c:set var="categories" value="${fn:split('SCI, EI, 核心', ',')}"/>
 
 <!-- 搜索与筛选表单 -->
 <div class="search-filter">
@@ -66,21 +66,21 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="entry" items="${auditAchievementMap}">
+        <c:forEach var="entry" items="${auditArticleMap}">
             <c:if test="${entry.key.status == 0}">
                 <tr class="achievement-row"
                     data-title="${fn:escapeXml(entry.key.title)}"
                     data-category="${entry.key.category}"
-                    data-creationTime="${entry.key.creationTime}"
+                    data-creationTime="${entry.key.publishDate}"
                     data-status="${entry.key.status}">
 
                     <td>
                         <input type="checkbox"
                                class="rowCheckbox"
                                name="selectedRows"
-                               value="${entry.key.achievementID}">
+                               value="${entry.key.articleID}">
                     </td>
-                    <td>${entry.key.achievementID}</td>
+                    <td>${entry.key.articleID}</td>
                     <td>${entry.key.title}</td>
                     <td>${entry.key.category}</td>
                     <td>${entry.key.abstractContent}</td>
@@ -103,7 +103,7 @@
                         <%--                        </c:forEach>--%>
                         <%--                    </td>--%>
                     <td>
-                        <fmt:formatDate value='${entry.key.creationTime}' pattern='yyyy-MM-dd HH:mm'/>
+                        <fmt:formatDate value='${entry.key.publishDate}' pattern='yyyy-MM-dd HH:mm'/>
                     </td>
                     <td>
                         <c:choose>
@@ -113,11 +113,11 @@
                         </c:choose>
                     </td>
                     <td>
-                        <button class="btn-preview" onclick="previewAchievement(${entry.key.achievementID})">预览
+                        <button class="btn-preview" onclick="previewAchievement(${entry.key.articleID})">预览
                         </button>
-                        <button class="btn-pass" onclick="passAchievementReview(${entry.key.achievementID})">通过
+                        <button class="btn-pass" onclick="passAchievementReview(${entry.key.articleID})">通过
                         </button>
-                        <button class="btn-reject" onclick="rejectAchievementReview(${entry.key.achievementID})">拒绝
+                        <button class="btn-reject" onclick="rejectAchievementReview(${entry.key.articleID})">拒绝
                         </button>
                     </td>
                 </tr>
@@ -131,9 +131,10 @@
     </div>
 
     <!-- 隐藏表单：method="POST" -->
-    <form id="rejectForm" action="/SuperController/auditAchievements/reject?type=0" method="POST" style="display: none;">
-        <input type="hidden" name="id" id="achievementId" />
-        <input type="hidden" name="refusalReason" id="refusalReasonField" />
+    <form id="rejectForm" action="/SuperController/auditAchievements/reject?type=1" method="POST"
+          style="display: none;">
+        <input type="hidden" name="id" id="articleID"/>
+        <input type="hidden" name="refusalReason" id="refusalReasonField"/>
     </form>
 
     <!-- 拒绝理由模态框 -->
@@ -157,6 +158,6 @@
 </div>
 
 <!-- 引入外部JS文件 -->
-<script src="../js/auditAchievements.js"></script>
+<script src="../js/auditArticles.js"></script>
 </body>
 </html>

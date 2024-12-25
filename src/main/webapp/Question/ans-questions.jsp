@@ -5,35 +5,173 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Questions</title>
+    <title>反馈管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border: 1px solid #b3d7ff;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #b3d7ff;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e6f2ff;
+        }
+
+        a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .status-pending {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .status-resolved {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .status-closed {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>All Questions</h2>
-<table border="1">
+<h2>反馈管理</h2>
+
+<!-- 筛选区域 -->
+<div class="filter-container">
+    <label for="statusFilter">按状态筛选：</label>
+    <select id="statusFilter">
+        <option value="">所有状态</option>
+        <option value="0">待处理</option>
+        <option value="1">已处理</option>
+        <option value="-1">关闭</option>
+    </select>
+
+    <label for="userIDSearch">按用户ID搜索：</label>
+    <input type="text" id="userIDSearch" placeholder="输入用户ID">
+
+    <button onclick="applyFilters()">筛选</button>
+</div>
+
+<!-- 数据表格 -->
+<table id="questionsTable">
+    <thead>
     <tr>
-        <th>User ID</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Ask Time</th>
-        <th>Action</th>
+        <th>用户ID</th>
+        <th>标题</th>
+        <th>状态</th>
+        <th>提问时间</th>
+        <th>操作</th>
     </tr>
+    </thead>
+    <tbody>
+    <!-- 动态生成的行 -->
     <c:forEach var="question" items="${questions}">
         <tr>
             <td>${question.userID}</td>
             <td>${question.title}</td>
             <td>
                 <c:choose>
-                    <c:when test="${question.status == 0}">Pending</c:when>
-                    <c:when test="${question.status == 1}">Answered</c:when>
-                    <c:otherwise>Closed</c:otherwise>
+                    <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
+                    <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
+                    <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
                 </c:choose>
             </td>
             <td>${question.askTime}</td>
             <td>
-                <a href="/questions/ans-details/${question.questionID}">View Question</a>
+                <a href="/questions/ans-details/${question.questionID}">查看详情</a>
             </td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
+
+<script>
+    function applyFilters() {
+        const statusFilter = document.getElementById('statusFilter').value; // 获取状态筛选值
+        const userIDSearch = document.getElementById('userIDSearch').value.trim(); // 获取用户ID搜索值
+
+        const table = document.getElementById('questionsTable');
+        const rows = table.getElementsByTagName('tr'); // 获取表格所有行
+
+        // 从第二行开始遍历（跳过表头）
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const userIDCell = row.cells[0].textContent; // 用户ID列
+            const statusCell = row.cells[2].textContent; // 状态列
+
+            let matchesStatus = true;
+            let matchesUserID = true;
+
+            // 状态筛选
+            if (statusFilter !== "") {
+                if (statusFilter === "0" && !statusCell.includes("待处理")) {
+                    matchesStatus = false;
+                } else if (statusFilter === "1" && !statusCell.includes("已处理")) {
+                    matchesStatus = false;
+                } else if (statusFilter === "-1" && !statusCell.includes("关闭")) {
+                    matchesStatus = false;
+                }
+            }
+
+            // 用户ID搜索
+            if (userIDSearch !== "" && !userIDCell.includes(userIDSearch)) {
+                matchesUserID = false;
+            }
+
+            // 如果两者都匹配，显示行，否则隐藏
+            if (matchesStatus && matchesUserID) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 </html>

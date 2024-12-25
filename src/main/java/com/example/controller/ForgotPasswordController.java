@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.service.ForgotPasswordService;
 import com.example.service.ISendMailService;
+import com.example.tool.OpenSSLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,8 +80,10 @@ public class ForgotPasswordController {
                 return response;
             }
 
+
+            String encryptedNewPassword = OpenSSLUtil.encrypt(newPassword);
             // 更新密码
-            boolean updated = forgotPasswordService.updatePassword(username, newPassword);
+            boolean updated = forgotPasswordService.updatePassword(username, encryptedNewPassword);
             if (updated) {
                 response.put("success", true);
                 response.put("message", "密码已成功修改！");

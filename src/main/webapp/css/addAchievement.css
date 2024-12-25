@@ -1,20 +1,20 @@
 /* addAchievement.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-form {
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: 20px;*/
+/*}*/
+.main form {
     max-width: 500px;
 }
-label {
+.main label {
     font-weight: bold;
 }
-input[type=text], textarea, select, input[type=date] {
+.main input[type=text], textarea, select, input[type=date] {
     width: 100%;
     box-sizing: border-box;
     margin-top: 5px;
 }
-button {
+.main button {
     margin-top: 10px;
     margin-right: 10px;
 }

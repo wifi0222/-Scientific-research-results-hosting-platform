@@ -1,0 +1,135 @@
+/* 页面基础样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eaf4fc;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* 让导航栏和主体内容水平排列 */
+    height: 100vh; /* 高度铺满整个页面 */
+    width: 100vw; /* 宽度铺满整个页面 */
+}
+
+
+.content {
+    display: flex;
+    flex: 1;
+    height: 100vh; /* 确保内容区域的高度铺满整个页面 */
+    overflow: hidden; /* 防止内容溢出 */
+}
+
+
+/* 左侧导航栏样式 */
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e3e6f0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0; /* 确保没有内边距 */
+    margin: 0; /* 确保没有外边距 */
+}
+
+.sidebar ul li {
+    display: block;
+    margin-bottom: 15px; /* 控制导航项间距 */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #4e73df; /* 蓝色背景 */
+    color: #ffffff; /* 白色文字 */
+    border: 2px solid #4e73df; /* 蓝色边框 */
+    width: 100%; /* 宽度设置为 100% */
+    box-sizing: border-box; /* 包括边框在内计算宽度 */
+    display: inline-block;
+    border-radius: 10px;
+}
+
+.logout {
+    margin-top: auto;
+}
+
+.logout a {
+    text-decoration: none;
+    background-color: #ff6f61; /* 珊瑚红颜色 */
+    color: #ffffff;
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.logout a:hover {
+    background-color: #e55d50;
+}
+
+/* 右侧主体内容 */
+.main {
+    flex-grow: 1; /* 主内容占满剩余空间 */
+    padding: 20px; /* 内边距 */
+    background-color: #ffffff; /* 主体背景为白色，保持清晰 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 增加轻微阴影效果 */
+    border-radius: 10px; /* 圆角 */
+    margin-left: 20px; /* 主体内容的外边距，用于分隔左右内容 */
+    overflow: auto; /* 防止内容过多时溢出 */
+}
+
+.submenu {
+    display: none; /* 默认子菜单隐藏 */
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.submenu.active {
+    display: block; /* 显示子菜单 */
+}
+
+/* 父菜单 active 时样式 */
+.sidebar > ul > li > a.active {
+    background-color: #4e73df;
+    color: white;
+}
+
+.sidebar > ul > li > a.active + .submenu {
+    display: block;
+}
+
+.edit-button {
+    padding: 6px 12px;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-button:hover {
+    background-color: #355db3;
+}

@@ -7,7 +7,7 @@
     </select>
 
     <insert id="insertTeamAdminToAdministrator">
-        INSERT INTO [TeamAdministrator](adminID,publishAchievement,userAchievement,deleteAchievement,teamID)
+        INSERT INTO [TeamAdministrator](adminID,publishPermission,userPermission,deletePermission,teamID)
         VALUES (#{adminID},1,1,0,1)
     </insert>
 
@@ -21,15 +21,22 @@
 
     <update id="setTemplePermission">
         UPDATE [TeamAdministrator]
-        SET publishAchievement=1,userAchievement=1
+        SET publishPermission=1,userPermission=1
         WHERE adminID=#{adminID}
     </update>
 
     <update id="setAllPermission">
-        UPDATE [TeamAdministrator]
-        SET userPermission=#{userPermission},publishAchievement=#{publishAchievement},deleteAchievement=#{deleteAchievement},
-            editAchievement=#{editAchievement},setAchievementStatus=#{setAchievementStatus},publishArticle=#{publishArticle},
-            deleteArticle=#{deleteArticle},editArticle=#{editArticle},setArticleStatus=#{setArticleStatus}
+        UPDATE TeamAdministrator
+        SET
+            userPermission=#{userPermission},
+            publishAchievement=#{publishAchievement},
+            deleteAchievement=#{deleteAchievement},
+            editAchievement=#{editAchievement},
+            setAchievementStatus=#{setAchievementStatus},
+            publishArticle=#{publishArticle},
+            deleteArticle=#{deleteArticle},
+            editArticle=#{editArticle},
+            setArticleStatus=#{setArticleStatus}
         WHERE adminID=#{adminID}
     </update>
 

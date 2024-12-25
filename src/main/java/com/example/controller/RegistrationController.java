@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.service.RegistrationService;
 import com.example.service.ISendMailService;
+import com.example.tool.OpenSSLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -106,7 +107,9 @@ public class RegistrationController {
         }
 
         // 提交注册信息
-        boolean success = registrationService.submitRegistration(username, password, roleType, email, reason);
+        // 加密
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
+        boolean success = registrationService.submitRegistration(username, encryptedPassword, roleType, email, reason);
         if (success) {
             model.addAttribute("message", "注册申请已提交，等待管理员审核！");
         } else {

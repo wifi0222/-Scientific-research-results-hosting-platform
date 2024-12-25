@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.*;
 
@@ -63,6 +64,12 @@ public class TeamAdminController {
 
     @Autowired
     private AchievementFileService achievementFileService;
+
+    @Autowired
+    private ArticleFileService articleFileService;
+
+    @Autowired
+    private ArticleService articleService;
 
     //跳转到团队基本信息维护
     @RequestMapping("/TeamManage/Info")
@@ -371,9 +378,10 @@ public class TeamAdminController {
 
     /**
      * 团队管理员查看所有科研成果
+     * type=0，处理科研成果；type=1.处理文章
      */
     @GetMapping("/achievements")
-    public String viewAchievements(HttpSession session, Model model) {
+    public String viewAchievements(@RequestParam("type") int type, HttpSession session, Model model) {
         // 从 Session 中获取当前用户
         Object currentUser = session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -381,49 +389,87 @@ public class TeamAdminController {
             return "redirect:/login";
         }
 
-//        // 如果存在多个团队，这样获取团队管理员所属的团队的ID
-//        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
-//
-//        // 查询团队管理员
-//        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-//        int teamID = teamAdministrator.getTeamID();
+        //        // 如果存在多个团队，这样获取团队管理员所属的团队的ID
+        //        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+        //
+        //        // 查询团队管理员
+        //        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+        //        int teamID = teamAdministrator.getTeamID();
 
         int teamID = 1;
 
-        // 获取团队所有成果列表
-        List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
+        // 处理科研成果
+        if (type == 0) {
+            // 定义类别的排序优先级
+            List<String> categoryOrder = Arrays.asList("专著", "专利", "软著", "产品");
 
-        Map<Achievement, List<AchievementFile>> achievementMap = new HashMap<Achievement, List<AchievementFile>>();
+            // 获取团队所有成果列表
+            List<Achievement> achievements = achievementService.getAchievementsByTeam(teamID);
 
-        for (Achievement a : achievements) {
-            // 获取每个成果的附件和图片
-            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
-            achievementMap.put(a, achievementFiles);
+            // 排序成果列表
+            achievements.sort((a1, a2) -> {
+                // 按类别顺序排序
+                int categoryComparison = Integer.compare(categoryOrder.indexOf(a1.getCategory()), categoryOrder.indexOf(a2.getCategory()));
+                if (categoryComparison != 0) {
+                    return categoryComparison; // 如果类别不同，按类别排序
+                }
+                // 如果类别相同，按 ID 升序排序
+                return Integer.compare(a1.getAchievementID(), a2.getAchievementID());
+            });
+
+            // 创建排序后的 Map，用 LinkedHashMap 保证顺序
+            Map<Achievement, List<AchievementFile>> achievementMap = new LinkedHashMap<>();
+
+            for (Achievement a : achievements) {
+                // 获取每个成果的附件和图片
+                List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(a.getAchievementID());
+                achievementMap.put(a, achievementFiles);
+            }
+
+            model.addAttribute("achievementMap", achievementMap);
+            // 渲染科研成果管理页面
+            return "TeamAdmin/achievement-management";
+        } else if (type == 1) {
+            // 定义类别的排序优先级
+            List<String> categoryOrder = Arrays.asList("SCI", "EI", "核心");
+
+            // 获取团队所有成果列表
+            List<Article> articles = articleService.getArticlesByTeam(teamID);
+
+            // 排序成果列表
+            articles.sort((a1, a2) -> {
+                // 按类别顺序排序
+                int categoryComparison = Integer.compare(categoryOrder.indexOf(a1.getCategory()), categoryOrder.indexOf(a2.getCategory()));
+                if (categoryComparison != 0) {
+                    return categoryComparison; // 如果类别不同，按类别排序
+                }
+                // 如果类别相同，按 ID 升序排序
+                return Integer.compare(a1.getArticleID(), a2.getArticleID());
+            });
+
+            // 创建排序后的 Map，用 LinkedHashMap 保证顺序
+            Map<Article, List<ArticleFile>> articleListMap = new LinkedHashMap<>();
+
+            for (Article a : articles) {
+                // 获取每个成果的附件和图片
+                List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(a.getArticleID());
+                articleListMap.put(a, articleFiles);
+            }
+
+            model.addAttribute("articleListMap", articleListMap);
+            // 渲染科研成果管理页面
+            return "TeamAdmin/article-management";
         }
 
-//        // 将成果列表传递给前端
-//        model.addAttribute("achievements", achievements);
-
-        model.addAttribute("achievementMap", achievementMap);
-        // 渲染科研成果管理页面
-        return "TeamAdmin/achievement-management";
+        // 返回error页面
+        return "TeamAdmin/error";
     }
 
     /**
      * 团队管理员新增科研成果
      */
     @PostMapping("/achievements/add")
-    public String addAchievement(
-            @RequestParam("title") String title,
-            @RequestParam("category") String category,
-            @RequestParam("abstractContent") String abstractContent,
-            @RequestParam("contents") String contents,
-            @RequestParam("attachmentFile") MultipartFile attachmentFile,
-            @RequestParam("coverImage") MultipartFile coverImage,
-            @RequestParam("creationTime") String creationTimeStr,
-            HttpSession session,
-            Model model
-    ) {
+    public String addAchievement(@RequestParam("title") String title, @RequestParam("category") String category, @RequestParam("abstractContent") String abstractContent, @RequestParam("contents") String contents, @RequestParam("attachmentFile") MultipartFile attachmentFile, @RequestParam("coverImage") MultipartFile coverImage, @RequestParam("creationTime") String creationTimeStr, @RequestParam("type") int type, HttpSession session, Model model) {
         // 从 Session 中获取当前用户
         Object currentUser = session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -434,90 +480,179 @@ public class TeamAdminController {
         // 假设当前用户是 User 类型，获取 userID
         int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
 
-        // 判断该团队管理员是否具有新增科研成果的权限
-        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-        if (!teamAdministrator.isPublishAchievement()) {
-            model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
-            return "/TeamAdmin/error";
-        }
-
-        // 定义日期格式模式
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
-        Date creationTime = null;
-        try {
-            creationTime = sdf.parse(creationTimeStr);
-        } catch (ParseException e) {
-            model.addAttribute("error", "日期格式错误");
-            return "/TeamAdmin/error";
-        }
-
-        // 目前只有一个团队
-        Integer teamID = 1;
-
-        // 创建 Achievement 对象并设置属性
-        Achievement achievement = new Achievement();
-        achievement.setTitle(title);
-        achievement.setCategory(category);
-        achievement.setAbstractContent(abstractContent);
-        achievement.setContents(contents);
-        achievement.setCreationTime(creationTime);
-        achievement.setTeamID(teamID);
-        achievement.setStatus(0); // 默认状态为待审核
-        achievement.setViewStatus(0); // 默认不公开
-
-        try {
-            // 调用服务层插入成果
-            Achievement savedAchievement = achievementService.insertAchievement(achievement);
-            if (savedAchievement != null && savedAchievement.getAchievementID() > 0) {
-                int achievementID = savedAchievement.getAchievementID(); // 获取生成的 ID
-
-                // 附件文件
-                String attachmentName = null;
-                String attachmentPath = null;
-
-                if (attachmentFile != null && !attachmentFile.isEmpty()) {
-                    attachmentName = attachmentFile.getOriginalFilename();
-                    attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
-                    // 创建 AchievementFile 对象并设置属性
-                    AchievementFile achievementFile = new AchievementFile();
-                    achievementFile.setAchievementID(achievementID);
-                    achievementFile.setType(0);     // 附件
-                    achievementFile.setFileName(attachmentName);
-                    achievementFile.setFilePath(attachmentPath);
-                    achievementFile.setUploadTime(new Date());  // 当前时间
-
-                    achievementFileService.insertAchievementFile(achievementFile);
-                }
-
-                // 图片，本地文件夹地址
-                String coverImageName = null;
-                String coverImagePath = null;
-
-                if (coverImage != null && !coverImage.isEmpty()) {
-                    coverImageName = coverImage.getOriginalFilename();
-                    coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
-                    // 创建 AchievementFile 对象并设置属性
-                    AchievementFile achievementImage = new AchievementFile();
-                    achievementImage.setAchievementID(achievementID);
-                    achievementImage.setType(1);     // 图片
-                    achievementImage.setFileName(coverImageName);
-                    achievementImage.setFilePath(coverImagePath);
-                    achievementImage.setUploadTime(new Date());  // 当前时间
-
-                    achievementFileService.insertAchievementFile(achievementImage);
-                }
-
-            } else {
-                model.addAttribute("error", "成果添加失败，请重试。");
+        if (type == 0) {
+            // 判断该团队管理员是否具有新增科研成果的权限
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isPublishAchievement()) {
+                model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
             }
-        } catch (Exception e) {
-            model.addAttribute("error", "成果添加过程中发生错误，请重试。");
-            e.printStackTrace();
-            return "/TeamAdmin/error";
+
+            // 定义日期格式模式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+            Date creationTime = null;
+            try {
+                creationTime = sdf.parse(creationTimeStr);
+            } catch (ParseException e) {
+                model.addAttribute("error", "日期格式错误");
+                return "/TeamAdmin/error";
+            }
+
+            // 目前只有一个团队
+            Integer teamID = 1;
+
+            // 创建 Achievement 对象并设置属性
+            Achievement achievement = new Achievement();
+            achievement.setTitle(title);
+            achievement.setCategory(category);
+            achievement.setAbstractContent(abstractContent);
+            achievement.setContents(contents);
+            achievement.setCreationTime(creationTime);
+            achievement.setTeamID(teamID);
+            achievement.setStatus(0); // 默认状态为待审核
+            achievement.setViewStatus(0); // 默认不公开
+
+            try {
+                // 调用服务层插入成果
+                Achievement savedAchievement = achievementService.insertAchievement(achievement);
+                if (savedAchievement != null && savedAchievement.getAchievementID() > 0) {
+                    int achievementID = savedAchievement.getAchievementID(); // 获取生成的 ID
+
+                    // 附件文件
+                    String attachmentName = null;
+                    String attachmentPath = null;
+
+                    if (attachmentFile != null && !attachmentFile.isEmpty()) {
+                        attachmentName = attachmentFile.getOriginalFilename();
+                        attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
+                        // 创建 AchievementFile 对象并设置属性
+                        AchievementFile achievementFile = new AchievementFile();
+                        achievementFile.setAchievementID(achievementID);
+                        achievementFile.setType(0);     // 附件
+                        achievementFile.setFileName(attachmentName);
+                        achievementFile.setFilePath(attachmentPath);
+                        achievementFile.setUploadTime(new Date());  // 当前时间
+
+                        achievementFileService.insertAchievementFile(achievementFile);
+                    }
+
+                    // 图片，本地文件夹地址
+                    String coverImageName = null;
+                    String coverImagePath = null;
+
+                    if (coverImage != null && !coverImage.isEmpty()) {
+                        coverImageName = coverImage.getOriginalFilename();
+                        coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
+                        // 创建 AchievementFile 对象并设置属性
+                        AchievementFile achievementImage = new AchievementFile();
+                        achievementImage.setAchievementID(achievementID);
+                        achievementImage.setType(1);     // 图片
+                        achievementImage.setFileName(coverImageName);
+                        achievementImage.setFilePath(coverImagePath);
+                        achievementImage.setUploadTime(new Date());  // 当前时间
+
+                        achievementFileService.insertAchievementFile(achievementImage);
+                    }
+
+                } else {
+                    model.addAttribute("error", "成果添加失败，请重试。");
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", "成果添加过程中发生错误，请重试。");
+                e.printStackTrace();
+                return "/TeamAdmin/error";
+            }
+            // 加/ 表示从根目录开始，否则会从当前路径拼接
+            return "redirect:/teamAdmin/achievements?type=0";
+        } else if (type == 1) {
+//            // 判断该团队管理员是否具有新增科研成果的权限
+//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+//            if (!teamAdministrator.isPublishPermission()) {
+//                model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
+//                return "/TeamAdmin/error";
+//            }
+
+            // 定义日期格式模式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+            Date publishDate = null;
+            try {
+                publishDate = sdf.parse(creationTimeStr);
+            } catch (ParseException e) {
+                model.addAttribute("error", "日期格式错误");
+                return "/TeamAdmin/error";
+            }
+
+            // 目前只有一个团队
+            Integer teamID = 1;
+
+            // 创建 Article 对象并设置属性
+            Article article = new Article();
+            article.setTitle(title);
+            article.setCategory(category);
+            article.setAbstractContent(abstractContent);
+            article.setContents(contents);
+            article.setPublishDate(publishDate);
+            article.setTeamID(teamID);
+            article.setStatus(0); // 默认状态为待审核
+            article.setViewStatus(0); // 默认不公开
+
+            try {
+                // 调用服务层插入文章
+                Article savedArticle = articleService.insertArticle(article);
+                if (savedArticle != null && savedArticle.getArticleID() > 0) {
+                    int articleID = savedArticle.getArticleID(); // 获取生成的 ID
+
+                    // 附件文件
+                    String attachmentName = null;
+                    String attachmentPath = null;
+
+                    if (attachmentFile != null && !attachmentFile.isEmpty()) {
+                        attachmentName = attachmentFile.getOriginalFilename();
+                        attachmentPath = saveFile(attachmentFile, "文章附件\\", 0);
+                        // 创建 ArticleFile 对象并设置属性
+                        ArticleFile articleFile = new ArticleFile();
+                        articleFile.setArticleID(articleID);
+                        articleFile.setType(0);     // 附件
+                        articleFile.setFileName(attachmentName);
+                        articleFile.setFilePath(attachmentPath);
+                        articleFile.setUploadTime(new Date());  // 当前时间
+
+                        articleFileService.insertArticleFile(articleFile);
+                    }
+
+                    // 封面图片
+                    String coverImageName = null;
+                    String coverImagePath = null;
+
+                    if (coverImage != null && !coverImage.isEmpty()) {
+                        coverImageName = coverImage.getOriginalFilename();
+                        coverImagePath = saveFile(coverImage, "文章图片\\", 1);
+                        // 创建 ArticleFile 对象并设置属性
+                        ArticleFile articleImage = new ArticleFile();
+                        articleImage.setArticleID(articleID);
+                        articleImage.setType(1);     // 图片
+                        articleImage.setFileName(coverImageName);
+                        articleImage.setFilePath(coverImagePath);
+                        articleImage.setUploadTime(new Date());  // 当前时间
+
+                        articleFileService.insertArticleFile(articleImage);
+                    }
+
+                } else {
+                    model.addAttribute("error", "文章添加失败，请重试。");
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", "文章添加过程中发生错误，请重试。");
+                e.printStackTrace();
+                return "/TeamAdmin/error";
+            }
+            // 加/ 表示从根目录开始，否则会从当前路径拼接
+            return "redirect:/teamAdmin/achievements?type=1";
         }
-        // 加/ 表示从根目录开始，否则会从当前路径拼接
-        return "redirect:/teamAdmin/achievements";
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     // 文件保存方法：文件；文件上传的目录
@@ -552,41 +687,52 @@ public class TeamAdminController {
      * 显示修改科研成果的表单
      */
     @GetMapping("/achievements/edit")
-    public String showEditAchievementForm(@RequestParam("id") int achievementID, Model model) {
-        // 获取指定ID的成果
-        Achievement achievement = achievementService.getAchievementById(achievementID);
-        if (achievement == null) {
-            model.addAttribute("error", "未找到指定的科研成果。");
-            return "/TeamAdmin/error";
+    public String showEditAchievementForm(@RequestParam("id") int id, @RequestParam("type") int type, Model model) {
+
+        if (type == 0) {
+            // 获取指定ID的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+
+            // 获取该成果的附件和图片
+            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(id);
+
+            // 将数据传递给前端
+            model.addAttribute("achievement", achievement);
+            model.addAttribute("achievementFiles", achievementFiles);
+
+            // 渲染修改科研成果的页面
+            return "/TeamAdmin/editAchievement";
+        } else if (type == 1) {
+            // 获取指定ID的文章
+            Article article = articleService.getArticleById(id);
+            if (article == null) {
+                model.addAttribute("error", "未找到指定的文章。");
+                return "/TeamAdmin/error";
+            }
+
+            // 获取该文章的附件和图片
+            List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(id);
+
+            // 将数据传递给前端
+            model.addAttribute("article", article);
+            model.addAttribute("articleFiles", articleFiles);
+
+            // 渲染修改文章的页面
+            return "/TeamAdmin/editArticle";
         }
-
-        // 获取该成果的附件和图片
-        List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(achievementID);
-
-        // 将数据传递给前端
-        model.addAttribute("achievement", achievement);
-        model.addAttribute("achievementFiles", achievementFiles);
-
-        // 渲染修改科研成果的页面
-        return "/TeamAdmin/editAchievement";
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     /**
      * 处理修改科研成果的表单提交
      */
     @PostMapping("/achievements/edit/update")
-    public String updateAchievement(
-            @RequestParam("achievementID") int achievementID,
-            @RequestParam("title") String title,
-            @RequestParam("category") String category,
-            @RequestParam("abstractContent") String abstractContent,
-            @RequestParam("contents") String contents,
-            @RequestParam("attachmentFile") MultipartFile attachmentFile,
-            @RequestParam("coverImage") MultipartFile coverImage,
-            @RequestParam("creationTime") String creationTimeStr,
-            HttpSession session,
-            Model model
-    ) {
+    public String updateAchievement(@RequestParam("id") int id, @RequestParam("title") String title, @RequestParam("category") String category, @RequestParam("abstractContent") String abstractContent, @RequestParam("contents") String contents, @RequestParam("attachmentFile") MultipartFile attachmentFile, @RequestParam("coverImage") MultipartFile coverImage, @RequestParam("creationTime") String creationTimeStr, @RequestParam("type") int type, HttpSession session, Model model) {
         // 定义日期格式模式
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date creationTime = null;
@@ -600,76 +746,144 @@ public class TeamAdminController {
         // 目前只有一个团队
         Integer teamID = 1;
 
-        // 获取现有的成果
-        Achievement achievement = achievementService.getAchievementById(achievementID);
-        if (achievement == null) {
-            model.addAttribute("error", "未找到指定的科研成果。");
-            return "/TeamAdmin/error";
-        }
-
-        // 更新 Achievement 对象的属性
-        achievement.setTitle(title);
-        achievement.setCategory(category);
-        achievement.setAbstractContent(abstractContent);
-        achievement.setContents(contents);
-        achievement.setCreationTime(creationTime);
-        achievement.setTeamID(teamID);
-        achievement.setStatus(0); // 默认状态为待审核
-        achievement.setViewStatus(0); // 默认不公开
-
-        try {
-            // 调用服务层更新成果
-            int success = achievementService.updateAchievement(achievement);
-            if (success == 1) {
-                // 处理附件文件（如果有上传新的附件）
-                if (attachmentFile != null && !attachmentFile.isEmpty()) {
-                    String attachmentName = attachmentFile.getOriginalFilename();
-                    String attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
-                    // 创建 AchievementFile 对象并设置属性
-                    AchievementFile achievementFile = new AchievementFile();
-                    achievementFile.setAchievementID(achievementID);
-                    achievementFile.setType(0); // 附件
-                    achievementFile.setFileName(attachmentName);
-                    achievementFile.setFilePath(attachmentPath);
-                    achievementFile.setUploadTime(new Date());
-
-                    // 保存附件文件
-                    achievementFileService.insertAchievementFile(achievementFile);
-                }
-
-                // 处理封面图片（如果有上传新的图片）
-                if (coverImage != null && !coverImage.isEmpty()) {
-                    String coverImageName = coverImage.getOriginalFilename();
-                    String coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
-                    // 创建 AchievementFile 对象并设置属性
-                    AchievementFile achievementImage = new AchievementFile();
-                    achievementImage.setAchievementID(achievementID);
-                    achievementImage.setType(1); // 图片
-                    achievementImage.setFileName(coverImageName);
-                    achievementImage.setFilePath(coverImagePath);
-                    achievementImage.setUploadTime(new Date());
-
-                    // 保存封面图片
-                    achievementFileService.insertAchievementFile(achievementImage);
-                }
-            } else {
-                model.addAttribute("error", "成果添加失败，请重试。");
+        if (type == 0) {
+            // 获取现有的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
             }
-        } catch (Exception e) {
-            model.addAttribute("error", "编辑成果过程中发生错误，请重试。");
-            e.printStackTrace();
-            return "TeamAdmin/error";
-        }
 
-        // 重定向到成果的编辑页面
-        return "redirect:/teamAdmin/achievements/edit?id=" + achievementID;
+            // 更新 Achievement 对象的属性
+            achievement.setTitle(title);
+            achievement.setCategory(category);
+            achievement.setAbstractContent(abstractContent);
+            achievement.setContents(contents);
+            achievement.setCreationTime(creationTime);
+            achievement.setTeamID(teamID);
+            achievement.setStatus(0); // 默认状态为待审核
+            achievement.setViewStatus(0); // 默认不公开
+
+            try {
+                // 调用服务层更新成果
+                int success = achievementService.updateAchievement(achievement);
+                if (success == 1) {
+                    // 处理附件文件（如果有上传新的附件）
+                    if (attachmentFile != null && !attachmentFile.isEmpty()) {
+                        String attachmentName = attachmentFile.getOriginalFilename();
+                        String attachmentPath = saveFile(attachmentFile, "科研成果附件\\", 0);
+                        // 创建 AchievementFile 对象并设置属性
+                        AchievementFile achievementFile = new AchievementFile();
+                        achievementFile.setAchievementID(id);
+                        achievementFile.setType(0); // 附件
+                        achievementFile.setFileName(attachmentName);
+                        achievementFile.setFilePath(attachmentPath);
+                        achievementFile.setUploadTime(new Date());
+
+                        // 保存附件文件
+                        achievementFileService.insertAchievementFile(achievementFile);
+                    }
+
+                    // 处理封面图片（如果有上传新的图片）
+                    if (coverImage != null && !coverImage.isEmpty()) {
+                        String coverImageName = coverImage.getOriginalFilename();
+                        String coverImagePath = saveFile(coverImage, "科研成果图片\\", 1);
+                        // 创建 AchievementFile 对象并设置属性
+                        AchievementFile achievementImage = new AchievementFile();
+                        achievementImage.setAchievementID(id);
+                        achievementImage.setType(1); // 图片
+                        achievementImage.setFileName(coverImageName);
+                        achievementImage.setFilePath(coverImagePath);
+                        achievementImage.setUploadTime(new Date());
+
+                        // 保存封面图片
+                        achievementFileService.insertAchievementFile(achievementImage);
+                    }
+                } else {
+                    model.addAttribute("error", "成果添加失败，请重试。");
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", "编辑成果过程中发生错误，请重试。");
+                e.printStackTrace();
+                return "TeamAdmin/error";
+            }
+
+            // 重定向到成果的编辑页面
+            return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=0";
+        } else if (type == 1) {
+            // 获取现有的文章
+            Article article = articleService.getArticleById(id);
+            if (article == null) {
+                model.addAttribute("error", "未找到指定的文章。");
+                return "/TeamAdmin/error";
+            }
+
+            // 更新 Article 对象的属性
+            article.setTitle(title);
+            article.setCategory(category);
+            article.setAbstractContent(abstractContent);
+            article.setContents(contents);
+            article.setPublishDate(creationTime);
+            article.setTeamID(teamID);
+            article.setStatus(0); // 默认状态为待审核
+            article.setViewStatus(0); // 默认不公开
+
+            try {
+                // 调用服务层更新文章
+                int success = articleService.updateArticle(article);
+                if (success == 1) {
+                    // 处理附件文件（如果有上传新的附件）
+                    if (attachmentFile != null && !attachmentFile.isEmpty()) {
+                        String attachmentName = attachmentFile.getOriginalFilename();
+                        String attachmentPath = saveFile(attachmentFile, "文章附件\\", 0);
+                        // 创建 ArticleFile 对象并设置属性
+                        ArticleFile articleFile = new ArticleFile();
+                        articleFile.setArticleID(id);
+                        articleFile.setType(0); // 附件
+                        articleFile.setFileName(attachmentName);
+                        articleFile.setFilePath(attachmentPath);
+                        articleFile.setUploadTime(new Date());
+
+                        // 保存附件文件
+                        articleFileService.insertArticleFile(articleFile);
+                    }
+
+                    // 处理封面图片（如果有上传新的图片）
+                    if (coverImage != null && !coverImage.isEmpty()) {
+                        String coverImageName = coverImage.getOriginalFilename();
+                        String coverImagePath = saveFile(coverImage, "文章图片\\", 1);
+                        // 创建 ArticleFile 对象并设置属
+                        ArticleFile articleImage = new ArticleFile();
+                        articleImage.setArticleID(id);
+                        articleImage.setType(1); // 图片
+                        articleImage.setFileName(coverImageName);
+                        articleImage.setFilePath(coverImagePath);
+                        articleImage.setUploadTime(new Date());
+
+                        // 保存封面图片
+                        articleFileService.insertArticleFile(articleImage);
+                    }
+                } else {
+                    model.addAttribute("error", "文章更新失败，请重试。");
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", "编辑文章过程中发生错误，请重试。");
+                e.printStackTrace();
+                return "/TeamAdmin/error";
+            }
+
+            // 重定向到文章的编辑页面
+            return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     /**
-     * 处理删除科研成果
+     * 处理单独删除科研成果
      */
     @GetMapping("/achievements/delete")
-    public String deleteAchievement(@RequestParam("id") int achievementID, Model model, HttpSession session) {
+    public String deleteAchievement(@RequestParam("id") int id, @RequestParam("type") int type, Model model, HttpSession session) {
         // 从 Session 中获取当前用户
         Object currentUser = session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -680,103 +894,316 @@ public class TeamAdminController {
         // 假设当前用户是 User 类型，获取 userID
         int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
 
-        // 判断该团队管理员是否具有删除科研成果的权限
-        TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-        if (!teamAdministrator.isDeleteAchievement()) {
-            model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
-            return "/TeamAdmin/error";
+        if (type == 0) {
+            // 判断该团队管理员是否具有删除科研成果的权限
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isDeleteAchievement()) {
+                model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
+
+            // 目前只有一个团队
+            Integer teamID = 1;
+
+            // 获取现有的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+
+            // 获取该成果的附件和图片
+            List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(id);
+
+            // 删除该成果的所有附件和图片
+            for (AchievementFile file : achievementFiles) {
+                // 删除本地的附件/图片
+                deleteLocationFile(file.getFilePath(), file.getType());
+
+                // 从数据库中删除 AchievementFile 记录
+                achievementFileService.deleteAchievementFile(file.getFileID());
+            }
+
+            // 从数据库中删除 Achievement 记录
+            achievementService.deleteAchievement(id);
+
+            // 重定向到成果展示页面
+            return "redirect:/teamAdmin/achievements?type=0";
+        } else if (type == 1) {
+//            // 判断该团队管理员是否具有删除文章的权限
+//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+//            if (!teamAdministrator.isDeletePermission()) {
+//                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
+//                return "/TeamAdmin/error";
+//            }
+
+            // 目前只有一个团队
+            Integer teamID = 1;
+
+            // 获取现有的文章
+            Article article = articleService.getArticleById(id);
+            if (article == null) {
+                model.addAttribute("error", "未找到指定的文章。");
+                return "/TeamAdmin/error";
+            }
+
+            // 获取该文章的附件和图片
+            List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(id);
+
+            // 删除该文章的所有附件和图片
+            for (ArticleFile file : articleFiles) {
+                // 删除本地的附件/图片
+                deleteLocationFile(file.getFilePath(), file.getType());
+
+                // 从数据库中删除 ArticleFile 记录
+                articleFileService.deleteArticleFile(file.getFileID());
+            }
+
+            // 从数据库中删除 Article 记录
+            articleService.deleteArticle(id);
+
+            // 重定向到文章展示页面
+            return "redirect:/teamAdmin/achievements?type=1";
         }
-
-        // 目前只有一个团队
-        Integer teamID = 1;
-
-        // 获取现有的成果
-        Achievement achievement = achievementService.getAchievementById(achievementID);
-        if (achievement == null) {
-            model.addAttribute("error", "未找到指定的科研成果。");
-            return "/TeamAdmin/error";
-        }
-
-        // 获取该成果的附件和图片
-        List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(achievementID);
-
-        // 删除该成果的所有附件和图片
-        for (AchievementFile file : achievementFiles) {
-            // 删除本地的附件/图片
-            deleteLocationFile(file.getFilePath(), file.getType());
-
-            // 从数据库中删除 AchievementFile 记录
-            achievementFileService.deleteAchievementFile(file.getFileID());
-        }
-
-        // 从数据库中删除 Achievement 记录
-        achievementService.deleteAchievement(achievementID);
-
-        // 重定向到成果展示页面
-        return "redirect:/teamAdmin/achievements";
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     /**
-     * 处理切换可见性
+     * 处理批量删除科研成果
      */
-    @GetMapping("/achievements/switchViewStatus")
-    public String switchViewStatus(@RequestParam("id") int achievementID, Model model) {
+    @GetMapping("/achievements/batchDelete")
+    public String batchDeleteAchievement(@RequestParam("ids") List<Integer> selectedIds, @RequestParam("type") int type, Model model, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
         // 目前只有一个团队
         Integer teamID = 1;
 
-        // 获取现有的成果
-        Achievement achievement = achievementService.getAchievementById(achievementID);
-        if (achievement == null) {
-            model.addAttribute("error", "未找到指定的科研成果。");
-            return "/TeamAdmin/error";
-        }
+        if (type == 0) {
+            // 判断该团队管理员是否具有删除科研成果的权限
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isDeleteAchievement()) {
+                model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
 
-        // 切换可见性
-        if (achievement.getViewStatus() == 1) {
-            achievementService.updateAchievementVisibility(achievementID, 0);
-        } else if (achievement.getViewStatus() == 0) {
-            achievementService.updateAchievementVisibility(achievementID, 1);
-        } else {
-            model.addAttribute("error", "科研成果可见性的值异常！。");
-            return "/TeamAdmin/error";
-        }
 
-        // 重定向到成果展示页面
-        return "redirect:/teamAdmin/achievements";
+            for (int id : selectedIds) {
+                // 获取现有的成果
+                Achievement achievement = achievementService.getAchievementById(id);
+                if (achievement == null) {
+                    model.addAttribute("error", "未找到指定的科研成果。");
+                    return "/TeamAdmin/error";
+                }
+
+                // 获取该成果的附件和图片
+                List<AchievementFile> achievementFiles = achievementFileService.getFilesByAchievementId(id);
+
+                // 删除该成果的所有附件和图片
+                for (AchievementFile file : achievementFiles) {
+                    // 删除本地的附件/图片
+                    deleteLocationFile(file.getFilePath(), file.getType());
+
+                    // 从数据库中删除 AchievementFile 记录
+                    achievementFileService.deleteAchievementFile(file.getFileID());
+                }
+
+                // 从数据库中删除 Achievement 记录
+                achievementService.deleteAchievement(id);
+            }
+
+            // 重定向到成果展示页面
+            return "redirect:/teamAdmin/achievements?type=0";
+        } else if (type == 1) {
+//            // 判断该团队管理员是否具有删除文章的权限
+//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+//            if (!teamAdministrator.isDeletePermission()) {
+//                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
+//                return "/TeamAdmin/error";
+//            }
+
+            for (int id : selectedIds) {
+                // 获取现有的文章
+                Article article = articleService.getArticleById(id);
+                if (article == null) {
+                    model.addAttribute("error", "未找到指定的文章。");
+                    return "/TeamAdmin/error";
+                }
+
+                // 获取该文章的附件和图片
+                List<ArticleFile> articleFiles = articleFileService.getFilesByArticleId(id);
+
+                // 删除该文章的所有附件和图片
+                for (ArticleFile file : articleFiles) {
+                    // 删除本地的附件/图片
+                    deleteLocationFile(file.getFilePath(), file.getType());
+
+                    // 从数据库中删除 ArticleFile 记录
+                    articleFileService.deleteArticleFile(file.getFileID());
+                }
+
+                // 从数据库中删除 Article 记录
+                articleService.deleteArticle(id);
+            }
+            // 重定向到文章展示页面
+            return "redirect:/teamAdmin/achievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
+    }
+
+    /**
+     * 处理单独自动处理切换可见性
+     */
+    @GetMapping("/achievements/switchViewStatus")
+    public String switchViewStatus(@RequestParam("id") int id, Model model, @RequestParam("type") int type) {
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        if (type == 0) {
+            // 获取现有的成果
+            Achievement achievement = achievementService.getAchievementById(id);
+            if (achievement == null) {
+                model.addAttribute("error", "未找到指定的科研成果。");
+                return "/TeamAdmin/error";
+            }
+
+            // 切换可见性
+            if (achievement.getViewStatus() == 1) {
+                achievementService.updateAchievementVisibility(id, 0);
+            } else if (achievement.getViewStatus() == 0) {
+                achievementService.updateAchievementVisibility(id, 1);
+            } else {
+                model.addAttribute("error", "科研成果可见性的值异常！。");
+                return "/TeamAdmin/error";
+            }
+
+            // 重定向到成果展示页面
+            return "redirect:/teamAdmin/achievements?type=0";
+        } else if (type == 1) {
+            // 获取现有的文章
+            Article article = articleService.getArticleById(id);
+            if (article == null) {
+                model.addAttribute("error", "未找到指定的文章。");
+                return "/TeamAdmin/error";
+            }
+
+            // 切换可见性
+            if (article.getViewStatus() == 1) {
+                articleService.updateArticleVisibility(id, 0);
+            } else if (article.getViewStatus() == 0) {
+                articleService.updateArticleVisibility(id, 1);
+            } else {
+                model.addAttribute("error", "文章可见性的值异常！");
+                return "/TeamAdmin/error";
+            }
+
+            // 重定向到文章展示页面
+            return "redirect:/teamAdmin/achievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
+    }
+
+    // 根据传入的状态切换可见性
+    @GetMapping("/achievements/switchViewStatusByStatus")
+    public String switchViewStatusByStatus(@RequestParam("ids") List<Integer> selectedIds, @RequestParam("status") int status, @RequestParam("type") int type, Model model) {
+        // 目前只有一个团队
+        Integer teamID = 1;
+
+        if (type == 0) {
+            for (int id : selectedIds) {
+                // 获取现有的成果
+                Achievement achievement = achievementService.getAchievementById(id);
+                if (achievement == null) {
+                    model.addAttribute("error", "未找到指定的科研成果。");
+                    return "/TeamAdmin/error";
+                }
+                // 切换可见性
+                achievementService.updateAchievementVisibility(id, status);
+            }
+            // 重定向到成果展示页面
+            return "redirect:/teamAdmin/achievements?type=0";
+        } else if (type == 1) {
+            for (int id : selectedIds) {
+                // 获取现有的成果
+                Article article = articleService.getArticleById(id);
+                if (article == null) {
+                    model.addAttribute("error", "未找到指定的文章。");
+                    return "/TeamAdmin/error";
+                }
+                // 切换可见性
+                articleService.updateArticleVisibility(id, status);
+            }
+            // 重定向到成果展示页面
+            return "redirect:/teamAdmin/achievements?type=1";
+        }
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     /**
      * 处理删除文件的请求
      */
     @PostMapping("/achievements/edit/deleteFile")
-    public String deleteFile(
-            @RequestParam("fileID") int fileID,
-            @RequestParam("achievementID") int achievementID,
-            HttpServletResponse response,
-            Model model
-    ) {
-        try {
-            // 根据 fileID 获取 AchievementFile 对象
-            AchievementFile file = achievementFileService.getFilesByfileID(fileID);
-            if (file == null) {
-                model.addAttribute("error", "未找到指定的文件。");
+    public String deleteFile(@RequestParam("fileID") int fileID, @RequestParam("id") int id, @RequestParam("type") int type, HttpServletResponse response, Model model) {
+        if (type == 0) {
+            try {
+                // 根据 fileID 获取 AchievementFile 对象
+                AchievementFile file = achievementFileService.getFilesByFileID(fileID);
+                if (file == null) {
+                    model.addAttribute("error", "未找到指定的文件。");
+                    return "/TeamAdmin/error";
+                }
+
+                // 删除本地的附件/图片
+                deleteLocationFile(file.getFilePath(), file.getType());
+
+                // 从数据库中删除 AchievementFile 记录
+                achievementFileService.deleteAchievementFile(fileID);
+
+            } catch (Exception e) {
+                model.addAttribute("error", "删除文件时发生错误，请重试。");
+                e.printStackTrace();
                 return "/TeamAdmin/error";
             }
 
-            // 删除本地的附件/图片
-            deleteLocationFile(file.getFilePath(), file.getType());
+            // 重定向回编辑页面，刷新附件和图片列表
+            return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=0";
+        } else if (type == 1) {
+            try {
+                // 根据 fileID 获取 ArticleFile 对象
+                ArticleFile file = articleFileService.getFileByFileID(fileID);
+                if (file == null) {
+                    model.addAttribute("error", "未找到指定的文件。");
+                    return "/TeamAdmin/error";
+                }
 
-            // 从数据库中删除 AchievementFile 记录
-            achievementFileService.deleteAchievementFile(fileID);
+                // 删除本地的附件/图片
+                deleteLocationFile(file.getFilePath(), file.getType());
 
-        } catch (Exception e) {
-            model.addAttribute("error", "删除文件时发生错误，请重试。");
-            e.printStackTrace();
-            return "/TeamAdmin/error";
+                // 从数据库中删除 ArticleFile 记录
+                articleFileService.deleteArticleFile(fileID);
+
+            } catch (Exception e) {
+                model.addAttribute("error", "删除文件时发生错误，请重试。");
+                e.printStackTrace();
+                return "/TeamAdmin/error";
+            }
+
+            // 重定向回编辑页面，刷新附件和图片列表
+            return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=1";
         }
-
-        // 重定向回编辑页面，刷新附件和图片列表
-        return "redirect:/teamAdmin/achievements/edit?id=" + achievementID;
+        model.addAttribute("error", "错误的type，0表示科研成果；1表示文章。");
+        return "/TeamAdmin/error";
     }
 
     // type=0，删除文件； type=1，删除图片；
@@ -851,8 +1278,7 @@ public class TeamAdminController {
 
     //注销用户
     @GetMapping("UserManage/logoutUser")
-    public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession
-            session) {
+    public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -861,7 +1287,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -921,8 +1347,7 @@ public class TeamAdminController {
 
     //重置密码
     @GetMapping("/UserManage/ResetPassword")
-    public String ResetPassword(RedirectAttributes redirectAttributes,
-                                @RequestParam("userID") int userID, HttpSession session) {
+    public String ResetPassword(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -931,7 +1356,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             return "redirect:/NoAdministrator.jsp";
         }
 
@@ -989,12 +1414,7 @@ public class TeamAdminController {
 
     //用户搜索
     @GetMapping("/UserManage/searchUsers")
-    public String searchUsers(Model model, @RequestParam(value = "username", required = false) String username,
-                              @RequestParam(value = "roleType", required = false) String roleType,
-                              @RequestParam(value = "status", required = false) Integer status,
-                              @RequestParam(value = "registrationTime", required = false) String registrationTime,
-                              @RequestParam(value = "email", required = false) String email,
-                              HttpSession session) {
+    public String searchUsers(Model model, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "roleType", required = false) String roleType, @RequestParam(value = "status", required = false) Integer status, @RequestParam(value = "registrationTime", required = false) String registrationTime, @RequestParam(value = "email", required = false) String email, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
