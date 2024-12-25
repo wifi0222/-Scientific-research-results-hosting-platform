@@ -161,9 +161,12 @@ ul li {
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-ul li span {
+ul li span {+
     color: #666;
 }
 

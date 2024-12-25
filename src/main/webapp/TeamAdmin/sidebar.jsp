@@ -3,8 +3,6 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <c:choose>
-        <c:when test="${userRoleType == 'TeamAdmin'}">
             <ul>
                 <li>
                     <a href="javascript:void(0);">团队管理</a>
@@ -34,6 +32,4 @@
             <div class="logout">
                 <a href="/user/logout">退出登录</a>
             </div>
-        </c:when>
-    </c:choose>
 </div>
