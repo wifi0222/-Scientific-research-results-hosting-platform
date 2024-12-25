@@ -1,0 +1,123 @@
+/* ======== 美化表单和按钮 ======== */
+.admin-title {
+    font-size: 24px;
+    color: #4e73df;
+    margin-bottom: 10px;
+}
+
+.admin-name {
+    font-weight: bold;
+    color: #d12128;
+}
+
+.permission-link a {
+    display: inline-block;
+    background-color: #4e73df;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.permission-link a:hover {
+    background-color: #355db3;
+}
+
+.permissions-form {
+    font-size: 14px;
+}
+
+.permission-option {
+    margin-bottom: 15px;
+}
+
+.radio-label {
+    margin-right: 20px;
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 5px;
+}
+
+.submit-btn {
+    background-color: #3578f3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+/* ======== 自定义单选框样式 ======== */
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="radio"]:checked {
+    border-color: #4e73df;
+    background-color: #4e73df;
+}
+
+input[type="radio"]:checked::after {
+    content: '\f00c'; /* Unicode勾选符号 */
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+/* 鼠标悬停时改变单选框颜色 */
+input[type="radio"]:hover {
+    border-color: #3578f3;
+}
+
+input[type="radio"]:checked:hover {
+    background-color: #3578f3;
+    border-color: #3578f3;
+}
+
+/* ======== 改进单选框标签样式 ======== */
+.permission-option label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 20px;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* 让标签的文本和单选框对齐，并加间距 */
+.permission-option label span {
+    margin-left: 5px;
+}
+
+
+/* 提交按钮悬停效果 */
+.submit-btn:hover {
+    background-color: #218838;
+}

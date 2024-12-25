@@ -1,0 +1,139 @@
+/* 表格样式 */
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 25px 0;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.styled-table thead tr {
+    background-color: #4e73df;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #eaf4fc;
+}
+
+/* ======== 搜索与筛选区域，与之前类似，可酌情再做微调 ======== */
+.search-filter {
+    display: flex;
+    flex-wrap: wrap; /* 当空间不足时换行 */
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.search-filter label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+.search-filter input[type="text"],
+.search-filter input[type="date"],
+.search-filter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+}
+.search-filter button {
+    background-color: #4e73df;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.search-filter button:hover {
+    background-color: #355db3;
+}
+
+.edit-button {
+    padding: 6px 12px;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-button:hover {
+    background-color: #355db3;
+}
+
+.one-row td button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* 不同按钮不同颜色，你可按需改色 */
+.btn-preview {
+    background-color: #ff9800; /* 橙色 */
+    color: #fff;
+}
+.btn-preview:hover {
+    background-color: #e68a00;
+}
+
+.btn-pass {
+    background-color: #4caf50; /* 绿色 */
+    color: #fff;
+}
+.btn-pass:hover {
+    background-color: #3e8e41;
+}
+
+.btn-reject {
+    background-color: #f44336; /* 红色 */
+    color: #fff;
+}
+.btn-reject:hover {
+    background-color: #e53935;
+}
+
+/* 按钮样式 */
+.add-member {
+    display: inline-block;
+    background-color: #28a745; /* 绿色背景 */
+    color: white; /* 白色字体 */
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.add-member  font{
+    color: white;
+}

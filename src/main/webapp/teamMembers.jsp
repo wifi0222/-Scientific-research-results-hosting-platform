@@ -1,20 +1,20 @@
 <%--
   Created by IntelliJ IDEA.
   User: 王斐
-  Date: 2024/12/20
-  Time: 10:55
+  Date: 2024/12/23
+  Time: 12:34
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>成果展示</title>
+  <title>团队成员</title>
   <link rel="stylesheet" href="/css/change-password.css">
 </head>
 <body>
@@ -59,55 +59,33 @@
 
     <!-- Main Content -->
     <div class="main">
-      <div class="section">
-        <h1>${categoryname}成果</h1> <!-- 显示当前分类名称 -->
-
-        <!-- 筛选表单 -->
-        <form action="/achievements/${category}" method="get" class="filter-form">
-          <div class="form-group">
-            <label for="year">选择年份：</label>
-            <select name="year" id="year">
-              <option value="">请选择年份</option>
-              <c:forEach var="year" items="${years}">
-                <option value="${year}" ${year == param.year ? 'selected' : ''}>${year}</option>
-              </c:forEach>
-            </select>
+      <h1>团队成员</h1>
+      <div class="members-list">
+        <c:forEach var="member" items="${teamMembers}">
+          <div class="member-card">
+            <c:choose>
+              <c:when test="${not empty member.avatarFile}">
+                <a href="/member/details?teamMembersID=${member.userID}">
+                  <c:set var="encodedPath"
+                         value="${fn:replace(fn:replace(member.avatarFile, '\\\\', '/'), ' ', '%20')}"/>
+                  <img src="<c:url value='/getImage?filePath=${encodedPath}' />" class="member-avatar">
+                </a>
+              </c:when>
+              <c:otherwise>
+                <a href="/member/details?teamMembersID=${member.userID}">
+                  <img src="/resources/OIP.jpg" class="member-avatar">
+                </a>
+              </c:otherwise>
+            </c:choose>
+            <div class="member-name">
+              <a href="/member/details?teamMembersID=${member.userID}">
+                <c:out value="${member.name}" />
+              </a>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label for="sortOrder">排序：</label>
-            <select name="sortOrder" id="sortOrder">
-              <option value="asc" ${'asc' == param.sortOrder ? 'selected' : ''}>升序</option>
-              <option value="desc" ${'desc' == param.sortOrder ? 'selected' : ''}>降序</option>
-            </select>
-          </div>
-
-          <button type="submit" class="btn-submit">筛选</button>
-        </form>
-
-        <!-- 成果列表 -->
-        <div class="achievements-list">
-          <c:if test="${empty achievements}">
-            <p>暂无成果展示</p>
-          </c:if>
-
-          <c:if test="${not empty achievements}">
-            <ul>
-              <c:forEach var="achievement" items="${achievements}">
-                <li>
-                  <a href="/achievement/details?achievementID=${achievement.achievementID}" class="achievement-link">
-                    <strong>${achievement.title}</strong>
-                  </a>
-                  <span class="achievement-date">
-                                        <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd" />
-                                    </span>
-                </li>
-              </c:forEach>
-            </ul>
-          </c:if>
-        </div>
+        </c:forEach>
       </div>
-    </div>
+  </div>
   </div>
 
   <footer>

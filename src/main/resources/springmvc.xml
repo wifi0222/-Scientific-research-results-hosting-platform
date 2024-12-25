@@ -43,6 +43,7 @@
     /img/**:不限层次地匹配img目录下的所有文件
     -->
     <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/uploads/**" location="file:///D:/作业/大三上/javaweb/课设/"/>
 
     <!--SpringMVc中资源路径映射本地文件图片
     配置静态资源映射，将/uploads/**映射到文件系统目录-->

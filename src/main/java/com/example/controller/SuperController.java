@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,8 @@ public class SuperController {
 
     //超级管理员用户点击用户管理进行
     @GetMapping("/UserManagement")
-    public String UserManagement(Model model, @RequestParam(required = false) String AddTeamAdminRemind, @RequestParam(required = false) String ChangeTeamAdminRemind, HttpSession session) {
+    public String UserManagement(Model model, @RequestParam(required = false) String AddTeamAdminRemind,
+                                 @RequestParam(required = false) String ChangeTeamAdminRemind, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -73,7 +73,8 @@ public class SuperController {
 
     //增加团队管理员
     @GetMapping("/TeamAdminManage/add")
-    public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("password") String password, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("password") String password,
+                               RedirectAttributes redirectAttributes, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -95,7 +96,8 @@ public class SuperController {
 
     //跳转到编辑信息界面
     @GetMapping("/ToChangeTeamAdmin")
-    public String ChangeTeamAdmin(Model model, HttpSession session, @RequestParam("userID") int userID) {
+    public String ChangeTeamAdmin(Model model,
+                                  HttpSession session, @RequestParam("userID") int userID) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -179,7 +181,19 @@ public class SuperController {
     }
 
     @RequestMapping("/TeamAdministrator/edit")
-    public String editAdministrator(@RequestParam("set") int set, RedirectAttributes redirectAttributes, @RequestParam(required = false) boolean publishPermission, @RequestParam(required = false) boolean userPermission, @RequestParam(required = false) boolean deletePermission, @RequestParam("adminID") int adminID, HttpSession session) {
+    public String editAdministrator( RedirectAttributes redirectAttributes,
+//                                     @RequestParam("set") int set,
+                                    @RequestParam(required = false) boolean userPermission,
+                                    @RequestParam(required = false) boolean publishPermission,
+                                    @RequestParam(required = false) boolean deletePermission,
+                                    @RequestParam(required = false) boolean editPermission,
+                                    @RequestParam(required = false) boolean setStatusPermission,
+                                    @RequestParam(required = false) boolean publishArticle,
+                                    @RequestParam(required = false) boolean deleteArticle,
+                                    @RequestParam(required = false) boolean editArticle,
+                                    @RequestParam(required = false) boolean setArticleStatus,
+                                    @RequestParam("adminID") int adminID,
+                                    HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -188,16 +202,20 @@ public class SuperController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
 
-        System.out.println(set);
-        if (set == 1) {
-            //设置模板权限
-            System.out.println("设置模版权限");
-            administratorService.setTemplePermission(adminID);
-        } else {
-            //全部权限设置
-            System.out.println("设置全部权限");
-            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
-        }
+//        System.out.println(set);
+//        if (set == 1) {
+//            //设置模板权限
+//            System.out.println("设置模版权限");
+//            administratorService.setTemplePermission(adminID);
+//        } else {
+//            //全部权限设置
+//            System.out.println("设置全部权限");
+//            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
+//        }
+        administratorService.setAllPermission(
+                userPermission,publishPermission,deletePermission,editPermission,setStatusPermission,
+                publishArticle,deleteArticle,editArticle,setArticleStatus,adminID
+        );
 
         redirectAttributes.addAttribute("message", "成功修改权限");
         return "redirect:/SuperController/TeamAdministratorManagement";

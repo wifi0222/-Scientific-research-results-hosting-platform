@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
@@ -94,37 +97,98 @@ public class UserController {
         return "profile"; // 返回个人信息页面
     }
 
-    // 更新个人信息
-    @PostMapping("/profile/update")
-    public String updateProfile(@RequestParam("name") String name,
-                                @RequestParam("researchField") String researchField,
-                                @RequestParam("contactInfo") String contactInfo,
-                                @RequestParam("academicBackground") String academicBackground,
-                                @RequestParam("researchAchievements") String researchAchievements,
-                                HttpSession session, // 从 Session 中获取用户信息
-                                Model model) {
+    // 显示个人页面
+    @GetMapping("/memberProfile")
+    public String showMemberProfile(HttpSession session, // 从 Session 中获取当前用户
+                                       Model model) {
+        // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "redirect:/user/login"; // 如果未登录，跳转到登录页面
         }
+        String userRoleType = currentUser.getRoleType();
 
+        // 将用户信息传递给前端
+        model.addAttribute("member", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
+        return "memberProfile";
+    }
+
+    // 更新个人信息
+    @PostMapping("/profile/update")
+    public String updateProfile(
+            @RequestParam("name") String name,
+            @RequestParam("researchField") String researchField,
+            @RequestParam("contactInfo") String contactInfo,
+            @RequestParam("academicBackground") String academicBackground,
+            @RequestParam("researchAchievements") String researchAchievements,
+            @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile, // 头像文件
+            HttpSession session,
+            Model model) throws Exception {
+
+        // 从 Session 中获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+
+        // 创建新用户对象并设置个人信息
         User newUser = new User();
-        newUser.setUserID(currentUser.getUserID()); // 保留当前用户的 ID
+        newUser.setUserID(currentUser.getUserID());
         newUser.setName(name);
         newUser.setResearchField(researchField);
         newUser.setContactInfo(contactInfo);
         newUser.setAcademicBackground(academicBackground);
         newUser.setResearchAchievements(researchAchievements);
 
+        // 处理头像文件
+        if (avatarFile != null && !avatarFile.isEmpty()) {
+            // 定义头像保存路径
+            String avatarFilePath = saveFile(avatarFile, "user_avatars\\", 1);
+            // 设置头像文件路径
+            newUser.setAvatarFile(avatarFilePath);
+        }
 
-        // 提交更新到审核表
+        // 提交更新到数据库
         userService.submitForReview(newUser);
 
-        // 提示信息
+        // 设置提示信息
         model.addAttribute("message", "信息已提交审核");
 
-        return "profile"; // 返回到个人信息页面
+        return "profile"; // 返回个人信息页面
     }
+
+    // 文件保存方法：保存文件到指定目录并返回文件路径
+    private String saveFile(MultipartFile file, String uploadDir, int type) throws Exception {
+        String location = "D:\\作业\\大三上\\javaweb\\课设\\"; // 设置文件上传的目录
+
+
+        if (file.isEmpty()) {
+            return null;
+        }
+
+        // 生成唯一的文件名，防止文件名冲突
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        File dest = new File(location + uploadDir + fileName);
+
+        // 确保目录存在，如果不存在则创建
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+
+        // 将上传的文件保存到指定的路径
+        file.transferTo(dest);
+
+        // 如果是头像（type == 1），返回文件的绝对路径
+        if (type == 1) {
+            return location + uploadDir + fileName;
+        } else {
+            // 如果是其他文件类型（如科研附件），返回相对路径
+            return "uploads\\" + uploadDir + fileName;
+        }
+    }
+
 
 
     // 查询修改审核状态，使用 GET 请求
@@ -369,12 +433,13 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
-
+        session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+//            return "redirect:/";
+            return "HomePage";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "redirect:/";
+            return "HomePage";
         }
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
