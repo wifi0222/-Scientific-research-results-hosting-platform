@@ -10,10 +10,6 @@
     <link rel="stylesheet" href="/css/change-password.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <!-- 引入Bootstrap CSS（可选，用于更美观的弹窗） -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 引入Bootstrap JS和依赖 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <body>
@@ -76,25 +72,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap 弹窗结构 -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">提交成功</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
-                </div>
-                <div class="modal-body">
-                    问题提交成功！
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="refreshButton" data-bs-dismiss="modal">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <footer>
         ABCD组 &copy; 2024
@@ -181,26 +158,18 @@
                 if (response.ok) {
                     return response.text(); // 如果后端返回JSON，使用response.json()
                 } else {
-                    throw new Error('提交失败');
+                    throw new Error("提交失败");
                 }
             })
             .then(data => {
-                // 显示Bootstrap弹窗
-                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-
-                // 如果不使用Bootstrap，可以使用简单的alert
-                // alert(data);
+                alert("问题提交成功！");
+                // 刷新页面
+                location.reload();
             })
             .catch(error => {
-                console.error('提交过程中出现问题:', error);
-                alert('提交问题失败，请稍后重试。');
+                console.error("提交错误：", error);
+                alert("提交失败，请稍后重试！");
             });
-    });
-
-    // 弹窗关闭后刷新页面
-    document.getElementById("refreshButton").addEventListener("click", function () {
-        location.reload(); // 刷新页面
     });
 </script>
 </body>
