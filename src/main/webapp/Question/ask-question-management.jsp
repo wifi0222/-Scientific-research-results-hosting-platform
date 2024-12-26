@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -67,7 +68,8 @@
                                     <c:otherwise>已关闭</c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${question.askTime}</td>
+                            <td><fmt:formatDate value='${question.askTime}'
+                                                pattern='yyyy-MM-dd HH:mm'/></td>
                             <td>
                                 <a href="/questions/ask-details/${question.questionID}" class="btn-view">查看详情</a>
                             </td>
