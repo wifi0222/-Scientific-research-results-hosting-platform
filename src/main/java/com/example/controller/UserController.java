@@ -108,7 +108,7 @@ public class UserController {
     // 显示个人页面
     @GetMapping("/memberProfile")
     public String showMemberProfile(HttpSession session, // 从 Session 中获取当前用户
-                                       Model model) {
+                                    Model model) {
         // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -198,7 +198,6 @@ public class UserController {
             return "uploads\\" + uploadDir + fileName;
         }
     }
-
 
 
     // 查询修改审核状态，使用 GET 请求
@@ -456,10 +455,9 @@ public class UserController {
         session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
-//            return "redirect:/";
-            return "HomePage";
+            return "redirect:/teamAdmin/TeamManage/Info";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "HomePage";
+            return "redirect:/SuperController/auditAchievements?type=0";
         }
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";

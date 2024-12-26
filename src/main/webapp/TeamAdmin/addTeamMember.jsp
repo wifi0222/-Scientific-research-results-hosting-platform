@@ -11,10 +11,11 @@
 <html>
 <head>
     <title>添加团队成员</title>
-    <link rel="stylesheet" href="/css/sidebar.css">
+<%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <link rel="stylesheet" href="/css/Inputform.css">
     <style>
         /* 表单样式 */
         form {
@@ -91,6 +92,24 @@
             color: red;
         }
 
+        /* 新增：父容器使用flex布局，使Toptitle和back-btn并列展示 */
+        .header-container {
+            display: flex;
+            justify-content: center;  /* 水平居中对齐 */
+            align-items: center;      /* 垂直居中对齐 */
+            gap: 20px;                /* 在标题和按钮之间添加间距 */
+        }
+
+        /* 使Toptitle居中 */
+        .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+            flex-grow: 1;             /* 使标题占据可用空间 */
+        }
+
         /* 按钮样式 */
         .back-btn {
             background-color: #4e73df; /* 按钮背景色 */
@@ -101,94 +120,45 @@
             display: inline-block;
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
-            position: relative; /* 相对定位，为了放置箭头 */
-        }
-
-        .back-btn a{
-            font-size: 16px;
-            color: white;
             text-align: center;
         }
 
-        /* 按钮悬停时 */
+        .back-btn a {
+            text-decoration: none;
+            color: white;
+            display: flex;  /* 使用flex布局使图标居中 */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 隐藏链接中的文字，只显示图标 */
+        .back-btn a i {
+            font-size: 20px; /* 设置图标大小 */
+        }
+
         .back-btn:hover {
             background-color: #355db3; /* 悬停时背景色 */
             transform: translateX(5px); /* 向右移动 */
-        }
-
-        /* 在悬停时显示箭头 */
-        .back-btn:hover::after {
-            font-size: 20px;
-            margin-left: 10px; /* 箭头和文字之间的间距 */
-            position: absolute;
-            right: -25px; /* 箭头位于按钮的右侧 */
-            top: 50%;
-            transform: translateY(-50%); /* 垂直居中 */
-            transition: transform 0.3s ease-in-out; /* 平滑过渡 */
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'TeamAdmin'}">
-                <ul>
-                    <li><a href="javascript:void(0);">团队管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                            <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                            <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                        <ul class="submenu">
-                            <li><a href="/research/submenu1">子菜单项1</a></li>
-                            <li><a href="/research/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">文章管理</a>
-                        <ul class="submenu">
-                            <li><a href="/article/submenu1">子菜单项1</a></li>
-                            <li><a href="/article/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">用户管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                            <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">在线交流与反馈</a>
-                        <ul class="submenu">
-                            <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                            <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <!-- 普通用户的菜单项，若有的话 -->
-                <a href="user/ManagementLogin">管理员登录</a>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
-    <!-- Main Content -->
     <div class="content">
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
+
         <div class="main">
             <!-- 这里填充主内容，例如文章、图片等 -->
             <div class="section">
-
-                <h2>添加团队成员</h2>
-                <br>
-                <button class="back-btn">
-                    <a href="/teamAdmin/TeamManage/Member">返回查看用户列表</a>
-                </button>
+                <div class="header-container">
+                    <button class="back-btn">
+                        <a href="/teamAdmin/TeamManage/Member">
+                            <i class="fas fa-arrow-left"></i>  <!-- 使用 FontAwesome 返回箭头图标 -->
+                        </a>
+                    </button>
+                    <h1 class="Toptitle">添加团队成员</h1>
+                </div>
 
                 <form action="/teamAdmin/TeamManage/Member/add" method="get">
                     <!-- 用户名 -->
@@ -231,10 +201,6 @@
         </div>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
 
     <script>
         // 获取邮箱输入框和提示信息元素

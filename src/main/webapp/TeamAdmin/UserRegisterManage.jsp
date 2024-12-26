@@ -13,7 +13,8 @@
 <head>
     <title>审核用户注册</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
+<%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/userRegisterManage.css">
     <style>
@@ -40,6 +41,21 @@
 
         .btn-pass:hover {
             background-color: darkgreen;
+        }
+
+        .main h1 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+        }
+
+        .section-active {
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1.5px solid #4e73df;
         }
     </style>
 
@@ -153,59 +169,15 @@
 </head>
 <body>
 <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'TeamAdmin'}">
-                <ul>
-                    <li><a href="javascript:void(0);">团队管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                            <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                            <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                        <ul class="submenu">
-                            <li><a href="/research/submenu1">子菜单项1</a></li>
-                            <li><a href="/research/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">文章管理</a>
-                        <ul class="submenu">
-                            <li><a href="/article/submenu1">子菜单项1</a></li>
-                            <li><a href="/article/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">用户管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                            <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">在线交流与反馈</a>
-                        <ul class="submenu">
-                            <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                            <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <!-- 普通用户的菜单项，若有的话 -->
-                <a href="user/ManagementLogin">管理员登录</a>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
-    <!-- Main Content -->
     <div class="content">
+
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
+
+
         <div class="main">
             <!-- 这里填充主内容，例如文章、图片等 -->
-            <div class="section">
+<%--            <div class="section">--%>
                 <h1>待审核用户列表</h1>
 
                 <!-- 搜索与筛选表单 -->
@@ -223,6 +195,7 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
 
+                <div class="section-active">
                     <table border="1" class="styled-table">
                         <thead>
                         <tr>
@@ -276,16 +249,11 @@
                     <button type="button" id="batchPassButton" class="btn btn-pass">
                         批量通过
                     </button>
-
-
             </div>
         </div>
     </div>
 </div>
 
-<footer>
-    ABCD组 &copy; 2024
-</footer>
 
 <!-- 模态框 -->
 <div id="myModal" class="modal">
@@ -303,6 +271,15 @@
         <h3>审核通过</h3>
         <p>确定通过该成员的注册申请吗？</p>
         <button id="approveButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<div id="batchModal" class="modal">
+    <div class="modal-content">
+        <span class="close-batch">&times;</span>
+        <h3>审核通过</h3>
+        <p>确定通过全部选中成员的注册吗？</p>
+        <button id="batchButton" class="modal-button">确定</button>
     </div>
 </div>
 

@@ -8,7 +8,16 @@ public class MemberReview {
     private String academicBackground; // 学术背景
     private String researchAchievements; // 科研成果
     private int modificationStatus;   // 修改状态（0: 待审核，1: 审核成功，-1: 审核失败）
-    private String refuseReason;      // 拒绝理由
+    private String refuseReason;    // 拒绝理由
+    private String avatarFile; // 头像文件路径
+
+    public String getAvatarFile() {
+        return avatarFile;
+    }
+
+    public void setAvatarFile(String avatarFile) {
+        this.avatarFile = avatarFile;
+    }
 
     public int getMemberID() {
         return memberID;

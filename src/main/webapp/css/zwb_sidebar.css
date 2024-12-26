@@ -99,12 +99,12 @@ body {
     overflow: auto; /* 防止内容过多时溢出 */
 }
 
-/*.submenu {*/
-/*    display: none; !* 默认子菜单隐藏 *!*/
-/*    list-style: none;*/
-/*    padding-left: 20px;*/
-/*    margin: 0;*/
-/*}*/
+.submenu {
+    display: none; /* 默认子菜单隐藏 */
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+}
 
 .submenu.active {
     display: block; /* 显示子菜单 */

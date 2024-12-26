@@ -72,19 +72,19 @@
     /*background-color: #007bff;*/
 }
 
-/* 第7列：科研成果 */
+/* 第7列：审核操作 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
-    width: 120px; /* 创建时间列 */
+    width: 250px; /* 创建时间列 */
     /*background-color: #4a4a4a;*/
 }
 
-/* 第8列：审核操作 */
-.styled-table th:nth-child(8),
-.styled-table td:nth-child(8) {
-    width: 180px;  /* 审核状态列 */
-    /*background-color: #007bff;*/
-}
+/*!* 第8列：审核操作 *!*/
+/*.styled-table th:nth-child(8),*/
+/*.styled-table td:nth-child(8) {*/
+/*    width: 200px;  !* 审核状态列 *!*/
+/*    !*background-color: #007bff;*!*/
+/*}*/
 
 
 /* 隔行变色 */
