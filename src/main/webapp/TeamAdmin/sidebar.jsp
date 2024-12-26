@@ -5,7 +5,7 @@
 <div class="sidebar">
     <ul>
         <li>
-            <a href="javascript:void(0);">团队管理</a>
+<%--            <a href="javascript:void(0);">团队管理</a>--%>
             <ul class="submenu">
                 <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
                 <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
@@ -19,7 +19,7 @@
             <a href="/teamAdmin/achievements?type=1">文章管理</a>
         </li>
         <li>
-            <a href="javascript:void(0);">用户管理</a>
+<%--            <a href="javascript:void(0);">用户管理</a>--%>
             <ul class="submenu">
                 <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
                 <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>

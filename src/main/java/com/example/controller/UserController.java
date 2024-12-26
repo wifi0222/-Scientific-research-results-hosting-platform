@@ -455,8 +455,7 @@ public class UserController {
         session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
-//            return "redirect:/";
-            return "HomePage";
+            return "redirect:/teamAdmin/TeamManage/Info";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
             return "HomePage";
         }
