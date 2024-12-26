@@ -157,9 +157,9 @@
                     ['image'],
                     ['clean']
                 ],
-                handlers: {
-                    image: imageHandler
-                }
+                // handlers: {
+                //     image: imageHandler
+                // }
             }
         }
     });
