@@ -1,0 +1,154 @@
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.form-check-label {
+    margin-left: 5px;
+}
+
+.form-check {
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: red;
+    display: none;
+}
+
+#researchAchievementsEditor {
+    height: 300px;
+    border: 1px solid #ccc;
+}
+
+/* 按钮样式 */
+/* 新增：父容器使用flex布局，使Toptitle和back-btn并列展示 */
+.header-container {
+    display: flex;
+    justify-content: center;  /* 水平居中对齐 */
+    align-items: center;      /* 垂直居中对齐 */
+    gap: 20px;                /* 在标题和按钮之间添加间距 */
+}
+
+/* 使Toptitle居中 */
+.Toptitle {
+    color: #4e73df;
+    margin-bottom: 20px;
+    font-size: 28px;
+    padding-bottom: 10px;
+    text-align: center;
+    flex-grow: 1;             /* 使标题占据可用空间 */
+}
+
+/* 按钮样式 */
+.back-btn {
+    background-color: #4e73df; /* 按钮背景色 */
+    border: none;
+    border-radius: 5px; /* 圆角边框 */
+    padding: 12px 20px;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+}
+
+.back-btn a {
+    text-decoration: none;
+    color: white;
+    display: flex;  /* 使用flex布局使图标居中 */
+    align-items: center;
+    justify-content: center;
+}
+
+/* 隐藏链接中的文字，只显示图标 */
+.back-btn a i {
+    font-size: 20px; /* 设置图标大小 */
+}
+
+.back-btn:hover {
+    background-color: #355db3; /* 悬停时背景色 */
+    transform: translateX(5px); /* 向右移动 */
+}
+/* ======== 自定义单选框样式 ======== */
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="radio"]:checked {
+    border-color: #4e73df;
+    background-color: #4e73df;
+}
+
+input[type="radio"]:checked::after {
+    content: '\f00c'; /* Unicode勾选符号 */
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+/* 鼠标悬停时改变单选框颜色 */
+input[type="radio"]:hover {
+    border-color: #3578f3;
+}
+
+input[type="radio"]:checked:hover {
+    background-color: #3578f3;
+    border-color: #3578f3;
+}
+
+.section {
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.section h2 {
+    color: #4e73df;
+    margin-top: 0;
+}
+.section.active {
+    border: 2px solid #4e73df;
+}

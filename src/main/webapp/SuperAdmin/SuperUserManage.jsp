@@ -17,7 +17,7 @@
     <title>超级管理员用户管理</title>
     <!-- 引入基本样式 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/newSidebar.css">
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/superuserManage.css">
     <style>
@@ -123,37 +123,28 @@
             margin-right: 8px;
         }
 
+        .main h1 {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="content">
-        <div class="sidebar">
-            <c:choose>
-                <c:when test="${userRoleType == 'SuperAdmin'}">
-                    <ul>
-                        <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
-                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                        <li><a href="/user/checkReply">内容审核</a></li>
-                    </ul>
-                    <div class="logout">
-                        <a href="/user/logout">退出登录</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <ul>
-                        <li><a href="/login.jsp">登录</a></li>
-                    </ul>
-                </c:otherwise>
-            </c:choose>
-        </div>
+        <!-- Sidebar -->
+        <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
         <div class="main">
             <div class="section">
                 <!-- 如果存在error属性，显示弹窗提示 -->
                 <div th:if="${AddTeamAdminRemind}" th:text="${AddTeamAdminRemind}" class="alert alert-error"></div>
 
-                <h1 class="page-title">团队管理员列表</h1>
+                <h1>团队管理员列表</h1>
                 <!-- 搜索与筛选表单 -->
                 <div class="search-filter">
                     <label for="keyword">姓名：</label>
@@ -267,11 +258,6 @@
         <button id="approveBatchButton" class="modal-button">确定</button>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
-
 
 <script>
     // 获取所有的a标签

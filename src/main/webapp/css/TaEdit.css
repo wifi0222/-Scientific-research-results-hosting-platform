@@ -121,3 +121,18 @@ input[type="radio"]:checked:hover {
 .submit-btn:hover {
     background-color: #218838;
 }
+
+.section {
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.section h2 {
+    color: #4e73df;
+    margin-top: 0;
+}
+.section.active {
+    border: 2px solid #4e73df;
+}
