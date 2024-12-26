@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
   <style>
     .main h1{
+      margin-top: 30px;
       text-align: center;
       color: red;
       font-weight: bold;
