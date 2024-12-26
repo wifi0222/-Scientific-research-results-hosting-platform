@@ -1,34 +1,10 @@
-/* addAchievement.css */
-/*body {*/
-/*    font-family: Arial, sans-serif;*/
-/*    margin: 20px;*/
-/*}*/
+/* 编辑页面主区域样式 */
 .main h1 {
     color: #4e73df;
     margin-bottom: 20px; /* 与按钮之间的间距 */
     font-size: 28px;
-    /*border-bottom: 2px solid #4e73df;*/
     padding-bottom: 10px;
     text-align: center; /* 居中文本 */
-}
-
-/* 返回主页按钮样式 */
-.back-button {
-    /*display: inline-block;*/
-    padding: 10px 20px;
-    margin-bottom: 30px; /* 与标题和表单之间的间距 */
-    border: none;
-    border-radius: 5px;
-    background-color: #6c757d; /* 灰色背景 */
-    color: #ffffff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.back-button:hover {
-    background-color: #5a6268; /* 悬停时颜色加深 */
-    box-shadow: 0 4px 8px rgba(90, 98, 104, 0.2);
 }
 
 /* 表单样式 */
@@ -70,6 +46,7 @@
     outline: none;
 }
 
+/* 编辑器容器样式 */
 #editor-container {
     background-color: #ffffff;
     border: 1px solid #ced4da;
@@ -77,6 +54,7 @@
     margin-bottom: 20px;
 }
 
+/* 按钮样式 */
 .main button {
     padding: 10px 20px;
     border: none;
@@ -101,4 +79,30 @@
 .main button[type="button"]:hover {
     background-color: #5a6268;
     box-shadow: 0 4px 8px rgba(106, 115, 122, 0.2);
+}
+
+/* 文件上传样式 */
+input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+/* 删除附件按钮样式 */
+button[type="button"] {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e74a3b; /* 红色背景 */
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-top: 5px;
+}
+
+button[type="button"]:hover {
+    background-color: #c0392b; /* 悬停时颜色加深 */
+    box-shadow: 0 4px 8px rgba(192, 57, 43, 0.2);
 }

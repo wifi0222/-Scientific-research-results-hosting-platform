@@ -29,8 +29,10 @@
 
         <div class="main">
             <h1>新增科研成果</h1>
+
             <form action="/teamAdmin/achievements/add?type=0" method="post" id="quillForm"
                   enctype="multipart/form-data">
+
                 <label>成果标题：</label><br>
                 <input type="text" name="title" placeholder="如：基于深度学习的遥感图像分类技术" required><br><br>
 
@@ -66,7 +68,7 @@
 
                 <button type="submit">保存并发布</button>
                 <!-- 返回主页按钮 -->
-                <button type="button"
+                <button type="button" class="back-button"
                         onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
                     返回主页
                 </button>
@@ -99,57 +101,28 @@
         }
     });
 
-    // // 可选：自定义图片上传逻辑，如不需要可删除imageHandler方法并在toolbar中移除'image'
-    // function imageHandler() {
-    //     const input = document.createElement('input');
-    //     input.setAttribute('type', 'file');
-    //     input.setAttribute('accept', 'image/*');
-    //     input.click();
-    //
-    //     input.onchange = async () => {
-    //         const file = input.files[0];
-    //         const formData = new FormData();
-    //         formData.append('image', file);
-    //
-    //         try {
-    //             // 上传图片到服务器（请根据实际情况修改URL和逻辑）
-    //             const response = await fetch('/questions/upload-image', {
-    //                 method: 'POST',
-    //                 body: formData
-    //             });
-    //
-    //             const result = await response.json();
-    //             if (result.success) {
-    //                 // 在编辑器中插入图片
-    //                 const range = quill.getSelection();
-    //                 quill.insertEmbed(range.index, 'image', result.imageUrl);
-    //             } else {
-    //                 console.error('Image upload failed');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error uploading image:', error);
-    //         }
-    //     };
-    // }
-
     // 表单提交前，将编辑器内容同步到隐藏字段
     document.getElementById('quillForm').onsubmit = function () {
         var content = quill.root.innerHTML; // 获取编辑器内容的HTML
         document.getElementById('hiddenInput').value = content;
     };
 
-    window.onload = function () {
+    window.addEventListener('pageshow', function (event) {
         const now = new Date();
         // 格式化为 yyyy-MM-ddTHH:mm
         const year = now.getFullYear();
+        console.log(year)
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        const defaultValue = `${year}-${month}-${day}T${hours}:${minutes}`;
+        const defaultValue = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+        console.log(defaultValue)
+        console.log("设置时间成功")
 
+        // 设置 datetime-local 的 value
         document.getElementById('creationTime').value = defaultValue;
-    };
+    });
 </script>
 
 <script>

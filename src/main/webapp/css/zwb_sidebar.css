@@ -44,7 +44,9 @@ body {
 
 .sidebar ul li {
     display: block;
-    margin-bottom: 15px; /* 控制导航项间距 */
+    margin-bottom: 20px; /* 控制导航项间距，减少悬浮时的偏移 */
+    position: relative; /* 用于放大效果时不影响布局 */
+    overflow: hidden; /* 防止放大后内容溢出 */
 }
 
 .sidebar ul li a {
@@ -53,7 +55,8 @@ body {
     display: block;
     padding: 10px 15px;
     border-radius: 10px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s; /* 加入 transform 过渡 */
+    margin-bottom: 20px;
 }
 
 .sidebar ul li a:hover,
@@ -61,10 +64,9 @@ body {
     background-color: #4e73df; /* 蓝色背景 */
     color: #ffffff; /* 白色文字 */
     border: 2px solid #4e73df; /* 蓝色边框 */
+    transform: scale(1.1); /* 放大效果 */
     width: 100%; /* 宽度设置为 100% */
     box-sizing: border-box; /* 包括边框在内计算宽度 */
-    display: inline-block;
-    border-radius: 10px;
 }
 
 .logout {
