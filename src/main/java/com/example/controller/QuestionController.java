@@ -37,7 +37,7 @@ public class QuestionController {
         question.setQuestionContent(questionContent);
         question.setUserID(userID);
         question.setStatus(0); // 设置初始状态为未回答
-        question.setAskTime(LocalDateTime.now());
+        question.setAskTime(new Date());
         questionService.submitQuestion(question);
 
         return ResponseEntity.ok("Question submitted successfully!");

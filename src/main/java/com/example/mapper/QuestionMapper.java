@@ -15,7 +15,7 @@ public interface QuestionMapper {
                        @Param("questionContent") String questionContent,
                        @Param("userID") int userID,
                        @Param("status") int status,
-                       @Param("askTime") LocalDateTime askTime);
+                       @Param("askTime") Date askTime);
                        //@Param("createdAt") Date createdAt);
 
     // 更新提问状态和回复内容

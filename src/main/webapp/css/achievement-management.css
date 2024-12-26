@@ -416,3 +416,18 @@ button:nth-child(3) {
 .modal-footer button {
     margin-left: 5px;
 }
+
+/* 操作按钮样式 */
+.btn-view {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #4e73df;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.btn-view:hover {
+    background-color: #3758c8;
+}

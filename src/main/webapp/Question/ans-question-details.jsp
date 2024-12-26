@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: white;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -99,7 +100,8 @@
 <body>
 <h2>问题详情</h2>
 <p><strong>用户ID：</strong> ${question.userID}</p>
-<p><strong>提问时间：</strong> ${question.askTime}</p>
+<p><strong>提问时间：</strong> <fmt:formatDate value='${question.askTime}'
+                                              pattern='yyyy-MM-dd HH:mm'/></p>
 
 <!-- 更改状态功能 -->
 <form action="/questions/${question.questionID}/updateStatus" method="post">
