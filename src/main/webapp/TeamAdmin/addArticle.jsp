@@ -54,7 +54,7 @@
             <label>附件上传（可选）：</label><br>
             <input type="file" name="attachmentFile"><br><br>
 
-            <label>展示图片上传（可选）：</label><br>
+            <label>封面图片上传（可选）：</label><br>
             <input type="file" name="coverImage"><br><br>
 
             <%--选择上传的时间--%>

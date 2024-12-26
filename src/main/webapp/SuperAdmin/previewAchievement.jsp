@@ -13,13 +13,6 @@
     <!-- 引入Quill编辑器所需的CSS和JS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-
-    <style>
-        /* 根据需要，你可以在这里对只读状态的元素做特殊样式处理 */
-        input[readonly], textarea[readonly], select[disabled] {
-            background-color: #f2f2f2; /* 灰底，表示不可编辑 */
-        }
-    </style>
 </head>
 <body>
 
@@ -35,7 +28,7 @@
             返回
         </button>
 
-<%--        <h1>预览科研成果</h1>--%>
+        <%--        <h1>预览科研成果</h1>--%>
 
         <!-- 只读模式内容 -->
         <div>
@@ -43,10 +36,10 @@
             <h2 class="title">${achievement.title}</h2>
 
             <!-- 轮播图 -->
-            <c:if test="${fn:length(files) > 0}">
+            <c:if test="${fn:length(achievementFiles) > 0}">
                 <div class="carousel">
                     <div class="carousel-images">
-                        <c:forEach var="imageFile" items="${files}">
+                        <c:forEach var="imageFile" items="${achievementFiles}">
                             <c:if test="${imageFile.type == 1}">
                                 <c:set var="encodedPath"
                                        value="${fn:replace(fn:replace(imageFile.filePath, '\\\\', '/'), ' ', '%20')}"/>
@@ -80,7 +73,7 @@
                 <!-- 文件列表 -->
                 <div class="file-list">
                     <ul>
-                        <c:forEach var="file" items="${files}">
+                        <c:forEach var="file" items="${achievementFiles}">
                             <c:if test="${file.type == 0}">
                                 <li>
                                     <a href="/${file.filePath}" target="_blank"
@@ -95,23 +88,41 @@
     </div>
 </div>
 
-
-<script>
-    // 初始化 Quill 编辑器为只读模式
-    var quill = new Quill('#editor-container', {
-        theme: 'snow',
-        readOnly: true, // 关键：只读
-        modules: {
-            toolbar: false // 隐藏工具栏
-        }
-    });
-
-    // 设置编辑器内容
-    quill.root.innerHTML = `${achievement.contents}`;
-</script>
-
 <!-- 返回按钮（只读预览页面不做任何提交） -->
 <button type="button" onclick="window.history.back()">返回</button>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const images = document.querySelectorAll('.carousel-img'); // 获取所有的图片元素
+        let currentIndex = 0;
+
+        // 初始化，显示第一张图片
+        images[currentIndex].classList.add('active');
+
+        // 添加类名来管理图片切换
+        function showNextImage() {
+            images[currentIndex].classList.remove('active');   // 移除当前显示的图片的 active 类
+            currentIndex = (currentIndex + 1) % images.length; // 计算下一个图片的索引
+            images[currentIndex].classList.add('active');      // 给下一张图片添加 active 类
+        }
+
+        function showPrevImage() {
+            images[currentIndex].classList.remove('active');   // 移除当前显示的图片的 active 类
+            currentIndex = (currentIndex - 1 + images.length) % images.length; // 计算上一张图片的索引
+            images[currentIndex].classList.add('active');      // 给上一张图片添加 active 类
+        }
+
+        setInterval(showNextImage, 3000); // 每3秒切换一次图片
+
+        // 手动控制轮播图
+        window.moveCarousel = function (direction) {
+            if (direction === 1) {
+                showNextImage();
+            } else if (direction === -1) {
+                showPrevImage();
+            }
+        };
+    });
+</script>
 </body>
 </html>

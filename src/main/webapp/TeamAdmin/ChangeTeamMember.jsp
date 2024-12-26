@@ -15,6 +15,7 @@
 <%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入Quill编辑器所需的CSS和JS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
@@ -210,7 +211,7 @@
                     <h1 class="Toptitle">修改用户信息</h1>
                 </div>
 
-                <form action="/teamAdmin/TeamManage/Member/edit" method="post" enctype="multipart/form-data">
+                <form action="/teamAdmin/TeamManage/Member/edit" method="post" enctype="multipart/form-data" id="quillForm">
                     <!-- 用户ID (只读) -->
                     用户ID：<input type="text" name="userID" value="${user.userID}" readonly><br>
 
@@ -247,11 +248,15 @@
                     <!-- 学术背景 -->
                     学术背景：<input type="text" name="academicBackground" value="${user.academicBackground}"><br>
 
-<%--                    <!-- 研究成果 -->--%>
-<%--                    研究成果：<input type="text" name="researchAchievements" value="${user.researchAchievements}"><br>--%>
-                    <label for="researchAchievements">科研成果:</label>
-                    <div id="researchAchievementsEditor" style="height: 300px;"></div>
-                    <input type="hidden" name="researchAchievements" id="researchAchievements"><br>
+<%--                    <label for="researchAchievements">科研成果:</label>--%>
+<%--                    <div id="researchAchievementsEditor" style="height: 300px;"></div>--%>
+<%--                    <input type="hidden" name="researchAchievements" id="researchAchievements"><br>--%>
+                    <label>科研成果：</label><br>
+                    <!-- Quill编辑器的容器 -->
+                    <div id="editor-container" style="height: 300px;"></div>
+                    <!-- 隐藏字段，用于提交编辑器内容 -->
+                    <input type="hidden" name="researchAchievements" id="hiddenInput">
+
 
                     <!-- 提交按钮 -->
                     <input type="submit" value="提交修改">
@@ -284,62 +289,43 @@
             emailInput.style.borderColor = 'red';  // 设置红色边框提醒用户
         }
     });
-
-    // 初始化 Quill 编辑器
-    var quill = new Quill('#researchAchievementsEditor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
-                ['blockquote', 'code-block'],
-                [{ 'header': 1 }, { 'header': 2 }], // 标题
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
-                [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
-                [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
-                ['image'], // 插入图片
-                ['clean'] // 清除格式
-            ]
-        }
-    });
-
-    // 表单提交前，将编辑器内容同步到隐藏字段
-    document.querySelector('form').onsubmit = function () {
-        var content = quill.root.innerHTML; // 获取编辑器内容
-        document.getElementById('researchAchievements').value = content;
-    };
-
-    function displayFileName() {
-        var fileInput = document.getElementById('avatarFile');
-        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
-        document.getElementById('fileName').textContent = fileName; // 显示文件名
-    }
 </script>
 
 <script>
-    // 获取所有的a标签
-    const menuLinks = document.querySelectorAll('ul > li > a');
-
-    menuLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            // 如果是子菜单的链接，不阻止跳转
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('submenu')) {
-                // 这是父菜单，阻止跳转
-                event.preventDefault(); // 阻止父菜单的默认跳转行为
-                // 切换当前a标签的class
-                this.classList.toggle('active');
-
-                // 获取当前点击项的下一个子菜单
-                const submenu = this.nextElementSibling;
-
-                if (submenu && submenu.classList.contains('submenu')) {
-                    // 切换子菜单的显示状态
-                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                }
+    // 初始化 Quill 编辑器
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: {
+                container: [
+                    ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
+                    ['blockquote', 'code-block'],
+                    [{'header': 1}, {'header': 2}], // 标题
+                    [{'list': 'ordered'}, {'list': 'bullet'}], // 列表
+                    [{'script': 'sub'}, {'script': 'super'}], // 上标/下标
+                    [{'indent': '-1'}, {'indent': '+1'}], // 缩进
+                    ['link', 'image'], // 链接和图片
+                    ['clean'] // 清除格式
+                ],
+                // handlers: {
+                //     image: imageHandler // 自定义图片处理（可根据需要实现）
+                // }
             }
-            // 对于子菜单项，允许跳转，不做任何处理
-        });
+        }
     });
+
+    // 将服务器端传递的已有内容加载到 Quill 编辑器
+    var initialContent = `${user.researchAchievements}`;
+    quill.root.innerHTML = initialContent;
+
+    // 表单提交前，将编辑器内容同步到隐藏字段
+    document.getElementById('quillForm').onsubmit = function () {
+        var content = quill.root.innerHTML; // 获取编辑器内容的HTML
+        document.getElementById('hiddenInput').value = content;
+    };
+
 </script>
+
 </body>
 </html>
 

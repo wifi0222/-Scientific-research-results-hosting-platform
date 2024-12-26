@@ -32,7 +32,7 @@
         <div class="main">
             <!-- 返回主页按钮 -->
             <button type="button" class="return-home-btn"
-                    onclick="location.href='${pageContext.request.contextPath}/SuperController/auditAchievements?type=0'">
+                    onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
                 返回主页
             </button>
 

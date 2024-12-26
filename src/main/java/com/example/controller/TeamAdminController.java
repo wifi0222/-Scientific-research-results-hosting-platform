@@ -5,6 +5,7 @@ import com.example.model.TeamAdministrator;
 import com.example.model.User;
 import com.example.service.AchievementService;
 import com.example.service.AdministratorService;
+import com.example.tool.OpenSSLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.model.*;
@@ -136,6 +137,10 @@ public class TeamAdminController {
         if (userService.findByUserName(TeamMember.getUsername()) != null) {
             information = "用户名已存在，添加失败";
         } else {
+            // 密码加密
+            String encryptedPassword = OpenSSLUtil.encrypt(TeamMember.getPassword());
+            TeamMember.setPassword(encryptedPassword);
+
             userService.addTeamMember(TeamMember);
         }
         redirectAttributes.addAttribute("information", information);
@@ -240,7 +245,7 @@ public class TeamAdminController {
     @RequestMapping("/TeamManage/Member/BatchReview")
     @ResponseBody
     public Map<String, Object> ReviewBatch(@RequestBody Map<String, List<Integer>> requestData,
-                                                         HttpSession session) {
+                                           HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
 
@@ -290,7 +295,7 @@ public class TeamAdminController {
         }
 
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
@@ -342,7 +347,7 @@ public class TeamAdminController {
     @RequestMapping("/BatchRegisterReview")
     @ResponseBody
     public Map<String, Object> RegisterReviewBatch(@RequestBody Map<String, List<String>> requestData,
-                                           HttpSession session) {
+                                                   HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
 
@@ -484,7 +489,6 @@ public class TeamAdminController {
             // 如果用户未登录，重定向到登录页面
             return "redirect:/login";
         }
-
         // 假设当前用户是 User 类型，获取 userID
         int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
 
@@ -574,12 +578,11 @@ public class TeamAdminController {
             // 加/ 表示从根目录开始，否则会从当前路径拼接
             return "redirect:/teamAdmin/achievements?type=0";
         } else if (type == 1) {
-//            // 判断该团队管理员是否具有新增科研成果的权限
-//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-//            if (!teamAdministrator.isPublishPermission()) {
-//                model.addAttribute("error", "您没有新增科研成果的权限！请联系超级用户管理员");
-//                return "/TeamAdmin/error";
-//            }
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getPublishArticle()) {
+                model.addAttribute("error", "您没有新增文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
 
             // 定义日期格式模式
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -751,10 +754,24 @@ public class TeamAdminController {
             return "/TeamAdmin/error";
         }
 
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
         // 目前只有一个团队
         Integer teamID = 1;
 
         if (type == 0) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isEditAchievement()) {
+                model.addAttribute("error", "您没有修改科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             // 获取现有的成果
             Achievement achievement = achievementService.getAchievementById(id);
             if (achievement == null) {
@@ -819,6 +836,11 @@ public class TeamAdminController {
             // 重定向到成果的编辑页面
             return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=0";
         } else if (type == 1) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getEditArticle()) {
+                model.addAttribute("error", "您没有修改文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             // 获取现有的文章
             Article article = articleService.getArticleById(id);
             if (article == null) {
@@ -898,7 +920,6 @@ public class TeamAdminController {
             // 如果用户未登录，重定向到登录页面
             return "redirect:/login";
         }
-
         // 假设当前用户是 User 类型，获取 userID
         int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
 
@@ -938,12 +959,11 @@ public class TeamAdminController {
             // 重定向到成果展示页面
             return "redirect:/teamAdmin/achievements?type=0";
         } else if (type == 1) {
-//            // 判断该团队管理员是否具有删除文章的权限
-//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-//            if (!teamAdministrator.isDeletePermission()) {
-//                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
-//                return "/TeamAdmin/error";
-//            }
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getDeleteArticle()) {
+                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
 
             // 目前只有一个团队
             Integer teamID = 1;
@@ -1031,12 +1051,12 @@ public class TeamAdminController {
             // 重定向到成果展示页面
             return "redirect:/teamAdmin/achievements?type=0";
         } else if (type == 1) {
-//            // 判断该团队管理员是否具有删除文章的权限
-//            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
-//            if (!teamAdministrator.isDeletePermission()) {
-//                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
-//                return "/TeamAdmin/error";
-//            }
+            // 判断该团队管理员是否具有删除文章的权限
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getDeleteArticle()) {
+                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
 
             for (int id : selectedIds) {
                 // 获取现有的文章
@@ -1072,11 +1092,26 @@ public class TeamAdminController {
      * 处理单独自动处理切换可见性
      */
     @GetMapping("/achievements/switchViewStatus")
-    public String switchViewStatus(@RequestParam("id") int id, Model model, @RequestParam("type") int type) {
+    public String switchViewStatus(@RequestParam("id") int id, Model model, @RequestParam("type") int type, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
         // 目前只有一个团队
         Integer teamID = 1;
 
         if (type == 0) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isSetAchievementStatus()) {
+                model.addAttribute("error", "您没有公开/隐藏科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
+
             // 获取现有的成果
             Achievement achievement = achievementService.getAchievementById(id);
             if (achievement == null) {
@@ -1097,6 +1132,11 @@ public class TeamAdminController {
             // 重定向到成果展示页面
             return "redirect:/teamAdmin/achievements?type=0";
         } else if (type == 1) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getSetArticleStatus()) {
+                model.addAttribute("error", "您没有公开/隐藏文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             // 获取现有的文章
             Article article = articleService.getArticleById(id);
             if (article == null) {
@@ -1123,11 +1163,25 @@ public class TeamAdminController {
 
     // 根据传入的状态切换可见性
     @GetMapping("/achievements/switchViewStatusByStatus")
-    public String switchViewStatusByStatus(@RequestParam("ids") List<Integer> selectedIds, @RequestParam("status") int status, @RequestParam("type") int type, Model model) {
+    public String switchViewStatusByStatus(@RequestParam("ids") List<Integer> selectedIds, @RequestParam("status") int status, @RequestParam("type") int type, Model model, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
         // 目前只有一个团队
         Integer teamID = 1;
 
         if (type == 0) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isSetAchievementStatus()) {
+                model.addAttribute("error", "您没有公开/隐藏科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             for (int id : selectedIds) {
                 // 获取现有的成果
                 Achievement achievement = achievementService.getAchievementById(id);
@@ -1141,6 +1195,11 @@ public class TeamAdminController {
             // 重定向到成果展示页面
             return "redirect:/teamAdmin/achievements?type=0";
         } else if (type == 1) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getSetArticleStatus()) {
+                model.addAttribute("error", "您没有公开/隐藏文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             for (int id : selectedIds) {
                 // 获取现有的成果
                 Article article = articleService.getArticleById(id);
@@ -1162,8 +1221,22 @@ public class TeamAdminController {
      * 处理删除文件的请求
      */
     @PostMapping("/achievements/edit/deleteFile")
-    public String deleteFile(@RequestParam("fileID") int fileID, @RequestParam("id") int id, @RequestParam("type") int type, HttpServletResponse response, Model model) {
+    public String deleteFile(@RequestParam("fileID") int fileID, @RequestParam("id") int id, @RequestParam("type") int type, HttpServletResponse response, Model model, HttpSession session) {
+        // 从 Session 中获取当前用户
+        Object currentUser = session.getAttribute("currentUser");
+        if (currentUser == null) {
+            // 如果用户未登录，重定向到登录页面
+            return "redirect:/login";
+        }
+        // 假设当前用户是 User 类型，获取 userID
+        int adminID = ((User) currentUser).getUserID();  // adminID为外键，引用自User表
+
         if (type == 0) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.isDeleteAchievement()) {
+                model.addAttribute("error", "您没有删除科研成果的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             try {
                 // 根据 fileID 获取 AchievementFile 对象
                 AchievementFile file = achievementFileService.getFilesByFileID(fileID);
@@ -1186,7 +1259,13 @@ public class TeamAdminController {
 
             // 重定向回编辑页面，刷新附件和图片列表
             return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=0";
-        } else if (type == 1) {
+        }
+        else if (type == 1) {
+            TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
+            if (!teamAdministrator.getDeleteArticle()) {
+                model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
+                return "/TeamAdmin/error";
+            }
             try {
                 // 根据 fileID 获取 ArticleFile 对象
                 ArticleFile file = articleFileService.getFileByFileID(fileID);
@@ -1274,7 +1353,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
@@ -1296,7 +1375,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
@@ -1317,7 +1396,7 @@ public class TeamAdminController {
     @RequestMapping("/UserManage/BatchLogoutUser")
     @ResponseBody
     public Map<String, Object> LogoutUserBatch(@RequestBody Map<String, List<Integer>> requestData,
-                                                   HttpSession session) {
+                                               HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
 
@@ -1377,7 +1456,9 @@ public class TeamAdminController {
         if (password.equals("no")) {
             redirectAttributes.addAttribute("message", "重置密码失败，用户邮箱错误");
         } else {
-            int r = userService.ResetPassword(userID, password);
+            String encryptedPassword = OpenSSLUtil.encrypt(password);
+
+            int r = userService.ResetPassword(userID, encryptedPassword);
             redirectAttributes.addAttribute("message", "重置密码成功");
         }
         return "redirect:/teamAdmin/ToUserManage";
@@ -1387,7 +1468,7 @@ public class TeamAdminController {
     @RequestMapping("/UserManage/BatchResetUser")
     @ResponseBody
     public Map<String, Object> ResetUserBatch(@RequestBody Map<String, List<Integer>> requestData,
-                                               HttpSession session) {
+                                              HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
 
@@ -1457,7 +1538,7 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }

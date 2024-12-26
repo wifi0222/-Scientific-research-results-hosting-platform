@@ -3,6 +3,7 @@ package com.example.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Question implements Serializable { // 如果不加 implements Serializable 那么就无法向 Redis 传 Question
     private int questionID;
@@ -10,9 +11,9 @@ public class Question implements Serializable { // 如果不加 implements Seria
     private String questionContent;
     private int userID;
     private int status;
-    private LocalDateTime askTime;
+    private Date askTime;
     private String replyContent;
-    private String replyTime;
+    private Date replyTime;
 
     // Getters and setters
     public int getQuestionID() {
@@ -55,11 +56,11 @@ public class Question implements Serializable { // 如果不加 implements Seria
         this.status = status;
     }
 
-    public LocalDateTime getAskTime() {
+    public Date getAskTime() {
         return askTime;
     }
 
-    public void setAskTime(LocalDateTime  askTime) {
+    public void setAskTime(Date  askTime) {
         this.askTime = askTime;
     }
 
@@ -71,11 +72,11 @@ public class Question implements Serializable { // 如果不加 implements Seria
         this.replyContent = replyContent;
     }
 
-    public String getReplyTime() {
+    public Date getReplyTime() {
         return replyTime;
     }
 
-    public void setReplyTime(String replyTime) {
+    public void setReplyTime(Date replyTime) {
         this.replyTime = replyTime;
     }
 

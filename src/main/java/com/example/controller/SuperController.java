@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.*;
 import com.example.service.*;
+import com.example.tool.OpenSSLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,7 +90,8 @@ public class SuperController {
         if (userService.findByUserName(username) != null) {
             information = "用户名已存在，新增团队管理员失败，请重新输入";
         } else {
-            userService.addTeamAdmin(username, password);
+            String encryptedPassword = OpenSSLUtil.encrypt(password);
+            userService.addTeamAdmin(username, encryptedPassword);
         }
         redirectAttributes.addAttribute("AddTeamAdminRemind", information);
         return "redirect:/SuperController/UserManagement";

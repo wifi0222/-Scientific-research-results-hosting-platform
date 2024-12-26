@@ -303,6 +303,9 @@
                             <td>
                                 <button onclick="editAchievement(${entry.key.articleID})">编辑</button>
                                 <button onclick="deleteAchievement(${entry.key.articleID})">删除</button>
+                                <!-- 触发按钮，点击后打开模态框并传入拒绝理由 -->
+                                <button onclick="showReasonModal('${entry.key.refusalReason}')">拒绝理由
+                                </button>
                             </td>
                         </tr>
                     </c:if>
@@ -311,6 +314,17 @@
             </table>
             <div style="margin-top:10px;">
                 <button id="batchDeleteRejected">批量删除</button>
+            </div>
+        </div>
+        <!-- 模态框 -->
+        <div id="reasonModal" class="modal" style="display: none;">
+            <div class="modal-content" style="position: relative;"> <!-- 父容器设置为相对定位 -->
+                <!-- 修改关闭按钮的样式 -->
+                <span id="closeReasonModal" class="close"
+                      style="position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer;">&times;</span>
+                <h2>拒绝理由</h2>
+                <!-- 这个地方用于显示拒绝理由 -->
+                <p id="reasonText"></p>
             </div>
         </div>
     </div>

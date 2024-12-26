@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -8,6 +9,7 @@
     <title>我的问题</title>
     <link rel="stylesheet" href="/css/change-password.css">
     <script src="/js/browse.js" defer></script>
+
 </head>
 <body>
 <div class="container">
@@ -60,8 +62,8 @@
                         <th>问题 ID</th>
                         <th>标题</th>
                         <th>状态</th>
-                        <th>提问时间</th>
-                        <th>操作</th>
+                        <th style="width: 20%">提问时间</th>
+                        <th style="width: 20%">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,10 +78,12 @@
                                     <c:otherwise>已关闭</c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${question.askTime}</td>
-                            <td>
-                                <a href="/questions/ask-details/${question.questionID}" class="btn-view">查看详情</a>
+                            <td><fmt:formatDate value='${question.askTime}'
+                                                pattern='yyyy-MM-dd HH:mm'/></td>
+                            <td style="text-align: right; padding-right: 120px;">
+                                <a href="/questions/ask-details/${question.questionID}">查看详情</a>
                             </td>
+
                         </tr>
                     </c:forEach>
                     </tbody>

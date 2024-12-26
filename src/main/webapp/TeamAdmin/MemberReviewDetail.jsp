@@ -135,6 +135,7 @@
             word-wrap: break-word; /* 防止长文本溢出 */
         }
 
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .profile-header {
