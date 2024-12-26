@@ -15,6 +15,7 @@
 <%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入Quill编辑器所需的CSS和JS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
@@ -210,7 +211,7 @@
                     <h1 class="Toptitle">修改用户信息</h1>
                 </div>
 
-                <form action="/teamAdmin/TeamManage/Member/edit" method="post" enctype="multipart/form-data">
+                <form action="/teamAdmin/TeamManage/Member/edit" method="post" enctype="multipart/form-data" id="quillForm">
                     <!-- 用户ID (只读) -->
                     用户ID：<input type="text" name="userID" value="${user.userID}" readonly><br>
 
@@ -247,9 +248,15 @@
                     <!-- 学术背景 -->
                     学术背景：<input type="text" name="academicBackground" value="${user.academicBackground}"><br>
 
-                    <label for="researchAchievements">科研成果:</label>
-                    <div id="researchAchievementsEditor" style="height: 300px;"></div>
-                    <input type="hidden" name="researchAchievements" id="researchAchievements"><br>
+<%--                    <label for="researchAchievements">科研成果:</label>--%>
+<%--                    <div id="researchAchievementsEditor" style="height: 300px;"></div>--%>
+<%--                    <input type="hidden" name="researchAchievements" id="researchAchievements"><br>--%>
+                    <label>科研成果：</label><br>
+                    <!-- Quill编辑器的容器 -->
+                    <div id="editor-container" style="height: 300px;"></div>
+                    <!-- 隐藏字段，用于提交编辑器内容 -->
+                    <input type="hidden" name="researchAchievements" id="hiddenInput">
+
 
                     <!-- 提交按钮 -->
                     <input type="submit" value="提交修改">
@@ -285,35 +292,25 @@
 </script>
 
 <script>
-    // 显示文件名
-    function displayFileName() {
-        var fileInput = document.getElementById('avatarFile');
-        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
-        document.getElementById('fileName').textContent = fileName; // 显示文件名
-
-        // 显示选择的头像
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var avatarImage = document.getElementById('current-avatar');
-            avatarImage.src = e.target.result; // 设置为选中的图片
-        };
-        reader.readAsDataURL(fileInput.files[0]); // 读取文件为 Data URL
-    }
-
     // 初始化 Quill 编辑器
-    var quill = new Quill('#researchAchievementsEditor', {
+    var quill = new Quill('#editor-container', {
         theme: 'snow',
         modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
-                ['blockquote', 'code-block'],
-                [{ 'header': 1 }, { 'header': 2 }], // 标题
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
-                [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
-                [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
-                ['image'], // 插入图片
-                ['clean'] // 清除格式
-            ]
+            toolbar: {
+                container: [
+                    ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
+                    ['blockquote', 'code-block'],
+                    [{'header': 1}, {'header': 2}], // 标题
+                    [{'list': 'ordered'}, {'list': 'bullet'}], // 列表
+                    [{'script': 'sub'}, {'script': 'super'}], // 上标/下标
+                    [{'indent': '-1'}, {'indent': '+1'}], // 缩进
+                    ['link', 'image'], // 链接和图片
+                    ['clean'] // 清除格式
+                ],
+                // handlers: {
+                //     image: imageHandler // 自定义图片处理（可根据需要实现）
+                // }
+            }
         }
     });
 
@@ -322,10 +319,11 @@
     quill.root.innerHTML = initialContent;
 
     // 表单提交前，将编辑器内容同步到隐藏字段
-    document.querySelector('form').onsubmit = function () {
-        var content = quill.root.innerHTML; // 获取编辑器内容
-        document.getElementById('researchAchievements').value = content;
+    document.getElementById('quillForm').onsubmit = function () {
+        var content = quill.root.innerHTML; // 获取编辑器内容的HTML
+        document.getElementById('hiddenInput').value = content;
     };
+
 </script>
 
 </body>
