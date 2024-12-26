@@ -82,6 +82,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +99,6 @@
 <div class="container">
     <!-- Header -->
     <header class="header">
-        <!-- 添加收起/展开按钮 -->
         <c:choose>
             <c:when test="${empty user}">
             </c:when>
@@ -107,8 +107,8 @@
             </c:otherwise>
         </c:choose>
         <div class="title"><a href="/browse">
-  <h1>信息浏览</h1>
-</a>        </div>
+            <h1>信息浏览</h1>
+        </a></div>
         <c:choose>
             <c:when test="${empty user}">
                 <div class="login-btn">
@@ -119,16 +119,15 @@
     </header>
     <!-- 内容部分 -->
     <div class="content">
-        <!-- 左侧边栏 -->
-    <c:if test="${not empty user}">
-        <div class="sidebar">
+        <c:if test="${not empty user}">
+            <!-- 左侧边栏 -->
+            <div class="sidebar">
                 <ul>
                     <li><a href="/browse">信息浏览</a></li>
                     <li><a href="/user/memberProfile" class="active">个人信息</a></li>
                     <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
                     <li><a href="/user/change-password">修改密码</a></li>
                     <li><a href="/user/deactivate">账号注销</a></li>
-                    <%--              <li><a href="/user/deactivate/status">查询账号注销进度</a></li>--%>
                 </ul>
                 <div class="logout">
                     <a href="/user/logout">退出登录</a>
@@ -153,6 +152,18 @@
                     <!-- 上传头像 -->
                     <label for="avatarFile" class="file-upload-label">上传头像:</label>
                     <input type="file" id="avatarFile" name="avatarFile" class="file-upload-input" onchange="displayFileName()">
+
+                    <!-- 显示当前头像 -->
+                    <c:choose>
+                        <c:when test="${not empty user.avatarFile}">
+                            <c:set var="encodedPath" value="${fn:replace(fn:replace(user.avatarFile, '\\\\', '/'), ' ', '%20')}"/>
+                            <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="头像" class="current-avatar" id="current-avatar"/>
+                        </c:when>
+                        <c:otherwise>
+
+                        </c:otherwise>
+                    </c:choose>
+
                     <span id="fileName" style="margin-left: 10px;"></span><br>
 
                     <label for="name">姓名:</label>
@@ -183,6 +194,21 @@
 </div>
 
 <script>
+    // 显示文件名
+    function displayFileName() {
+        var fileInput = document.getElementById('avatarFile');
+        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
+        document.getElementById('fileName').textContent = fileName; // 显示文件名
+
+        // 显示选择的头像
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var avatarImage = document.getElementById('current-avatar');
+            avatarImage.src = e.target.result; // 设置为选中的图片
+        };
+        reader.readAsDataURL(fileInput.files[0]); // 读取文件为 Data URL
+    }
+
     // 初始化 Quill 编辑器
     var quill = new Quill('#researchAchievementsEditor', {
         theme: 'snow',
@@ -209,17 +235,7 @@
         var content = quill.root.innerHTML; // 获取编辑器内容
         document.getElementById('researchAchievements').value = content;
     };
-
-    function displayFileName() {
-        var fileInput = document.getElementById('avatarFile');
-        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
-        document.getElementById('fileName').textContent = fileName; // 显示文件名
-    }
 </script>
 
 </body>
 </html>
-
-
-
-
