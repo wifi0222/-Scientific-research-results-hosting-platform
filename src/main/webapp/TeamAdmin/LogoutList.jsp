@@ -218,7 +218,7 @@
                     <h1 class="Toptitle">申请注销用户列表</h1>
                 </div>
 
-                <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
+<%--                <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>--%>
 
                 <div class="section-active">
                 <table border="1" class="styled-table">
@@ -283,20 +283,23 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
+
+                    <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
+
+                </div>
         </div>
     </div>
 </div>
 
 
-<!-- 模态框 -->
-<div id="LogoutModal" class="modal">
-        <div class="modal-content">
-            <span class="close-logout">&times;</span>
-            <h3>注销用户</h3>
-            <p>确定注销此账户吗？注销后该用户将无法登录。</p>
-            <button id="approve-logout-Button" class="modal-button">确定</button>
-        </div>
+<!-- 批量-->
+<div id="BatchLogoutModal" class="modal">
+    <div class="modal-content">
+        <span class="batch-close-logout">&times;</span>
+        <h3>注销用户</h3>
+        <p>确定注销选中的全部用户吗？注销后将无法登录。</p>
+        <button id="batch-logout-Button" class="modal-button">确定</button>
+    </div>
 </div>
 
 
