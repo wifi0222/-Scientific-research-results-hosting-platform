@@ -333,6 +333,7 @@ public class UserController {
     public String handleDeactivationRequest(@RequestParam("password") String password,
                                             HttpSession session, // 从 Session 获取当前用户
                                             Model model) {
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
         // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -341,7 +342,7 @@ public class UserController {
         String userRoleType = currentUser.getRoleType();
 
         // 验证密码是否正确
-        if (!currentUser.getPassword().equals(password)) {
+        if (!currentUser.getPassword().equals(encryptedPassword)) {
             model.addAttribute("user", currentUser);
             model.addAttribute("userRoleType", userRoleType);
             model.addAttribute("error", "密码错误！");
