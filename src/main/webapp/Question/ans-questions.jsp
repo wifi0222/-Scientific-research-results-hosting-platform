@@ -6,6 +6,10 @@
 <html>
 <head>
     <title>反馈管理</title>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" type="text/css" href="../css/zwb_sidebar.css">
+    <link rel="stylesheet" type="text/css" href="../css/achievement-management.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,6 +72,17 @@
             font-weight: bold;
         }
 
+        button {
+            background-color: #0056b3; /* 设置背景颜色为蓝色 */
+            color: white;           /* 设置文本颜色为白色 */
+            cursor: pointer;        /* 鼠标悬停变为指针（可选） */
+        }
+
+        button:hover {
+            background-color: darkblue; /* 鼠标悬停时变成深蓝色（可选） */
+        }
+
+
         @media (max-width: 600px) {
             table {
                 font-size: 12px;
@@ -80,56 +95,66 @@
     </style>
 </head>
 <body>
-<h2>反馈管理</h2>
+<div class="container">
+    <!-- Content -->
+    <div class="content">
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
-<!-- 筛选区域 -->
-<div class="filter-container">
-    <label for="statusFilter">按状态筛选：</label>
-    <select id="statusFilter">
-        <option value="">所有状态</option>
-        <option value="0">待处理</option>
-        <option value="1">已处理</option>
-        <option value="-1">关闭</option>
-    </select>
+        <div class="main">
+            <h2>反馈管理</h2>
 
-    <label for="userIDSearch">按用户ID搜索：</label>
-    <input type="text" id="userIDSearch" placeholder="输入用户ID">
+            <!-- 筛选区域 -->
+            <div class="filter-container">
+                <label for="statusFilter">按状态筛选：</label>
+                <select id="statusFilter">
+                    <option value="">所有状态</option>
+                    <option value="0">待处理</option>
+                    <option value="1">已处理</option>
+                    <option value="-1">关闭</option>
+                </select>
 
-    <button onclick="applyFilters()">筛选</button>
+                <label for="userIDSearch">按用户ID搜索：</label>
+                <input type="text" id="userIDSearch" placeholder="输入用户ID">
+
+                <button onclick="applyFilters()">筛选</button>
+            </div>
+
+            <!-- 数据表格 -->
+            <table id="questionsTable">
+                <thead>
+                <tr>
+                    <th>用户ID</th>
+                    <th>标题</th>
+                    <th>状态</th>
+                    <th>提问时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 动态生成的行 -->
+                <c:forEach var="question" items="${questions}">
+                    <tr>
+                        <td>${question.userID}</td>
+                        <td>${question.title}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
+                                <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
+                                <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>${question.askTime}</td>
+                        <td>
+                            <a href="/questions/ans-details/${question.questionID}">查看详情</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<!-- 数据表格 -->
-<table id="questionsTable">
-    <thead>
-    <tr>
-        <th>用户ID</th>
-        <th>标题</th>
-        <th>状态</th>
-        <th>提问时间</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 动态生成的行 -->
-    <c:forEach var="question" items="${questions}">
-        <tr>
-            <td>${question.userID}</td>
-            <td>${question.title}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
-                    <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
-                    <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
-                </c:choose>
-            </td>
-            <td>${question.askTime}</td>
-            <td>
-                <a href="/questions/ans-details/${question.questionID}">查看详情</a>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
 
 <script>
     function applyFilters() {
