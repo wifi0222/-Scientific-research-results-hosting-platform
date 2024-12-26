@@ -200,6 +200,10 @@
         }
     });
 
+    // 将服务器端传递的已有内容加载到 Quill 编辑器
+    var initialContent = `${user.researchAchievements}`;
+    quill.root.innerHTML = initialContent;
+
     // 表单提交前，将编辑器内容同步到隐藏字段
     document.querySelector('form').onsubmit = function () {
         var content = quill.root.innerHTML; // 获取编辑器内容
