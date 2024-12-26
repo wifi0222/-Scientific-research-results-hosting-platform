@@ -291,7 +291,8 @@ public class TeamAdminController {
 
         //判断是否有权限
         if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
-            return "redirect:/NoAdministrator.jsp";
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
 
         List<RegistrationReview> users = registrationService.getAllRegistrationReviews();
@@ -302,7 +303,7 @@ public class TeamAdminController {
 
     //处理审核
     @GetMapping("/RegisterReview")
-    public String SubmitRegisterReview(RedirectAttributes redirectAttributes, @RequestParam("username") String username, @RequestParam("status") int status,
+    public String SubmitRegisterReview(RedirectAttributes redirectAttributes,Model model, @RequestParam("username") String username, @RequestParam("status") int status,
                                        @RequestParam(required = false) String refuseReason, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -311,9 +312,11 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
+
         //判断是否有权限
         if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
-            return "redirect:/NoAdministrator.jsp";
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
 
         System.out.println("获得的信息" + username);
@@ -1272,7 +1275,8 @@ public class TeamAdminController {
         }
         //判断是否有权限
         if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
-            return "redirect:/NoAdministrator.jsp";
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
 
         List<User> users = userService.findTeamMemberAndVisitor();
@@ -1283,7 +1287,7 @@ public class TeamAdminController {
 
     //注销用户
     @GetMapping("UserManage/logoutUser")
-    public String logoutUser(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
+    public String logoutUser(RedirectAttributes redirectAttributes,Model model, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -1292,8 +1296,9 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
         //判断是否有权限
-        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
-            return "redirect:/NoAdministrator.jsp";
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
 
         User logoutUser = userService.findById(userID);
@@ -1352,7 +1357,7 @@ public class TeamAdminController {
 
     //重置密码
     @GetMapping("/UserManage/ResetPassword")
-    public String ResetPassword(RedirectAttributes redirectAttributes, @RequestParam("userID") int userID, HttpSession session) {
+    public String ResetPassword(RedirectAttributes redirectAttributes, Model model,@RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -1360,9 +1365,11 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
+
         //判断是否有权限
-        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
-            return "redirect:/NoAdministrator.jsp";
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
 
         User user = userService.findById(userID);
@@ -1451,9 +1458,9 @@ public class TeamAdminController {
         }
         //判断是否有权限
         if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
-            return "redirect:/NoAdministrator.jsp";
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
         }
-
         ArrayList<User> users = new ArrayList<User>();
         List<DeactivationReview> list = deactivationService.findDeactivationPendingUser();
         for (DeactivationReview deactivationReview : list) {
