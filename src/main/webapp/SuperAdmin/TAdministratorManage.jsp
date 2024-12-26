@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>超级用户进行权限管理</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/newSidebar.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/administrator.css">
     <style>
@@ -94,27 +94,27 @@
 </head>
 <body>
 <div class="container">
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'SuperAdmin'}">
-                <ul>
-                    <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
-                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                    <li><a href="/user/checkReply">内容审核</a></li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <ul>
-                    <li><a href="/login.jsp">登录</a></li>
-                </ul>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+        <div class="sidebar">
+            <c:choose>
+                <c:when test="${userRoleType == 'SuperAdmin'}">
+                    <ul>
+                        <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
+                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                        <li><a href="/user/checkReply">内容审核</a></li>
+                    </ul>
+                    <div class="logout">
+                        <a href="/user/logout">退出登录</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <ul>
+                        <li><a href="/login.jsp">登录</a></li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
         <div class="main">
             <div class="section">
 
@@ -159,7 +159,7 @@
                                 <input type="checkbox"
                                        class="rowCheckbox"
                                        name="selectedRows"
-                                       value="${teamAdmin.adminID}}">
+                                       value="${teamAdmin.adminID}">
                             </td>
                             <td>${teamAdmin.adminID}</td>
 <%--                            <td>${teamAdmin.adminUsername}</td>--%>
@@ -170,23 +170,23 @@
                                         </span>
                             </td>
                             <td class="permission">
-                                        <span class="${teamAdmin.publishPermission ? 'has' : 'no'}">
-                                                ${teamAdmin.publishPermission ? '有权限' : '无权限'}
+                                        <span class="${teamAdmin.publishAchievement ? 'has' : 'no'}">
+                                                ${teamAdmin.publishAchievement ? '有权限' : '无权限'}
                                         </span>
                             </td>
                             <td class="permission">
-                                        <span class="${teamAdmin.deletePermission ? 'has' : 'no'}">
-                                                ${teamAdmin.deletePermission ? '有权限' : '无权限'}
+                                        <span class="${teamAdmin.deleteAchievement ? 'has' : 'no'}">
+                                                ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}
                                         </span>
                             </td>
                             <td class="permission">
-                                <span class="${teamAdmin.editPermission ? 'has':'no'}">
-                                    ${teamAdmin.editPermission ? '有权限' : '无权限'}
+                                <span class="${teamAdmin.editAchievement ? 'has':'no'}">
+                                    ${teamAdmin.editAchievement ? '有权限' : '无权限'}
                                 </span>
                             </td>
                             <td class="permission">
-                                <span class="${teamAdmin.setStatusPermission ? 'has':'no'}">
-                                        ${teamAdmin.setStatusPermission ? '有权限' : '无权限'}
+                                <span class="${teamAdmin.setAchievementStatus ? 'has':'no'}">
+                                        ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}
                                 </span>
                             </td>
 
@@ -245,6 +245,32 @@
     ABCD组 &copy; 2024
 </footer>
 
+<!-- 用户权限设置模态框 -->
+<div id="UserModal" class="modal">
+    <div class="modal-content">
+        <span class="close-user">&times;</span>
+        <p>确定要为选中的管理员设置用户管理权限吗？</p>
+        <button id="userButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<!-- 科研成果设置模态框 -->
+<div id="researchModal" class="modal">
+    <div class="modal-content">
+        <span class="close-research">&times;</span>
+        <p>确定要为选中的管理员设置科研成果的全部权限吗？</p>
+        <button id="researchButton" class="modal-button">确定</button>
+    </div>
+</div>
+
+<!-- 文章设置模态框 -->
+<div id="articleModal" class="modal">
+    <div class="modal-content">
+        <span class="close-article">&times;</span>
+        <p>确定要为选中的管理员设置文章的全部权限吗？</p>
+        <button id="articleButton" class="modal-button">确定</button>
+    </div>
+</div>
 <script>
     // 检查信息并弹出提示框
     window.onload = function() {

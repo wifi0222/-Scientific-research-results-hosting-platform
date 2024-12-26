@@ -73,11 +73,69 @@ batchUserButton.addEventListener('click', function () {
         alert("请先勾选要设置的管理员！");
         return;
     }
+    console.log(selectedIds);
 
     // 这里根据你的后端实现方式，可通过 AJAX、表单提交等方式将 selectedIds 传到后端
     // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
+    //弹出确认框
+    var modal = document.getElementById("UserModal");
+    var modalContent = document.querySelector("#UserModal .modal-content");
+    modal.style.display = "block";
 
+    // 添加显示动画
+    setTimeout(function() {
+        modalContent.classList.add("show");
+    }, 10);
+
+    // 关闭按钮事件
+    var closeBtn = document.getElementsByClassName("close-user")[0];
+    closeBtn.onclick = function() {
+        var modal = document.getElementById("UserModal");
+        var modalContent = document.querySelector("#UserModal .modal-content");
+        // 隐藏模态框的动画效果
+        modalContent.classList.remove("show");
+
+        // 延时隐藏整个模态框，确保动画完成
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
+
+    // 确定按钮事件
+    var approveButton = document.getElementById("userButton");
+    approveButton.onclick = function() {
+        // 批量删除操作
+        fetch('/SuperController/TeamAdministrator/setUserAdministrator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ adminIds: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理结果
+                if (data.success) {
+                    alert("设置成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("设置失败！");
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+
+        // 关闭模态框
+        var modal = document.getElementById("UserModal");
+        var modalContent = document.querySelector("#UserModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
 
 });
 
@@ -100,7 +158,64 @@ batchResearchButton.addEventListener('click', function () {
     // 这里根据你的后端实现方式，可通过 AJAX、表单提交等方式将 selectedIds 传到后端
     // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
+    //弹出确认框
+    var modal = document.getElementById("researchModal");
+    var modalContent = document.querySelector("#researchModal .modal-content");
+    modal.style.display = "block";
 
+    // 添加显示动画
+    setTimeout(function() {
+        modalContent.classList.add("show");
+    }, 10);
+
+    // 关闭按钮事件
+    var closeBtn = document.getElementsByClassName("close-research")[0];
+    closeBtn.onclick = function() {
+        var modal = document.getElementById("researchModal");
+        var modalContent = document.querySelector("#researchModal .modal-content");
+        // 隐藏模态框的动画效果
+        modalContent.classList.remove("show");
+
+        // 延时隐藏整个模态框，确保动画完成
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
+
+    // 确定按钮事件
+    var approveButton = document.getElementById("researchButton");
+    approveButton.onclick = function() {
+        // 批量删除操作
+        fetch('/SuperController/TeamAdministrator/setResearchAdministrator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ adminIds: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理结果
+                if (data.success) {
+                    alert("设置成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("设置失败！");
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+
+        // 关闭模态框
+        var modal = document.getElementById("researchModal");
+        var modalContent = document.querySelector("#researchModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
 
 });
 
@@ -123,7 +238,64 @@ batchArticleButton.addEventListener('click', function () {
     // 这里根据你的后端实现方式，可通过 AJAX、表单提交等方式将 selectedIds 传到后端
     // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
+    //弹出确认框
+    var modal = document.getElementById("articleModal");
+    var modalContent = document.querySelector("#articleModal .modal-content");
+    modal.style.display = "block";
 
+    // 添加显示动画
+    setTimeout(function() {
+        modalContent.classList.add("show");
+    }, 10);
+
+    // 关闭按钮事件
+    var closeBtn = document.getElementsByClassName("close-article")[0];
+    closeBtn.onclick = function() {
+        var modal = document.getElementById("articleModal");
+        var modalContent = document.querySelector("#articleModal .modal-content");
+        // 隐藏模态框的动画效果
+        modalContent.classList.remove("show");
+
+        // 延时隐藏整个模态框，确保动画完成
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
+
+    // 确定按钮事件
+    var approveButton = document.getElementById("articleButton");
+    approveButton.onclick = function() {
+        // 批量操作
+        fetch('/SuperController/TeamAdministrator/setArticleAdministrator', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ adminIds: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理结果
+                if (data.success) {
+                    alert("设置成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("设置失败！");
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+
+        // 关闭模态框
+        var modal = document.getElementById("articleModal");
+        var modalContent = document.querySelector("#articleModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
 
 });
 

@@ -7,11 +7,8 @@ import java.util.List;
 
 public interface AdministratorService {
     public List<TeamAdministrator> findAllAdministrators();
-
     public TeamAdministrator findAdministratorById(int id);
-
     public int setTemplePermission(int adminID);
-
     int setAllPermission(
             Boolean userPermission,
             Boolean publishAchievement,
@@ -24,8 +21,10 @@ public interface AdministratorService {
             Boolean setArticleStatus,
             int adminID
     );
-
     public boolean getUserManageAdministrator(int adminID); //获取团队管理员用户管理的权限
+    public int setUserManageAdministrator(int adminID);
+    public int setResearchAdministrator(int adminID);
+    public int setArticleAdministrator(int adminID);
 }
 
 

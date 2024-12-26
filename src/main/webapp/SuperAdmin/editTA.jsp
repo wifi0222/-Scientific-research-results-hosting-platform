@@ -12,7 +12,7 @@
 <head>
     <title>管理用户权限</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/newSidebar.css">
     <link rel="stylesheet" href="/css/TaEdit.css">
     <style>
         .t1{
@@ -23,27 +23,27 @@
 </head>
 <body>
 <div class="container">
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'SuperAdmin'}">
-                <ul>
-                    <li><a href="/SuperController/UserManagement">用户管理</a></li>
-                    <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                    <li><a href="/user/checkReply">内容审核</a></li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <ul>
-                    <li><a href="/login.jsp">登录</a></li>
-                </ul>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+        <div class="sidebar">
+            <c:choose>
+                <c:when test="${userRoleType == 'SuperAdmin'}">
+                    <ul>
+                        <li><a href="/SuperController/UserManagement">用户管理</a></li>
+                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
+                        <li><a href="/user/checkReply">内容审核</a></li>
+                    </ul>
+                    <div class="logout">
+                        <a href="/user/logout">退出登录</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <ul>
+                        <li><a href="/login.jsp">登录</a></li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
         <div class="main">
             <div class="section">
                 <h1 class="admin-title">为 <span class="admin-name">${teamAdministrator.adminName}</span> 设置权限</h1>
@@ -72,10 +72,10 @@
                     <div class="permission-option">
                         <label class="t1">发布科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="1" ${teamAdministrator.publishPermission == true ? 'checked' : ''}> 有权限
+                            <input type="radio" name="publishAchievement" value="1" ${teamAdministrator.publishAchievement == true ? 'checked' : ''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="publishPermission" value="0" ${teamAdministrator.publishPermission == false ? 'checked' : ''}> 无权限
+                            <input type="radio" name="publishAchievement" value="0" ${teamAdministrator.publishAchievement == false ? 'checked' : ''}> 无权限
                         </label>
                     </div>
 
@@ -83,10 +83,10 @@
                     <div class="permission-option">
                         <label class="t1">删除科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="deletePermission" value="1" ${teamAdministrator.deletePermission == true ? 'checked' : ''}> 有权限
+                            <input type="radio" name="deleteAchievement" value="1" ${teamAdministrator.deleteAchievement == true ? 'checked' : ''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="deletePermission" value="0" ${teamAdministrator.deletePermission == false ? 'checked' : ''}> 无权限
+                            <input type="radio" name="deleteAchievement" value="0" ${teamAdministrator.deleteAchievement == false ? 'checked' : ''}> 无权限
                         </label>
                     </div>
 
@@ -94,10 +94,10 @@
                     <div class="permission-option">
                         <label class="t1">编辑科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="editPermission" value="1" ${teamAdministrator.editPermission == true ? 'checked':''}> 有权限
+                            <input type="radio" name="editAchievement" value="1" ${teamAdministrator.editAchievement == true ? 'checked':''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="editPermission" value="0" ${teamAdministrator.editPermission == false ? 'checked':''}> 无权限
+                            <input type="radio" name="editAchievement" value="0" ${teamAdministrator.editAchievement == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 
@@ -105,10 +105,10 @@
                     <div class="permission-option">
                         <label class="t1">公开/隐藏科研成果权限：</label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusPermission" value="1" ${teamAdministrator.setStatusPermission == true ? 'checked':''}> 有权限
+                            <input type="radio" name="setAchievementStatus" value="1" ${teamAdministrator.setAchievementStatus == true ? 'checked':''}> 有权限
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="setStatusPermission" value="0" ${teamAdministrator.setStatusPermission == false ? 'checked':''}> 无权限
+                            <input type="radio" name="setAchievementStatus" value="0" ${teamAdministrator.setAchievementStatus == false ? 'checked':''}> 无权限
                         </label>
                     </div>
 

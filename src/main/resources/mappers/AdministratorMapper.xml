@@ -3,35 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.AdministratorMapper">
     <select id="findAllAdministrators" resultType="com.example.model.TeamAdministrator">
-        SELECT *
-        FROM TeamAdministrator
+        SELECT * FROM TeamAdministrator
     </select>
 
     <insert id="insertTeamAdminToAdministrator">
-        INSERT INTO TeamAdministrator (
-            adminID, publishAchievement, userPermission, deleteAchievement, teamID
-        )
-        VALUES (
-                   #{adminID}, 1, 1, 0, 1
-               )
+        INSERT INTO [TeamAdministrator](adminID,userPermission,
+                                        publishAchievement,editAchievement,deleteAchievement,setAchievementStatus,
+                                        publishArticle,editArticle,deleteArticle,setArticleStatus,teamID)
+        VALUES (#{adminID},1,1,0,0,1,1,0,0,1)
     </insert>
 
-
     <delete id="deleteTeamAdminFromAdministrator">
-        DELETE
-        FROM [TeamAdministrator]
-        WHERE adminID=#{adminID}
+        DELETE FROM [TeamAdministrator] WHERE adminID=#{adminID}
     </delete>
 
     <select id="findAdministratorById" parameterType="int" resultType="com.example.model.TeamAdministrator">
-        SELECT *
-        FROM [TeamAdministrator]
-        WHERE adminID=#{adminID}
+        SELECT * FROM [TeamAdministrator] WHERE adminID=#{adminID}
     </select>
 
     <update id="setTemplePermission">
         UPDATE [TeamAdministrator]
-        SET publishAchievement=1, userPermission=1
+        SET publishPermission=1,userPermission=1
         WHERE adminID=#{adminID}
     </update>
 
@@ -51,8 +43,27 @@
     </update>
 
     <select id="getUserManageAdministrator" resultType="Boolean">
-        SELECT userPermission
-        FROM TeamAdministrator
-        WHERE adminID = #{adminID}
+        SELECT userPermission FROM TeamAdministrator
+        WHERE  adminID=#{adminID}
     </select>
+
+    <update id="setUserManageAdministrator">
+        UPDATE TeamAdministrator
+        SET userPermission=1
+        WHERE adminID=#{adminID}
+    </update>
+
+    <update id="setResearchAdministrator">
+        UPDATE TeamAdministrator
+        SET publishAchievement=1,deleteAchievement=1,
+            editAchievement=1,setAchievementStatus=1
+        WHERE adminID=#{adminID}
+    </update>
+
+    <update id="setArticleAdministrator">
+        UPDATE TeamAdministrator
+        SET publishArticle=1,deleteArticle=1,
+            editArticle=1,setArticleStatus=1
+        WHERE adminID=#{adminID}
+    </update>
 </mapper>

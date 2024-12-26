@@ -18,7 +18,8 @@
 
     <!-- 引入外部CSS库（例如Bootstrap）进行美化 -->
 <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">--%>
-    <link rel="stylesheet" href="/css/sidebar.css">
+<%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <style>
         h1 {
             font-size: 24px;
@@ -26,6 +27,17 @@
             color: #333;
             margin-bottom: 20px;
             text-align: center;
+        }
+        .section1{
+            width: 600px;
+            text-align: center;
+            background-color: red;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .main{
+            width: 100%;
         }
 
         /* 表单样式 */
@@ -90,9 +102,9 @@
                 padding: 15px;
             }
 
-            .section {
-                width: 100%;
-            }
+            /*.section1 {*/
+            /*    width: 100%;*/
+            /*}*/
 
             form {
                 grid-template-columns: 1fr;
@@ -114,55 +126,56 @@
 <body>
 
 <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <c:choose>
-            <c:when test="${userRoleType == 'TeamAdmin'}">
-                <ul>
-                    <li><a href="javascript:void(0);">团队管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>
-                            <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>
-                            <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">科研成果管理与发布</a>
-                        <ul class="submenu">
-                            <li><a href="/research/submenu1">子菜单项1</a></li>
-                            <li><a href="/research/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">文章管理</a>
-                        <ul class="submenu">
-                            <li><a href="/article/submenu1">子菜单项1</a></li>
-                            <li><a href="/article/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">用户管理</a>
-                        <ul class="submenu">
-                            <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>
-                            <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="javascript:void(0);">在线交流与反馈</a>
-                        <ul class="submenu">
-                            <li><a href="/feedback/submenu1">子菜单项1</a></li>
-                            <li><a href="/feedback/submenu2">子菜单项2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="logout">
-                    <a href="/user/logout">退出登录</a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <!-- 普通用户的菜单项，若有的话 -->
-                <a href="user/ManagementLogin">管理员登录</a>
-            </c:otherwise>
-        </c:choose>
-    </div>
-
     <div class="content">
+<%--        <div class="sidebar">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
+<%--                    <ul>--%>
+<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
+<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
+<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
+<%--                            <ul class="submenu">--%>
+<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
+<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
+<%--                            </ul>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
+<%--                    <div class="logout">--%>
+<%--                        <a href="/user/logout">退出登录</a>--%>
+<%--                    </div>--%>
+<%--                </c:when>--%>
+<%--                <c:otherwise>--%>
+<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
+<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
+<%--                </c:otherwise>--%>
+<%--            </c:choose>--%>
+<%--        </div>--%>
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
+
         <div class="main">
             <div class="section">
                 <h1>团队基本信息维护</h1>

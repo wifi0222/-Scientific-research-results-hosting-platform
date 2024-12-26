@@ -149,6 +149,48 @@ public class SuperController {
         return "redirect:/SuperController/UserManagement";
     }
 
+    //批量删除团队管理员
+    @RequestMapping("/TeamAdminManage/deleteBatch")
+    @ResponseBody
+    public Map<String, Object> deleteBatch(@RequestBody Map<String, List<Integer>> requestData, HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        } else if (!"SuperAdmin".equals(currentUser.getRoleType())) {
+            response.put("success", false);
+            response.put("message", "权限不足");
+            return response;
+        }
+
+        List<Integer> userIds = requestData.get("userIds");
+        System.out.println("Received User IDs: " + userIds); // 打印接收到的用户ID列表
+        if (userIds == null || userIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的管理员");
+            return response;
+        }
+
+        // 执行批量删除操作
+        try {
+            for (Integer userId : userIds) {
+                userService.deleteTeamAdmin(userId); // 执行删除
+            }
+            response.put("success", true);
+            response.put("message", "删除成功");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "删除失败：" + e.getMessage());
+        }
+
+        return response;
+    }
+
+
     //跳转到权限管理的界面：
     @RequestMapping("TeamAdministratorManagement")
     public String TeamAdministratorManagement(Model model, @RequestParam(required = false) String message, HttpSession session) {
@@ -185,10 +227,10 @@ public class SuperController {
     public String editAdministrator( RedirectAttributes redirectAttributes,
 //                                     @RequestParam("set") int set,
                                     @RequestParam(required = false) boolean userPermission,
-                                    @RequestParam(required = false) boolean publishPermission,
-                                    @RequestParam(required = false) boolean deletePermission,
-                                    @RequestParam(required = false) boolean editPermission,
-                                    @RequestParam(required = false) boolean setStatusPermission,
+                                    @RequestParam(required = false) boolean publishAchievement,
+                                    @RequestParam(required = false) boolean deleteAchievement,
+                                    @RequestParam(required = false) boolean editAchievement,
+                                    @RequestParam(required = false) boolean setAchievementStatus,
                                     @RequestParam(required = false) boolean publishArticle,
                                     @RequestParam(required = false) boolean deleteArticle,
                                     @RequestParam(required = false) boolean editArticle,
@@ -214,12 +256,141 @@ public class SuperController {
 //            administratorService.setAllPermission(publishPermission, userPermission, deletePermission, adminID);
 //        }
         administratorService.setAllPermission(
-                userPermission,publishPermission,deletePermission,editPermission,setStatusPermission,
+                userPermission,publishAchievement,deleteAchievement,editAchievement,setAchievementStatus,
                 publishArticle,deleteArticle,editArticle,setArticleStatus,adminID
         );
 
         redirectAttributes.addAttribute("message", "成功修改权限");
         return "redirect:/SuperController/TeamAdministratorManagement";
+    }
+
+    //批量设置用户管理权限
+    @RequestMapping("/TeamAdministrator/setUserAdministrator")
+    @ResponseBody
+    public Map<String, Object> UserAdministratorBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                                      HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        } else if (!"SuperAdmin".equals(currentUser.getRoleType())) {
+            response.put("success", false);
+            response.put("message", "权限不足");
+            return response;
+        }
+
+        List<Integer> adminIds = requestData.get("adminIds");
+        System.out.println("Received Admin IDs: " + adminIds); // 打印接收到的用户ID列表
+        if (adminIds == null || adminIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的管理员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer adminId : adminIds) {
+                administratorService.setUserManageAdministrator(adminId);
+            }
+            response.put("success", true);
+            response.put("message", "设置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "设置失败：" + e.getMessage());
+        }
+        return response;
+    }
+
+    //批量设置科研成果权限
+    @RequestMapping("/TeamAdministrator/setResearchAdministrator")
+    @ResponseBody
+    public Map<String, Object> ResearchAdministratorBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                                      HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        } else if (!"SuperAdmin".equals(currentUser.getRoleType())) {
+            response.put("success", false);
+            response.put("message", "权限不足");
+            return response;
+        }
+
+        List<Integer> adminIds = requestData.get("adminIds");
+        System.out.println("Received Admin IDs: " + adminIds); // 打印接收到的用户ID列表
+        if (adminIds == null || adminIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的管理员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer adminId : adminIds) {
+                administratorService.setResearchAdministrator(adminId);
+            }
+            response.put("success", true);
+            response.put("message", "设置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "设置失败：" + e.getMessage());
+        }
+        return response;
+    }
+
+    //批量设置文章权限
+    @RequestMapping("/TeamAdministrator/setArticleAdministrator")
+    @ResponseBody
+    public Map<String, Object> ArticleAdministratorBatch(@RequestBody Map<String, List<Integer>> requestData,
+                                                      HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        } else if (!"SuperAdmin".equals(currentUser.getRoleType())) {
+            response.put("success", false);
+            response.put("message", "权限不足");
+            return response;
+        }
+
+        List<Integer> adminIds = requestData.get("adminIds");
+        System.out.println("Received Admin IDs: " + adminIds); // 打印接收到的用户ID列表
+        if (adminIds == null || adminIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的管理员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer adminId : adminIds) {
+                administratorService.setArticleAdministrator(adminId);
+            }
+            response.put("success", true);
+            response.put("message", "设置成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "设置失败：" + e.getMessage());
+        }
+        return response;
     }
 
 
