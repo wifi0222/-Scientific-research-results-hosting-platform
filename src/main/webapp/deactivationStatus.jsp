@@ -14,16 +14,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注销状态</title>
     <link rel="stylesheet" href="/css/change-password.css">
+    <script src="/js/browse.js" defer></script>
 </head>
 <body>
 <div class="container">
     <!-- Header -->
     <header class="header">
-        <div class="title">
-                  <a href="/browse">
-        <h1>信息浏览</h1>
-      </a>
-        </div>
+        <!-- 添加收起/展开按钮 -->
+        <c:choose>
+            <c:when test="${empty user}">
+            </c:when>
+            <c:otherwise>
+                <button class="sidebar-toggle">☰</button>
+            </c:otherwise>
+        </c:choose>
+        <div class="title"><a href="/browse">
+  <h1>信息浏览</h1>
+</a>        </div>
         <c:choose>
             <c:when test="${empty user}">
                 <div class="login-btn">

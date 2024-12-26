@@ -11,4 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     setInterval(showNextImage, 3000); // 每3秒切换
+
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+
+    // 定义 toggleSidebar 函数
+    function toggleSidebar() {
+        sidebar.classList.toggle('collapsed'); // 切换 collapsed 类控制显示和隐藏
+    }
+
+    // 绑定点击事件
+    sidebarToggle.addEventListener('click', toggleSidebar);
 });
