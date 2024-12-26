@@ -181,8 +181,16 @@
 <div class="container">
   <!-- Header -->
   <header class="header">
+    <!-- 添加收起/展开按钮 -->
+    <c:choose>
+      <c:when test="${empty user}">
+      </c:when>
+      <c:otherwise>
+        <button class="sidebar-toggle">☰</button>
+      </c:otherwise>
+    </c:choose>
     <div class="title">
-        <h1>信息浏览</h1>
+      <h1>信息浏览</h1>
     </div>
     <c:choose>
       <c:when test="${empty user}">
@@ -225,7 +233,7 @@
           </c:when>
         </c:choose>
       </div>
-  </c:if>
+    </c:if>
 
     <!-- Main Content -->
     <div class="main">
