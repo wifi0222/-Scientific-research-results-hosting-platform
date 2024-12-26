@@ -346,30 +346,16 @@
 <script src="../js/achievement-management.js"></script>
 
 <script>
-    // 获取所有的a标签
-    const menuLinks = document.querySelectorAll('ul > li > a');
+    // 获取当前页面的查询字符串
+    var urlParams = new URLSearchParams(window.location.search);
 
-    menuLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-            // 如果是子菜单的链接，不阻止跳转
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('submenu')) {
-                // 这是父菜单，阻止跳转
-                event.preventDefault(); // 阻止父菜单的默认跳转行为
-                // 切换当前a标签的class
-                this.classList.toggle('active');
+    // 获取查询参数 'type' 的值
+    var typeValue = urlParams.get("type");
 
-                // 获取当前点击项的下一个子菜单
-                const submenu = this.nextElementSibling;
-
-                if (submenu && submenu.classList.contains('submenu')) {
-                    // 切换子菜单的显示状态
-                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                }
-            }
-            // 对于子菜单项，允许跳转，不做任何处理
-        });
-    });
+    // 在控制台输出 'type' 参数的值
+    console.log(typeValue);  // 例如，如果 URL 是 ?type=0，输出 0
 </script>
+
 
 </body>
 </html>
