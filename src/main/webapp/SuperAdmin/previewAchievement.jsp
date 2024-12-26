@@ -7,7 +7,8 @@
 <html>
 <head>
     <title>预览科研成果</title>
-    <link rel="stylesheet" type="text/css" href="../css/editAchievement.css">
+    <link rel="stylesheet" type="text/css" href="/css/editAchievement.css">
+    <link rel="stylesheet" type="text/css" href="/css/zwb_sidebar.css">
 
     <!-- 引入Quill编辑器所需的CSS和JS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
@@ -21,55 +22,67 @@
     </style>
 </head>
 <body>
-<h1>预览科研成果</h1>
-<!-- 只读模式，不需要提交表单，所以可以去掉 form -->
-<div>
-    <label>成果标题：</label><br>
-    <!-- 标题只读 -->
-    <input type="text" name="title" value="${achievement.title}" readonly="readonly"/><br><br>
 
-    <label>成果类别：</label><br>
-    <!-- 类别禁用 -->
-    <select name="category" disabled="disabled">
-        <option value="专著" ${achievement.category == '专著' ? 'selected' : ''}>专著</option>
-        <option value="专利" ${achievement.category == '专利' ? 'selected' : ''}>专利</option>
-        <option value="软著" ${achievement.category == '软著' ? 'selected' : ''}>软著</option>
-        <option value="产品" ${achievement.category == '产品' ? 'selected' : ''}>产品</option>
-    </select><br><br>
+<div class="container">
+    <!-- Content -->
+    <div class="content">
+        <!-- Sidebar -->
+        <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
-    <label>摘要：</label><br>
-    <!-- 文本框只读 -->
-    <textarea name="abstractContent" rows="3" readonly="readonly">
-        ${achievement.abstractContent}
-    </textarea><br><br>
+        <div class="main">
+            <h1>预览科研成果</h1>
+            <!-- 只读模式，不需要提交表单，所以可以去掉 form -->
+            <div>
+                <label>成果标题：</label><br>
+                <!-- 标题只读 -->
+                <input type="text" name="title" value="${achievement.title}" readonly="readonly"/><br><br>
 
-    <label>内容：</label><br>
-    <!-- Quill编辑器容器，只读模式 -->
-    <div id="editor-container" style="height: 300px;">
-        ${achievement.contents}
+                <label>成果类别：</label><br>
+                <!-- 类别禁用 -->
+                <select name="category" disabled="disabled">
+                    <option value="专著" ${achievement.category == '专著' ? 'selected' : ''}>专著</option>
+                    <option value="专利" ${achievement.category == '专利' ? 'selected' : ''}>专利</option>
+                    <option value="软著" ${achievement.category == '软著' ? 'selected' : ''}>软著</option>
+                    <option value="产品" ${achievement.category == '产品' ? 'selected' : ''}>产品</option>
+                </select><br><br>
+
+                <label>摘要：</label><br>
+                <!-- 文本框只读 -->
+                <textarea name="abstractContent" rows="3" readonly="readonly">
+                    ${achievement.abstractContent}
+                </textarea><br><br>
+
+                <label>内容：</label><br>
+                <!-- Quill编辑器容器，只读模式 -->
+                <div id="editor-container" style="height: 300px;">
+                    ${achievement.contents}
+                </div>
+
+                <label>附件：</label><br>
+                <c:forEach var="file" items="${achievementFiles}">
+                    <c:if test="${file.type == 0}">
+                        <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
+                    </c:if>
+                </c:forEach>
+                <br>
+
+                <label>展示图片：</label><br>
+                <c:forEach var="file" items="${achievementFiles}">
+                    <c:if test="${file.type == 1}">
+                        <c:set var="encodedPath"
+                               value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" width="100"/>
+                    </c:if>
+                </c:forEach>
+                <br>
+
+                <label>发布日期：</label><br>
+                <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd HH:mm"/>
+            </div>
+        </div>
     </div>
-
-    <label>附件：</label><br>
-    <c:forEach var="file" items="${achievementFiles}">
-        <c:if test="${file.type == 0}">
-            <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-        </c:if>
-    </c:forEach>
-    <br>
-
-    <label>展示图片：</label><br>
-    <c:forEach var="file" items="${achievementFiles}">
-        <c:if test="${file.type == 1}">
-            <c:set var="encodedPath"
-                   value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-            <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" width="100"/>
-        </c:if>
-    </c:forEach>
-    <br>
-
-    <label>发布日期：</label><br>
-    <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd HH:mm"/>
 </div>
+
 
 <script>
     // 初始化 Quill 编辑器为只读模式

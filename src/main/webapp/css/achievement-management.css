@@ -285,33 +285,30 @@
     margin-right: 5px;
 }
 
-/* 示例：三种不同按钮颜色 */
-.btn-preview {
-    background-color: #ff9800; /* 橙色 */
-    color: #fff;
-}
+/* 示例：审核的三种不同按钮颜色 */
+/*.btn-preview {*/
+/*    background-color: #ff9800; !* 橙色 *!*/
+/*}*/
 
-.btn-preview:hover {
-    background-color: #e68a00;
-}
+/*.btn-preview:hover {*/
+/*    background-color: #e68a00;*/
+/*}*/
 
-.btn-pass {
-    background-color: #4caf50; /* 绿色 */
-    color: #fff;
-}
+/*.btn-pass {*/
+/*    background-color: #4caf50; !* 绿色 *!*/
+/*}*/
 
-.btn-pass:hover {
-    background-color: #3e8e41;
-}
+/*.btn-pass:hover {*/
+/*    background-color: #3e8e41;*/
+/*}*/
 
-.btn-reject {
-    background-color: #f44336; /* 红色 */
-    color: #fff;
-}
+/*.btn-reject {*/
+/*    background-color: #f44336; !* 红色 *!*/
+/*}*/
 
-.btn-reject:hover {
-    background-color: #e53935;
-}
+/*.btn-reject:hover {*/
+/*    background-color: #e53935;*/
+/*}*/
 
 /* ==============================
    其他按钮（编辑 / 删除 / 公开隐藏） (若还需要区分)
