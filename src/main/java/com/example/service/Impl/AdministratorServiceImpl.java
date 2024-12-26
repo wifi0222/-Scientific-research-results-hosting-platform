@@ -18,9 +18,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public List<TeamAdministrator> findAllAdministrators() {
-        List<TeamAdministrator> list = administratorMapper.findAllAdministrators();
+        List<TeamAdministrator> list=administratorMapper.findAllAdministrators();
         //设置list里面的姓名和用户名
-        if (list.size() > 0) {
+        if(list.size()>0) {
             for (TeamAdministrator teamAdministrator : list) {
                 teamAdministrator.setAdminName(userMapper.findNameByUserID(teamAdministrator.getAdminID()));
                 teamAdministrator.setAdminUsername(userMapper.findUsernameByUserID(teamAdministrator.getAdminID()));
@@ -31,8 +31,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public TeamAdministrator findAdministratorById(int id) {
-        TeamAdministrator administrator = administratorMapper.findAdministratorById(id);
-        if (administrator != null) {
+        TeamAdministrator administrator=administratorMapper.findAdministratorById(id);
+        if(administrator!=null) {
             administrator.setAdminName(userMapper.findNameByUserID(administrator.getAdminID()));
             administrator.setAdminUsername(administrator.getAdminUsername());
         }
@@ -62,5 +62,20 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     public boolean getUserManageAdministrator(int adminID) {
         return administratorMapper.getUserManageAdministrator(adminID);
+    }
+
+    @Override
+    public int setUserManageAdministrator(int adminID) {
+        return administratorMapper.setUserManageAdministrator(adminID);
+    }
+
+    @Override
+    public int setResearchAdministrator(int adminID) {
+        return administratorMapper.setResearchAdministrator(adminID);
+    }
+
+    @Override
+    public int setArticleAdministrator(int adminID) {
+        return administratorMapper.setArticleAdministrator(adminID);
     }
 }

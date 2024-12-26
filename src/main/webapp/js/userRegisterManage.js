@@ -100,7 +100,7 @@ batchPassButton.addEventListener('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert("请先勾选要通过的成果！");
+        alert("请勾选要通过的用户！");
         return;
     }
 
@@ -108,39 +108,65 @@ batchPassButton.addEventListener('click', function () {
     // 下面只演示简单的调用已有的 passAchievementReview(id) 函数逐个处理
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
 
-        //弹出确认框
-        var modal = document.getElementById("approveModal");
-        var modalContent = document.querySelector("#approveModal .modal-content");
-        modal.style.display = "block";
+    //弹出是否确定
+    var modal = document.getElementById("batchModal");
+    var modalContent = document.querySelector("#batchModal .modal-content");
+    modal.style.display = "block";
 
-        // 添加显示动画
+    // 添加显示动画
+    setTimeout(function() {
+        modalContent.classList.add("show");
+    }, 10);
+
+    // 关闭按钮事件
+    var closeBtn = document.getElementsByClassName("close-batch")[0];
+    closeBtn.onclick = function() {
+        var modal = document.getElementById("batchModal");
+        var modalContent = document.querySelector("#batchModal .modal-content");
+        // 隐藏模态框的动画效果
+        modalContent.classList.remove("show");
+
+        // 延时隐藏整个模态框，确保动画完成
         setTimeout(function() {
-            modalContent.classList.add("show");
-        }, 10);
+            modal.style.display = "none";
+        }, 300);
+    };
 
-        // 关闭按钮事件
-        var closeBtn = document.getElementsByClassName("close-approve")[0];
-        closeBtn.onclick = function() {
-            var modal = document.getElementById("approveModal");
-            var modalContent = document.querySelector("#approveModal .modal-content");
-
-            // 隐藏模态框的动画效果
-            modalContent.classList.remove("show");
-
-            // 延时隐藏整个模态框，确保动画完成
-            setTimeout(function() {
-                modal.style.display = "none";
-            }, 300);
-        };
-
-        // 确定按钮事件
-        var approveButton = document.getElementById("approveButton");
-        approveButton.onclick = function() {
-            // 通过审核，跳转并传递审核结果
-            selectedIds.forEach(function (username) {
-                window.location.href = "/teamAdmin/RegisterReview?username=" + username + "&status=1";
+    // 确定按钮事件
+    var batchButton = document.getElementById("batchButton");
+    batchButton.onclick = function() {
+        // 通过审核，跳转并传递审核结果
+        // 批量操作
+        fetch('/teamAdmin/BatchRegisterReview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userNames: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理结果
+                if (data.success) {
+                    alert("审核成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("审核失败！");
+                }
+            })
+            .catch(error => {
+                alert(error);
             });
-        };
+
+        // 关闭模态框
+        var modal = document.getElementById("batchModal");
+        var modalContent = document.querySelector("#batchModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
+    };
 });
 
 

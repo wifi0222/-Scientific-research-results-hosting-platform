@@ -79,8 +79,8 @@ batchPassButton.addEventListener('click', function () {
     // 如果你需要一次性将所有 ID 传给后台做批量更新，也可以改成一个新的函数来一次性提交
 
     //弹出是否确定
-    var modal = document.getElementById("approveModal");
-    var modalContent = document.querySelector("#approveModal .modal-content");
+    var modal = document.getElementById("batchModal");
+    var modalContent = document.querySelector("#batchModal .modal-content");
     modal.style.display = "block";
 
     // 添加显示动画
@@ -89,18 +89,53 @@ batchPassButton.addEventListener('click', function () {
     }, 10);
 
     // 关闭按钮事件
-    var closeBtn = document.getElementsByClassName("close-approve")[0];
+    var closeBtn = document.getElementsByClassName("close-batch")[0];
     closeBtn.onclick = function() {
-        closeApproveModal();
+        var modal = document.getElementById("batchModal");
+        var modalContent = document.querySelector("#batchModal .modal-content");
+        // 隐藏模态框的动画效果
+        modalContent.classList.remove("show");
+
+        // 延时隐藏整个模态框，确保动画完成
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
     };
 
     // 确定按钮事件
-    var approveButton = document.getElementById("approveButton");
+    var approveButton = document.getElementById("batchButton");
     approveButton.onclick = function() {
         // 通过审核，跳转并传递审核结果
-        selectedIds.forEach(function (id) {
-            window.location.href = "/teamAdmin/TeamManage/Member/review?memberID=" + id + "&status=1";
-        });
+        // 批量操作
+        fetch('/teamAdmin/TeamManage/Member/BatchReview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ memberIds: selectedIds })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 处理结果
+                if (data.success) {
+                    alert("审核成功！");
+                    location.reload(); // 刷新页面
+                } else {
+                    alert("审核失败！");
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+
+        // 关闭模态框
+        var modal = document.getElementById("batchModal");
+        var modalContent = document.querySelector("#batchModal .modal-content");
+        modalContent.classList.remove("show");
+
+        setTimeout(function() {
+            modal.style.display = "none";
+        }, 300);
     };
 });
 
