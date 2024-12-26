@@ -1,0 +1,150 @@
+h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 20px;
+}
+
+/* 返回主页按钮样式 */
+.return-home-btn {
+    position: fixed; /* 固定位置 */
+    top: 50px; /* 距离页面顶部的距离 */
+    left: 360px; /* 距离页面左侧的距离 */
+    background-color: #4e73df; /* 按钮背景色 */
+    color: #ffffff; /* 按钮文字颜色 */
+    font-size: 16px; /* 增加文字大小 */
+    padding: 10px 15px; /* 增加按钮内边距，扩大整体按钮尺寸 */
+    border: none; /* 无边框 */
+    border-radius: 5px; /* 圆角 */
+    cursor: pointer; /* 鼠标悬停显示手势 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 按钮阴影 */
+    transition: background-color 0.3s, box-shadow 0.3s; /* 动画效果 */
+    z-index: 1000; /* 保证按钮显示在最前面 */
+}
+
+.return-home-btn:hover {
+    background-color: #2e59d9; /* 鼠标悬停时的颜色 */
+    box-shadow: 0 8px 16px rgba(46, 89, 217, 0.2); /* 鼠标悬停时的阴影 */
+}
+
+.return-home-btn:active {
+    background-color: #1a4bb8; /* 按下时的颜色 */
+    box-shadow: 0 2px 4px rgba(26, 75, 184, 0.2); /* 按下时的阴影 */
+}
+
+/* 主区域样式调整 */
+.main {
+    padding-top: 60px; /* 确保返回主页按钮和标题之间有间距 */
+}
+
+/* 轮播图样式 */
+.carousel {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    height: 30vh;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.carousel-images {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.carousel-img.active {
+    opacity: 1;
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.carousel-controls button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.carousel-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 内容部分样式 */
+.content-wrapper {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1000px;
+}
+
+.content-wrapper p {
+    margin-bottom: 15px;
+}
+
+.abstract, .contents {
+    text-indent: 2em;
+}
+
+.abstract-label, .contents-label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.category-time {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.file-list {
+    margin-top: 20px;
+}
+
+.file-list a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.1em;
+}
+
+.file-list a:hover {
+    text-decoration: underline;
+}
+
+/* 标题样式 */
+.title {
+    color: #4e73df;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 去掉小圆点和下划线 */
+ul, li {
+    list-style-type: none;
+}
+
+.file-list a {
+    text-decoration: none;
+}

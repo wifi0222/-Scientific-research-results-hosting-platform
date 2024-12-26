@@ -1,4 +1,3 @@
-<%-- previewArticle.jsp --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -6,8 +5,8 @@
 
 <html>
 <head>
-    <title>预览科研成果</title>
-    <link rel="stylesheet" type="text/css" href="/css/editAchievement.css">
+    <title>预览文章</title>
+    <link rel="stylesheet" type="text/css" href="/css/previewAchievement.css">
     <link rel="stylesheet" type="text/css" href="/css/zwb_sidebar.css">
 
     <!-- 引入Quill编辑器所需的CSS和JS -->
@@ -15,78 +14,85 @@
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
     <style>
-        /* 根据需要，你可以在这里对只读状态的元素做特殊样式处理 */
+        /* 只读状态样式 */
         input[readonly], textarea[readonly], select[disabled] {
             background-color: #f2f2f2; /* 灰底，表示不可编辑 */
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <!-- Content -->
-    <div class="content">
-        <!-- Sidebar -->
-        <jsp:include page="/SuperAdmin/sidebar.jsp"/>
+    <!-- Sidebar -->
+    <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
-        <div class="main">
-            <h1>预览科研成果</h1>
-            <!-- 只读模式，不需要提交表单，所以可以去掉 form -->
-            <div>
-                <label>成果标题：</label><br>
-                <!-- 标题只读 -->
-                <input type="text" name="title" value="${article.title}" readonly="readonly"/><br><br>
+    <!-- 主内容 -->
+    <div class="main">
+        <!-- 返回按钮 -->
+        <button type="button" class="return-home-btn"
+                onclick="location.href='${pageContext.request.contextPath}/SuperController/auditAchievements?type=1'">
+            返回
+        </button>
 
-                <label>成果类别：</label><br>
-                <!-- 类别禁用 -->
-                <select name="category" disabled="disabled">
-                    <option value="SCI" ${article.category == 'SCI' ? 'selected' : ''}>SCI</option>
-                    <option value="EI" ${article.category == 'EI' ? 'selected' : ''}>EI</option>
-                    <option value="核心" ${article.category == '核心' ? 'selected' : ''}>核心</option>
-                </select><br><br>
+        <!-- 文章标题 -->
+        <h2 class="title">${article.title}</h2>
 
-                <label>摘要：</label><br>
-                <!-- 文本框只读 -->
-                <textarea name="abstractContent" rows="3" readonly="readonly">
-                    ${article.abstractContent}
-                </textarea><br><br>
-
-                <label>内容：</label><br>
-                <!-- Quill编辑器容器，只读模式 -->
-                <div id="editor-container" style="height: 300px;">
-                    ${article.contents}
+        <!-- 轮播图 -->
+        <c:if test="${fn:length(articleFiles) > 0}">
+            <div class="carousel">
+                <div class="carousel-images">
+                    <c:forEach var="imageFile" items="${articleFiles}">
+                        <c:if test="${imageFile.type == 1}">
+                            <c:set var="encodedPath"
+                                   value="${fn:replace(fn:replace(imageFile.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                            <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                 class="carousel-img">
+                        </c:if>
+                    </c:forEach>
                 </div>
+                <div class="carousel-controls">
+                    <button onclick="moveCarousel(-1)">&#10094;</button>
+                    <button onclick="moveCarousel(1)">&#10095;</button>
+                </div>
+            </div>
+        </c:if>
 
-                <label>附件：</label><br>
-                <c:forEach var="file" items="${articleFiles}">
-                    <c:if test="${file.type == 0}">
-                        <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                    </c:if>
-                </c:forEach>
-                <br>
+        <div class="content-wrapper">
+            <!-- 类别和时间 -->
+            <div class="category-time">
+                <p>类别: ${article.category}</p>
+                <p>时间: <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd HH:mm"/></p>
+            </div>
 
-                <label>展示图片：</label><br>
-                <c:forEach var="file" items="${articleFiles}">
-                    <c:if test="${file.type == 1}">
-                        <c:set var="encodedPath"
-                               value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" width="100"/>
-                    </c:if>
-                </c:forEach>
-                <br>
+            <!-- 摘要 -->
+            <p class="abstract-label">摘要:</p>
+            <p class="abstract">${article.abstractContent}</p>
 
-                <label>发布日期：</label><br>
-                <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd HH:mm"/>
+            <!-- 内容 -->
+            <p class="contents-label">内容:</p>
+            <p class="contents">${article.contents}</p>
+
+            <!-- 文件列表 -->
+            <div class="file-list">
+                <ul>
+                    <c:forEach var="file" items="${articleFiles}">
+                        <c:if test="${file.type == 0}">
+                            <li>
+                                <a href="/${file.filePath}" target="_blank" class="download-btn">${file.fileName}</a>
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
     // 初始化 Quill 编辑器为只读模式
     var quill = new Quill('#editor-container', {
         theme: 'snow',
-        readOnly: true, // 关键：只读
+        readOnly: true, // 只读模式
         modules: {
             toolbar: false // 隐藏工具栏
         }
@@ -95,9 +101,6 @@
     // 设置编辑器内容
     quill.root.innerHTML = `${article.contents}`;
 </script>
-
-<!-- 返回按钮（只读预览页面不做任何提交） -->
-<button type="button" onclick="window.history.back()">返回</button>
 
 </body>
 </html>

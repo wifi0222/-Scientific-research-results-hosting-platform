@@ -15,11 +15,11 @@
         </li>
         <li>
             <a href="/teamAdmin/TeamManage/Member"
-               class="<%= currentPage.contains("/teamAdmin/TeamManage/Member") ? "active" : "" %>">管理团队成员信息</a >
+               class="<%= currentPage.contains("/teamAdmin/TeamManage/Member") ? "active" : "" %>">管理团队成员信息</a>
         </li>
         <li>
             <a href="/teamAdmin/ToMemberInfoReview"
-               class="<%= currentPage.contains("/teamAdmin/TeamManage/ToMemberInfoReview") ? "active" : "" %>">团队成员信息审核</a >
+               class="<%= currentPage.contains("/teamAdmin/TeamManage/ToMemberInfoReview") ? "active" : "" %>">团队成员信息审核</a>
         </li>
         <li>
             <a href="/teamAdmin/achievements?type=0" id="researchAchievements"

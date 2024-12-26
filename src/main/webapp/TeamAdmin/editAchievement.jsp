@@ -30,6 +30,12 @@
         <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
         <div class="main">
+            <!-- 返回主页按钮 -->
+            <button type="button" class="return-home-btn"
+                    onclick="location.href='${pageContext.request.contextPath}/SuperController/auditAchievements?type=0'">
+                返回主页
+            </button>
+
             <h1>修改科研成果</h1>
             <form action="/teamAdmin/achievements/edit/update?type=0" method="post" id="quillForm"
                   enctype="multipart/form-data">
@@ -63,58 +69,58 @@
                 <input type="hidden" name="contents" id="hiddenInput" required>
 
                 <label>当前附件：</label><br>
-                <c:forEach var="file" items="${achievementFiles}">
-                    <c:if test="${file.type == 0}">
-                        <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                        <!-- 删除附件按钮 -->
-                        <%--在 HTML 标准 中，不允许将一个 <form> 放在另一个 <form> 的内部--%>
-                        <%--            <form action="/teamAdmin/deleteFile" method="post" style="display:inline;">--%>
-                        <%--                <input type="hidden" name="fileID" value="${file.fileID}"/>--%>
-                        <%--                <input type="hidden" name="achievementID" value="${achievement.achievementID}"/>--%>
-                        <%--                <button type="submit" onclick="return confirm('确定要删除这个附件吗？');">删除</button>--%>
-                        <%--            </form>--%>
-                        <!-- 删除附件按钮（用JS创建并提交表单） -->
-                        <button type="button"
-                                onclick="deleteFile('${file.fileID}', '${achievement.achievementID}')">
-                            删除
-                        </button>
-                    </c:if>
-                </c:forEach>
-                <br>
+                <div class="attachment-section">
+                    <c:forEach var="file" items="${achievementFiles}">
+                        <c:if test="${file.type == 0}">
+                            <div class="file-list">
+                                <a href="/${file.filePath}" target="_blank">${file.fileName}</a>
+                                <button type="button" class="delete-btn"
+                                        onclick="deleteFile('${file.fileID}', '${achievement.achievementID}')">
+                                    删除
+                                </button>
+                            </div>
+                            <br>
+                        </c:if>
+                    </c:forEach>
+                </div>
 
                 <label>增加附件（可选）：</label><br>
-                <input type="file" name="attachmentFile"><br><br>
+                <div class="upload-section">
+                    <input type="file" name="attachmentFile">
+                </div>
 
                 <label>当前封面图片：</label><br>
-                <c:forEach var="file" items="${achievementFiles}">
-                    <c:if test="${file.type == 1}">
-                        <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
-                        <c:set var="encodedPath"
-                               value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
-                             width="100"/>
-                        <!-- 删除图片按钮 -->
-                        <button type="button"
-                                onclick="deleteFile('${file.fileID}', '${achievement.achievementID}')">
-                            删除
-                        </button>
-                    </c:if>
-                </c:forEach>
-                <br>
+                <div class="cover-section">
+                    <div class="image-list">
+                        <c:forEach var="file" items="${achievementFiles}">
+                            <c:if test="${file.type == 1}">
+                                <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
+                                <c:set var="encodedPath"
+                                       value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                <div class="image-container">
+                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                         class="cover-image"/>
+                                    <!-- 删除图片按钮 -->
+                                    <button type="button" class="delete-btn"
+                                            onclick="deleteFile('${file.fileID}', '${achievement.achievementID}')">
+                                        删除
+                                    </button>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
 
                 <label>增加封面图片（可选）：</label><br>
-                <input type="file" name="coverImage"><br><br>
+                <div class="upload-section">
+                    <input type="file" name="coverImage">
+                </div>
 
                 <%--选择上传的时间--%>
                 <label>发布日期：</label><br>
                 <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
 
                 <button type="submit">保存修改</button>
-                <!-- 返回主页按钮 -->
-                <button type="button"
-                        onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=0'">
-                    返回主页
-                </button>
             </form>
         </div>
     </div>
@@ -146,39 +152,6 @@
 
     // 设置编辑器内容
     quill.root.innerHTML = '${achievement.contents}';
-
-    // 可选：自定义图片上传逻辑，如不需要可删除imageHandler方法并在toolbar中移除'image'
-    function imageHandler() {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-
-        input.onchange = async () => {
-            const file = input.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                // 上传图片到服务器（请根据实际情况修改URL和逻辑）
-                const response = await fetch('/teamAdmin/uploadImage', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    // 在编辑器中插入图片
-                    const range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'image', result.imageUrl);
-                } else {
-                    console.error('Image upload failed');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        };
-    }
 
     // 表单提交前，将编辑器内容同步到隐藏字段
     document.getElementById('quillForm').onsubmit = function () {
