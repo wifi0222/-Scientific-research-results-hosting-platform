@@ -11,86 +11,28 @@
     <link rel="stylesheet" type="text/css" href="../css/achievement-management.css">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #0056b3;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            border: 1px solid #b3d7ff;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #b3d7ff;
-        }
-
-        th {
-            background-color: #0056b3;
-            color: #ffffff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #e6f2ff;
-        }
-
-        a {
-            color: #0056b3;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .status-pending {
-            color: #f39c12;
-            font-weight: bold;
-        }
-
-        .status-resolved {
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .status-closed {
-            color: #c0392b;
-            font-weight: bold;
-        }
-
+        /* 按钮样式 (搜索 / 重置) */
         button {
-            background-color: #0056b3; /* 设置背景颜色为蓝色 */
-            color: white;           /* 设置文本颜色为白色 */
-            cursor: pointer;        /* 鼠标悬停变为指针（可选） */
+            background-color: #4e73df;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, opacity 0.3s;
         }
 
         button:hover {
-            background-color: darkblue; /* 鼠标悬停时变成深蓝色（可选） */
+            background-color: #355db3;
         }
 
+        button#resetButton {
+            background-color: #6c757d;
+        }
 
-        @media (max-width: 600px) {
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 5px;
-            }
+        button#resetButton:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
@@ -121,7 +63,7 @@
             </div>
 
             <!-- 数据表格 -->
-            <table id="questionsTable">
+            <table id="questionsTable" class="achievement-table">
                 <thead>
                 <tr>
                     <th>用户ID</th>

@@ -13,8 +13,8 @@
 <head>
     <title>修改科研成果</title>
 
-    <link rel="stylesheet" type="text/css" href="../css/zwb_sidebar.css">
-    <link rel="stylesheet" type="text/css" href="../css/editAchievement.css">
+    <link rel="stylesheet" type="text/css" href="/css/zwb_sidebar.css">
+    <link rel="stylesheet" type="text/css" href="/css/editAchievement.css">
 
     <!-- 引入Quill编辑器所需的CSS和JS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
