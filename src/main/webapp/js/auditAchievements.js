@@ -130,7 +130,7 @@ function rejectAchievementReview(id) {
         }
 
         // 1. 将 ID 和拒绝理由 设置到隐藏表单中
-        document.getElementById('achievementId').value = id;
+        document.getElementById('achievementID').value = id;
         document.getElementById('refusalReasonField').value = reason;
 
         // 2. 提交表单
@@ -190,5 +190,7 @@ batchPassButton.addEventListener('click', function () {
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面，会自动刷新页面
 
 });
+
+
 
 

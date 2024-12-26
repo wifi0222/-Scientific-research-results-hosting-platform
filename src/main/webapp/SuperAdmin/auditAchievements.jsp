@@ -145,15 +145,16 @@
                 <!-- 隐藏表单：method="POST" -->
                 <form id="rejectForm" action="/SuperController/auditAchievements/reject?type=0" method="POST"
                       style="display: none;">
-                    <input type="hidden" name="id" id="achievementId"/>
+                    <input type="hidden" name="id" id="achievementID"/>
                     <input type="hidden" name="refusalReason" id="refusalReasonField"/>
                 </form>
 
                 <!-- 拒绝理由模态框 -->
                 <div id="rejectModal" class="modal">
-                    <div class="modal-content">
+                    <div class="modal-content" style="position: relative;">
                         <div class="modal-header">
-                            <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                            <span id="closeModal"
+                                  style="position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer;">&times;</span>
                             <h3>拒绝理由</h3>
                         </div>
                         <div class="modal-body">

@@ -65,8 +65,8 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类别</th>
-<%--                        <th>摘要</th>--%>
-<%--                        <th>内容</th>--%>
+                        <%--                        <th>摘要</th>--%>
+                        <%--                        <th>内容</th>--%>
                         <%--            <th>附件</th>--%>
                         <%--            <th>展示图片</th>--%>
                         <th>创建时间</th>
@@ -92,8 +92,8 @@
                                 <td>${entry.key.articleID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-<%--                                <td>${entry.key.abstractContent}</td>--%>
-<%--                                <td>${entry.key.contents}</td>--%>
+                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
+                                    <%--                                <td>${entry.key.contents}</td>--%>
                                     <%--                    <td>--%>
                                     <%--                        <c:forEach var="file" items="${entry.value}">--%>
                                     <%--                            <c:if test="${file.type == 0}">--%>
@@ -143,15 +143,16 @@
                 <!-- 隐藏表单：method="POST" -->
                 <form id="rejectForm" action="/SuperController/auditAchievements/reject?type=1" method="POST"
                       style="display: none;">
-                    <input type="hidden" name="id" id="articleID"/>
+                    <input type="hidden" name="id" id="ArticleID"/>
                     <input type="hidden" name="refusalReason" id="refusalReasonField"/>
                 </form>
 
                 <!-- 拒绝理由模态框 -->
                 <div id="rejectModal" class="modal">
-                    <div class="modal-content">
+                    <div class="modal-content" style="position: relative;">
                         <div class="modal-header">
-                            <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                            <span id="closeModal"
+                                  style="position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer;">&times;</span>
                             <h3>拒绝理由</h3>
                         </div>
                         <div class="modal-body">

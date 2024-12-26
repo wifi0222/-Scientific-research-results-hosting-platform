@@ -77,6 +77,7 @@
                             </button>
                         </div>
                     </c:if>
+                    <br>
                 </c:forEach>
             </div>
 

@@ -289,3 +289,27 @@ function getSelectedIds(checkboxes) {
     });
     return ids;
 }
+
+function showReasonModal(reason) {
+    const reasonModal = document.getElementById("reasonModal");
+    const closeReasonModalBtn = document.getElementById("closeReasonModal");
+    const reasonText = document.getElementById("reasonText");
+
+    // 将传入的拒绝理由赋值给模态框中的文本
+    reasonText.textContent = reason;
+
+    // 显示模态框
+    reasonModal.style.display = "block";
+
+    // 点击“关闭”按钮时，隐藏模态框
+    closeReasonModalBtn.onclick = function () {
+        reasonModal.style.display = "none";
+    };
+
+    // 点击模态框外部区域时，隐藏模态框
+    window.onclick = function (event) {
+        if (event.target === reasonModal) {
+            reasonModal.style.display = "none";
+        }
+    };
+}
