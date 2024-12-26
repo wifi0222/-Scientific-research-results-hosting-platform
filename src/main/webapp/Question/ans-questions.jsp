@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="../css/achievement-management.css">
 
     <style>
-        /* 按钮样式 (搜索 / 重置) */
         button {
             background-color: #4e73df;
             color: #ffffff;
@@ -44,10 +43,10 @@
         <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
         <div class="main">
-            <h2>反馈管理</h2>
+            <h1>反馈管理</h1>
 
             <!-- 筛选区域 -->
-            <div class="filter-container">
+            <div class="search-filter">
                 <label for="statusFilter">按状态筛选：</label>
                 <select id="statusFilter">
                     <option value="">所有状态</option>
@@ -62,38 +61,40 @@
                 <button onclick="applyFilters()">筛选</button>
             </div>
 
-            <!-- 数据表格 -->
-            <table id="questionsTable" class="achievement-table">
-                <thead>
-                <tr>
-                    <th>用户ID</th>
-                    <th>标题</th>
-                    <th>状态</th>
-                    <th>提问时间</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 动态生成的行 -->
-                <c:forEach var="question" items="${questions}">
+            <div class="section active">
+                <!-- 数据表格 -->
+                <table id="questionsTable" class="achievement-table">
+                    <thead>
                     <tr>
-                        <td>${question.userID}</td>
-                        <td>${question.title}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
-                                <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
-                                <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${question.askTime}</td>
-                        <td>
-                            <a href="/questions/ans-details/${question.questionID}">查看详情</a>
-                        </td>
+                        <th>用户ID</th>
+                        <th>标题</th>
+                        <th>状态</th>
+                        <th>提问时间</th>
+                        <th>操作</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <!-- 动态生成的行 -->
+                    <c:forEach var="question" items="${questions}">
+                        <tr>
+                            <td>${question.userID}</td>
+                            <td>${question.title}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
+                                    <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
+                                    <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${question.askTime}</td>
+                            <td>
+                                <a href="/questions/ans-details/${question.questionID}">查看详情</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
