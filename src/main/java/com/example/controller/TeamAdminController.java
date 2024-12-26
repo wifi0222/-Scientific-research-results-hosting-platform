@@ -101,7 +101,7 @@ public class TeamAdminController {
 
         teamService.updateTeamInfo(team);
         model.addAttribute("message", "修改团队信息成功");
-        return "index";
+        return "redirect:/teamAdmin/TeamManage/Info";
     }
 
     //跳转到团队成员管理
