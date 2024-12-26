@@ -20,107 +20,100 @@
 <%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">--%>
 <%--    <link rel="stylesheet" href="/css/newSidebar.css">--%>
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
+    <!-- 引入Quill编辑器所需的CSS和JS -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
     <style>
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
+        .main h1 {
+            color: #4e73df;
             margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
             text-align: center;
-        }
-        .section1{
-            width: 600px;
-            text-align: center;
-            background-color: red;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .main{
-            width: 100%;
         }
 
         /* 表单样式 */
-        form {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 20px;
+        .main form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        form div {
-            display: flex;
-            flex-direction: column;
+        .main label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333333;
         }
 
-        form label {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        form input[type="text"],
-        form input[type="date"] {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .main input[type="text"],
+        .main input[type="date"] {
             width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
             box-sizing: border-box;
+            font-size: 16px;
         }
 
-        form input[type="text"]:focus,
-        form input[type="date"]:focus {
+        .main input[type="text"]:focus,
+        .main input[type="date"]:focus {
             border-color: #4e73df;
             outline: none;
         }
 
-        form .readonly {
-            background-color: #e9ecef;
-            color: #495057;
-        }
-
         /* 提交按钮样式 */
-        form input[type="submit"] {
-            background-color: #4e73df;
-            color: white;
-            font-size: 16px;
-            padding: 12px 20px;
+        .InButton {
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
+            background-color: #4e73df;
+            color: #ffffff;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
-        form input[type="submit"]:hover {
-            background-color: #0056b3;
+        .InButton:hover {
+            background-color: #2e59d9;
+            box-shadow: 0 4px 8px rgba(46, 89, 217, 0.2);
         }
 
-        /* 使表单更加响应式 */
+        .InButton[type="button"] {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+
+        .InButton[type="button"]:hover {
+            background-color: #5a6268;
+            box-shadow: 0 4px 8px rgba(106, 115, 122, 0.2);
+        }
+
+        /* 屏幕较小时的响应式设计 */
         @media (max-width: 768px) {
             .content {
                 padding: 15px;
             }
 
-            /*.section1 {*/
-            /*    width: 100%;*/
-            /*}*/
-
-            form {
+            .main form {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
 
-            form label {
+            .main label {
                 font-size: 14px;
             }
 
-            form input[type="submit"] {
+            .main input[type="submit"] {
                 font-size: 14px;
                 padding: 10px 18px;
             }
         }
-
     </style>
 </head>
 <body>
@@ -196,9 +189,12 @@
                         <input type="text" id="researchArea" name="researchArea" value="${team.researchArea}">
                     </div>
 
+
                     <div>
-                        <label for="introduction">团队简介：</label>
-                        <input type="text" id="introduction" name="introduction" value="${team.introduction}">
+                        <label>团队简介：</label><br>
+                        <!-- 隐藏字段，用于提交编辑器内容 -->
+                        <div id="introductionEditor" style="height: 300px;"></div>
+                        <input type="hidden" name="introduction" id="introduction" value="${team.introduction}"><br>
                     </div>
 
                     <div>
@@ -207,17 +203,13 @@
                     </div>
 
                     <div>
-                        <input type="submit" value="提交修改">
+                        <button type="submit" class="InButton">提交修改</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
 
 <script>
     // 获取所有的a标签
@@ -243,6 +235,43 @@
             // 对于子菜单项，允许跳转，不做任何处理
         });
     });
+</script>
+
+<script>
+    // 初始化 Quill 编辑器
+    var quill = new Quill('#introductionEditor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }], // 标题
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
+                [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
+                ['image'], // 插入图片
+                ['clean'] // 清除格式
+            ]
+        }
+    });
+
+    // 页面加载时，将现有的团队简介填入编辑器
+    window.onload = function () {
+        var initialContent = "${team.introduction}"; // 获取团队简介
+        quill.root.innerHTML = initialContent; // 将内容设置到编辑器中
+    };
+
+    // 表单提交前，将编辑器内容同步到隐藏字段
+    document.querySelector('form').onsubmit = function () {
+        var content = quill.root.innerHTML; // 获取编辑器内容
+        document.getElementById('researchAchievements').value = content;
+    };
+
+    function displayFileName() {
+        var fileInput = document.getElementById('avatarFile');
+        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
+        document.getElementById('fileName').textContent = fileName; // 显示文件名
+    }
 </script>
 
 </body>

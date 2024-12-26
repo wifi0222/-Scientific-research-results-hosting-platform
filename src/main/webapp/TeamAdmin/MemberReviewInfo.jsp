@@ -43,6 +43,14 @@
             background-color: darkgreen;
         }
 
+        .main h1 {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -269,11 +277,6 @@
         </div>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
-
 
 <!-- 模态框 -->
 <div id="myModal" class="modal">

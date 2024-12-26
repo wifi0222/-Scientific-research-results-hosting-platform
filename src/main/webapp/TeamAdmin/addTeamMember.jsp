@@ -102,6 +102,10 @@
 
         /* 使Toptitle居中 */
         .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
             text-align: center;
             flex-grow: 1;             /* 使标题占据可用空间 */
         }
@@ -244,10 +248,6 @@
         </div>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
 
     <script>
         // 获取邮箱输入框和提示信息元素

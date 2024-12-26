@@ -1,35 +1,107 @@
-/* 表格样式 */
+/* ======== 表格整体 & 列宽固定，并启用省略号 ======== */
 .styled-table {
-    border-collapse: collapse;
     width: 100%;
-    margin: 25px 0;
-    font-size: 16px;
-    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed; /* 关键：固定布局，结合每列 width 生效 */
+    margin-top: 10px;
+    font-size: 14px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
+/* 头部背景、字体颜色 */
 .styled-table thead tr {
-    background-color: #4e73df;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
+    background-color: #4e73df; /* 蓝色背景 */
+    color: #ffffff; /* 白色字体 */
+    font-weight: bold; /* 字体加粗 */
 }
 
+/* 统一设置表头和单元格的内边距和边框 */
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
-}
-
-.styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
+    /* 使文本不会换行，并能出现省略号 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 设置为居中显示 */
+    text-align: center;
 }
 
+/* 新增第1列：ID */
+.styled-table th:nth-child(1),
+.styled-table td:nth-child(1) {
+    width: 30px;  /* 选择框列 */
+    /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
+}
+
+/* 第2列：用户名 */
+.styled-table th:nth-child(2),
+.styled-table td:nth-child(2) {
+    width: 60px;
+    /*background-color: #2e59d9;*/
+}
+
+/* 第3列：姓名 */
+.styled-table th:nth-child(3),
+.styled-table td:nth-child(3) {
+    width: 60px;
+    /*background-color: #3e8e41;*/
+}
+
+/* 第4列：邮箱*/
+.styled-table th:nth-child(4),
+.styled-table td:nth-child(4) {
+    width: 100px;
+    /*background-color: #333333;*/
+}
+
+/* 第5列：注册时间 */
+.styled-table th:nth-child(5),
+.styled-table td:nth-child(5) {
+    width: 100px; /* 摘要列 */
+    /*background-color: #3e8e41;*/
+}
+
+
+
+/* 第6列：账号状态 */
+.styled-table th:nth-child(6),
+.styled-table td:nth-child(6) {
+    width: 70px; /* 内容列 */
+    /*background-color: #007bff;*/
+}
+
+/* 第7列：研究方向 */
+.styled-table th:nth-child(7),
+.styled-table td:nth-child(7) {
+    width: 120px; /* 创建时间列 */
+    /*background-color: #4a4a4a;*/
+}
+
+/* 第8列：联系方式 */
+.styled-table th:nth-child(8),
+.styled-table td:nth-child(8) {
+    width: 100px;  /* 审核状态列 */
+    /*background-color: #007bff;*/
+}
+
+/* 第8列：审核操作 */
+.styled-table th:nth-child(9),
+.styled-table td:nth-child(9) {
+    width: 100px;  /* 审核状态列 */
+    /*background-color: #007bff;*/
+}
+
+
+/* 隔行变色 */
 .styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
 
+/* 鼠标悬停高亮 */
 .styled-table tbody tr:hover {
     background-color: #eaf4fc;
 }
@@ -136,4 +208,19 @@
 
 .add-member  font{
     color: white;
+}
+
+.section {
+    margin: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.section h2 {
+    color: #4e73df;
+    margin-top: 0;
+}
+.section.active {
+    border: 2px solid #4e73df;
 }
