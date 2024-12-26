@@ -86,7 +86,7 @@
                 <input type="file" name="attachmentFile">
             </div>
 
-            <label>当前展示图片：</label><br>
+            <label>当前封面图片：</label><br>
             <div class="cover-section">
                 <div class="image-list">
                     <c:forEach var="file" items="${articleFiles}">
@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <label>增加展示图片（可选）：</label><br>
+            <label>增加封面图片（可选）：</label><br>
             <div class="upload-section">
                 <input type="file" name="coverImage">
             </div>
