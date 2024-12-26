@@ -452,6 +452,7 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
+        session.setMaxInactiveInterval(525600 * 60); // 525600 分钟 * 60 秒 = 一年
         session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
@@ -471,5 +472,11 @@ public class UserController {
         return "redirect:/browse";
     }
 
+    @GetMapping("/backstageLogout")
+    public String backstageLogout(HttpSession session) {
+        // 清除 Session 中的用户信息
+        session.invalidate();
+        return "ManagementLogin";
+    }
 
 }

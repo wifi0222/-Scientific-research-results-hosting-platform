@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
@@ -9,6 +9,22 @@
     <title>我的问题</title>
     <link rel="stylesheet" href="/css/change-password.css">
     <script src="/js/browse.js" defer></script>
+
+    <style>
+        .btn-view {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #4e73df;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-view:hover {
+            background-color: #3758c8;
+        }
+    </style>
 </head>
 <body>
 <div class="container">

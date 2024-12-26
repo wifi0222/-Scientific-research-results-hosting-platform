@@ -12,14 +12,17 @@
         <li><a href="/SuperController/UserManagement"
                class="<%= currentPage.contains("/SuperController/UserManagement") ? "active" : "" %>">用户管理</a></li>
         <li><a href="/SuperController/TeamAdministratorManagement"
-               class="<%= currentPage.contains("/SuperController/TeamAdministratorManagement") ? "active" : "" %>">权限管理</a></li>
+               class="<%= currentPage.contains("/SuperController/TeamAdministratorManagement") ? "active" : "" %>">权限管理</a>
+        </li>
         <li><a href="/SuperController/auditAchievements?type=0" id="researchAchievements"
-               class="<%= currentPage.equals("/auditAchievements") && "0".equals(request.getParameter("type")) ? "active" : "" %>">科研成果审核</a></li>
+               class="<%= currentPage.equals("/auditAchievements") && "0".equals(request.getParameter("type")) ? "active" : "" %>">科研成果审核</a>
+        </li>
         <li><a href="/SuperController/auditAchievements?type=1" id="articleAudit"
-               class="<%= currentPage.equals("/auditAchievements") && "1".equals(request.getParameter("type")) ? "active" : "" %>">文章审核</a></li>
+               class="<%= currentPage.equals("/auditAchievements") && "1".equals(request.getParameter("type")) ? "active" : "" %>">文章审核</a>
+        </li>
     </ul>
     <div class="logout">
-        <a href="/user/logout">退出登录</a>
+        <a href="/user//backstageLogout">退出登录</a>
     </div>
 </div>
 
