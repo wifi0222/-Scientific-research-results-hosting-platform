@@ -43,6 +43,21 @@
             background-color: darkgreen;
         }
 
+        .main h1 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+        }
+
+        .section-active {
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1.5px solid #4e73df;
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -197,7 +212,7 @@
 
 
         <div class="main">
-            <div class="section">
+<%--            <div class="section">--%>
                 <h1>团队成员信息审核</h1>
 
                 <!-- 搜索与筛选表单 -->
@@ -209,71 +224,66 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
 
-                <table  class="styled-table">
-                    <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="selectAllCheckbox"/>
-                            全选
-                        </th>
-                        <th>ID</th>
-                        <th>姓名</th>
-                        <th>研究方向</th>
-                        <th>联系方式</th>
-                        <th>学术背景</th>
-<%--                        <th>科研成果</th>--%>
-                        <th>审核操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="review" items="${memberReviews}">
-                        <tr class="one-row"
-                            data-name="${review.name}">
-                            <td>
-                                <input type="checkbox"
-                                       class="rowCheckbox"
-                                       name="selectedRows"
-                                       value="${review.memberID}">
-                            </td>
-
-                            <td>${review.memberID}</td>
-                            <td>${review.name}</td>
-                            <td>${review.researchField}</td>
-                            <td>${review.contactInfo}</td>
-                            <td>${review.academicBackground}</td>
-<%--                            <td>${review.researchAchievements}</td>--%>
-                            <td>
-                                <!-- 详情按钮 -->
-                                <button class="btn-preview" onclick="window.location.href='/teamAdmin/TeamManage/Member/ReviewDetail?memberID=${review.memberID}'">
-                                    <i class="fas fa-eye"></i><span>详情</span>
-                                </button>
-                                <button class="btn-pass" onclick="approveReview(${review.memberID})">
-                                    <i class="fas fa-check"></i><span>通过</span>
-                                </button>
-
-                                <button class="btn-reject" onclick="rejectReview(${review.memberID})">
-                                    <i class="fas fa-times"></i><span>拒绝</span>
-                                </button>
-                            </td>
+                <div class="section-active">
+                    <table  class="styled-table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAllCheckbox"/>
+                                全选
+                            </th>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>研究方向</th>
+                            <th>联系方式</th>
+                            <th>学术背景</th>
+    <%--                        <th>科研成果</th>--%>
+                            <th>审核操作</th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="review" items="${memberReviews}">
+                            <tr class="one-row"
+                                data-name="${review.name}">
+                                <td>
+                                    <input type="checkbox"
+                                           class="rowCheckbox"
+                                           name="selectedRows"
+                                           value="${review.memberID}">
+                                </td>
+
+                                <td>${review.memberID}</td>
+                                <td>${review.name}</td>
+                                <td>${review.researchField}</td>
+                                <td>${review.contactInfo}</td>
+                                <td>${review.academicBackground}</td>
+    <%--                            <td>${review.researchAchievements}</td>--%>
+                                <td>
+                                    <!-- 详情按钮 -->
+                                    <button class="btn-preview" onclick="window.location.href='/teamAdmin/TeamManage/Member/ReviewDetail?memberID=${review.memberID}'">
+                                        <i class="fas fa-eye"></i><span>详情</span>
+                                    </button>
+                                    <button class="btn-pass" onclick="approveReview(${review.memberID})">
+                                        <i class="fas fa-check"></i><span>通过</span>
+                                    </button>
+
+                                    <button class="btn-reject" onclick="rejectReview(${review.memberID})">
+                                        <i class="fas fa-times"></i><span>拒绝</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
 
 
-                <button type="button" id="batchPassButton" class="btn btn-pass">
-                    批量通过
-                </button>
-
+                    <button type="button" id="batchPassButton" class="btn btn-pass">
+                        批量通过
+                    </button>
             </div>
         </div>
     </div>
 </div>
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
-
 
 <!-- 模态框 -->
 <div id="myModal" class="modal">

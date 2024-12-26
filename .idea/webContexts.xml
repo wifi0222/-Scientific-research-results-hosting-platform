@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/TeamAdmin/achievement-management.jsp" value="file://$PROJECT_DIR$/src/main/webapp/TeamAdmin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/TeamAdmin/editAchievement.jsp" value="file://$PROJECT_DIR$/src/main/webapp/TeamAdmin" />
       </map>
     </option>
   </component>

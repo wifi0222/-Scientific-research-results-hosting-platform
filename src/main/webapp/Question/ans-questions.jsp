@@ -6,130 +6,98 @@
 <html>
 <head>
     <title>反馈管理</title>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" type="text/css" href="../css/zwb_sidebar.css">
+    <link rel="stylesheet" type="text/css" href="../css/achievement-management.css">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #0056b3;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            border: 1px solid #b3d7ff;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #b3d7ff;
-        }
-
-        th {
-            background-color: #0056b3;
+        button {
+            background-color: #4e73df;
             color: #ffffff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #e6f2ff;
-        }
-
-        a {
-            color: #0056b3;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .status-pending {
-            color: #f39c12;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.3s, opacity 0.3s;
         }
 
-        .status-resolved {
-            color: #27ae60;
-            font-weight: bold;
+        button:hover {
+            background-color: #355db3;
         }
 
-        .status-closed {
-            color: #c0392b;
-            font-weight: bold;
+        button#resetButton {
+            background-color: #6c757d;
         }
 
-        @media (max-width: 600px) {
-            table {
-                font-size: 12px;
-            }
-
-            th, td {
-                padding: 5px;
-            }
+        button#resetButton:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
-<h2>反馈管理</h2>
+<div class="container">
+    <!-- Content -->
+    <div class="content">
+        <!-- Sidebar -->
+        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
-<!-- 筛选区域 -->
-<div class="filter-container">
-    <label for="statusFilter">按状态筛选：</label>
-    <select id="statusFilter">
-        <option value="">所有状态</option>
-        <option value="0">待处理</option>
-        <option value="1">已处理</option>
-        <option value="-1">关闭</option>
-    </select>
+        <div class="main">
+            <h1>反馈管理</h1>
 
-    <label for="userIDSearch">按用户ID搜索：</label>
-    <input type="text" id="userIDSearch" placeholder="输入用户ID">
+            <!-- 筛选区域 -->
+            <div class="search-filter">
+                <label for="statusFilter">按状态筛选：</label>
+                <select id="statusFilter">
+                    <option value="">所有状态</option>
+                    <option value="0">待处理</option>
+                    <option value="1">已处理</option>
+                    <option value="-1">关闭</option>
+                </select>
 
-    <button onclick="applyFilters()">筛选</button>
+                <label for="userIDSearch">按用户ID搜索：</label>
+                <input type="text" id="userIDSearch" placeholder="输入用户ID">
+
+                <button onclick="applyFilters()">筛选</button>
+            </div>
+
+            <div class="section active">
+                <!-- 数据表格 -->
+                <table id="questionsTable" class="achievement-table">
+                    <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>标题</th>
+                        <th>状态</th>
+                        <th>提问时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 动态生成的行 -->
+                    <c:forEach var="question" items="${questions}">
+                        <tr>
+                            <td>${question.userID}</td>
+                            <td>${question.title}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
+                                    <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
+                                    <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${question.askTime}</td>
+                            <td>
+                                <a href="/questions/ans-details/${question.questionID}">查看详情</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!-- 数据表格 -->
-<table id="questionsTable">
-    <thead>
-    <tr>
-        <th>用户ID</th>
-        <th>标题</th>
-        <th>状态</th>
-        <th>提问时间</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 动态生成的行 -->
-    <c:forEach var="question" items="${questions}">
-        <tr>
-            <td>${question.userID}</td>
-            <td>${question.title}</td>
-            <td>
-                <c:choose>
-                    <c:when test="${question.status == 0}"><span class="status-pending">待处理</span></c:when>
-                    <c:when test="${question.status == 1}"><span class="status-resolved">已处理</span></c:when>
-                    <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
-                </c:choose>
-            </td>
-            <td>${question.askTime}</td>
-            <td>
-                <a href="/questions/ans-details/${question.questionID}">查看详情</a>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
 
 <script>
     function applyFilters() {

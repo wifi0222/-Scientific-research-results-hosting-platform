@@ -28,6 +28,10 @@
 
         /* 使Toptitle居中 */
         .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
             text-align: center;
             flex-grow: 1;             /* 使标题占据可用空间 */
         }
@@ -74,8 +78,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+
         .profile-avatar {
             margin-right: 20px;
+            width: 250px;
+            height: 300px;
         }
 
         .avatar-img {
