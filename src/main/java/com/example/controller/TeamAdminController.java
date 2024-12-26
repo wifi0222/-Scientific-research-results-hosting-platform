@@ -229,6 +229,7 @@ public class TeamAdminController {
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
+
         MemberReview memberReview = memberViewService.findByMemberID(memberID);
         model.addAttribute("member", memberReview);
         return "TeamAdmin/MemberReviewDetail";
@@ -309,6 +310,10 @@ public class TeamAdminController {
             return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
         } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            return "redirect:/NoAdministrator.jsp";
         }
 
         System.out.println("获得的信息" + username);

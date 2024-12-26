@@ -99,8 +99,8 @@
         .search-filter .first-row,
         .search-filter .second-row {
             display: flex;
-            gap: 20px;
-            width: 100%;
+            gap: 10px;
+            width: 88%;
         }
 
         .search-filter .first-row input,
@@ -148,8 +148,71 @@
             }
         }
 
+        .main h1 {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
 
     </style>
+    <style>
+        .form-group {
+            display: flex;
+            align-items: center; /* 使label和input/选框垂直居中 */
+        }
+
+        .form-group label {
+            margin-right: 5px; /* 给label和input/选择框之间添加间距 */
+            width: 80px; /* 固定label的宽度 */
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group button {
+            padding: 8px 12px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .form-group button {
+            cursor: pointer;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: auto;
+        }
+
+        .form-group button:hover {
+            background-color: #2e59d9;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                width: auto;
+                margin-bottom: 8px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group button {
+                width: 100%;
+            }
+
+            .first-row, .second-row {
+                justify-content: space-between;
+            }
+        }
+    </style>
+
     <script type="text/javascript">
         //确认注销
         function confirmLogout(userId) {
@@ -255,54 +318,7 @@
 </head>
 <body>
 <div class="container">
-    <!-- Sidebar -->
     <div class="content">
-<%--        <div class="sidebar">--%>
-<%--            <c:choose>--%>
-<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
-<%--                    <ul>--%>
-<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                    <div class="logout">--%>
-<%--                        <a href="/user/logout">退出登录</a>--%>
-<%--                    </div>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
-<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
-<%--        </div>--%>
         <!-- Sidebar -->
         <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
@@ -314,33 +330,42 @@
                     <!-- 搜索框 -->
                     <form action="/teamAdmin/UserManage/searchUsers" method="get" class="search-filter">
                         <div class="first-row">
-                            <label for="username">用户名：</label>
-                            <input type="text" id="username" name="username" placeholder="请输入用户名"/>
+                            <div class="form-group">
+                                <label for="username">用户名：</label>
+                                <input type="text" id="username" name="username" placeholder="请输入用户名"/>
+                            </div>
 
-                            <label for="roleType">用户角色：</label>
-                            <select name="roleType" id="roleType">
-                                <option value="">选择角色</option>
-                                <option value="TeamMember">团队成员</option>
-                                <option value="Visitor">普通用户</option>
-                            </select>
+                            <div class="form-group">
+                                <label for="roleType">用户角色：</label>
+                                <select name="roleType" id="roleType">
+                                    <option value="">选择角色</option>
+                                    <option value="TeamMember">团队成员</option>
+                                    <option value="Visitor">普通用户</option>
+                                </select>
+                            </div>
 
-                            <label for="status">账号状态：</label>
-                            <select name="status" id="status">
-                                <option value="">选择状态</option>
-                                <option value=1>正常</option>
-                                <option value=0>禁用</option>
-                            </select>
+                            <div class="form-group">
+                                <label for="status">账号状态：</label>
+                                <select name="status" id="status">
+                                    <option value="">选择状态</option>
+                                    <option value=1>正常</option>
+                                    <option value=0>禁用</option>
+                                </select>
+                            </div>
                         </div>
 
                         <br>
 
                         <div class="second-row">
-                            <label for="registrationTime">注册时间</label>
-                            <input type="date" id="registrationTime" name="registrationTime">
+                            <div class="form-group">
+                                <label for="registrationTime">注册时间：</label>
+                                <input type="date" id="registrationTime" name="registrationTime">
+                            </div>
 
-                            <label for="email">邮箱地址</label>
-                            <input type="text" id="email" name="email" placeholder="请输入邮箱地址">
-
+                            <div class="form-group">
+                                <label for="email">邮箱地址：</label>
+                                <input type="text" id="email" name="email" placeholder="请输入邮箱地址">
+                            </div>
                             <button type="submit">搜索</button>
                         </div>
                     </form>
@@ -489,12 +514,6 @@
         <button id="batch-reset-button" class="modal-button">确定</button>
     </div>
 </div>
-
-
-<footer>
-    ABCD组 &copy; 2024
-</footer>
-
 
 <script>
     // 获取所有的a标签

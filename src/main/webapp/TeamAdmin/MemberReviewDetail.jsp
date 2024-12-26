@@ -28,6 +28,10 @@
 
         /* 使Toptitle居中 */
         .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
             text-align: center;
             flex-grow: 1;             /* 使标题占据可用空间 */
         }
