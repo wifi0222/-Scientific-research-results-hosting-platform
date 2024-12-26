@@ -154,8 +154,11 @@ public class UserController {
         if (avatarFile != null && !avatarFile.isEmpty()) {
             // 定义头像保存路径
             String avatarFilePath = saveFile(avatarFile, "user_avatars\\", 1);
-            // 设置头像文件路径
+            // 设置新的头像文件路径
             newUser.setAvatarFile(avatarFilePath);
+        } else {
+            // 如果没有上传新头像，保持原头像路径不变
+            newUser.setAvatarFile(currentUser.getAvatarFile());
         }
 
         // 提交更新到数据库
@@ -168,6 +171,7 @@ public class UserController {
 
         return "profile"; // 返回个人信息页面
     }
+
 
     // 文件保存方法：保存文件到指定目录并返回文件路径
     private String saveFile(MultipartFile file, String uploadDir, int type) throws Exception {
