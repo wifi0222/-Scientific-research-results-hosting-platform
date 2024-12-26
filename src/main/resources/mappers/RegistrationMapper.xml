@@ -24,8 +24,21 @@
 
     <!-- 插入注册申请 -->
     <insert id="insertRegistrationRequest">
-        INSERT INTO RegistrationReview (username, password, roleType, email, applicationReason, registrationTime, registrationStatus)
-        VALUES (#{username}, #{password}, #{roleType}, #{email}, #{reason}, #{registrationTime}, #{registrationStatus});
+        MERGE INTO RegistrationReview AS target
+            USING (VALUES (#{username}, #{password}, #{roleType}, #{email}, #{reason}, #{registrationTime}, #{registrationStatus})) AS source (username, password, roleType, email, applicationReason, registrationTime, registrationStatus)
+            ON target.username = source.username
+            WHEN MATCHED THEN
+                UPDATE SET
+                    target.password = source.password,
+                    target.roleType = source.roleType,
+                    target.email = source.email,
+                    target.applicationReason = source.applicationReason,
+                    target.registrationTime = source.registrationTime,
+                    target.registrationStatus = source.registrationStatus
+            WHEN NOT MATCHED THEN
+                INSERT (username, password, roleType, email, applicationReason, registrationTime, registrationStatus)
+                    VALUES (source.username, source.password, source.roleType, source.email, source.applicationReason, source.registrationTime, source.registrationStatus);
+
     </insert>
 
     <!-- 根据邮箱获取注册状态 -->

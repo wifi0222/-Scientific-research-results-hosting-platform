@@ -208,7 +208,7 @@
 
     <!-- 新密码 -->
     <div class="form-row">
-      <label for="password">新密码：</label>
+      <label for="password">设置密码：</label>
       <input type="password" id="password" name="password" required>
     </div>
 
