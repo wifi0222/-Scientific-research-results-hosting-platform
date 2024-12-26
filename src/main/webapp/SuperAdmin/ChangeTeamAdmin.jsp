@@ -17,8 +17,9 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
-<%--    <link rel="stylesheet" href="/css/changeTeamAdmin.css">--%>
+    <link rel="stylesheet" href="/css/changeTeamAdmin.css">
 </head>
 <body>
 
