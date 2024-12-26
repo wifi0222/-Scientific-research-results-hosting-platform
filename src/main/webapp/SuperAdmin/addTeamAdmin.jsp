@@ -13,7 +13,7 @@
 <head>
     <title>添加团队管理员</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/css/newSidebar.css">
+    <link rel="stylesheet" href="/css/zwb_sidebar.css">
     <style>
         /* 表单整体样式 */
         form {
@@ -196,44 +196,72 @@
             color: white;
         }
 
-        h1{
+        /* 新增：父容器使用flex布局，使Toptitle和back-btn并列展示 */
+        .header-container {
+            display: flex;
+            justify-content: center;  /* 水平居中对齐 */
+            align-items: center;      /* 垂直居中对齐 */
+            gap: 20px;                /* 在标题和按钮之间添加间距 */
+        }
+
+        /* 使Toptitle居中 */
+        .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+            flex-grow: 1;             /* 使标题占据可用空间 */
+        }
+
+        /* 按钮样式 */
+        .back-btn {
+            background-color: #4e73df; /* 按钮背景色 */
+            border: none;
+            border-radius: 5px; /* 圆角边框 */
+            padding: 12px 20px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
             text-align: center;
         }
 
+        .back-btn a {
+            text-decoration: none;
+            color: white;
+            display: flex;  /* 使用flex布局使图标居中 */
+            align-items: center;
+            justify-content: center;
+        }
 
+        /* 隐藏链接中的文字，只显示图标 */
+        .back-btn a i {
+            font-size: 20px; /* 设置图标大小 */
+        }
+
+        .back-btn:hover {
+            background-color: #355db3; /* 悬停时背景色 */
+            transform: translateX(5px); /* 向右移动 */
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="content">
-        <div class="sidebar">
-            <c:choose>
-                <c:when test="${userRoleType == 'SuperAdmin'}">
-                    <ul>
-                        <li><a href="/SuperController/UserManagement" class="active">用户管理</a></li>
-                        <li><a href="/SuperController/TeamAdministratorManagement">权限管理</a></li>
-                        <li><a href="/user/checkReply">内容审核</a></li>
-                    </ul>
-                    <div class="logout">
-                        <a href="/user/logout">退出登录</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <ul>
-                        <li><a href="/login.jsp">登录</a></li>
-                    </ul>
-                </c:otherwise>
-            </c:choose>
-        </div>
+        <!-- Sidebar -->
+        <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
         <div class="main">
             <div class="section">
-
-                <h1>添加团队管理员</h1>
-
-                <button class="back-btn">
-                    <a href="/SuperController/UserManagement">返回用户管理</a>
-                </button>
+                <div class="header-container">
+                    <button class="back-btn">
+                        <a href="/SuperController/UserManagement">
+                            <i class="fas fa-arrow-left"></i>  <!-- 使用 FontAwesome 返回箭头图标 -->
+                        </a>
+                    </button>
+                    <h1 class="Toptitle">添加团队管理员</h1>
+                </div>
 
                 <form action="/SuperController/TeamAdminManage/add" method="get">
 
