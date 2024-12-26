@@ -92,11 +92,9 @@
         }
 
         .main h1 {
-            color: black;
-            margin-bottom: 20px;
-            font-size: 28px;
-            padding-bottom: 10px;
             text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -107,8 +105,7 @@
         <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
         <div class="main">
-            <div class="section">
-
+<%--            <div class="section">--%>
                 <h1>管理团队管理员操作权限</h1>
                 <!-- 搜索与筛选表单 -->
                 <div class="search-filter">
@@ -119,115 +116,116 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
 
-                <!-- 权限管理表格 -->
-                <table class="styled-table">
-                    <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="selectAllCheckbox"/>
-                            全选
-                        </th>
-                        <th>ID</th>
-<%--                        <th>用户名</th>--%>
-                        <th>姓名</th>
-                        <th>用户管理</th>
-                        <th>成果发布</th>
-                        <th>成果删除</th>
-                        <th>成果编辑</th>
-                        <th>成果状态</th>
-                        <th>文章发布</th>
-                        <th>文章删除</th>
-                        <th>文章编辑</th>
-                        <th>文章状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${teamAdministrators}" var="teamAdmin">
-                        <tr class="one-row"
-                            data-name="${teamAdmin.adminName}">
-                            <td>
-                                <input type="checkbox"
-                                       class="rowCheckbox"
-                                       name="selectedRows"
-                                       value="${teamAdmin.adminID}">
-                            </td>
-                            <td>${teamAdmin.adminID}</td>
-<%--                            <td>${teamAdmin.adminUsername}</td>--%>
-                            <td>${teamAdmin.adminName}</td>
-                            <td class="permission">
-                                        <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
-                                                ${teamAdmin.userPermission ? '有权限' : '无权限'}
-                                        </span>
-                            </td>
-                            <td class="permission">
-                                        <span class="${teamAdmin.publishAchievement ? 'has' : 'no'}">
-                                                ${teamAdmin.publishAchievement ? '有权限' : '无权限'}
-                                        </span>
-                            </td>
-                            <td class="permission">
-                                        <span class="${teamAdmin.deleteAchievement ? 'has' : 'no'}">
-                                                ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}
-                                        </span>
-                            </td>
-                            <td class="permission">
-                                <span class="${teamAdmin.editAchievement ? 'has':'no'}">
-                                    ${teamAdmin.editAchievement ? '有权限' : '无权限'}
-                                </span>
-                            </td>
-                            <td class="permission">
-                                <span class="${teamAdmin.setAchievementStatus ? 'has':'no'}">
-                                        ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}
-                                </span>
-                            </td>
+                <div class="section-active">
 
-                            <td class="permission">
-                                        <span class="${teamAdmin.publishArticle ? 'has' : 'no'}">
-                                                ${teamAdmin.publishArticle ? '有权限' : '无权限'}
-                                        </span>
-                            </td>
-                            <td class="permission">
-                                        <span class="${teamAdmin.deleteArticle ? 'has' : 'no'}">
-                                                ${teamAdmin.deleteArticle ? '有权限' : '无权限'}
-                                        </span>
-                            </td>
-                            <td class="permission">
-                                <span class="${teamAdmin.editArticle ? 'has':'no'}">
-                                        ${teamAdmin.editArticle ? '有权限' : '无权限'}
-                                </span>
-                            </td>
-                            <td class="permission">
-                                <span class="${teamAdmin.setArticleStatus ? 'has':'no'}">
-                                        ${teamAdmin.setArticleStatus ? '有权限' : '无权限'}
-                                </span>
-                            </td>
-
-                            <td>
-<%--                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">--%>
-<%--                                    <i class="fas fa-edit"></i> 编辑权限--%>
-<%--                                </a>--%>
-                                    <button onclick="window.location.href='/SuperController/ToEditTA?adminID=${teamAdmin.adminID}'" class="btn-edit">
-                                        <i class="fas fa-edit"></i> 编辑
-                                    </button>
-                            </td>
+                    <!-- 权限管理表格 -->
+                    <table class="styled-table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAllCheckbox"/>
+                                全选
+                            </th>
+                            <th>ID</th>
+    <%--                        <th>用户名</th>--%>
+                            <th>姓名</th>
+                            <th>用户管理</th>
+                            <th>成果发布</th>
+                            <th>成果删除</th>
+                            <th>成果编辑</th>
+                            <th>成果状态</th>
+                            <th>文章发布</th>
+                            <th>文章删除</th>
+                            <th>文章编辑</th>
+                            <th>文章状态</th>
+                            <th>操作</th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${teamAdministrators}" var="teamAdmin">
+                            <tr class="one-row"
+                                data-name="${teamAdmin.adminName}">
+                                <td>
+                                    <input type="checkbox"
+                                           class="rowCheckbox"
+                                           name="selectedRows"
+                                           value="${teamAdmin.adminID}">
+                                </td>
+                                <td>${teamAdmin.adminID}</td>
+    <%--                            <td>${teamAdmin.adminUsername}</td>--%>
+                                <td>${teamAdmin.adminName}</td>
+                                <td class="permission">
+                                            <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
+                                                    ${teamAdmin.userPermission ? '有权限' : '无权限'}
+                                            </span>
+                                </td>
+                                <td class="permission">
+                                            <span class="${teamAdmin.publishAchievement ? 'has' : 'no'}">
+                                                    ${teamAdmin.publishAchievement ? '有权限' : '无权限'}
+                                            </span>
+                                </td>
+                                <td class="permission">
+                                            <span class="${teamAdmin.deleteAchievement ? 'has' : 'no'}">
+                                                    ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}
+                                            </span>
+                                </td>
+                                <td class="permission">
+                                    <span class="${teamAdmin.editAchievement ? 'has':'no'}">
+                                        ${teamAdmin.editAchievement ? '有权限' : '无权限'}
+                                    </span>
+                                </td>
+                                <td class="permission">
+                                    <span class="${teamAdmin.setAchievementStatus ? 'has':'no'}">
+                                            ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}
+                                    </span>
+                                </td>
 
-                <button type="button" id="batchUserButton" class="btn btn-pass">
-                    设置用户权限
-                </button>
+                                <td class="permission">
+                                            <span class="${teamAdmin.publishArticle ? 'has' : 'no'}">
+                                                    ${teamAdmin.publishArticle ? '有权限' : '无权限'}
+                                            </span>
+                                </td>
+                                <td class="permission">
+                                            <span class="${teamAdmin.deleteArticle ? 'has' : 'no'}">
+                                                    ${teamAdmin.deleteArticle ? '有权限' : '无权限'}
+                                            </span>
+                                </td>
+                                <td class="permission">
+                                    <span class="${teamAdmin.editArticle ? 'has':'no'}">
+                                            ${teamAdmin.editArticle ? '有权限' : '无权限'}
+                                    </span>
+                                </td>
+                                <td class="permission">
+                                    <span class="${teamAdmin.setArticleStatus ? 'has':'no'}">
+                                            ${teamAdmin.setArticleStatus ? '有权限' : '无权限'}
+                                    </span>
+                                </td>
 
-                <button type="button" id="batchResearchButton" class="btn btn-pass">
-                    设置科研成果权限
-                </button>
+                                <td>
+    <%--                                <a href="/SuperController/ToEditTA?adminID=${teamAdmin.adminID}" class="btn-edit">--%>
+    <%--                                    <i class="fas fa-edit"></i> 编辑权限--%>
+    <%--                                </a>--%>
+                                        <button onclick="window.location.href='/SuperController/ToEditTA?adminID=${teamAdmin.adminID}'" class="btn-edit">
+                                            <i class="fas fa-edit"></i> 编辑
+                                        </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
 
-                <button type="button" id="batchArticleButton" class="btn btn-pass">
-                    设置文章权限
-                </button>
+                    <button type="button" id="batchUserButton" class="btn btn-pass">
+                        设置用户权限
+                    </button>
 
-            </div>
+                    <button type="button" id="batchResearchButton" class="btn btn-pass">
+                        设置科研成果权限
+                    </button>
+
+                    <button type="button" id="batchArticleButton" class="btn btn-pass">
+                        设置文章权限
+                    </button>
+                </div>
         </div>
     </div>
 </div>

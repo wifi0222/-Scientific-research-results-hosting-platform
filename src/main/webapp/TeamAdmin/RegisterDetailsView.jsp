@@ -96,59 +96,58 @@
             background-color: #355db3; /* 悬停时背景色 */
             transform: translateX(5px); /* 向右移动 */
         }
+
+        .user-details {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+        }
+
+        .detail-row label {
+            font-weight: bold;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .detail-row span {
+            color: #777;
+        }
+
+        .content-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4e73df;
+            margin-bottom: 10px;
+        }
+
+        .content-section p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 提示信息 */
+        .content-section p {
+            word-wrap: break-word; /* 防止长文本溢出 */
+        }
     </STYLE>
 </head>
 <body>
 <div class="container">
     <div class="content">
-<%--    <!-- Sidebar -->--%>
-<%--        <div class="sidebar">--%>
-<%--            <c:choose>--%>
-<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
-<%--                    <ul>--%>
-<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                    <div class="logout">--%>
-<%--                        <a href="/user/logout">退出登录</a>--%>
-<%--                    </div>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
-<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
-<%--        </div>--%>
-        <!-- Sidebar -->
         <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
 
@@ -163,13 +162,13 @@
                     <h1 class="Toptitle">待审核用户详情</h1>
                 </div>
 
-                <div class="user-details">
-                    <div class="detail-row">
-                        <label>用户名：</label>
+                    <div class="content-section">
+                        <label class="section-title">用户名：</label>
                         <span>${registrationReview.username}</span>
                     </div>
-                    <div class="detail-row">
-                        <label>用户类型：</label>
+
+                    <div class="content-section">
+                        <label class="section-title">用户类型：</label>
                         <span>
                       <c:choose>
                           <c:when test="${registrationReview.roleType == 'TeamMember'}">团队成员</c:when>
@@ -177,24 +176,21 @@
                       </c:choose>
                     </span>
                     </div>
-                    <div class="detail-row">
-                        <label>用户邮箱：</label>
+
+                    <div class="content-section">
+                        <label class="section-title">用户邮箱：</label>
                         <span>${registrationReview.email}</span>
                     </div>
-                    <div class="detail-row">
-                        <label>用户注册时间：</label>
+
+                    <div class="content-section">
+                        <label class="section-title">用户注册时间：</label>
                         <span><fmt:formatDate value="${registrationReview.registrationTime}" pattern="yyyy-MM-dd" /></span>
                     </div>
-                    <div class="detail-row">
-                        <label>用户申请理由：</label>
+
+                    <div class="content-section">
+                        <label class="section-title">用户申请理由：</label>
                         <span>${registrationReview.applicationReason}</span>
                     </div>
-                </div>
-
-                <!-- 详情按钮 -->
-                <button class="back-btn" onclick="window.location.href='/teamAdmin/ToUserRegisterManage'">
-                    返回审核注册页面
-                </button>
             </div>
         </div>
     </div>

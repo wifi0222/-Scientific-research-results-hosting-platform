@@ -9,6 +9,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html lang="zh">
 <head>
@@ -26,11 +27,9 @@
 
     <style>
         .main h1 {
-            color: #4e73df;
-            margin-bottom: 20px;
-            font-size: 28px;
-            padding-bottom: 10px;
             text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
         }
 
         /* 表单样式 */
@@ -199,10 +198,10 @@
             toolbar: [
                 ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
                 ['blockquote', 'code-block'],
-                [{ 'header': 1 }, { 'header': 2 }], // 标题
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
-                [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
-                [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
+                [{'header': 1}, {'header': 2}], // 标题
+                [{'list': 'ordered'}, {'list': 'bullet'}], // 列表
+                [{'script': 'sub'}, {'script': 'super'}], // 上标/下标
+                [{'indent': '-1'}, {'indent': '+1'}], // 缩进
                 ['image'], // 插入图片
                 ['clean'] // 清除格式
             ]
@@ -210,18 +209,36 @@
     });
 
     // 页面加载时，将现有的团队简介填入编辑器
-    window.onload = function () {
-        var initialContent = "${team.introduction}"; // 获取团队简介
-        quill.root.innerHTML = initialContent; // 将内容设置到编辑器中
+    <%--window.onload = function () {--%>
+    <%--    var initialContent = "${team.introduction}"; // 获取团队简介--%>
+    <%--    quill.root.innerHTML = initialContent; // 将内容设置到编辑器中--%>
+    <%--};--%>
+    //     // 页面加载时，将现有的团队简介填入编辑器
+    //     window.onload = function () {
+    //     var initialContent = ""; // 确保正确处理HTML字符
+    //     quill.root.innerHTML = initialContent; // 将内容设置到编辑器中
+    // };
+    // 假设从后台获取的内容存储在 initialContent 变量中
+    var initialContent = "${team.introduction}"; // 这里是从服务器传递过来的内容
+
+    // 如果 initialContent 是 HTML 字符串，你需要先将它转换成 Delta 格式
+    var delta = quill.clipboard.convert(initialContent); // 将 HTML 转为 Delta 格式
+
+    // 页面加载时，填充编辑器
+    window.onload = function() {
+        quill.setContents(delta); // 设置 Delta 格式的内容
     };
 
-    // 表单提交前，将编辑器内容同步到隐藏字段
-    document.querySelector('form').onsubmit = function () {
-        var content = quill.root.innerHTML; // 获取编辑器内容
-        document.getElementById('researchAchievements').value = content;
-    };
 
-    function displayFileName() {
+
+// 表单提交前，将编辑器内容同步到隐藏字段
+document.querySelector('form').onsubmit = function () {
+var content = quill.root.innerHTML; // 获取编辑器内容
+document.getElementById('introduction').value = content;
+};
+
+
+function displayFileName() {
         var fileInput = document.getElementById('avatarFile');
         var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
         document.getElementById('fileName').textContent = fileName; // 显示文件名

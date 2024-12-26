@@ -78,8 +78,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+
         .profile-avatar {
             margin-right: 20px;
+            width: 250px;
+            height: 300px;
         }
 
         .avatar-img {

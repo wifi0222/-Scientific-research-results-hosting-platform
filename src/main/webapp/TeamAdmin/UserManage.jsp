@@ -149,11 +149,18 @@
         }
 
         .main h1 {
-            color: black;
-            margin-bottom: 20px;
-            font-size: 28px;
-            padding-bottom: 10px;
             text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+        }
+
+        .section-active {
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1.5px solid #4e73df;
         }
 
 
@@ -324,7 +331,7 @@
 
 
         <div class="main">
-            <div class="section">
+<%--            <div class="section">--%>
                 <h1>全部团队成员和普通用户</h1>
 
                     <!-- 搜索框 -->
@@ -381,6 +388,7 @@
                     </form>
                 </div>
 
+                <div class="section-active">
                     <table border="1" class="styled-table">
                         <thead>
                         <tr>
