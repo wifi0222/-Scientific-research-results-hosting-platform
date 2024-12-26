@@ -15,17 +15,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注销账户</title>
     <link rel="stylesheet" href="/css/change-password.css">
+    <script src="/js/browse.js" defer></script>
 </head>
 <body>
 <div class="container">
-    <!-- 内容部分 -->
     <!-- Header -->
     <header class="header">
-        <div class="title">
-                  <a href="/browse">
-        <h1>信息浏览</h1>
-      </a>
-        </div>
+        <!-- 添加收起/展开按钮 -->
+        <c:choose>
+            <c:when test="${empty user}">
+            </c:when>
+            <c:otherwise>
+                <button class="sidebar-toggle">☰</button>
+            </c:otherwise>
+        </c:choose>
+        <div class="title"><a href="/browse">
+  <h1>信息浏览</h1>
+</a>        </div>
         <c:choose>
             <c:when test="${empty user}">
                 <div class="login-btn">
@@ -45,7 +51,7 @@
                         <li><a href="/user/profile/status">查询信息修改审核进度</a></li>
                         <li><a href="/user/change-password">修改密码</a></li>
                         <li><a href="/user/deactivate" class="active">账号注销</a></li>
-                        <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+                        <%--              <li><a href="/user/deactivate/status">查询账号注销进度</a></li>--%>
                     </ul>
                     <div class="logout">
                         <a href="/user/logout">退出登录</a>
@@ -58,7 +64,7 @@
                         <li><a href="/user/checkReply">我的反馈</a></li>
                         <li><a href="/user/change-password">修改密码</a></li>
                         <li><a href="/user/deactivate" class="active">账号注销</a></li>
-                        <li><a href="/user/deactivate/status">查询账号注销进度</a></li>
+                        <%--              <li><a href="/user/deactivate/status">查询账号注销进度</a></li>--%>
                     </ul>
                     <div class="logout">
                         <a href="/user/logout">退出登录</a>

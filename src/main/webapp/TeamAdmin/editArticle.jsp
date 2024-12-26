@@ -24,97 +24,99 @@
 <body>
 
 <div class="container">
-    <!-- Content -->
-    <div class="content">
-        <!-- Sidebar -->
-        <jsp:include page="/TeamAdmin/sidebar.jsp"/>
+    <!-- Sidebar -->
+    <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
-        <div class="main">
-            <h1>修改文章</h1>
-            <form action="/teamAdmin/achievements/edit/update?type=1" method="post" id="quillForm"
-                  enctype="multipart/form-data">
-                <!-- 隐藏字段，用于存储成果ID -->
-                <input type="hidden" name="id" value="${article.articleID}"/>
+    <!-- 主内容 -->
+    <div class="main">
+        <!-- 返回主页按钮 -->
+        <button type="button" class="return-home-btn"
+                onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=1'">
+            返回主页
+        </button>
 
-                <label>文章标题：</label><br>
-                <input type="text" name="title" value="${article.title}" placeholder="如：基于深度学习的遥感图像分类技术"
-                       required><br><br>
+        <h1>修改文章</h1>
+        <form action="/teamAdmin/achievements/edit/update?type=1" method="post" id="quillForm"
+              enctype="multipart/form-data">
+            <!-- 隐藏字段，用于存储文章ID -->
+            <input type="hidden" name="id" value="${article.articleID}"/>
 
-                <label>文章类别：</label><br>
-                <select name="category">
-                    <option value="SCI">SCI</option>
-                    <option value="EI">EI</option>
-                    <option value="核心">核心</option>
-                </select><br><br>
+            <label>文章标题：</label><br>
+            <input type="text" name="title" value="${article.title}" placeholder="如：基于深度学习的遥感图像分类技术"
+                   required><br><br>
 
-                <label>摘要：</label><br>
-                <textarea name="abstractContent" rows="3"
-                          placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"
-                          required>${article.abstractContent}</textarea><br><br>
+            <label>文章类别：</label><br>
+            <select name="category">
+                <option value="SCI" ${article.category == 'SCI' ? 'selected' : ''}>SCI</option>
+                <option value="EI" ${article.category == 'EI' ? 'selected' : ''}>EI</option>
+                <option value="核心" ${article.category == '核心' ? 'selected' : ''}>核心</option>
+            </select><br><br>
 
-                <label>内容：</label><br>
-                <!-- Quill编辑器的容器 -->
-                <div id="editor-container" style="height: 300px;">
-                    ${article.contents}
-                </div>
-                <!-- 隐藏字段，用于提交编辑器内容 -->
-                <input type="hidden" name="contents" id="hiddenInput" required>
+            <label>摘要：</label><br>
+            <textarea name="abstractContent" rows="3"
+                      placeholder="如：本专利提供了一种新型遥感图像分类算法，可提高分类准确率"
+                      required>${article.abstractContent}</textarea><br><br>
 
-                <label>当前附件：</label><br>
+            <label>内容：</label><br>
+            <!-- Quill编辑器的容器 -->
+            <div id="editor-container" style="height: 300px;">
+                ${article.contents}
+            </div>
+            <!-- 隐藏字段，用于提交编辑器内容 -->
+            <input type="hidden" name="contents" id="hiddenInput" required>
+
+            <label>当前附件：</label><br>
+            <div class="attachment-section">
                 <c:forEach var="file" items="${articleFiles}">
                     <c:if test="${file.type == 0}">
-                        <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                        <!-- 删除附件按钮 -->
-                        <%--在 HTML 标准 中，不允许将一个 <form> 放在另一个 <form> 的内部--%>
-                        <%--            <form action="/teamAdmin/deleteFile" method="post" style="display:inline;">--%>
-                        <%--                <input type="hidden" name="fileID" value="${file.fileID}"/>--%>
-                        <%--                <input type="hidden" name="articleID" value="${article.articleID}"/>--%>
-                        <%--                <button type="submit" onclick="return confirm('确定要删除这个附件吗？');">删除</button>--%>
-                        <%--            </form>--%>
-                        <!-- 删除附件按钮（用JS创建并提交表单） -->
-                        <button type="button"
-                                onclick="deleteFile('${file.fileID}', '${article.articleID}')">
-                            删除
-                        </button>
+                        <div class="file-list">
+                            <a href="/${file.filePath}" target="_blank">${file.fileName}</a>
+                            <button type="button" class="delete-btn"
+                                    onclick="deleteFile('${file.fileID}', '${article.articleID}')">
+                                删除
+                            </button>
+                        </div>
                     </c:if>
                 </c:forEach>
-                <br>
+            </div>
 
-                <label>增加附件（可选）：</label><br>
-                <input type="file" name="attachmentFile"><br><br>
+            <label>增加附件（可选）：</label><br>
+            <div class="upload-section">
+                <input type="file" name="attachmentFile">
+            </div>
 
-                <label>当前展示图片：</label><br>
-                <c:forEach var="file" items="${articleFiles}">
-                    <c:if test="${file.type == 1}">
-                        <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
-                        <c:set var="encodedPath"
-                               value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
-                             width="100"/>
-                        <!-- 删除图片按钮 -->
-                        <button type="button"
-                                onclick="deleteFile('${file.fileID}', '${article.articleID}')">
-                            删除
-                        </button>
-                    </c:if>
-                </c:forEach>
-                <br>
+            <label>当前展示图片：</label><br>
+            <div class="cover-section">
+                <div class="image-list">
+                    <c:forEach var="file" items="${articleFiles}">
+                        <c:if test="${file.type == 1}">
+                            <div class="image-container">
+                                    <%--先用 \\ 替换反斜杠，再用 %20 替换空格--%>
+                                <c:set var="encodedPath"
+                                       value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                     class="cover-image"/>
+                                <button type="button" class="delete-btn"
+                                        onclick="deleteFile('${file.fileID}', '${article.articleID}')">
+                                    删除
+                                </button>
+                            </div>
+                        </c:if>
+                    </c:forEach>
+                </div>
+            </div>
 
-                <label>增加展示图片（可选）：</label><br>
-                <input type="file" name="coverImage"><br><br>
+            <label>增加展示图片（可选）：</label><br>
+            <div class="upload-section">
+                <input type="file" name="coverImage">
+            </div>
 
-                <%--选择上传的时间--%>
-                <label>发布日期：</label><br>
-                <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
+            <%--选择上传的时间--%>
+            <label>发布日期：</label><br>
+            <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
 
-                <button type="submit">保存修改</button>
-                <!-- 返回主页按钮 -->
-                <button type="button"
-                        onclick="location.href='${pageContext.request.contextPath}/teamAdmin/achievements?type=1'">
-                    返回主页
-                </button>
-            </form>
-        </div>
+            <button type="submit">保存修改</button>
+        </form>
     </div>
 </div>
 

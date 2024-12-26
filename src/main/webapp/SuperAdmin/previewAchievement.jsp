@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>预览科研成果</title>
-    <link rel="stylesheet" type="text/css" href="/css/editAchievement.css">
+    <link rel="stylesheet" type="text/css" href="/css/previewAchievement.css">
     <link rel="stylesheet" type="text/css" href="/css/zwb_sidebar.css">
 
     <!-- 引入Quill编辑器所需的CSS和JS -->
@@ -24,60 +24,72 @@
 <body>
 
 <div class="container">
-    <!-- Content -->
-    <div class="content">
-        <!-- Sidebar -->
-        <jsp:include page="/SuperAdmin/sidebar.jsp"/>
+    <!-- Sidebar -->
+    <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
-        <div class="main">
-            <h1>预览科研成果</h1>
-            <!-- 只读模式，不需要提交表单，所以可以去掉 form -->
-            <div>
-                <label>成果标题：</label><br>
-                <!-- 标题只读 -->
-                <input type="text" name="title" value="${achievement.title}" readonly="readonly"/><br><br>
+    <!-- 主内容 -->
+    <div class="main">
+        <!-- 返回按钮 -->
+        <button type="button" class="return-home-btn"
+                onclick="location.href='${pageContext.request.contextPath}/SuperController/auditAchievements?type=0'">
+            返回
+        </button>
 
-                <label>成果类别：</label><br>
-                <!-- 类别禁用 -->
-                <select name="category" disabled="disabled">
-                    <option value="专著" ${achievement.category == '专著' ? 'selected' : ''}>专著</option>
-                    <option value="专利" ${achievement.category == '专利' ? 'selected' : ''}>专利</option>
-                    <option value="软著" ${achievement.category == '软著' ? 'selected' : ''}>软著</option>
-                    <option value="产品" ${achievement.category == '产品' ? 'selected' : ''}>产品</option>
-                </select><br><br>
+<%--        <h1>预览科研成果</h1>--%>
 
-                <label>摘要：</label><br>
-                <!-- 文本框只读 -->
-                <textarea name="abstractContent" rows="3" readonly="readonly">
-                    ${achievement.abstractContent}
-                </textarea><br><br>
+        <!-- 只读模式内容 -->
+        <div>
+            <!-- 成果标题 -->
+            <h2 class="title">${achievement.title}</h2>
 
-                <label>内容：</label><br>
-                <!-- Quill编辑器容器，只读模式 -->
-                <div id="editor-container" style="height: 300px;">
-                    ${achievement.contents}
+            <!-- 轮播图 -->
+            <c:if test="${fn:length(files) > 0}">
+                <div class="carousel">
+                    <div class="carousel-images">
+                        <c:forEach var="imageFile" items="${files}">
+                            <c:if test="${imageFile.type == 1}">
+                                <c:set var="encodedPath"
+                                       value="${fn:replace(fn:replace(imageFile.filePath, '\\\\', '/'), ' ', '%20')}"/>
+                                <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"
+                                     class="carousel-img">
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                    <div class="carousel-controls">
+                        <button onclick="moveCarousel(-1)">&#10094;</button>
+                        <button onclick="moveCarousel(1)">&#10095;</button>
+                    </div>
+                </div>
+            </c:if>
+
+            <div class="content-wrapper">
+                <!-- 类别和时间 -->
+                <div class="category-time">
+                    <p>类别: ${achievement.category}</p>
+                    <p>时间: <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd HH:mm"/></p>
                 </div>
 
-                <label>附件：</label><br>
-                <c:forEach var="file" items="${achievementFiles}">
-                    <c:if test="${file.type == 0}">
-                        <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>
-                    </c:if>
-                </c:forEach>
-                <br>
+                <!-- 摘要 -->
+                <p class="abstract-label">摘要:</p>
+                <p class="abstract">${achievement.abstractContent}</p>
 
-                <label>展示图片：</label><br>
-                <c:forEach var="file" items="${achievementFiles}">
-                    <c:if test="${file.type == 1}">
-                        <c:set var="encodedPath"
-                               value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>
-                        <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片" width="100"/>
-                    </c:if>
-                </c:forEach>
-                <br>
+                <!-- 内容 -->
+                <p class="contents-label">内容:</p>
+                <p class="contents">${achievement.contents}</p>
 
-                <label>发布日期：</label><br>
-                <fmt:formatDate value="${achievement.creationTime}" pattern="yyyy-MM-dd HH:mm"/>
+                <!-- 文件列表 -->
+                <div class="file-list">
+                    <ul>
+                        <c:forEach var="file" items="${files}">
+                            <c:if test="${file.type == 0}">
+                                <li>
+                                    <a href="/${file.filePath}" target="_blank"
+                                       class="download-btn">${file.fileName}</a>
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -456,7 +456,7 @@ public class UserController {
         if ("TeamAdmin".equals(user.getRoleType())) {
             return "redirect:/teamAdmin/TeamManage/Info";
         } else if ("SuperAdmin".equals(user.getRoleType())) {
-            return "redirect:/SuperController/auditAchievements?type=0";
+            return "redirect:/SuperController/UserManagement";
         }
         model.addAttribute("error", "未知角色！");
         return "ManagementLogin";
