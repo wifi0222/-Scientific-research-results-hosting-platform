@@ -79,7 +79,7 @@
         }
 
 
-        .profile-avatar {
+        .profile-avatar img{
             margin-right: 20px;
             width: 250px;
             height: 300px;
@@ -134,6 +134,7 @@
         .content-section p {
             word-wrap: break-word; /* 防止长文本溢出 */
         }
+
 
         /* 响应式设计 */
         @media (max-width: 768px) {
