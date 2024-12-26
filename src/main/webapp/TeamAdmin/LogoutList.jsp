@@ -95,6 +95,15 @@
             transform: translateX(5px); /* 向右移动 */
         }
 
+        .section-active {
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1.5px solid #4e73df;
+        }
+
     </style>
     <script type="text/javascript">
         //确认注销
@@ -199,7 +208,7 @@
 
 
         <div class="main">
-            <div class="section">
+<%--            <div class="section">--%>
                 <div class="header-container">
                     <button class="back-btn">
                         <a href="/teamAdmin/ToUserManage">
@@ -211,7 +220,7 @@
 
                 <button type="button" id="batchLogoutButton" class="btn btn-pass">批量注销</button>
 
-
+                <div class="section-active">
                 <table border="1" class="styled-table">
                     <thead>
                     <tr>

@@ -154,7 +154,7 @@
 
 .section.active {
     display: block;
-    border: 2px solid #4e73df; /* 参考之前的示例，可以去掉或保留 */
+    border: 1.5px solid #4e73df; /* 参考之前的示例，可以去掉或保留 */
 }
 
 .section h2 {

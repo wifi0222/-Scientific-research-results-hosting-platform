@@ -26,11 +26,9 @@
 
     <style>
         .main h1 {
-            color: #4e73df;
-            margin-bottom: 20px;
-            font-size: 28px;
-            padding-bottom: 10px;
             text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
         }
 
         /* 表单样式 */

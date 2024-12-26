@@ -124,13 +124,10 @@
         }
 
         .main h1 {
-            color: black;
-            margin-bottom: 20px;
-            font-size: 28px;
-            padding-bottom: 10px;
             text-align: center;
+            color: #4a4a4a;
+            margin-bottom: 30px;
         }
-
     </style>
 </head>
 <body>
@@ -140,7 +137,7 @@
         <jsp:include page="/SuperAdmin/sidebar.jsp"/>
 
         <div class="main">
-            <div class="section">
+<%--            <div class="section">--%>
                 <!-- 如果存在error属性，显示弹窗提示 -->
                 <div th:if="${AddTeamAdminRemind}" th:text="${AddTeamAdminRemind}" class="alert alert-error"></div>
 
@@ -160,6 +157,7 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
 
+                <div class="section-active">
                     <table class="styled-table">
                         <thead>
                         <tr>
@@ -227,7 +225,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-
+<%--                </div>--%>
                 <button onclick="window.location.href='/SuperController/ToAddTeamAdmin'" class="btn btn-add">
                     <i class="fas fa-plus-circle"></i> 添加团队管理员
                 </button>
@@ -235,7 +233,6 @@
                 <button type="button" id="batchPassButton" class="btn btn-pass">
                     批量删除
                 </button>
-
             </div>
         </div>
     </div>
