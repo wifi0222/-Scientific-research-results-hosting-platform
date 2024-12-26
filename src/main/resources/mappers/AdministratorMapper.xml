@@ -7,8 +7,10 @@
     </select>
 
     <insert id="insertTeamAdminToAdministrator">
-        INSERT INTO [TeamAdministrator](adminID,publishPermission,userPermission,deletePermission,teamID)
-        VALUES (#{adminID},1,1,0,1)
+        INSERT INTO [TeamAdministrator](adminID,userPermission,
+                                        publishAchievement,editAchievement,deleteAchievement,setAchievementStatus,
+                                        publishArticle,editArticle,deleteArticle,setArticleStatus,teamID)
+        VALUES (#{adminID},1,1,0,0,1,1,0,0,1)
     </insert>
 
     <delete id="deleteTeamAdminFromAdministrator">
