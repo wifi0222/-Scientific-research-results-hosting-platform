@@ -16,16 +16,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>团队成员</title>
   <link rel="stylesheet" href="/css/change-password.css">
+  <script src="/js/browse.js" defer></script>
 </head>
 <body>
 <div class="container">
   <!-- Header -->
   <header class="header">
-    <div class="title">
-            <a href="/browse">
-        <h1>信息浏览</h1>
-      </a>
-    </div>
+    <!-- 添加收起/展开按钮 -->
+    <c:choose>
+      <c:when test="${empty user}">
+      </c:when>
+      <c:otherwise>
+        <button class="sidebar-toggle">☰</button>
+      </c:otherwise>
+    </c:choose>
+    <div class="title"><a href="/browse">
+      <h1>信息浏览</h1>
+    </a>        </div>
     <c:choose>
       <c:when test="${empty user}">
         <div class="login-btn">
@@ -72,6 +79,16 @@
 
     <!-- Main Content -->
     <div class="main">
+      <div class="section">
+      <h1>团队简介</h1>
+      <div class="intro-content">
+        <p>团队名称：<c:out value="${team.teamName}"/></p>
+        <p>研究方向：<c:out value="${team.researchArea}"/></p>
+        <p>简介：<c:out value="${team.introduction}" escapeXml="false"/></p>
+      </div>
+
+
+      </div>
       <h1>团队成员</h1>
       <div class="members-list">
         <c:forEach var="member" items="${teamMembers}">

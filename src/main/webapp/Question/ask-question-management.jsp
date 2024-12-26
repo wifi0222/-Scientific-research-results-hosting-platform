@@ -10,21 +10,6 @@
     <link rel="stylesheet" href="/css/change-password.css">
     <script src="/js/browse.js" defer></script>
 
-    <style>
-        .btn-view {
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #4e73df;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-
-        .btn-view:hover {
-            background-color: #3758c8;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -77,8 +62,8 @@
                         <th>问题 ID</th>
                         <th>标题</th>
                         <th>状态</th>
-                        <th>提问时间</th>
-                        <th>操作</th>
+                        <th style="width: 20%">提问时间</th>
+                        <th style="width: 20%">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -95,9 +80,10 @@
                             </td>
                             <td><fmt:formatDate value='${question.askTime}'
                                                 pattern='yyyy-MM-dd HH:mm'/></td>
-                            <td>
-                                <a href="/questions/ask-details/${question.questionID}" class="btn-view">查看详情</a>
+                            <td style="text-align: right; padding-right: 120px;">
+                                <a href="/questions/ask-details/${question.questionID}">查看详情</a>
                             </td>
+
                         </tr>
                     </c:forEach>
                     </tbody>

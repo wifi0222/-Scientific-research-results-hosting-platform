@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: white;
+            background-color: #eaf4fc;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -34,7 +34,7 @@
         }
 
         div {
-            background-color: #e6f2ff;
+            background-color: white;
             border: 1px solid #b3d7ff;
             padding: 15px;
             border-radius: 5px;
