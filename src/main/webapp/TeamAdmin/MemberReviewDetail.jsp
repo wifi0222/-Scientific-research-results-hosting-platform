@@ -79,7 +79,7 @@
         }
 
 
-        .profile-avatar {
+        .profile-avatar img{
             margin-right: 20px;
             width: 250px;
             height: 300px;
