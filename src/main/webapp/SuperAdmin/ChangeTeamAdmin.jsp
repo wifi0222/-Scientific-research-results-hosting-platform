@@ -15,11 +15,198 @@
     <title>修改团队管理员的信息</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<%--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">--%>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-
     <link rel="stylesheet" href="/css/zwb_sidebar.css">
-    <link rel="stylesheet" href="/css/changeTeamAdmin.css">
+<%--    <link rel="stylesheet" href="/css/changeTeamAdmin.css">--%>
+    <style>
+            /* 表单样式 */
+            .main h1 {
+                color: #4e73df;
+                margin-bottom: 20px;
+                font-size: 28px;
+                padding-bottom: 10px;
+                text-align: center;
+            }
+
+            /* 表单样式 */
+            .main form {
+                background-color: #ffffff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                max-width: 700px;
+                margin: 0 auto;
+            }
+
+            .main label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #333333;
+            }
+
+            .main input[type="text"],
+            .main input[type="date"] {
+                width: 100%;
+                padding: 12px 15px;
+                margin-bottom: 20px;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+                box-sizing: border-box;
+                font-size: 16px;
+            }
+
+            .main input[type="text"]:focus,
+            .main input[type="date"]:focus {
+                border-color: #4e73df;
+                outline: none;
+            }
+
+            /* Quill 编辑器容器样式 */
+            #researchAchievementsEditor {
+                height: 400px;  /* 设置合适的高度 */
+                border: 1px solid #ced4da;  /* 为编辑器添加边框 */
+                border-radius: 5px;  /* 圆角边框 */
+                padding: 10px;  /* 添加内边距 */
+                overflow-y: auto;  /* 当内容超出时，允许垂直滚动 */
+            }
+
+            /* 提交按钮样式 */
+            .InButton {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background-color: #4e73df;
+                margin-top: 10px;
+                color: #ffffff;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, box-shadow 0.3s;
+            }
+
+            .InButton:hover {
+                background-color: #2e59d9;
+                box-shadow: 0 4px 8px rgba(46, 89, 217, 0.2);
+            }
+
+            .InButton[type="button"] {
+                background-color: #6c757d;
+                margin-left: 10px;
+            }
+
+            .InButton[type="button"]:hover {
+                background-color: #5a6268;
+                box-shadow: 0 4px 8px rgba(106, 115, 122, 0.2);
+            }
+
+        /* 父容器使用flex布局，使Toptitle和back-btn并列展示 */
+        .header-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .Toptitle {
+            color: #4e73df;
+            margin-bottom: 20px;
+            font-size: 28px;
+            padding-bottom: 10px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* 按钮样式 */
+        .back-btn {
+            background-color: #4e73df;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+        }
+
+        .back-btn a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn a i {
+            font-size: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #355db3;
+            transform: translateX(5px);
+        }
+
+            /* 自定义单选框样式 */
+            .main .form-check-input {
+                display: none; /* 隐藏默认单选框 */
+            }
+
+            /* 创建自定义单选框 */
+            .main .form-check-label {
+                position: relative;
+                padding-left: 30px; /* 给label添加左侧空间 */
+                cursor: pointer;
+                font-size: 16px;
+                color: #333;
+                display: inline-block;
+                line-height: 24px;
+            }
+
+            /* 单选框外观 */
+            .main .form-check-label:before {
+                content: ''; /* 空内容 */
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #4e73df;
+                border-radius: 50%;
+                background-color: white;
+                transition: background-color 0.3s, border-color 0.3s; /* 平滑过渡 */
+            }
+
+            /* 单选框选中状态 */
+            .main .form-check-input:checked + .form-check-label:before {
+                background-color: #4e73df;
+                border-color: #4e73df;
+            }
+
+            /* 在选中状态下改变单选框内圆的样式 */
+            .main .form-check-input:checked + .form-check-label:after {
+                content: '';
+                position: absolute;
+                left: 6px;
+                top: 6px;
+                width: 8px;
+                height: 8px;
+                background-color: white;
+                border-radius: 50%;
+                transition: background-color 0.3s;
+            }
+
+            /* 鼠标悬停时的样式 */
+            .main .form-check-label:hover:before {
+                border-color: #2e59d9;
+            }
+
+            /* 可选样式 - 提高交互体验 */
+            .main .form-check-label:active:before {
+                transform: scale(1.1);
+            }
+
+    </style>
 </head>
 <body>
 
@@ -123,9 +310,9 @@
                         <input type="hidden" name="researchAchievements" id="researchAchievements" value="${user.researchAchievements}">
                     </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="提交" class="btn btn-primary">
-                    </div>
+                    <button type="submit" class="InButton">
+                        提交修改
+                    </button>
 
                 </form>
             </div>
