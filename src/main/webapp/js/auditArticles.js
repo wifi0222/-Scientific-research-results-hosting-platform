@@ -130,7 +130,7 @@ function rejectAchievementReview(id) {
         }
 
         // 1. 将 ID 和拒绝理由 设置到隐藏表单中
-        document.getElementById('achievementId').value = id;
+        document.getElementById('ArticleID').value = id;
         document.getElementById('refusalReasonField').value = reason;
 
         // 2. 提交表单

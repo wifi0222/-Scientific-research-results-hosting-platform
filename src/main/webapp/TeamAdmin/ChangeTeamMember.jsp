@@ -247,8 +247,6 @@
                     <!-- 学术背景 -->
                     学术背景：<input type="text" name="academicBackground" value="${user.academicBackground}"><br>
 
-<%--                    <!-- 研究成果 -->--%>
-<%--                    研究成果：<input type="text" name="researchAchievements" value="${user.researchAchievements}"><br>--%>
                     <label for="researchAchievements">科研成果:</label>
                     <div id="researchAchievementsEditor" style="height: 300px;"></div>
                     <input type="hidden" name="researchAchievements" id="researchAchievements"><br>
@@ -284,6 +282,23 @@
             emailInput.style.borderColor = 'red';  // 设置红色边框提醒用户
         }
     });
+</script>
+
+<script>
+    // 显示文件名
+    function displayFileName() {
+        var fileInput = document.getElementById('avatarFile');
+        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
+        document.getElementById('fileName').textContent = fileName; // 显示文件名
+
+        // 显示选择的头像
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var avatarImage = document.getElementById('current-avatar');
+            avatarImage.src = e.target.result; // 设置为选中的图片
+        };
+        reader.readAsDataURL(fileInput.files[0]); // 读取文件为 Data URL
+    }
 
     // 初始化 Quill 编辑器
     var quill = new Quill('#researchAchievementsEditor', {
@@ -302,44 +317,17 @@
         }
     });
 
+    // 将服务器端传递的已有内容加载到 Quill 编辑器
+    var initialContent = `${user.researchAchievements}`;
+    quill.root.innerHTML = initialContent;
+
     // 表单提交前，将编辑器内容同步到隐藏字段
     document.querySelector('form').onsubmit = function () {
         var content = quill.root.innerHTML; // 获取编辑器内容
         document.getElementById('researchAchievements').value = content;
     };
-
-    function displayFileName() {
-        var fileInput = document.getElementById('avatarFile');
-        var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
-        document.getElementById('fileName').textContent = fileName; // 显示文件名
-    }
 </script>
 
-<script>
-    // 获取所有的a标签
-    const menuLinks = document.querySelectorAll('ul > li > a');
-
-    menuLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            // 如果是子菜单的链接，不阻止跳转
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('submenu')) {
-                // 这是父菜单，阻止跳转
-                event.preventDefault(); // 阻止父菜单的默认跳转行为
-                // 切换当前a标签的class
-                this.classList.toggle('active');
-
-                // 获取当前点击项的下一个子菜单
-                const submenu = this.nextElementSibling;
-
-                if (submenu && submenu.classList.contains('submenu')) {
-                    // 切换子菜单的显示状态
-                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                }
-            }
-            // 对于子菜单项，允许跳转，不做任何处理
-        });
-    });
-</script>
 </body>
 </html>
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #eaf4fc;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -31,7 +32,7 @@
         }
 
         div {
-            background-color: #e6f2ff;
+            background-color: white;
             border: 1px solid #b3d7ff;
             padding: 15px;
             border-radius: 5px;
@@ -78,7 +79,8 @@
 <h2>问题详情</h2>
 <p><strong>问题ID：</strong> ${question.questionID}</p>
 <p><strong>用户ID：</strong> ${question.userID}</p>
-<p><strong>提问时间：</strong> ${question.askTime}</p>
+<p><strong>提问时间：</strong> <fmt:formatDate value='${question.askTime}'
+                                              pattern='yyyy-MM-dd HH:mm'/></p>
 <p><strong>标题：</strong> ${question.title}</p>
 <p><strong>状态：</strong>
     <span class="status ">

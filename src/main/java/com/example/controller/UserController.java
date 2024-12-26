@@ -154,8 +154,11 @@ public class UserController {
         if (avatarFile != null && !avatarFile.isEmpty()) {
             // 定义头像保存路径
             String avatarFilePath = saveFile(avatarFile, "user_avatars\\", 1);
-            // 设置头像文件路径
+            // 设置新的头像文件路径
             newUser.setAvatarFile(avatarFilePath);
+        } else {
+            // 如果没有上传新头像，保持原头像路径不变
+            newUser.setAvatarFile(currentUser.getAvatarFile());
         }
 
         // 提交更新到数据库
@@ -168,6 +171,7 @@ public class UserController {
 
         return "profile"; // 返回个人信息页面
     }
+
 
     // 文件保存方法：保存文件到指定目录并返回文件路径
     private String saveFile(MultipartFile file, String uploadDir, int type) throws Exception {
@@ -332,6 +336,7 @@ public class UserController {
     public String handleDeactivationRequest(@RequestParam("password") String password,
                                             HttpSession session, // 从 Session 获取当前用户
                                             Model model) {
+        String encryptedPassword = OpenSSLUtil.encrypt(password);
         // 从 Session 中获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -340,7 +345,7 @@ public class UserController {
         String userRoleType = currentUser.getRoleType();
 
         // 验证密码是否正确
-        if (!currentUser.getPassword().equals(password)) {
+        if (!currentUser.getPassword().equals(encryptedPassword)) {
             model.addAttribute("user", currentUser);
             model.addAttribute("userRoleType", userRoleType);
             model.addAttribute("error", "密码错误！");
@@ -451,6 +456,7 @@ public class UserController {
 
         // 登录成功，保存用户信息到 Session
         session.setAttribute("currentUser", user);
+        session.setMaxInactiveInterval(525600 * 60); // 525600 分钟 * 60 秒 = 一年
         session.setAttribute("userRoleType", user.getRoleType());
         // 根据角色跳转
         if ("TeamAdmin".equals(user.getRoleType())) {
@@ -470,5 +476,11 @@ public class UserController {
         return "redirect:/browse";
     }
 
+    @GetMapping("/backstageLogout")
+    public String backstageLogout(HttpSession session) {
+        // 清除 Session 中的用户信息
+        session.invalidate();
+        return "ManagementLogin";
+    }
 
 }

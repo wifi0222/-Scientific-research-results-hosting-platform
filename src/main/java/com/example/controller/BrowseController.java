@@ -73,6 +73,10 @@ public class BrowseController {
         // 如果用户未登录，不强制报错，提供一个默认的空角色
         String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
 
+        // 加载团队简介
+        Team team = browseService.getTeamInfo();
+        model.addAttribute("team", team);
+
         // 将用户信息传递给前端
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);

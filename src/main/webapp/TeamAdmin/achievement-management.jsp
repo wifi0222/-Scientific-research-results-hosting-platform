@@ -80,7 +80,7 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类别</th>
-<%--                        <th>摘要</th>--%>
+                        <%--                        <th>摘要</th>--%>
                         <%--<th>内容</th>--%>
                         <%--                <th>附件</th>--%>
                         <%--                <th>展示图片</th>--%>
@@ -106,8 +106,8 @@
                                 <td>${entry.key.achievementID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-<%--                                <td>${entry.key.abstractContent}</td>--%>
-<%--                                <td>${entry.key.contents}</td>--%>
+                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
+                                    <%--                                <td>${entry.key.contents}</td>--%>
                                     <%--                        <td>--%>
                                     <%--                            <c:forEach var="file" items="${entry.value}">--%>
                                     <%--                                <c:if test="${file.type == 0}">--%>
@@ -173,8 +173,8 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类别</th>
-<%--                        <th>摘要</th>--%>
-<%--                        <th>内容</th>--%>
+                        <%--                        <th>摘要</th>--%>
+                        <%--                        <th>内容</th>--%>
                         <%--                <th>附件</th>--%>
                         <%--                <th>展示图片</th>--%>
                         <th>创建时间</th>
@@ -198,8 +198,8 @@
                                 <td>${entry.key.achievementID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-<%--                                <td>${entry.key.abstractContent}</td>--%>
-<%--                                <td>${entry.key.contents}</td>--%>
+                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
+                                    <%--                                <td>${entry.key.contents}</td>--%>
                                     <%--                        <td>--%>
                                     <%--                            <c:forEach var="file" items="${entry.value}">--%>
                                     <%--                                <c:if test="${file.type == 0}">--%>
@@ -256,8 +256,8 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类别</th>
-<%--                        <th>摘要</th>--%>
-<%--                        <th>内容</th>--%>
+                        <%--                        <th>摘要</th>--%>
+                        <%--                        <th>内容</th>--%>
                         <%--                <th>附件</th>--%>
                         <%--                <th>展示图片</th>--%>
                         <th>创建时间</th>
@@ -281,8 +281,8 @@
                                 <td>${entry.key.achievementID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-<%--                                <td>${entry.key.abstractContent}</td>--%>
-<%--                                <td>${entry.key.contents}</td>--%>
+                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
+                                    <%--                                <td>${entry.key.contents}</td>--%>
                                     <%--                        <td>--%>
                                     <%--                            <c:forEach var="file" items="${entry.value}">--%>
                                     <%--                                <c:if test="${file.type == 0}">--%>
@@ -331,13 +331,16 @@
 
             <!-- 模态框 -->
             <div id="reasonModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span id="closeReasonModal" class="close">&times;</span>
+                <div class="modal-content" style="position: relative;"> <!-- 父容器设置为相对定位 -->
+                    <!-- 修改关闭按钮的样式 -->
+                    <span id="closeReasonModal" class="close"
+                          style="position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer;">&times;</span>
                     <h2>拒绝理由</h2>
                     <!-- 这个地方用于显示拒绝理由 -->
                     <p id="reasonText"></p>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

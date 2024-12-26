@@ -43,7 +43,7 @@
         </li>
     </ul>
     <div class="logout">
-        <a href="/user/logout">退出登录</a>
+        <a href="/user//backstageLogout">退出登录</a>
     </div>
 </div>
 

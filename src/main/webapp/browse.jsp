@@ -249,9 +249,9 @@
         <div class="intro-content">
           <p>团队名称：<c:out value="${team.teamName}"/></p>
           <p>研究方向：<c:out value="${team.researchArea}"/></p>
-          <p>简介：<c:out value="${team.introduction}"/></p>
+          <p>简介：<c:out value="${team.introduction}" escapeXml="false"/></p>
         </div>
-        <a href="/team/members" class="btn-submit">查看成员</a> <!-- 按钮移到左侧 -->
+        <a href="/team/members" class="btn-submit">查看全部</a> <!-- 按钮移到左侧 -->
       </div>
 
       <div class="section articles">

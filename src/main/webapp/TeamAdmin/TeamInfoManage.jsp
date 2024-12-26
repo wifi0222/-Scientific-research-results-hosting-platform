@@ -126,7 +126,7 @@
             <div class="section">
                 <h1>团队基本信息维护</h1>
 
-                <form action="/teamAdmin/TeamManage/Info/edit" method="get">
+                <form action="/teamAdmin/TeamManage/Info/edit" method="post">
                     <div>
                         <label for="teamID">团队ID：</label>
                         <input type="text" id="teamID" name="teamID" value="${team.teamID}" readonly class="readonly">
@@ -147,7 +147,7 @@
                         <label>团队简介：</label><br>
                         <!-- 隐藏字段，用于提交编辑器内容 -->
                         <div id="introductionEditor" style="height: 300px;"></div>
-                        <input type="hidden" name="introduction" id="introduction" value="${team.introduction}"><br>
+                        <input type="hidden" name="introduction" id="introduction" ><br>
                     </div>
 
                     <div>
@@ -164,31 +164,6 @@
     </div>
 </div>
 
-<script>
-    // 获取所有的a标签
-    const menuLinks = document.querySelectorAll('ul > li > a');
-
-    menuLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            // 如果是子菜单的链接，不阻止跳转
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('submenu')) {
-                // 这是父菜单，阻止跳转
-                event.preventDefault(); // 阻止父菜单的默认跳转行为
-                // 切换当前a标签的class
-                this.classList.toggle('active');
-
-                // 获取当前点击项的下一个子菜单
-                const submenu = this.nextElementSibling;
-
-                if (submenu && submenu.classList.contains('submenu')) {
-                    // 切换子菜单的显示状态
-                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-                }
-            }
-            // 对于子菜单项，允许跳转，不做任何处理
-        });
-    });
-</script>
 
 <script>
     // 初始化 Quill 编辑器
@@ -198,47 +173,27 @@
             toolbar: [
                 ['bold', 'italic', 'underline', 'strike'], // 加粗、斜体、下划线等
                 ['blockquote', 'code-block'],
-                [{'header': 1}, {'header': 2}], // 标题
-                [{'list': 'ordered'}, {'list': 'bullet'}], // 列表
-                [{'script': 'sub'}, {'script': 'super'}], // 上标/下标
-                [{'indent': '-1'}, {'indent': '+1'}], // 缩进
+                [{ 'header': 1 }, { 'header': 2 }], // 标题
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // 列表
+                [{ 'script': 'sub' }, { 'script': 'super' }], // 上标/下标
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // 缩进
                 ['image'], // 插入图片
                 ['clean'] // 清除格式
             ]
         }
     });
 
-    // 页面加载时，将现有的团队简介填入编辑器
-    <%--window.onload = function () {--%>
-    <%--    var initialContent = "${team.introduction}"; // 获取团队简介--%>
-    <%--    quill.root.innerHTML = initialContent; // 将内容设置到编辑器中--%>
-    <%--};--%>
-    //     // 页面加载时，将现有的团队简介填入编辑器
-    //     window.onload = function () {
-    //     var initialContent = ""; // 确保正确处理HTML字符
-    //     quill.root.innerHTML = initialContent; // 将内容设置到编辑器中
-    // };
-    // 假设从后台获取的内容存储在 initialContent 变量中
-    var initialContent = "${team.introduction}"; // 这里是从服务器传递过来的内容
+    // 将服务器端传递的已有内容加载到 Quill 编辑器
+    var initialContent = `${team.introduction}`;
+    quill.root.innerHTML = initialContent;
 
-    // 如果 initialContent 是 HTML 字符串，你需要先将它转换成 Delta 格式
-    var delta = quill.clipboard.convert(initialContent); // 将 HTML 转为 Delta 格式
-
-    // 页面加载时，填充编辑器
-    window.onload = function() {
-        quill.setContents(delta); // 设置 Delta 格式的内容
+    // 表单提交前，将编辑器内容同步到隐藏字段
+    document.querySelector('form').onsubmit = function () {
+        var content = quill.root.innerHTML; // 获取编辑器内容
+        document.getElementById('introduction').value = content;
     };
 
-
-
-// 表单提交前，将编辑器内容同步到隐藏字段
-document.querySelector('form').onsubmit = function () {
-var content = quill.root.innerHTML; // 获取编辑器内容
-document.getElementById('introduction').value = content;
-};
-
-
-function displayFileName() {
+    function displayFileName() {
         var fileInput = document.getElementById('avatarFile');
         var fileName = fileInput.files[0] ? fileInput.files[0].name : ''; // 获取文件名
         document.getElementById('fileName').textContent = fileName; // 显示文件名
