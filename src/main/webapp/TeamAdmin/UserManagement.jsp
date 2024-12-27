@@ -95,8 +95,8 @@
       };
 
       // 确定按钮事件
-      var approveStatusButton = document.getElementById("approve-Status-Button");
-      approveStatusButton.onclick = function() {
+      var StatusButton = document.getElementById("Status-button");
+      StatusButton.onclick = function() {
         // 注销用户
         window.location.href = "/teamAdmin/UserManage/setStatusUser?userID=" + userId;
       };
@@ -435,7 +435,7 @@
     <span class="close-Status">&times;</span>
     <h3>注销用户</h3>
     <p>确定注销此账户吗？注销后该用户将无法登录。</p>
-    <button id="approve-Status-button" class="modal-button">确定</button>
+    <button id="Status-button" class="modal-button">确定</button>
   </div>
 </div>
 
@@ -454,7 +454,7 @@
     <span class="batch-close-status">&times;</span>
     <h3>注销用户</h3>
     <p>确定注销选中的全部用户吗？注销后用户将无法登录。</p>
-    <button id="batch-status-Button" class="modal-button">确定</button>
+    <button id="batch-Status" class="modal-button">确定</button>
   </div>
 </div>
 <div id="BatchResetModal" class="modal">
@@ -483,7 +483,7 @@
     <span class="Visitor-batch-close-status">&times;</span>
     <h3>注销用户</h3>
     <p>确定注销选中的全部用户吗？注销后用户将无法登录。</p>
-    <button id="Visitor-batch-status-Button" class="modal-button">确定</button>
+    <button id="Visitor-batch-status" class="modal-button">确定</button>
   </div>
 </div>
 <div id="VisitorBatchResetModal" class="modal">
@@ -509,7 +509,7 @@
     <span class="Application-batch-close-status">&times;</span>
     <h3>注销用户</h3>
     <p>确定注销选中的全部用户吗？注销后用户将无法登录。</p>
-    <button id="Application-batch-status-Button" class="modal-button">确定</button>
+    <button id="Application-status" class="modal-button">确定</button>
   </div>
 </div>
 
