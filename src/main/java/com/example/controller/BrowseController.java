@@ -4,6 +4,7 @@ import com.example.model.*;
 import com.example.service.AchievementFileService;
 import com.example.service.ArticleFileService;
 import com.example.service.BrowseService;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class BrowseController {
 
     @Autowired
     private ArticleFileService articleFileService;
+
+    @Autowired
+    private UserService userService;
 
     // 信息浏览页面
     @GetMapping("/browse")
@@ -110,6 +114,8 @@ public class BrowseController {
         String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Achievement achievement = browseService.getAchievementDetails(achievementID);
         List<AchievementFile> files = achievementFileService.getFilesByAchievementId(achievementID);
+        User user = userService.findById(achievement.getTeamAdminID());
+        model.addAttribute("publisherName", user.getName());
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
@@ -124,6 +130,8 @@ public class BrowseController {
         String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Article article = browseService.getArticleDetails(articleID);
         List<ArticleFile> files = articleFileService.getFilesByArticleId(articleID);
+        User user = userService.findById(article.getTeamAdminID());
+        model.addAttribute("publisherName", user.getName());
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);

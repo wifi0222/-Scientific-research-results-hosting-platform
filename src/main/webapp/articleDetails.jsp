@@ -49,6 +49,7 @@
   <div class="category-time">
     <p>类别: ${article.category}</p>
     <p>时间: <fmt:formatDate value="${article.publishDate}" pattern="yyyy-MM-dd" /></p>
+    <p>发布者: ${publisherName}</p>
   </div>
 
    <!-- 摘要 -->
