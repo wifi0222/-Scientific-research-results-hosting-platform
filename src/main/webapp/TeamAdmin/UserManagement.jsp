@@ -95,10 +95,10 @@
       };
 
       // 确定按钮事件
-      var approveLogoutButton = document.getElementById("approve-Status-Button");
-      approveLogoutButton.onclick = function() {
+      var approveStatusButton = document.getElementById("approve-Status-Button");
+      approveStatusButton.onclick = function() {
         // 注销用户
-        window.location.href = "/teamAdmin/UserManage/StatusUser?userID=" + userId;
+        window.location.href = "/teamAdmin/UserManage/setStatusUser?userID=" + userId;
       };
     }
 
