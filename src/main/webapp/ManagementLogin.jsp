@@ -128,18 +128,18 @@
 
         <label for="password">密码:</label>
         <input type="password" id="password" name="password" required placeholder="请输入密码"/>
-
         <div style="margin-bottom: 15px;">
             <label for="captcha" style="display: block; margin-bottom: 5px;">验证码:</label>
             <div style="display: flex; align-items: center;">
                 <input type="text" id="captcha" name="captcha" required placeholder="请输入验证码"
-                       style="flex: 1; height: 35px; padding: 5px; border-radius: 5px; border: 1px solid #ccc;"/>
+                       style="flex: 1; height: 35px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;"/>
                 <img src="/captcha" alt="验证码图片"
                      onclick="this.src='/captcha?'+Math.random();"
-                     style="flex: 1; height: 35px; margin-left: 10px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px;"/>
+                     style="height: 35px; margin-left: 10px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px; object-fit: cover;"/>
             </div>
-            <small style="display: block; text-align: right; color: #777;">点击图片刷新验证码</small>
         </div>
+
+        <small style="display: block; text-align: right; color: #777;">点击图片刷新验证码</small>
 
         <button type="submit">登录</button>
     </form>

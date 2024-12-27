@@ -47,8 +47,7 @@ public class UserController {
             model.addAttribute("error", "验证码错误！");
             return "login";
         }
-        // 清除 session 中的验证码，避免重复使用
-        session.removeAttribute("captcha");
+        session.removeAttribute("captcha"); // 验证成功后清除验证码
 
         // 加密
         String encryptedPassword = OpenSSLUtil.encrypt(password);
@@ -460,8 +459,7 @@ public class UserController {
             model.addAttribute("error", "验证码错误！");
             return "login";
         }
-        // 清除 session 中的验证码，避免重复使用
-        session.removeAttribute("captcha");
+        session.removeAttribute("captcha"); // 验证成功后清除验证码
 
         String encryptedPassword = OpenSSLUtil.encrypt(password);
         User user = userService.login(usernameOrId, encryptedPassword);
