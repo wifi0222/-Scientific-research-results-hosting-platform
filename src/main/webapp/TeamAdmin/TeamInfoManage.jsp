@@ -126,7 +126,7 @@
             <div class="section">
                 <h1>团队基本信息维护</h1>
 
-                <form action="/teamAdmin/TeamManage/Info/edit" method="post">
+                <form action="/teamAdmin/TeamManage/Info/edit" method="post" enctype="multipart/form-data">
                     <div>
                         <label for="teamID">团队ID：</label>
                         <input type="text" id="teamID" name="teamID" value="${team.teamID}" readonly class="readonly">
