@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
         return userReposity.findAllTeamMember();
     }
 
+    @Override
+    public List<User> findAllVisitor() {
+        return userReposity.findAllVisitor();
+    }
+
     //在用户注册、新增用户时检查用户名是否存在
     @Override
     public User findByUserName(String username){return userReposity.findByUsername(username);}
@@ -66,9 +71,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addTeamAdmin(String username, String password) {
+    public int addTeamAdmin(String username, String password,String email) {
         //向用户表插入
-        userReposity.insertTeamAdminToUser(username,password);
+        userReposity.insertTeamAdminToUser(username,password,email);
         //通过username查找userID
         User user=userReposity.findByUsername(username);
         //向权限表插入
@@ -145,6 +150,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> searchUsers(String username, String roleType, Integer status, String registrationTime, String email) {
         return userReposity.searchUsers(username,roleType,status,registrationTime,email);
+    }
+
+    @Override
+    public int setStatus(int userID) {
+        return userReposity.setStatus(userID);
     }
 
 }

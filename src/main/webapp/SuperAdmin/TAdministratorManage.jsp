@@ -126,9 +126,9 @@
                                 <input type="checkbox" id="selectAllCheckbox"/>
                                 全选
                             </th>
-                            <th>ID</th>
-    <%--                        <th>用户名</th>--%>
-                            <th>姓名</th>
+<%--                            <th>ID</th>--%>
+                            <th>用户名</th>
+<%--                            <th>姓名</th>--%>
                             <th>用户管理</th>
                             <th>成果发布</th>
                             <th>成果删除</th>
@@ -151,53 +151,53 @@
                                            name="selectedRows"
                                            value="${teamAdmin.adminID}">
                                 </td>
-                                <td>${teamAdmin.adminID}</td>
-    <%--                            <td>${teamAdmin.adminUsername}</td>--%>
-                                <td>${teamAdmin.adminName}</td>
+<%--                                <td>${teamAdmin.adminID}</td>--%>
+                                <td>${teamAdmin.adminUsername}</td>
+<%--                                <td>${teamAdmin.adminName}</td>--%>
                                 <td class="permission">
                                             <span class="${teamAdmin.userPermission ? 'has' : 'no'}">
-                                                    ${teamAdmin.userPermission ? '有权限' : '无权限'}
+<%--                                                    ${teamAdmin.userPermission ? '有权限' : '无权限'}--%>
                                             </span>
                                 </td>
                                 <td class="permission">
                                             <span class="${teamAdmin.publishAchievement ? 'has' : 'no'}">
-                                                    ${teamAdmin.publishAchievement ? '有权限' : '无权限'}
+<%--                                                    ${teamAdmin.publishAchievement ? '有权限' : '无权限'}--%>
                                             </span>
                                 </td>
                                 <td class="permission">
                                             <span class="${teamAdmin.deleteAchievement ? 'has' : 'no'}">
-                                                    ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}
+<%--                                                    ${teamAdmin.deleteAchievement ? '有权限' : '无权限'}--%>
                                             </span>
                                 </td>
                                 <td class="permission">
                                     <span class="${teamAdmin.editAchievement ? 'has':'no'}">
-                                        ${teamAdmin.editAchievement ? '有权限' : '无权限'}
+<%--                                        ${teamAdmin.editAchievement ? '有权限' : '无权限'}--%>
                                     </span>
                                 </td>
                                 <td class="permission">
                                     <span class="${teamAdmin.setAchievementStatus ? 'has':'no'}">
-                                            ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}
+<%--                                            ${teamAdmin.setAchievementStatus ? '有权限' : '无权限'}--%>
                                     </span>
                                 </td>
 
                                 <td class="permission">
                                             <span class="${teamAdmin.publishArticle ? 'has' : 'no'}">
-                                                    ${teamAdmin.publishArticle ? '有权限' : '无权限'}
+<%--                                                    ${teamAdmin.publishArticle ? '有权限' : '无权限'}--%>
                                             </span>
                                 </td>
                                 <td class="permission">
                                             <span class="${teamAdmin.deleteArticle ? 'has' : 'no'}">
-                                                    ${teamAdmin.deleteArticle ? '有权限' : '无权限'}
+<%--                                                    ${teamAdmin.deleteArticle ? '有权限' : '无权限'}--%>
                                             </span>
                                 </td>
                                 <td class="permission">
                                     <span class="${teamAdmin.editArticle ? 'has':'no'}">
-                                            ${teamAdmin.editArticle ? '有权限' : '无权限'}
+<%--                                            ${teamAdmin.editArticle ? '有权限' : '无权限'}--%>
                                     </span>
                                 </td>
                                 <td class="permission">
                                     <span class="${teamAdmin.setArticleStatus ? 'has':'no'}">
-                                            ${teamAdmin.setArticleStatus ? '有权限' : '无权限'}
+<%--                                            ${teamAdmin.setArticleStatus ? '有权限' : '无权限'}--%>
                                     </span>
                                 </td>
 

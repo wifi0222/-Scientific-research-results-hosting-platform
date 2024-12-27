@@ -342,14 +342,14 @@
                                 <input type="text" id="username" name="username" placeholder="请输入用户名"/>
                             </div>
 
-                            <div class="form-group">
-                                <label for="roleType">用户角色：</label>
-                                <select name="roleType" id="roleType">
-                                    <option value="">选择角色</option>
-                                    <option value="TeamMember">团队成员</option>
-                                    <option value="Visitor">普通用户</option>
-                                </select>
-                            </div>
+<%--                            <div class="form-group">--%>
+<%--                                <label for="roleType">用户角色：</label>--%>
+<%--                                <select name="roleType" id="roleType">--%>
+<%--                                    <option value="">选择角色</option>--%>
+<%--                                    <option value="TeamMember">团队成员</option>--%>
+<%--                                    <option value="Visitor">普通用户</option>--%>
+<%--                                </select>--%>
+<%--                            </div>--%>
 
                             <div class="form-group">
                                 <label for="status">账号状态：</label>
@@ -396,7 +396,7 @@
                                 <input type="checkbox" id="selectAllCheckbox"/>
                                 全选
                             </th>
-                            <th>ID</th>
+<%--                            <th>ID</th>--%>
                             <th>用户名</th>
                             <th>姓名</th>
                             <th>用户角色</th>
@@ -420,7 +420,7 @@
                                        name="selectedRows"
                                        value="${user.userID}">
                             </td>
-                            <td>${user.userID}</td>
+<%--                            <td>${user.userID}</td>--%>
                             <td>${user.username}</td>
                             <td>${user.name}</td>
                             <td>
@@ -465,8 +465,9 @@
 <%--                            </td>--%>
                             <td>
                                 <div>
-                                    <!-- 注销用户-->
-                                    <button class="btn-reject" type="button" onclick="confirmLogout(${user.userID})">注销</button>
+
+                                    <!-- 删除用户-->
+                                    <button class="btn-reject" type="button" onclick="confirmLogout(${user.userID})">删除</button>
                                     <!-- 重置密码 -->
                                     <button class="btn-preview" type="button" onclick="confirmReset(${user.userID})">重置密码</button>
                                 </div>

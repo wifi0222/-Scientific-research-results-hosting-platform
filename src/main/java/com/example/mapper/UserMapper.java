@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserMapper {
     public List<User> findAllTeamAdmin();
     public List<User> findAllTeamMember();
+    public List<User> findAllVisitor();
     User findByUserId(@Param("userId") int userId); // 根据 userID 查询
     User findByUsername(@Param("username") String username); // 根据 username 查询
     int checkUsernameAndEmail(@Param("username") String username, @Param("email") String email);
@@ -20,7 +21,7 @@ public interface UserMapper {
     int checkDeactivationRequest(@Param("userID") int userID);
     void insertDeactivationRequest(@Param("userID") int userID);
     int updateTeamAdminInfo(User user);
-    public int insertTeamAdminToUser(@Param("username") String username, @Param("password") String password);
+    public int insertTeamAdminToUser(@Param("username") String username, @Param("password") String password,@Param("email")String email);
     public String findNameByUserID(int userID);
     public String findUsernameByUserID(int userID);
 //    public int deleteUser(@Param("userID") int userID);
@@ -36,4 +37,5 @@ public interface UserMapper {
                            @Param("status") Integer status,
                            @Param("registrationTime") String registrationTime,
                            @Param("email") String email);// 根据多个条件查询用户
+    public int setStatus(@Param("userID") int userID);
 }

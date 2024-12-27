@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserService {
     public List<User> findAllTeamAdmin();
     public List<User> findAllTeamMember();
+    public List<User> findAllVisitor();
     public User findByUserName(String username);
     public User findById(int id);
     public User getCurrentUser();
@@ -19,7 +20,7 @@ public interface UserService {
     public void submitDeactivationRequest(User user);
     User login(String usernameOrId, String password);
     public int updateTeamAdmin(User user);
-    public int addTeamAdmin(String username, String password);
+    public int addTeamAdmin(String username, String password,String email);
     public int deleteTeamAdmin(int adminId);
     public int addTeamMember(User user);
     public int updateTeamMember(User user);
@@ -29,4 +30,5 @@ public interface UserService {
     public int deleteById(int userID);
     public int ResetPassword(int userID,String password);
     public List<User> searchUsers(String username,String roleType,Integer status,String registrationTime,String email);
+    public int setStatus(int userID);
 }

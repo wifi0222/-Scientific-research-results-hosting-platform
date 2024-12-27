@@ -28,7 +28,7 @@
     <style>
         .main h1 {
             text-align: center;
-            color: #4a4a4a;
+            color: #4e73df;
             margin-bottom: 30px;
         }
 

@@ -10,4 +10,5 @@ public interface ISendMailService {
     boolean sendEmail(String username, String recipient);
     boolean sendMessageEmail(String sendEmailAddress, String message);
     String resetPassword(String recipient);
+    String sendTeamAdminEmail(String recipient);
 }

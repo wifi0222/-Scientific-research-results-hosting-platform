@@ -33,90 +33,90 @@
 /* 新增第1列：选择框 */
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
-    width: 58px;  /* 选择框列 */
+    width: 55px;  /* 选择框列 */
     /*background-color: mediumpurple; !* 你也可以换成其他颜色 *!*/
 }
 
-/* 第2列：ID */
+/*!* 第2列：ID *!*/
+/*.styled-table th:nth-child(2),*/
+/*.styled-table td:nth-child(2) {*/
+/*    width: 20px;*/
+/*    !*background-color: #2e59d9;*!*/
+/*}*/
+
+/* 第3列：用户名 */
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
-    width: 20px;
-    /*background-color: #2e59d9;*/
-}
-
-/* 第3列：姓名 */
-.styled-table th:nth-child(3),
-.styled-table td:nth-child(3) {
-    width: 50px;
+    width: 65px;
     /*background-color: #3e8e41;*/
 }
 
 /* 第4列：权限1*/
-.styled-table th:nth-child(4),
-.styled-table td:nth-child(4) {
+.styled-table th:nth-child(3),
+.styled-table td:nth-child(3) {
     width: 65px;
     /*background-color: #333333;*/
 }
 
 /* 第5列：权限2*/
-.styled-table th:nth-child(5),
-.styled-table td:nth-child(5) {
+.styled-table th:nth-child(4),
+.styled-table td:nth-child(4) {
     width: 65px; /* 摘要列 */
     /*background-color: darkorange;*/
 }
 
 /* 第6列：权限3 */
+.styled-table th:nth-child(5),
+.styled-table td:nth-child(5) {
+    width: 65px; /* 摘要列 */
+    /*background-color: yellowgreen;*/
+}
+
+/* 第7列：权限4 */
 .styled-table th:nth-child(6),
 .styled-table td:nth-child(6) {
     width: 65px; /* 摘要列 */
     /*background-color: yellowgreen;*/
 }
 
-/* 第7列：权限4 */
+/* 第8列：权限5 */
 .styled-table th:nth-child(7),
 .styled-table td:nth-child(7) {
-    width: 65px; /* 摘要列 */
-    /*background-color: yellowgreen;*/
-}
-
-/* 第8列：权限5 */
-.styled-table th:nth-child(8),
-.styled-table td:nth-child(8) {
     width: 65px; /* 摘要列 */
     /*background-color: darksalmon;*/
 }
 
 /* 第9列：权限6 */
+.styled-table th:nth-child(8),
+.styled-table td:nth-child(8) {
+    width: 65px; /* 摘要列 */
+    /*background-color: #bee5eb;*/
+}
+
+/*第10列：权限7*/
 .styled-table th:nth-child(9),
 .styled-table td:nth-child(9) {
     width: 65px; /* 摘要列 */
     /*background-color: #bee5eb;*/
 }
 
-/*第10列：权限7*/
+/*第11列：权限8*/
 .styled-table th:nth-child(10),
 .styled-table td:nth-child(10) {
     width: 65px; /* 摘要列 */
     /*background-color: #bee5eb;*/
 }
 
-/*第11列：权限8*/
+/*第11列：权限9*/
 .styled-table th:nth-child(11),
 .styled-table td:nth-child(11) {
-    width: 65px; /* 摘要列 */
-    /*background-color: #bee5eb;*/
-}
-
-/*第11列：权限9*/
-.styled-table th:nth-child(12),
-.styled-table td:nth-child(12) {
     width: 65px; /* 摘要列 85px*/
     /*background-color: #bee5eb;*/
 }
 
 /*第12列：操作*/
-.styled-table th:nth-child(13),
-.styled-table td:nth-child(13) {
+.styled-table th:nth-child(12),
+.styled-table td:nth-child(12) {
     width: 85px; /* 摘要列 */
     /*backgound-color: #bee5eb;*/
 }

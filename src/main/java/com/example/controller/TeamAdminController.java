@@ -72,7 +72,10 @@ public class TeamAdminController {
     @Autowired
     private ArticleService articleService;
 
-    //跳转到团队基本信息维护
+    @Autowired
+    private BrowseService browseService;
+
+    //跳转到团队基本信息
     @RequestMapping("/TeamManage/Info")
     public String TeamInfo(Model model, HttpSession session) {
         // 获取当前用户
@@ -84,7 +87,32 @@ public class TeamAdminController {
         }
 
 
-        Team team = teamService.getTeam();
+        // 加载团队简介
+        Team team = browseService.getTeamInfo();
+        model.addAttribute("team", team);
+
+        // 将用户信息传递给前端
+        model.addAttribute("user", currentUser);
+
+        // 加载团队成员
+        List<User> teamMembers = browseService.getTeamMembers();
+        model.addAttribute("teamMembers", teamMembers);
+
+        return "TeamAdmin/TeamInfo";
+    }
+
+    //跳转到更新团队信息界面
+    @RequestMapping("TeamManage/ToEdit")
+    public String ToEdit(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
+        // 加载团队简介
+        Team team = browseService.getTeamInfo();
         model.addAttribute("team", team);
         return "TeamAdmin/TeamInfoManage";
     }
@@ -387,6 +415,39 @@ public class TeamAdminController {
             response.put("message", "设置失败：" + e.getMessage());
         }
         return response;
+    }
+
+    @RequestMapping("/AllUserManage")
+    public String AllUserManage(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+
+        //判断是否有权限
+        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
+        }
+
+        //团队成员信息添加
+        List<User> TeamMember=userService.findAllTeamMember();
+        model.addAttribute("TeamMember", TeamMember);
+        //普通用户信息添加
+        List<User> Visitor=userService.findAllVisitor();
+        model.addAttribute("Visitor", Visitor);
+        //申请注销用户信息添加
+        ArrayList<User> users = new ArrayList<User>();
+        List<DeactivationReview> list = deactivationService.findDeactivationPendingUser();
+        for (DeactivationReview deactivationReview : list) {
+            users.add(userService.findById(deactivationReview.getUserID()));
+        }
+        model.addAttribute("ApplicationUser",users);
+
+        return "TeamAdmin/UserManagement";
+
     }
 
     /**
@@ -1341,29 +1402,29 @@ public class TeamAdminController {
         return "TeamAdmin/RegisterDetailsView";
     }
 
-    //跳转用户管理（注销和重置密码)
-    @GetMapping("ToUserManage")
-    public String ToUserManage(Model model, @RequestParam(required = false) String message, HttpSession session) {
-        // 获取当前用户
-        User currentUser = (User) session.getAttribute("currentUser");
-        if (currentUser == null) {
-            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
-        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
-            return "redirect:/ManagementLogin.jsp";    //用户角色判断
-        }
-        //判断是否有权限
-        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
-            model.addAttribute("error", "您没有用户管理的权限");
-            return "TeamAdmin/error";
-        }
+//    //跳转用户管理（注销和重置密码)
+//    @GetMapping("ToUserManage")
+//    public String ToUserManage(Model model, @RequestParam(required = false) String message, HttpSession session) {
+//        // 获取当前用户
+//        User currentUser = (User) session.getAttribute("currentUser");
+//        if (currentUser == null) {
+//            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+//        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
+//            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+//        }
+//        //判断是否有权限
+//        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
+//            model.addAttribute("error", "您没有用户管理的权限");
+//            return "TeamAdmin/error";
+//        }
+//
+//        List<User> users = userService.findTeamMemberAndVisitor();
+//        model.addAttribute("users", users);
+//        model.addAttribute("message", message);
+//        return "TeamAdmin/UserManage";
+//    }
 
-        List<User> users = userService.findTeamMemberAndVisitor();
-        model.addAttribute("users", users);
-        model.addAttribute("message", message);
-        return "TeamAdmin/UserManage";
-    }
-
-    //注销用户
+    //删除用户
     @GetMapping("UserManage/logoutUser")
     public String logoutUser(RedirectAttributes redirectAttributes, Model model, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
@@ -1383,15 +1444,44 @@ public class TeamAdminController {
         String ReceviceAddress = logoutUser.getEmail();
         int r = userService.deleteById(userID);
         if (r > 0) {
+            sendMailService.sendMessageEmail(ReceviceAddress, "删除成功");
+            redirectAttributes.addAttribute("message", "删除用户成功");
+        } else {
+            redirectAttributes.addAttribute("message", "删除用户失败");
+        }
+        return "redirect:/teamAdmin/AllUserManage";
+    }
+
+    //注销用户
+    @GetMapping("UserManage/setStatusUser")
+    public String setStatusUser(RedirectAttributes redirectAttributes,Model model, @RequestParam("userID") int userID, HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/ManagementLogin.jsp"; // 如果未登录，跳转到登录页面
+        } else if (currentUser.getRoleType().equals("TeamAdmin") == false) {
+            return "redirect:/ManagementLogin.jsp";    //用户角色判断
+        }
+        //判断是否有权限
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
+            model.addAttribute("error", "您没有用户管理的权限");
+            return "TeamAdmin/error";
+        }
+
+        User logoutUser = userService.findById(userID);
+        String ReceviceAddress = logoutUser.getEmail();
+        int r = userService.setStatus(userID);
+        if (r > 0) {
             sendMailService.sendMessageEmail(ReceviceAddress, "注销成功");
             redirectAttributes.addAttribute("message", "注销用户成功");
         } else {
             redirectAttributes.addAttribute("message", "注销用户失败");
         }
-        return "redirect:/teamAdmin/ToUserManage";
+        return "redirect:/teamAdmin/AllUserManage";
     }
 
-    //批量注销
+
+    //批量删除
     @RequestMapping("/UserManage/BatchLogoutUser")
     @ResponseBody
     public Map<String, Object> LogoutUserBatch(@RequestBody Map<String, List<Integer>> requestData,
@@ -1433,6 +1523,48 @@ public class TeamAdminController {
         return response;
     }
 
+    //批量注销
+    @RequestMapping("/UserManage/BatchSetStatusUser")
+    @ResponseBody
+    public Map<String, Object> BatchSetStatus(@RequestBody Map<String, List<Integer>> requestData,
+                                               HttpSession session) {
+        // 获取当前用户
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (currentUser == null) {
+            response.put("success", false);
+            response.put("message", "用户未登录");
+            return response;
+        }
+
+        List<Integer> userIds = requestData.get("userIds");
+        System.out.println("Received user IDs: " + userIds); // 打印接收到的用户ID列表
+        if (userIds == null || userIds.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "没有选中的成员");
+            return response;
+        }
+
+        // 批量执行
+        try {
+            for (Integer userID : userIds) {
+                User logoutUser = userService.findById(userID);
+                String ReceviceAddress = logoutUser.getEmail();
+                int r = userService.setStatus(userID);
+                sendMailService.sendMessageEmail(ReceviceAddress, "注销成功");
+            }
+            response.put("success", true);
+            response.put("message", "注销成功");
+        } catch (Exception e) {
+            e.printStackTrace();  // 打印堆栈信息
+            response.put("success", false);
+            response.put("message", "注销失败：" + e.getMessage());
+        }
+        return response;
+    }
+
     //重置密码
     @GetMapping("/UserManage/ResetPassword")
     public String ResetPassword(RedirectAttributes redirectAttributes, Model model, @RequestParam("userID") int userID, HttpSession session) {
@@ -1460,7 +1592,7 @@ public class TeamAdminController {
             int r = userService.ResetPassword(userID, encryptedPassword);
             redirectAttributes.addAttribute("message", "重置密码成功");
         }
-        return "redirect:/teamAdmin/ToUserManage";
+        return "redirect:/teamAdmin/AllUserManage";
     }
 
     //批量重置
