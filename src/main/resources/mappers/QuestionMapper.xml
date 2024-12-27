@@ -57,6 +57,7 @@
     <update id="updateReply">
         UPDATE Question
         SET replyContent = #{replyContent},
+            teamAdminID = #{teamAdminID},
             replyTime = #{replyTime},
             status = #{status}
         WHERE questionID = #{questionID}

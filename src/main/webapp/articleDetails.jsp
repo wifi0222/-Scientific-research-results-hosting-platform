@@ -154,14 +154,16 @@
 <div class="comment-section">
   <h3>评论</h3>
 
-  <!-- 评论输入框 -->
-  <form action="/questions/comment" method="post" id="commentForm">
-    <textarea name="commentContent" id="commentContent" rows="4" placeholder="在此输入评论..." required></textarea>
-    <input type="hidden" name="objectID" value="${article.articleID}">
-    <input type="hidden" name="type" value="${article.category}">
-    <input type="hidden" name="title" value="${article.title}">
-    <button type="submit">提交评论</button>
-  </form>
+  <c:if test="${not empty user}">
+    <!-- 评论输入框 -->
+    <form action="/questions/comment" method="post" id="commentForm">
+      <textarea name="commentContent" id="commentContent" rows="4" placeholder="在此输入评论..." required></textarea>
+      <input type="hidden" name="objectID" value="${article.articleID}">
+      <input type="hidden" name="type" value="${article.category}">
+      <input type="hidden" name="title" value="${article.title}">
+      <button type="submit">提交评论</button>
+    </form>
+  </c:if>
 
   <!-- 评论列表 -->
   <div class="comments-list">
@@ -178,7 +180,8 @@
             <c:if test="${not empty comment.replyContent}">
               <button class="toggle-reply-btn" data-reply-id="reply-${comment.questionID}">查看回复</button>
               <div id="reply-${comment.questionID}" class="reply-content" style="display: none; margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #4e73df;">
-                <p><strong>${comment.teamAdminName}</strong>${comment.replyContent}</p>
+                <p><strong>${comment.teamAdminName}</strong> 回复了： ${comment.replyContent}</p>
+                <p style="color: #5a6268"><fmt:formatDate value="${comment.replyTime}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
               </div>
             </c:if>
           </li>

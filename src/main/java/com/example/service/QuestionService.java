@@ -12,7 +12,7 @@ public interface QuestionService {
 
     Question getQuestionById(int questionID);
 
-    void replyQuestion(int questionID, String replyContent, Date replyTime);
+    void replyQuestion(int questionID, String replyContent, int teamAdminID, Date replyTime);
 
     List<Question> getQuestionsByUserID(int userID);
 

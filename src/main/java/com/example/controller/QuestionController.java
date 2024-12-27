@@ -84,12 +84,13 @@ public class QuestionController {
     // 处理回复逻辑
     @PostMapping("/{id}/reply")
     public ResponseEntity<String> replyQuestion(@PathVariable("id") int questionID,
-                                                @RequestParam("replyContent") String replyContent) {
+                                                @RequestParam("replyContent") String replyContent,
+                                                @RequestParam("teamAdminID") int teamAdminID) {
         // 将过期的Redis删掉
         String cacheKey = "question:" + questionID;
         redisUtil.del(cacheKey);
         // 更新数据库
-        questionService.replyQuestion(questionID, replyContent, new Date());
+        questionService.replyQuestion(questionID, replyContent, teamAdminID, new Date());
         return ResponseEntity.ok("Reply submitted successfully!");
     }
 
@@ -121,7 +122,7 @@ public class QuestionController {
 
     // 根据questionID返回question详细信息并传向前端
     @RequestMapping("/ans-details/{id}")
-    public String showQuestionDetails(@PathVariable("id") int questionID, Model model) {
+    public String showQuestionDetails(HttpSession session, @PathVariable("id") int questionID, Model model) {
         System.out.println("in questions/ans-details/{id} " + questionID);
 
         // 先从 Redis 缓存中获取
@@ -132,8 +133,11 @@ public class QuestionController {
             question = questionService.getQuestionById(questionID);
             redisUtil.set(cacheKey, question, 300);
         }
+        // 从 Session 中获取当前用户的 userID
+        User currentUser = (User) session.getAttribute("currentUser");
 
         model.addAttribute("question", question);
+        model.addAttribute("user", currentUser);
         return "Question/ans-question-details";
     }
 
@@ -198,21 +202,15 @@ public class QuestionController {
         // 调用 Service 保存评论
         questionService.addComment(comment);
 
-        return "redirect:/article/details?articleID=" + objectID; // 重定向到当前文章详情页
+        if (Objects.equals(type, "SCI") || Objects.equals(type, "EI") || Objects.equals(type, "核心")) {
+            return "redirect:/article/details?articleID=" + objectID; // 重定向到当前文章详情页
+        } else if (Objects.equals(type, "专著") || Objects.equals(type, "专利") || Objects.equals(type, "软著") || Objects.equals(type, "产品")){
+            return "redirect:/achievement/details?achievementID=" + objectID; // 重定向到当前成果详情页
+        }
+
+        return "redirect:/user/login";
     }
 
-    @GetMapping("/article/details")
-    public String showArticleDetails(@RequestParam("articleID") int articleID, Model model) {
-        // 查询文章详情
-        Article article = articleService.getArticleById(articleID);
-        model.addAttribute("article", article);
-
-        // 根据 articleID 和 category 查询相关评论
-        List<Question> comments = questionService.getCommentsByArticle(articleID, article.getCategory());
-        model.addAttribute("comments", comments);
-
-        return "article-details";
-    }
 
 }
 

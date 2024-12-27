@@ -16,6 +16,7 @@ public class Question implements Serializable { // 如果不加 implements Seria
     private Date replyTime;
     private String type;
     private int objectID;
+    private int teamAdminID;
 
     // 这两个字段数据库中没有
     private String userName;
@@ -116,6 +117,14 @@ public class Question implements Serializable { // 如果不加 implements Seria
 
     public void setTeamAdminName(String teamAdminName) {
         this.teamAdminName = teamAdminName;
+    }
+
+    public int getTeamAdminID() {
+        return teamAdminID;
+    }
+
+    public void setTeamAdminID(int teamAdminID) {
+        this.teamAdminID = teamAdminID;
     }
 }
 

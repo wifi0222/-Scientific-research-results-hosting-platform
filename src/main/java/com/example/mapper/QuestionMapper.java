@@ -41,6 +41,7 @@ public interface QuestionMapper {
 
     int updateReply(@Param("questionID") int questionID,
                     @Param("replyContent") String replyContent,
+                    @Param("teamAdminID") int teamAdminID,
                     @Param("replyTime") Date replyTime,
                     @Param("status") int status);
 

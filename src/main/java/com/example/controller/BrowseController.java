@@ -1,10 +1,7 @@
 package com.example.controller;
 
 import com.example.model.*;
-import com.example.service.AchievementFileService;
-import com.example.service.ArticleFileService;
-import com.example.service.BrowseService;
-import com.example.service.QuestionService;
+import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +27,9 @@ public class BrowseController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private UserService userService;
 
     // 信息浏览页面
     @GetMapping("/browse")
@@ -127,6 +127,18 @@ public class BrowseController {
                 .filter(comment -> comment.getStatus() != -1)
                 .collect(Collectors.toList());
 
+        // 为每条评论设置 userName 和 teamAdminName
+        comments.forEach(comment -> {
+            User user = userService.findById(comment.getUserID());
+            User admin = userService.findById(comment.getTeamAdminID());
+            if (user != null) {
+                comment.setUserName(user.getUsername());
+                if(admin!=null) {
+                    comment.setTeamAdminName(admin.getUsername());
+                }
+            }
+        });
+
         model.addAttribute("comments", comments);
 
         return "achievementDetails"; // 返回成果详情页面
@@ -150,6 +162,18 @@ public class BrowseController {
         comments = comments.stream()
                 .filter(comment -> comment.getStatus() != -1)
                 .collect(Collectors.toList());
+
+        // 为每条评论设置 userName 和 teamAdminName
+        comments.forEach(comment -> {
+            User user = userService.findById(comment.getUserID());
+            User admin = userService.findById(comment.getTeamAdminID());
+            if (user != null) {
+                comment.setUserName(user.getUsername());
+                if(admin!=null) {
+                comment.setTeamAdminName(admin.getUsername());
+                }
+            }
+        });
 
         model.addAttribute("comments", comments);
 

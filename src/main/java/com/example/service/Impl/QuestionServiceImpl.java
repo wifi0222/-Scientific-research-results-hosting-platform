@@ -15,8 +15,6 @@ import java.util.List;
 public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserService userService;
 
     @Override
     public void submitQuestion(Question question) {
@@ -36,8 +34,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void replyQuestion(int questionID, String replyContent, Date replyTime) {
-        questionMapper.updateReply(questionID, replyContent, replyTime, 1); // status 变为 1 表示已回复
+    public void replyQuestion(int questionID, String replyContent, int teamAdminID, Date replyTime) {
+        questionMapper.updateReply(questionID, replyContent, teamAdminID, replyTime, 1); // status 变为 1 表示已回复
     }
 
     @Override
@@ -59,30 +57,12 @@ public class QuestionServiceImpl implements QuestionService {
         // 查询所有评论
         List<Question> comments = questionMapper.getCommentsByArticle(articleID, category);
 
-        // 为每条评论设置 userName 和 teamAdminName
-        comments.forEach(comment -> {
-            User user = userService.findById(comment.getUserID());
-            if (user != null) {
-                comment.setUserName(user.getUsername());
-                comment.setTeamAdminName(user.getUsername());
-            }
-        });
-
         return comments;
     }
 
     public List<Question> getCommentsByAchievement(int achievementID, String category) {
         // 查询所有评论
         List<Question> comments = questionMapper.getCommentsByAchievement(achievementID, category);
-
-        // 为每条评论设置 userName 和 teamAdminName
-        comments.forEach(comment -> {
-            User user = userService.findById(comment.getUserID());
-            if (user != null) {
-                comment.setUserName(user.getUsername());
-                comment.setTeamAdminName(user.getUsername());
-            }
-        });
 
         return comments;
     }
