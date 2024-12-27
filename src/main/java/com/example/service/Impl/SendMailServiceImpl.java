@@ -140,7 +140,7 @@ public class SendMailServiceImpl implements ISendMailService {
             messageHelper.setFrom(send);
             messageHelper.setTo(recipient);
             messageHelper.setSubject(subject);
-            messageHelper.setText("您的验证码是：" + content, true);
+            messageHelper.setText("您的临时密码是：" + content+" ，请尽快登录并修改密码", true);
             mailSender.send(mimeMessage);
             return content;
         } catch (MessagingException e) {

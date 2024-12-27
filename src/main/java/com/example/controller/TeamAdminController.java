@@ -308,7 +308,7 @@ public class TeamAdminController {
 
     //处理审核
     @GetMapping("/RegisterReview")
-    public String SubmitRegisterReview(RedirectAttributes redirectAttributes,Model model, @RequestParam("username") String username, @RequestParam("status") int status,
+    public String SubmitRegisterReview(RedirectAttributes redirectAttributes, Model model, @RequestParam("username") String username, @RequestParam("status") int status,
                                        @RequestParam(required = false) String refuseReason, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -319,7 +319,7 @@ public class TeamAdminController {
         }
 
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
@@ -1259,8 +1259,7 @@ public class TeamAdminController {
 
             // 重定向回编辑页面，刷新附件和图片列表
             return "redirect:/teamAdmin/achievements/edit?id=" + id + "&type=0";
-        }
-        else if (type == 1) {
+        } else if (type == 1) {
             TeamAdministrator teamAdministrator = administratorService.findAdministratorById(adminID);
             if (!teamAdministrator.getDeleteArticle()) {
                 model.addAttribute("error", "您没有删除文章的权限！请联系超级用户管理员");
@@ -1366,7 +1365,7 @@ public class TeamAdminController {
 
     //注销用户
     @GetMapping("UserManage/logoutUser")
-    public String logoutUser(RedirectAttributes redirectAttributes,Model model, @RequestParam("userID") int userID, HttpSession session) {
+    public String logoutUser(RedirectAttributes redirectAttributes, Model model, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -1436,7 +1435,7 @@ public class TeamAdminController {
 
     //重置密码
     @GetMapping("/UserManage/ResetPassword")
-    public String ResetPassword(RedirectAttributes redirectAttributes, Model model,@RequestParam("userID") int userID, HttpSession session) {
+    public String ResetPassword(RedirectAttributes redirectAttributes, Model model, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -1446,7 +1445,7 @@ public class TeamAdminController {
         }
 
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
@@ -1493,7 +1492,8 @@ public class TeamAdminController {
             for (Integer userID : userIds) {
                 User user = userService.findById(userID);
                 String password = sendMailService.resetPassword(user.getEmail());
-                userService.ResetPassword(userID, password);
+                String encryptedPassword = OpenSSLUtil.encrypt(password);
+                userService.ResetPassword(userID, encryptedPassword);
             }
             response.put("success", true);
             response.put("message", "重置成功");

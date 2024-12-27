@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rejectedTab.classList.remove('active'); // 新增
     }
 
-    // 显示正在审核成果
+    // 显示待审核成果
     function showReview() {
         reviewSection.classList.add('active');
         publishedSection.classList.remove('active');
@@ -229,7 +229,7 @@ document.getElementById("batchHidePublished").addEventListener("click", function
     window.location.href = url; // 立即导航到指定的 URL，适用于需要打开一个新的页面
 });
 
-// ========== 正在审核的成果（status=0） ==========
+// ========== 待审核的成果（status=0） ==========
 const selectAllReview = document.getElementById("selectAllReview");
 const rowCheckboxesReview = document.querySelectorAll(".rowCheckboxReview");
 

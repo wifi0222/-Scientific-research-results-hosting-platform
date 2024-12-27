@@ -22,6 +22,7 @@
             abstract    = #{abstractContent},
             contents    = #{contents},
             publishDate = #{publishDate},
+            teamID      = #{teamID},
             status      = #{status},
             viewStatus  = #{viewStatus}
         WHERE articleID = #{articleID}

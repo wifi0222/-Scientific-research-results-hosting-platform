@@ -58,9 +58,9 @@
             </div>
 
             <div class="tabs">
-                <a href="javascript:void(0)" id="publishedTab" class="active">已发布的成果</a>
-                <a href="javascript:void(0)" id="reviewTab">正在审核的成果</a>
-                <a href="javascript:void(0)" id="rejectedTab">审核被拒绝的成果</a>
+                <a href="javascript:void(0)" id="publishedTab" class="active">已发布</a>
+                <a href="javascript:void(0)" id="reviewTab">待审核</a>
+                <a href="javascript:void(0)" id="rejectedTab">审核被拒绝</a>
                 <a href="${pageContext.request.contextPath}/TeamAdmin/addAchievement.jsp"
                    style="margin-left:20px;">新增成果</a>
             </div>
@@ -159,9 +159,9 @@
                 <%--    </c:forEach>--%>
             </div>
 
-            <!-- 正在审核的成果（status=0） -->
+            <!-- 待审核的成果（status=0） -->
             <div id="reviewSection" class="section">
-                <%--    <h2>正在审核的成果 (status = 0)</h2>--%>
+                <%--    <h2>待审核的成果 (status = 0)</h2>--%>
                 <h3>${cat}</h3>
                 <table class="achievement-table" data-status="0" data-category="${cat}">
                     <thead>
@@ -223,7 +223,7 @@
                                         <%-- <c:choose>里面不能加注释--%>
                                     <c:choose>
                                         <c:when test="${entry.key.status == -1}">不通过</c:when>
-                                        <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                                        <c:when test="${entry.key.status == 0}">待审核</c:when>
                                         <c:otherwise>未知</c:otherwise>
                                     </c:choose>
                                 </td>
@@ -307,7 +307,7 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${entry.key.status == -1}">不通过</c:when>
-                                        <c:when test="${entry.key.status == 0}">正在审核</c:when>
+                                        <c:when test="${entry.key.status == 0}">待审核</c:when>
                                         <c:otherwise>未知</c:otherwise>
                                     </c:choose>
                                 </td>

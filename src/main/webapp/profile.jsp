@@ -148,7 +148,7 @@
                     <p style="color: green;">${message}</p>
                 </c:if>
 
-                <form action="/user/profile/update" method="post" enctype="multipart/form-data">
+                <form action="/user/profile/update" method="post" enctype="multipart/form-data" class="biao">
                     <!-- 上传头像 -->
                     <label for="avatarFile" class="file-upload-label">上传头像:</label>
                     <input type="file" id="avatarFile" name="avatarFile" class="file-upload-input" onchange="displayFileName()">

@@ -17,12 +17,14 @@
     <!-- 更新科研成果 -->
     <update id="updateAchievement" parameterType="com.example.model.Achievement">
         UPDATE Achievement
-        SET title      = #{title},
-            category   = #{category},
-            abstract   = #{abstractContent},
-            contents   = #{contents},
-            status     = #{status},
-            viewStatus = #{viewStatus}
+        SET title        = #{title},
+            category     = #{category},
+            abstract     = #{abstractContent},
+            contents     = #{contents},
+            creationTime = #{creationTime},
+            teamID       = #{teamID},
+            status       = #{status},
+            viewStatus   = #{viewStatus}
         WHERE achievementID = #{achievementID}
     </update>
 
