@@ -666,11 +666,10 @@ public class TeamAdminController {
         return "/TeamAdmin/error";
     }
 
-    // 文件保存方法：文件；文件上传的目录
+    // 文件保存方法：文件；文件上传的目录；文件类型（type=0表示附件，type=1表示图片）
     private String saveFile(MultipartFile file, String uploadDir, int type) throws Exception {
-
+        // 本地存储文件的主目录
         String location = "C:\\Users\\zwb\\Desktop\\JavaWeb课设\\";
-
         if (file.isEmpty()) {
             return null;
         }
@@ -683,7 +682,6 @@ public class TeamAdminController {
         }
         //  将上传的文件保存到指定的目录
         file.transferTo(dest);
-//        return dest.getAbsolutePath();
         if (type == 0) {
             // 附件，静态资源配置
             return "uploads\\" + uploadDir + fileName;
