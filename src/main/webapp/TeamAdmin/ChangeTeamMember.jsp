@@ -149,53 +149,6 @@
 <body>
 <div class="container">
     <div class="content">
-    <!-- Sidebar -->
-<%--        <div class="sidebar">--%>
-<%--            <c:choose>--%>
-<%--                <c:when test="${userRoleType == 'TeamAdmin'}">--%>
-<%--                    <ul>--%>
-<%--                        <li><a href="javascript:void(0);">团队管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Info">团队基本信息维护</a></li>--%>
-<%--                                <li><a href="/teamAdmin/TeamManage/Member">管理团队成员信息</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToMemberInfoReview">团队成员信息审核</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">科研成果管理与发布</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/research/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/research/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">文章管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/article/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/article/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">用户管理</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/teamAdmin/ToUserRegisterManage">注册申请审核</a></li>--%>
-<%--                                <li><a href="/teamAdmin/ToUserManage">注销与重置用户密码</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                        <li><a href="javascript:void(0);">在线交流与反馈</a>--%>
-<%--                            <ul class="submenu">--%>
-<%--                                <li><a href="/feedback/submenu1">子菜单项1</a></li>--%>
-<%--                                <li><a href="/feedback/submenu2">子菜单项2</a></li>--%>
-<%--                            </ul>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                    <div class="logout">--%>
-<%--                        <a href="/user/logout">退出登录</a>--%>
-<%--                    </div>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <!-- 普通用户的菜单项，若有的话 -->--%>
-<%--                    <a href="user/ManagementLogin">管理员登录</a>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
-<%--        </div>--%>
         <!-- Sidebar -->
         <jsp:include page="/TeamAdmin/sidebar.jsp"/>
 
@@ -212,8 +165,8 @@
                 </div>
 
                 <form action="/teamAdmin/TeamManage/Member/edit" method="post" enctype="multipart/form-data" id="quillForm">
-                    <!-- 用户ID (只读) -->
-                    用户ID：<input type="text" name="userID" value="${user.userID}" readonly><br>
+                    <!-- 用户ID (隐藏) -->
+                    <input type="text" name="userID" value="${user.userID}" hidden="hidden"><br>
 
                     <!-- 用户名 -->
                     用户名：<input type="text" name="username" value="${user.username}" readonly><br>
@@ -229,12 +182,12 @@
                     <input type="text" id="email" name="email" value="${user.email}">
                     <span id="emailError" style="color:red; display:none;">请输入有效的邮箱地址</span><br>
 
-                <%--    <!-- 状态 -->--%>
-                <%--    状态：--%>
-                <%--    <select name="status">--%>
-                <%--        <option value="1" ${user.status == 1 ? 'selected' : ''}>可用</option>--%>
-                <%--        <option value="0" ${user.status == 0 ? 'selected' : ''}>禁用</option>--%>
-                <%--    </select><br>--%>
+                    <!-- 状态 -->
+                    状态：
+                    <select name="status">
+                        <option value="1" ${user.status == 1 ? 'selected' : ''}>可用</option>
+                        <option value="0" ${user.status == 0 ? 'selected' : ''}>禁用</option>
+                    </select><br>
 
                     <!-- 姓名 -->
                     姓名：<input type="text" name="name" value="${user.name}"><br>

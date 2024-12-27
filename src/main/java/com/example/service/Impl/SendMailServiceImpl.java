@@ -159,6 +159,37 @@ public class SendMailServiceImpl implements ISendMailService {
         }
     }
 
+    @Override
+    public String sendTeamAdminEmail(String recipient) {
+        String send = "1546854529@qq.com";
+        String subject = "团队管理员通知";
+        String content = verifyCode(8); // 生成验证码
+        // 发送邮件
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            messageHelper.setFrom(send);
+            messageHelper.setTo(recipient);
+            messageHelper.setSubject(subject);
+            messageHelper.setText("您的管理员账户激活成功，临时密码为请及时登录：" + content, true);
+            mailSender.send(mimeMessage);
+            return content;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            // 检查是否为目标邮箱不存在的错误
+            if (e.getCause() instanceof SMTPSendFailedException) {
+                SMTPSendFailedException smtpException = (SMTPSendFailedException) e.getCause();
+                String errorMessage = smtpException.getMessage();
+
+                // 如果错误信息中包含 "550" 和 "non-existent account"，则认为是邮箱不存在
+                if (errorMessage.contains("550") && errorMessage.contains("non-existent account")) {
+                    return "no"; // 邮箱不存在
+                }
+            }
+            return "no";
+        }
+    }
+
 
     /*
     生成随机验证码

@@ -103,6 +103,19 @@ public class BrowseController {
         return "TeamAdmin/memberDetails"; // 返回成员详情页面
     }
 
+    // 团队成员详情
+    @GetMapping("/memberManage/details")
+    public String ManageMemberDetails(@RequestParam("teamMembersID") int userID, HttpSession session, Model model) {
+        User currentUser = (User) session.getAttribute("currentUser"); // 从 Session 中获取当前用户
+        String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
+        User member = browseService.getMemberDetails(userID);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userRoleType", userRoleType);
+        model.addAttribute("member", member);
+        return "TeamAdmin/ManageMemberDetails"; // 返回成员详情页面
+    }
+
+
     // 成果详情
     @GetMapping("/achievement/details")
     public String achievementDetails(@RequestParam("achievementID") int achievementID, HttpSession session, Model model) {

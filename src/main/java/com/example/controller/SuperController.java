@@ -75,7 +75,7 @@ public class SuperController {
 
     //增加团队管理员
     @GetMapping("/TeamAdminManage/add")
-    public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("password") String password,
+    public String addTeamAdmin(@RequestParam("username") String username, @RequestParam("email") String email,
                                RedirectAttributes redirectAttributes, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
@@ -85,13 +85,16 @@ public class SuperController {
             return "redirect:/ManagementLogin.jsp";    //用户角色判断
         }
 
-        System.out.println("用户名：" + username + "密码" + password);
+        System.out.println("用户名：" + username);
         String information = "新增团队管理员成功";
         if (userService.findByUserName(username) != null) {
             information = "用户名已存在，新增团队管理员失败，请重新输入";
         } else {
+            //向管理员发送邮件
+            String password=sendMailService.sendTeamAdminEmail(email);
             String encryptedPassword = OpenSSLUtil.encrypt(password);
-            userService.addTeamAdmin(username, encryptedPassword);
+            //把管理员插入用户表
+            userService.addTeamAdmin(username, encryptedPassword,email);
         }
         redirectAttributes.addAttribute("AddTeamAdminRemind", information);
         return "redirect:/SuperController/UserManagement";

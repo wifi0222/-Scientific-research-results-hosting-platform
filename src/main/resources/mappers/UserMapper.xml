@@ -14,6 +14,17 @@
         WHERE roleType='TeamMember'
     </select>
 
+    <select id="findAllVisitor" resultType="com.example.model.User">
+        SELECT * FROM [user]
+        WHERE roleType='Visitor'
+    </select>
+
+    <update id="setStatus">
+        UPDATE [User]
+        SET status=0
+        WHERE userID=#{userID}
+    </update>
+
     <!-- 根据 userID 查询用户 -->
     <select id="findByUserId" parameterType="int" resultType="com.example.model.User">
         SELECT * FROM [user]
@@ -103,22 +114,16 @@
         UPDATE [User]
         SET
             username = #{username},
-            password = #{password},
-            roleType = #{roleType},
             email = #{email},
-            registrationTime = #{registrationTime},
             status = #{status},
             name = #{name},
-            researchField = #{researchField},
-            contactInfo = #{contactInfo},
-            academicBackground = #{academicBackground},
-            researchAchievements = #{researchAchievements}
+            contactInfo = #{contactInfo}
         WHERE userID = #{userID};
     </update>
 
     <insert id="insertTeamAdminToUser">
-        INSERT INTO [User](username,password,roleType,status)
-        VALUES(#{username},#{password},'TeamAdmin',1)
+        INSERT INTO [User](username,password,email,roleType,status)
+        VALUES(#{username},#{password},#{email},'TeamAdmin',1)
     </insert>
 
     <select id="findNameByUserID" resultType="String" parameterType="int">

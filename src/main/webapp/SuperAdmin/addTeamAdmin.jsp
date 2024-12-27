@@ -271,8 +271,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">密码：</label>
-                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                        <label for="email">邮箱：</label>
+                        <input type="text" id="email" name="eamil" placeholder="请输入邮箱" required>
                     </div>
 
                     <div class="form-group">
