@@ -208,6 +208,97 @@
     color: #333;
 }
 
+.close-Status {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-Status:hover,
+.close-Status:focus {
+    color: #333;
+}
+
+.Application-batch-close-logout{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.Application-batch-close-logout:hover,
+.Application-batch-close-logout:focus{
+    color: #333;
+}
+
+.Application-batch-close-status{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.Application-batch-close-status:hover,
+.Application-batch-close-status:focus{
+    color: #333;
+}
+
+.Visitor-batch-close-logout{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.Visitor-batch-close-logout:hover,
+.Visitor-batch-close-logout:focus{
+    color: #333;
+}
+
+.Visitor-batch-close-reset{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.Visitor-batch-close-reset:hover,
+.Visitor-batch-close-reset:focus{
+    color: #333;
+}
+
+
+.Visitor-batch-close-status{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.Visitor-batch-close-status:hover,
+.Visitor-batch-close-status:focus{
+    color: #333;
+}
 
 
 /* 输入框样式 */

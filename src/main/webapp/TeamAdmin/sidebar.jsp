@@ -34,7 +34,7 @@
                class="<%= currentPage.contains("/teamAdmin/ToUserRegisterManage") ? "active" : "" %>">注册申请审核</a>
         </li>
         <li>
-            <a href="/teamAdmin/ToUserManage"
+            <a href="/teamAdmin/AllUserManage"
                class="<%= currentPage.contains("/teamAdmin/ToUserManage") ? "active" : "" %>">注销与重置用户密码</a>
         </li>
         <li>

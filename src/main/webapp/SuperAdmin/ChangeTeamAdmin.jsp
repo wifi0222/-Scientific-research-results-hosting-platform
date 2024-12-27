@@ -228,46 +228,40 @@
 
 
                 <form action="/SuperController/TeamAdminManage/edit" method="GET" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="userID">用户ID(无法修改)：</label>
+                    <div class="form-group" hidden="hidden">
+                        <label for="userID">用户ID：</label>
                         <input type="text" name="userID" id="userID" value="${user.userID}" readonly class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="username">用户名（无法修改)：</label>
+                        <label for="username">用户名：</label>
                         <input type="text" name="username" id="username" value="${user.username}" readonly class="form-control">
                     </div>
 
-                    <div class="form-group">
-                        <label for="password">密码：</label>
-                        <input type="text" name="password" id="password" value="${user.password}" class="form-control">
-                    </div>
-
-                    <!-- 角色类型单选框 -->
-                    <div class="form-group">
-                        <label>角色类型：</label>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" id="roleTypeTeamAdmin" name="roleType" value="TeamAdmin" ${user.roleType == 'TeamAdmin' ? 'checked' : ''} class="form-check-input">
-                            <label for="roleTypeTeamAdmin" class="form-check-label">团队管理员</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" id="roleTypeTeamMember" name="roleType" value="TeamMember" ${user.roleType == 'TeamMember' ? 'checked' : ''} class="form-check-input">
-                            <label for="roleTypeTeamMember" class="form-check-label">团队成员</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" id="roleTypeVisitor" name="roleType" value="Visitor" ${user.roleType == 'Visitor' ? 'checked' : ''} class="form-check-input">
-                            <label for="roleTypeVisitor" class="form-check-label">普通用户</label>
-                        </div>
-                    </div>
+<%--                    <!-- 角色类型单选框 -->--%>
+<%--                    <div class="form-group">--%>
+<%--                        <label>角色类型：</label>--%>
+<%--                        <div class="form-check form-check-inline">--%>
+<%--                            <input type="radio" id="roleTypeTeamAdmin" name="roleType" value="TeamAdmin" ${user.roleType == 'TeamAdmin' ? 'checked' : ''} class="form-check-input">--%>
+<%--                            <label for="roleTypeTeamAdmin" class="form-check-label">团队管理员</label>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-check form-check-inline">--%>
+<%--                            <input type="radio" id="roleTypeTeamMember" name="roleType" value="TeamMember" ${user.roleType == 'TeamMember' ? 'checked' : ''} class="form-check-input">--%>
+<%--                            <label for="roleTypeTeamMember" class="form-check-label">团队成员</label>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-check form-check-inline">--%>
+<%--                            <input type="radio" id="roleTypeVisitor" name="roleType" value="Visitor" ${user.roleType == 'Visitor' ? 'checked' : ''} class="form-check-input">--%>
+<%--                            <label for="roleTypeVisitor" class="form-check-label">普通用户</label>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
 
                     <div class="form-group">
                         <label for="email">邮箱：</label>
                         <input type="text" id="email" name="email" value="${user.email}" class="form-control">
-                        <span id="emailError" class="error-message">请输入有效的邮箱地址</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="registrationTime">注册时间（无法修改）：</label>
+                        <label for="registrationTime">注册时间：</label>
                         <input type="text" id="registrationTime" name="registrationTime" value="${user.registrationTime}" readonly class="form-control">
                     </div>
 
@@ -289,26 +283,26 @@
                         <input type="text" name="name" id="name" value="${user.name}" class="form-control">
                     </div>
 
-                    <div class="form-group">
-                        <label for="researchField">研究方向：</label>
-                        <input type="text" name="researchField" id="researchField" value="${user.researchField}" class="form-control">
-                    </div>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="researchField">研究方向：</label>--%>
+<%--                        <input type="text" name="researchField" id="researchField" value="${user.researchField}" class="form-control">--%>
+<%--                    </div>--%>
 
                     <div class="form-group">
                         <label for="contactInfo">联系方式：</label>
                         <input type="text" name="contactInfo" id="contactInfo" value="${user.contactInfo}" class="form-control">
                     </div>
 
-                    <div class="form-group">
-                        <label for="academicBackground">学术背景：</label>
-                        <input type="text" name="academicBackground" id="academicBackground" value="${user.academicBackground}" class="form-control">
-                    </div>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="academicBackground">学术背景：</label>--%>
+<%--                        <input type="text" name="academicBackground" id="academicBackground" value="${user.academicBackground}" class="form-control">--%>
+<%--                    </div>--%>
 
-                    <div class="form-group">
-                        <label for="researchAchievements">科研成果：</label>
-                        <div id="researchAchievementsEditor"></div>
-                        <input type="hidden" name="researchAchievements" id="researchAchievements" value="${user.researchAchievements}">
-                    </div>
+<%--                    <div class="form-group">--%>
+<%--                        <label for="researchAchievements">科研成果：</label>--%>
+<%--                        <div id="researchAchievementsEditor"></div>--%>
+<%--                        <input type="hidden" name="researchAchievements" id="researchAchievements" value="${user.researchAchievements}">--%>
+<%--                    </div>--%>
 
                     <button type="submit" class="InButton">
                         提交修改
