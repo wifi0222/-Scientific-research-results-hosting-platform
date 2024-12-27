@@ -69,4 +69,21 @@
         WHERE questionID = #{questionID}
     </update>
 
+    <insert id="insertComment" parameterType="Question">
+        INSERT INTO Question (userID, questionContent, askTime, type, objectID, status, title)
+        VALUES (#{userID}, #{questionContent}, #{askTime}, #{type}, #{objectID}, #{status}, #{title})
+    </insert>
+
+    <select id="getCommentsByArticle" parameterType="map" resultType="Question">
+        SELECT * FROM Question
+        WHERE type = #{category} AND objectID = #{articleID}
+        ORDER BY askTime DESC
+    </select>
+
+    <select id="getCommentsByAchievement" parameterType="map" resultType="Question">
+        SELECT * FROM Question
+        WHERE type = #{category} AND objectID = #{achievementID}
+        ORDER BY askTime DESC
+    </select>
+
 </mapper>

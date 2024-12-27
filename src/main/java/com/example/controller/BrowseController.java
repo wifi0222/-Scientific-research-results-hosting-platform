@@ -4,6 +4,7 @@ import com.example.model.*;
 import com.example.service.AchievementFileService;
 import com.example.service.ArticleFileService;
 import com.example.service.BrowseService;
+import com.example.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class BrowseController {
@@ -25,6 +27,9 @@ public class BrowseController {
 
     @Autowired
     private ArticleFileService articleFileService;
+
+    @Autowired
+    private QuestionService questionService;
 
     // 信息浏览页面
     @GetMapping("/browse")
@@ -114,6 +119,16 @@ public class BrowseController {
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("achievement", achievement);
+
+        // 根据 achievementID 和 category 查询相关评论
+        List<Question> comments = questionService.getCommentsByAchievement(achievementID, achievement.getCategory());
+        // 过滤掉 status 为 -1 的评论
+        comments = comments.stream()
+                .filter(comment -> comment.getStatus() != -1)
+                .collect(Collectors.toList());
+
+        model.addAttribute("comments", comments);
+
         return "achievementDetails"; // 返回成果详情页面
     }
 
@@ -128,6 +143,16 @@ public class BrowseController {
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
         model.addAttribute("article", article);
+
+        // 根据 articleID 和 category 查询相关评论
+        List<Question> comments = questionService.getCommentsByArticle(articleID, article.getCategory());
+        // 过滤掉 status 为 -1 的评论
+        comments = comments.stream()
+                .filter(comment -> comment.getStatus() != -1)
+                .collect(Collectors.toList());
+
+        model.addAttribute("comments", comments);
+
         return "articleDetails"; // 返回文章详情页面
     }
 

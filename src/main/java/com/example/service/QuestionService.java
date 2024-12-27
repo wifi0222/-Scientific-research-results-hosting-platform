@@ -17,6 +17,12 @@ public interface QuestionService {
     List<Question> getQuestionsByUserID(int userID);
 
     void updateQuestionStatus(int questionID, int status);
+
+    void addComment(Question comment);
+
+    List<Question> getCommentsByArticle(int articleID, String category);
+
+    List<Question> getCommentsByAchievement(int achievementID, String category);
 }
 
 

@@ -16,6 +16,59 @@
     <title>成果详情</title>
     <link rel="stylesheet" href="/css/detail.css">
     <script src="/js/detail.js" defer></script>
+
+    <style>
+        .comment-section {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .comment-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment-section button {
+            padding: 10px 20px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-section button:hover {
+            background-color: #375abd;
+        }
+
+        .comments-list h4 {
+            margin-top: 20px;
+        }
+
+        .comments-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .comments-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
 
@@ -95,6 +148,76 @@
 
 <!-- 返回按钮 -->
 <button style="background-color: transparent; border: none; font-size: 30px; color: #4e73df; position: fixed; top: 20px; left: 20px; cursor: pointer; z-index: 1000;" onclick="goBack()">&#10094;</button>
+
+
+<!-- 评论功能 -->
+<div class="comment-section">
+    <h3>评论</h3>
+
+    <!-- 评论输入框 -->
+    <form action="/questions/comment" method="post" id="commentForm">
+        <textarea name="commentContent" id="commentContent" rows="4" placeholder="在此输入评论..." required></textarea>
+        <input type="hidden" name="objectID" value="${achievement.achievementID}">
+        <input type="hidden" name="type" value="${achievement.category}">
+        <input type="hidden" name="title" value="${achievement.title}">
+        <button type="submit">提交评论</button>
+    </form>
+
+    <!-- 评论列表 -->
+    <div class="comments-list">
+        <h4>查看评论：</h4>
+        <c:if test="${not empty comments}">
+            <ul>
+                <c:forEach var="comment" items="${comments}">
+                    <li>
+                        <p><strong>用户ID：</strong>${comment.userID}</p>
+                        <p><strong>评论时间：</strong><fmt:formatDate value="${comment.askTime}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
+                        <p><strong>评论内容：</strong>${comment.questionContent}</p>
+
+                        <!-- 查看回复功能 -->
+                        <c:if test="${not empty comment.replyContent}">
+                            <button class="toggle-reply-btn" data-reply-id="reply-${comment.questionID}">查看回复</button>
+                            <div id="reply-${comment.questionID}" class="reply-content" style="display: none; margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #4e73df;">
+                                <p><strong>回复内容：</strong>${comment.replyContent}</p>
+                            </div>
+                        </c:if>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:if>
+        <c:if test="${empty comments}">
+            <p>暂无评论。</p>
+        </c:if>
+    </div>
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 获取所有“查看回复”按钮
+        const toggleButtons = document.querySelectorAll(".toggle-reply-btn");
+
+        // 为每个按钮绑定点击事件
+        toggleButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const replyId = button.getAttribute("data-reply-id"); // 获取对应的 replyContent 的 ID
+                const replyContent = document.getElementById(replyId); // 获取 replyContent 元素
+
+                if (replyContent.style.display === "none") {
+                    // 如果当前隐藏，显示内容并切换按钮文本
+                    replyContent.style.display = "block";
+                    button.textContent = "收起";
+                } else {
+                    // 如果当前显示，隐藏内容并切换按钮文本
+                    replyContent.style.display = "none";
+                    button.textContent = "查看回复";
+                }
+            });
+        });
+    });
+</script>
+
 
 </body>
 </html>

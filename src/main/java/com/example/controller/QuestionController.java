@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import com.example.model.Article;
 import com.example.model.Question;
 import com.example.model.User;
+import com.example.service.ArticleService;
 import com.example.service.QuestionService;
 import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private ArticleService articleService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -167,5 +171,48 @@ public class QuestionController {
         model.addAttribute("question", question);
         return "Question/ask-question-details";
     }
+
+
+    @PostMapping("/comment")
+    public String addComment(@RequestParam("commentContent") String commentContent,
+                             @RequestParam("objectID") int objectID,
+                             @RequestParam("type") String type,
+                             @RequestParam("title") String title,
+                             HttpSession session) {
+        // 从 Session 获取当前用户信息
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 创建一个新的评论对象
+        Question comment = new Question();
+        comment.setUserID(currentUser.getUserID());
+        comment.setQuestionContent(commentContent);
+        comment.setAskTime(new Date());
+        comment.setType(type); // 设置评论类别
+        comment.setObjectID(objectID); // 设置对应文章的 ID
+        comment.setStatus(0); // 设置状态为 "待处理"
+        comment.setTitle("回复了：" + title); // 设置评论的标题
+
+        // 调用 Service 保存评论
+        questionService.addComment(comment);
+
+        return "redirect:/article/details?articleID=" + objectID; // 重定向到当前文章详情页
+    }
+
+    @GetMapping("/article/details")
+    public String showArticleDetails(@RequestParam("articleID") int articleID, Model model) {
+        // 查询文章详情
+        Article article = articleService.getArticleById(articleID);
+        model.addAttribute("article", article);
+
+        // 根据 articleID 和 category 查询相关评论
+        List<Question> comments = questionService.getCommentsByArticle(articleID, article.getCategory());
+        model.addAttribute("comments", comments);
+
+        return "article-details";
+    }
+
 }
 

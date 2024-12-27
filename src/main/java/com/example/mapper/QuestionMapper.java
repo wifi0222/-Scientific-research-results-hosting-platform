@@ -45,4 +45,12 @@ public interface QuestionMapper {
                     @Param("status") int status);
 
     void updateStatus(@Param("questionID") int questionID, @Param("status") int status);
+
+    void insertComment(Question comment);
+
+    List<Question> getCommentsByArticle(@Param("articleID") int articleID,
+                                        @Param("category") String category);
+
+    List<Question> getCommentsByAchievement(@Param("achievementID") int achievementID,
+                                            @Param("category") String category);
 }
