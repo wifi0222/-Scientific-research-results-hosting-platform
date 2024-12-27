@@ -38,8 +38,18 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestParam("usernameOrId") String usernameOrId,
                         @RequestParam("password") String password,
+                        @RequestParam("captcha") String captcha,
                         HttpSession session, // 注入 HttpSession 保存用户信息
                         Model model) {
+        // 验证验证码
+        String sessionCaptcha = (String) session.getAttribute("captcha");
+        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
+            model.addAttribute("error", "验证码错误！");
+            return "login";
+        }
+        // 清除 session 中的验证码，避免重复使用
+        session.removeAttribute("captcha");
+
         // 加密
         String encryptedPassword = OpenSSLUtil.encrypt(password);
         System.out.println("Encrypted Password: " + encryptedPassword);
