@@ -195,17 +195,20 @@ document.getElementById("batchPublicPublished").addEventListener("click", functi
         alert("请先勾选要公开的成果！");
         return;
     }
-    // 批量公开逻辑
-    // 使用 fetch 发送异步请求，页面不会刷新，适用需要与服务器交互但不想跳转页面、动态更新部分页面，需要手动更新
-    // // window.location.href = editUrl;立即导航到指定的 URL，适用于需要打开一个新的页面
-    // fetch(url, {method: 'GET'})
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log('操作成功:', data);
-    //     })
-    //     .catch(error => {
-    //         console.error('操作失败:', error);
-    //     });
+    // 检查是否所有选中的成果都已是“公开”状态
+    let allPublished = true;
+    selectedIds.forEach(id => {
+        const row = document.querySelector(`.achievement-row input[value="${id}"]`).closest('tr');
+        const statusCell = row.querySelector('td:nth-child(6)').innerText.trim();
+        if (statusCell !== '公开') {
+            allPublished = false;
+        }
+    });
+
+    if (allPublished) {
+        alert("所选的成果已全部公开！");
+        return;
+    }
     if (!confirm(`确定要公开 ${selectedIds.length} 个成果吗？`)) {
         return;
     }
@@ -217,6 +220,19 @@ document.getElementById("batchHidePublished").addEventListener("click", function
     const selectedIds = getSelectedIds(rowCheckboxesPublished);
     if (selectedIds.length === 0) {
         alert("请先勾选要隐藏的成果！");
+        return;
+    }
+    let allPublished = true;
+    selectedIds.forEach(id => {
+        const row = document.querySelector(`.achievement-row input[value="${id}"]`).closest('tr');
+        const statusCell = row.querySelector('td:nth-child(6)').innerText.trim();
+        if (statusCell !== '隐藏') {
+            allPublished = false;
+        }
+    });
+
+    if (allPublished) {
+        alert("所选的成果已全部隐藏！");
         return;
     }
     if (!confirm(`确定要隐藏 ${selectedIds.length} 个成果吗？`)) {

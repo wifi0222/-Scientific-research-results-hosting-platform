@@ -22,14 +22,6 @@
                class="<%= currentPage.contains("/teamAdmin/TeamManage/ToMemberInfoReview") ? "active" : "" %>">团队成员信息审核</a>
         </li>
         <li>
-            <a href="/teamAdmin/achievements?type=0" id="researchAchievements"
-               class="<%= (currentPage.equals("/teamAdmin/achievements") && "0".equals(request.getParameter("type"))) ? "active" : "" %>">科研成果管理</a>
-        </li>
-        <li>
-            <a href="/teamAdmin/achievements?type=1" id="articleManagement"
-               class="<%= (currentPage.equals("/teamAdmin/achievements") && "1".equals(request.getParameter("type"))) ? "active" : "" %>">文章管理</a>
-        </li>
-        <li>
             <a href="/teamAdmin/ToUserRegisterManage"
                class="<%= currentPage.contains("/teamAdmin/ToUserRegisterManage") ? "active" : "" %>">注册申请审核</a>
         </li>
@@ -40,6 +32,14 @@
         <li>
             <a href="/questions/ans-all-questions"
                class="<%= currentPage.contains("/questions/ans-all-questions") ? "active" : "" %>">在线交流与反馈</a>
+        </li>
+        <li>
+            <a href="/teamAdmin/achievements?type=0" id="researchAchievements"
+               class="<%= (currentPage.equals("/teamAdmin/achievements") && "0".equals(request.getParameter("type"))) ? "active" : "" %>">科研成果管理</a>
+        </li>
+        <li>
+            <a href="/teamAdmin/achievements?type=1" id="articleManagement"
+               class="<%= (currentPage.equals("/teamAdmin/achievements") && "1".equals(request.getParameter("type"))) ? "active" : "" %>">文章管理</a>
         </li>
     </ul>
     <div class="logout">

@@ -122,7 +122,7 @@
                     <button type="button" id="resetButton">重置</button>
                 </div>
                 <div class="section-active">
-                   ` <table class="styled-table">
+                    <table class="styled-table">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -165,7 +165,7 @@
                             </tr>
                         </c:forEach>
                         </tbody>
-                    </table>`
+                    </table>
 
                     <button onclick="window.location.href='/TeamAdmin/addTeamMember.jsp'" class="btn btn-add">
                         <i class="fas fa-plus-circle"></i>添加新团队成员

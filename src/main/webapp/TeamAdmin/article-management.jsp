@@ -54,10 +54,25 @@
         </div>
 
         <div class="tabs">
-            <a href="javascript:void(0)" id="publishedTab" class="active">已发布的文章</a>
-            <a href="javascript:void(0)" id="reviewTab">正在审核的文章</a>
-            <a href="javascript:void(0)" id="rejectedTab">审核被拒绝的文章</a>
-            <a href="${pageContext.request.contextPath}/TeamAdmin/addArticle.jsp" style="margin-left:20px;">新增文章</a>
+            <a href="javascript:void(0)" id="publishedTab" class="active">已发布</a>
+            <a href="javascript:void(0)" id="reviewTab">待审核</a>
+            <a href="javascript:void(0)" id="rejectedTab">审核被拒绝</a>
+            <a href="${pageContext.request.contextPath}/TeamAdmin/addArticle.jsp"
+               style="
+                       display: inline-block;
+                       padding: 8px 12px;
+                       background-color: #4e73df;
+                       color: #ffffff;
+                       border: none;
+                       border-radius: 5px;
+                       text-align: center;
+                       text-decoration: none;
+                       font-size: 14px;
+                       cursor: pointer;
+                       margin-left: 20px;
+                       transition: background-color 0.3s ease;"
+               onmouseover="this.style.backgroundColor='#0056b3'"
+               onmouseout="this.style.backgroundColor='#4e73df'">新增文章</a>
         </div>
 
         <!-- 已发布的文章（status=1） -->
@@ -144,8 +159,8 @@
                 </tbody>
             </table>
             <div style="margin-top:10px;">
-                <button id="batchDeletePublished">批量删除</button>
                 <button id="batchPublicPublished">批量公开</button>
+                <button id="batchDeletePublished">批量删除</button>
                 <button id="batchHidePublished">批量隐藏</button>
             </div>
             <%--    </c:forEach>--%>
@@ -228,7 +243,7 @@
                 </tbody>
             </table>
             <div style="margin-top:10px;">
-                <button id="batchDeleteReview">批量删除</button>
+                <button id="batchDeleteReview" style="background-color: #dc3545;">批量删除</button>
             </div>
         </div>
 
@@ -313,7 +328,7 @@
                 </tbody>
             </table>
             <div style="margin-top:10px;">
-                <button id="batchDeleteRejected">批量删除</button>
+                <button id="batchDeleteRejected" style="background-color: #dc3545;">批量删除</button>
             </div>
         </div>
         <!-- 模态框 -->

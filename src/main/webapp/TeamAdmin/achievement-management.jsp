@@ -62,13 +62,27 @@
                 <a href="javascript:void(0)" id="reviewTab">待审核</a>
                 <a href="javascript:void(0)" id="rejectedTab">审核被拒绝</a>
                 <a href="${pageContext.request.contextPath}/TeamAdmin/addAchievement.jsp"
-                   style="margin-left:20px;">新增成果</a>
+                   style="
+                       display: inline-block;
+                       padding: 8px 12px;
+                       background-color: #4e73df;
+                       color: #ffffff;
+                       border: none;
+                       border-radius: 5px;
+                       text-align: center;
+                       text-decoration: none;
+                       font-size: 14px;
+                       cursor: pointer;
+                       margin-left: 20px;
+                       transition: background-color 0.3s ease;"
+                   onmouseover="this.style.backgroundColor='#0056b3'"
+                   onmouseout="this.style.backgroundColor='#4e73df'">
+                    新增成果
+                </a>
             </div>
 
             <!-- 已发布的成果（status=1） -->
             <div id="publishedSection" class="section active">
-                <%--    <h2>已发布的成果 (status = 1)</h2>--%>
-                <%--    <c:forEach var="cat" items="${categories}">--%>
                 <h3>${cat}</h3>
                 <table class="achievement-table" data-status="1" data-category="${cat}">
                     <thead>
@@ -80,10 +94,6 @@
                         <th>ID</th>
                         <th>标题</th>
                         <th>类别</th>
-                        <%--                        <th>摘要</th>--%>
-                        <%--<th>内容</th>--%>
-                        <%--                <th>附件</th>--%>
-                        <%--                <th>展示图片</th>--%>
                         <th>创建时间</th>
                         <th>公开/隐藏</th>
                         <th>操作</th>
@@ -106,29 +116,6 @@
                                 <td>${entry.key.achievementID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
-                                    <%--                                <td>${entry.key.contents}</td>--%>
-                                    <%--                        <td>--%>
-                                    <%--                            <c:forEach var="file" items="${entry.value}">--%>
-                                    <%--                                <c:if test="${file.type == 0}">--%>
-                                    <%--                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
-                                    <%--                                </c:if>--%>
-                                    <%--                            </c:forEach>--%>
-                                    <%--                        </td>--%>
-                                    <%--                        <td>--%>
-                                    <%--                            <c:forEach var="file" items="${entry.value}">--%>
-                                    <%--                                <c:if test="${file.type == 1}">--%>
-                                    <%--                                    &lt;%&ndash;<img src="/${file.filePath}" alt="展示图片" width="100"><br/>&ndash;%&gt;--%>
-                                    <%--                                    &lt;%&ndash;<a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>&ndash;%&gt;--%>
-                                    <%--                                    &lt;%&ndash;'\\\\'：在 JSP 中被解析成一个实际的 '\\'，再被 EL 解析时代表一个反斜杠。&ndash;%&gt;--%>
-                                    <%--                                    &lt;%&ndash;先用 \\ 替换反斜杠，再用 %20 替换空格&ndash;%&gt;--%>
-                                    <%--                                    <c:set var="encodedPath"--%>
-                                    <%--                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
-                                    <%--                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />" alt="展示图片"--%>
-                                    <%--                                         width="100"/>--%>
-                                    <%--                                </c:if>--%>
-                                    <%--                            </c:forEach>--%>
-                                    <%--                        </td>--%>
                                 <td><fmt:formatDate value='${entry.key.creationTime}'
                                                     pattern='yyyy-MM-dd HH:mm'/></td>
                                 <td>
@@ -152,8 +139,8 @@
                     </tbody>
                 </table>
                 <div style="margin-top:10px;">
-                    <button id="batchDeletePublished">批量删除</button>
                     <button id="batchPublicPublished">批量公开</button>
+                    <button id="batchDeletePublished">批量删除</button>
                     <button id="batchHidePublished">批量隐藏</button>
                 </div>
                 <%--    </c:forEach>--%>
@@ -238,7 +225,7 @@
                     </tbody>
                 </table>
                 <div style="margin-top:10px;">
-                    <button id="batchDeleteReview">批量删除</button>
+                    <button id="batchDeleteReview" style="background-color: #dc3545;">批量删除</button>
                 </div>
             </div>
 
@@ -281,25 +268,6 @@
                                 <td>${entry.key.achievementID}</td>
                                 <td>${entry.key.title}</td>
                                 <td>${entry.key.category}</td>
-                                    <%--                                <td>${entry.key.abstractContent}</td>--%>
-                                    <%--                                <td>${entry.key.contents}</td>--%>
-                                    <%--                        <td>--%>
-                                    <%--                            <c:forEach var="file" items="${entry.value}">--%>
-                                    <%--                                <c:if test="${file.type == 0}">--%>
-                                    <%--                                    <a href="/${file.filePath}" target="_blank">${file.fileName}</a><br/>--%>
-                                    <%--                                </c:if>--%>
-                                    <%--                            </c:forEach>--%>
-                                    <%--                        </td>--%>
-                                    <%--                        <td>--%>
-                                    <%--                            <c:forEach var="file" items="${entry.value}">--%>
-                                    <%--                                <c:if test="${file.type == 1}">--%>
-                                    <%--                                    <c:set var="encodedPath"--%>
-                                    <%--                                           value="${fn:replace(fn:replace(file.filePath, '\\\\', '/'), ' ', '%20')}"/>--%>
-                                    <%--                                    <img src="<c:url value='/getImage?filePath=${encodedPath}' />"--%>
-                                    <%--                                         alt="展示图片" width="100"/>--%>
-                                    <%--                                </c:if>--%>
-                                    <%--                            </c:forEach>--%>
-                                    <%--                        </td>--%>
                                 <td>
                                     <fmt:formatDate value='${entry.key.creationTime}'
                                                     pattern='yyyy-MM-dd HH:mm'/>
@@ -325,7 +293,7 @@
                     </tbody>
                 </table>
                 <div style="margin-top:10px;">
-                    <button id="batchDeleteRejected">批量删除</button>
+                    <button id="batchDeleteRejected" style="background-color: #dc3545;">批量删除</button>
                 </div>
             </div>
 
