@@ -132,8 +132,8 @@ public class BrowseController {
         String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Achievement achievement = browseService.getAchievementDetails(achievementID);
         List<AchievementFile> files = achievementFileService.getFilesByAchievementId(achievementID);
-        User user = userService.findById(achievement.getTeamAdminID());
-        model.addAttribute("publisherName", user.getName());
+        User publisher = userService.findById(achievement.getTeamAdminID());
+        model.addAttribute("publisherName", publisher.getName());
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);
@@ -170,8 +170,8 @@ public class BrowseController {
         String userRoleType = (currentUser != null) ? currentUser.getRoleType() : "Guest";
         Article article = browseService.getArticleDetails(articleID);
         List<ArticleFile> files = articleFileService.getFilesByArticleId(articleID);
-        User user = userService.findById(article.getTeamAdminID());
-        model.addAttribute("publisherName", user.getName());
+        User publisher = userService.findById(article.getTeamAdminID());
+        model.addAttribute("publisherName", publisher.getName());
         model.addAttribute("files", files);
         model.addAttribute("user", currentUser);
         model.addAttribute("userRoleType", userRoleType);

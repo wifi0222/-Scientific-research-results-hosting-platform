@@ -148,6 +148,10 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.section img{
+    width: 90%;
+}
+
 .section h2 {
     margin-top: 0;
     color: #4e73df;
