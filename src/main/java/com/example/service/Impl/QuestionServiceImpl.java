@@ -1,8 +1,10 @@
 package com.example.service.Impl;
 
+import com.example.model.*;
 import com.example.mapper.QuestionMapper;
 import com.example.model.Question;
 import com.example.service.QuestionService;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +34,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void replyQuestion(int questionID, String replyContent, Date replyTime) {
-        questionMapper.updateReply(questionID, replyContent, replyTime, 1); // status 变为 1 表示已回复
+    public void replyQuestion(int questionID, String replyContent, int teamAdminID, Date replyTime) {
+        questionMapper.updateReply(questionID, replyContent, teamAdminID, replyTime, 1); // status 变为 1 表示已回复
     }
 
     @Override
@@ -44,6 +46,25 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void updateQuestionStatus(int questionID, int status) {
         questionMapper.updateStatus(questionID, status);
+    }
+
+    @Override
+    public void addComment(Question comment) {
+        questionMapper.insertComment(comment);
+    }
+
+    public List<Question> getCommentsByArticle(int articleID, String category) {
+        // 查询所有评论
+        List<Question> comments = questionMapper.getCommentsByArticle(articleID, category);
+
+        return comments;
+    }
+
+    public List<Question> getCommentsByAchievement(int achievementID, String category) {
+        // 查询所有评论
+        List<Question> comments = questionMapper.getCommentsByAchievement(achievementID, category);
+
+        return comments;
     }
 
 }

@@ -41,8 +41,17 @@ public interface QuestionMapper {
 
     int updateReply(@Param("questionID") int questionID,
                     @Param("replyContent") String replyContent,
+                    @Param("teamAdminID") int teamAdminID,
                     @Param("replyTime") Date replyTime,
                     @Param("status") int status);
 
     void updateStatus(@Param("questionID") int questionID, @Param("status") int status);
+
+    void insertComment(Question comment);
+
+    List<Question> getCommentsByArticle(@Param("articleID") int articleID,
+                                        @Param("category") String category);
+
+    List<Question> getCommentsByAchievement(@Param("achievementID") int achievementID,
+                                            @Param("category") String category);
 }

@@ -12,11 +12,17 @@ public interface QuestionService {
 
     Question getQuestionById(int questionID);
 
-    void replyQuestion(int questionID, String replyContent, Date replyTime);
+    void replyQuestion(int questionID, String replyContent, int teamAdminID, Date replyTime);
 
     List<Question> getQuestionsByUserID(int userID);
 
     void updateQuestionStatus(int questionID, int status);
+
+    void addComment(Question comment);
+
+    List<Question> getCommentsByArticle(int articleID, String category);
+
+    List<Question> getCommentsByAchievement(int achievementID, String category);
 }
 
 

@@ -126,6 +126,7 @@
         <form action="/questions/${question.questionID}/reply" method="post" id="replyForm">
             <div id="editor-container" style="height: 300px;"></div>
             <input type="hidden" name="replyContent" id="hiddenInput">
+            <input type="hidden" name="teamAdminID" value="${user.userID}">
             <button type="submit">提交</button>
         </form>
     </c:when>

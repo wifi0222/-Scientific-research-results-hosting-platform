@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import com.example.model.Article;
 import com.example.model.Question;
 import com.example.model.User;
+import com.example.service.ArticleService;
 import com.example.service.QuestionService;
 import com.example.tool.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private ArticleService articleService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -80,12 +84,13 @@ public class QuestionController {
     // 处理回复逻辑
     @PostMapping("/{id}/reply")
     public ResponseEntity<String> replyQuestion(@PathVariable("id") int questionID,
-                                                @RequestParam("replyContent") String replyContent) {
+                                                @RequestParam("replyContent") String replyContent,
+                                                @RequestParam("teamAdminID") int teamAdminID) {
         // 将过期的Redis删掉
         String cacheKey = "question:" + questionID;
         redisUtil.del(cacheKey);
         // 更新数据库
-        questionService.replyQuestion(questionID, replyContent, new Date());
+        questionService.replyQuestion(questionID, replyContent, teamAdminID, new Date());
         return ResponseEntity.ok("Reply submitted successfully!");
     }
 
@@ -117,7 +122,7 @@ public class QuestionController {
 
     // 根据questionID返回question详细信息并传向前端
     @RequestMapping("/ans-details/{id}")
-    public String showQuestionDetails(@PathVariable("id") int questionID, Model model) {
+    public String showQuestionDetails(HttpSession session, @PathVariable("id") int questionID, Model model) {
         System.out.println("in questions/ans-details/{id} " + questionID);
 
         // 先从 Redis 缓存中获取
@@ -128,8 +133,11 @@ public class QuestionController {
             question = questionService.getQuestionById(questionID);
             redisUtil.set(cacheKey, question, 300);
         }
+        // 从 Session 中获取当前用户的 userID
+        User currentUser = (User) session.getAttribute("currentUser");
 
         model.addAttribute("question", question);
+        model.addAttribute("user", currentUser);
         return "Question/ans-question-details";
     }
 
@@ -167,5 +175,42 @@ public class QuestionController {
         model.addAttribute("question", question);
         return "Question/ask-question-details";
     }
+
+
+    @PostMapping("/comment")
+    public String addComment(@RequestParam("commentContent") String commentContent,
+                             @RequestParam("objectID") int objectID,
+                             @RequestParam("type") String type,
+                             @RequestParam("title") String title,
+                             HttpSession session) {
+        // 从 Session 获取当前用户信息
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser == null) {
+            return "redirect:/user/login"; // 如果未登录，跳转到登录页面
+        }
+
+        // 创建一个新的评论对象
+        Question comment = new Question();
+        comment.setUserID(currentUser.getUserID());
+        comment.setQuestionContent(commentContent);
+        comment.setAskTime(new Date());
+        comment.setType(type); // 设置评论类别
+        comment.setObjectID(objectID); // 设置对应文章的 ID
+        comment.setStatus(0); // 设置状态为 "待处理"
+        comment.setTitle("回复了：" + title); // 设置评论的标题
+
+        // 调用 Service 保存评论
+        questionService.addComment(comment);
+
+        if (Objects.equals(type, "SCI") || Objects.equals(type, "EI") || Objects.equals(type, "核心")) {
+            return "redirect:/article/details?articleID=" + objectID; // 重定向到当前文章详情页
+        } else if (Objects.equals(type, "专著") || Objects.equals(type, "专利") || Objects.equals(type, "软著") || Objects.equals(type, "产品")){
+            return "redirect:/achievement/details?achievementID=" + objectID; // 重定向到当前成果详情页
+        }
+
+        return "redirect:/user/login";
+    }
+
+
 }
 

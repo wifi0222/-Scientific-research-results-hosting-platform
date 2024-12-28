@@ -87,8 +87,7 @@
                                     <c:otherwise><span class="status-closed">关闭</span></c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><fmt:formatDate value='${question.askTime}'
-                                                pattern='yyyy-MM-dd HH:mm'/></td>
+                            <td><fmt:formatDate value='${question.askTime}' pattern='yyyy-MM-dd HH:mm'/></td>
                             <td>
                                 <a href="/questions/ans-details/${question.questionID}" class="btn-view">查看详情</a>
                             </td>
@@ -102,6 +101,13 @@
 </div>
 
 <script>
+    // 页面加载时设置默认的状态为"待处理"
+    window.onload = function() {
+        const statusFilter = document.getElementById('statusFilter');
+        statusFilter.value = "0";  // 设置默认状态为"待处理"
+        applyFilters();  // 调用筛选函数以便只显示"待处理"状态的记录
+    };
+
     function applyFilters() {
         const statusFilter = document.getElementById('statusFilter').value; // 获取状态筛选值
         const userIDSearch = document.getElementById('userIDSearch').value.trim(); // 获取用户ID搜索值
