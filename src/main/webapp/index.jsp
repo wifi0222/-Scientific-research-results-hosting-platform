@@ -9,45 +9,29 @@
     <title>Title</title>
 </head>
 <body>
-<!-- 侧边栏区域 -->
-<div class="sidebar">
-    <jsp:include page="HomePage.jsp" flush="true"/>
-</div>
 
 <!-- 主内容区域 -->
 <div class="content">
     <h2>欢迎页面</h2>
     <p>欢迎来到管理系统！</p>
 
-    <form action="/SuperController/UserManagement" method="get">
-        <input type="submit" value="超级管理员用户管理">
-    </form>
+    <a href="browse" style="text-decoration: none;">
+        <button style="padding: 10px 20px; background-color: #4e73df; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            前台
+        </button>
+    </a>
 
-    <form action="/SuperController/TeamAdministratorManagement" method="get">
-        <input type="submit" value="超级管理员权限管理">
-    </form>
+    <br/><br/>
 
-    <h2>团队管理员团队管理</h2>
-    <form action="/teamAdmin/TeamManage/Info">
-        <input type="submit" value="团队简介">
-    </form>
 
-    <form action="/teamAdmin/TeamManage/Member">
-        <input type="submit" value="成员管理">
-    </form>
+    <a href="ManagementLogin.jsp" style="text-decoration: none;">
+        <button style="padding: 10px 20px; background-color: #4e73df; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+            后台
+        </button>
+    </a>
 
-    <form action="/teamAdmin/ToMemberInfoReview">
-        <input type="submit" value="成员审核">
-    </form>
 
-    <h2>用户管理</h2>
-    <form action="/teamAdmin/ToUserRegisterManage">
-        <input type="submit" value="用户注册审核">
-    </form>
 
-    <form action="/teamAdmin/ToUserManage">
-        <input type="submit" value="注销和重置密码">
-    </form>
 </div>
 </body>
 </html>

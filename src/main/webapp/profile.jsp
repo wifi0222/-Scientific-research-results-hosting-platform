@@ -182,12 +182,6 @@
                     <div id="researchAchievementsEditor" style="height: 300px;"></div>
                     <input type="hidden" name="researchAchievements" id="researchAchievements"><br>
 
-                    <label>内容：</label><br>
-                    <!-- Quill编辑器的容器 -->
-                    <div id="editor-container" style="height: 300px;"></div>
-                    <!-- 隐藏字段，用于提交编辑器内容 -->
-                    <input type="hidden" name="contents" id="hiddenInput" required>
-
                     <button type="submit" class="btn-submit">保存修改</button>
                 </form>
             </div>

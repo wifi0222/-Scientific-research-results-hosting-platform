@@ -173,6 +173,10 @@
             background-color: #3758c8;
         }
 
+        .content-section img{
+            width: 80%; /* 设置为容器的80%宽度 */
+        }
+
     </style>
 </head>
 <body>
