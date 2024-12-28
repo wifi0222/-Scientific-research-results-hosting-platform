@@ -454,12 +454,12 @@ public class UserController {
                                   HttpSession session, // 注入 HttpSession 保存用户信息
                                   Model model) {
         // 验证验证码
-        String sessionCaptcha = (String) session.getAttribute("captcha");
-        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
-            model.addAttribute("error", "验证码错误！");
-            return "login";
-        }
-        session.removeAttribute("captcha"); // 验证成功后清除验证码
+//        String sessionCaptcha = (String) session.getAttribute("captcha");
+//        if (sessionCaptcha == null || !sessionCaptcha.equalsIgnoreCase(captcha)) {
+//            model.addAttribute("error", "验证码错误！");
+//            return "login";
+//        }
+//        session.removeAttribute("captcha"); // 验证成功后清除验证码
 
         String encryptedPassword = OpenSSLUtil.encrypt(password);
         User user = userService.login(usernameOrId, encryptedPassword);
