@@ -67,7 +67,6 @@ batchLogoutButton.addEventListener('click', function () {
             .then(data => {
                 // 处理结果
                 if (data.success) {
-                    alert("注销成功！");
                     location.reload(); // 刷新页面
                 } else {
                     alert("注销失败！");
@@ -148,7 +147,6 @@ batchResetButton.addEventListener('click', function () {
             .then(data => {
                 // 处理结果
                 if (data.success) {
-                    alert("重置成功！");
                     location.reload(); // 刷新页面
                 } else {
                     alert("重置失败！");

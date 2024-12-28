@@ -284,6 +284,20 @@
     color: #333;
 }
 
+.batch-close-status{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.batch-close-status:hover,
+.batch-close-status:focus{
+    color: #333;
+}
 
 .Visitor-batch-close-status{
     color: #aaa;

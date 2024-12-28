@@ -330,7 +330,7 @@ batchStatusButton.addEventListener('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert("请先勾选要重置密码的用户！");
+        alert("请先勾选要注销的用户！");
         return;
     }
 
@@ -363,8 +363,8 @@ batchStatusButton.addEventListener('click', function () {
     };
 
     // 确定按钮事件
-    var approveButton = document.getElementById("batch-status-button");
-    approveButton.onclick = function () {
+    var BatchStatus = document.getElementById("batch-Status");
+    BatchStatus.onclick = function () {
         // 批量操作
         fetch('/teamAdmin/UserManage/BatchSetStatusUser', {
             method: 'POST',
@@ -575,7 +575,7 @@ VisitorbatchStatusButton.addEventListener('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert("请先勾选要重置密码的用户！");
+        alert("请先勾选要注销的用户！");
         return;
     }
 
@@ -608,8 +608,8 @@ VisitorbatchStatusButton.addEventListener('click', function () {
     };
 
     // 确定按钮事件
-    var approveButton = document.getElementById("Visitor-batch-status-button");
-    approveButton.onclick = function () {
+    var VisitorBacthStatus = document.getElementById("Visitor-batch-status");
+    VisitorBacthStatus.onclick = function () {
         // 批量操作
         fetch('/teamAdmin/UserManage/BatchSetStatusUser', {
             method: 'POST',
@@ -740,7 +740,7 @@ AppbatchStatusButton.addEventListener('click', function () {
     });
 
     if (selectedIds.length === 0) {
-        alert("请先勾选要重置密码的用户！");
+        alert("请先勾选要注销的用户！");
         return;
     }
 
@@ -773,8 +773,8 @@ AppbatchStatusButton.addEventListener('click', function () {
     };
 
     // 确定按钮事件
-    var approveButton = document.getElementById("Application-batch-status-button");
-    approveButton.onclick = function () {
+    var AppBatchStatus = document.getElementById("Application-status");
+    AppBatchStatus.onclick = function () {
         // 批量操作
         fetch('/teamAdmin/UserManage/BatchSetStatusUser', {
             method: 'POST',
