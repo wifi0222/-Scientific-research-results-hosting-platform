@@ -8,9 +8,10 @@
     <!-- 插入科研成果并返回自增的 achievementID -->
     <insert id="insertAchievement" parameterType="com.example.model.Achievement" useGeneratedKeys="true"
             keyProperty="achievementID" keyColumn="achievementID">
-        INSERT INTO Achievement (title, category, abstract, contents, creationTime, teamID, status, viewStatus)
+        INSERT INTO Achievement (title, category, abstract, contents, creationTime, teamID, status, viewStatus,
+                                 teamAdminID)
         VALUES (#{title}, #{category}, #{abstractContent}, #{contents}, #{creationTime}, #{teamID}, #{status},
-                #{viewStatus})
+                #{viewStatus}, #{teamAdminID})
     </insert>
 
 
@@ -24,7 +25,8 @@
             creationTime = #{creationTime},
             teamID       = #{teamID},
             status       = #{status},
-            viewStatus   = #{viewStatus}
+            viewStatus   = #{viewStatus},
+            teamAdminID  = #{teamAdminID}
         WHERE achievementID = #{achievementID}
     </update>
 
@@ -46,7 +48,8 @@
                teamID,
                status,
                viewStatus,
-               refusalReason
+               refusalReason,
+               teamAdminID
         FROM Achievement
         WHERE achievementID = #{achievementID}
     </select>
@@ -62,28 +65,13 @@
                teamID,
                status,
                viewStatus,
-               refusalReason
+               refusalReason,
+               teamAdminID
         FROM Achievement
         WHERE teamID = #{teamID}
         ORDER BY creationTime DESC
     </select>
 
-    <!-- 搜索科研成果 -->
-    <select id="searchAchievements" parameterType="map" resultType="com.example.model.Achievement">
-        SELECT achievementID,
-               title,
-               category,
-               abstract AS abstractContent,
-               contents,
-               creationTime,
-               teamID,
-               status,
-               viewStatus
-        FROM Achievement
-        WHERE title LIKE CONCAT('%', #{keyword}, '%')
-          AND category = #{category}
-        ORDER BY creationTime DESC
-    </select>
 
     <!-- 获取所有科研成果 -->
     <select id="getAllAchievements" resultType="com.example.model.Achievement">

@@ -63,7 +63,7 @@
 
                 <%--选择上传的时间--%>
                 <label>发布日期：</label><br>
-                <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
+                <input type="datetime-local" id="creationTime" name="creationTime" required readonly><br><br>
 
 
                 <button type="submit">保存并发布</button>

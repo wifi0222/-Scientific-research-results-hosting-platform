@@ -9,9 +9,9 @@
     <!-- 插入文章并返回自增的 articleID -->
     <insert id="insertArticle" parameterType="com.example.model.Article" useGeneratedKeys="true"
             keyProperty="articleID" keyColumn="articleID">
-        INSERT INTO Article (title, category, abstract, contents, publishDate, teamID, status, viewStatus)
+        INSERT INTO Article (title, category, abstract, contents, publishDate, teamID, status, viewStatus, teamAdminID)
         VALUES (#{title}, #{category}, #{abstractContent}, #{contents}, #{publishDate}, #{teamID}, #{status},
-                #{viewStatus})
+                #{viewStatus}, #{teamAdminID})
     </insert>
 
     <!-- 更新文章 -->
@@ -24,7 +24,8 @@
             publishDate = #{publishDate},
             teamID      = #{teamID},
             status      = #{status},
-            viewStatus  = #{viewStatus}
+            viewStatus  = #{viewStatus},
+            teamAdminID = #{teamAdminID}
         WHERE articleID = #{articleID}
     </update>
 
@@ -46,7 +47,8 @@
                teamID,
                status,
                viewStatus,
-               refusalReason
+               refusalReason,
+               teamAdminID
         FROM Article
         WHERE articleID = #{articleID}
     </select>
@@ -62,26 +64,10 @@
                teamID,
                status,
                viewStatus,
-               refusalReason
+               refusalReason,
+               teamAdminID
         FROM Article
         WHERE teamID = #{teamID}
-        ORDER BY publishDate DESC
-    </select>
-
-    <!-- 搜索文章 -->
-    <select id="searchArticles" parameterType="map" resultType="com.example.model.Article">
-        SELECT articleID,
-               title,
-               category,
-               abstract AS abstractContent,
-               contents,
-               publishDate,
-               teamID,
-               status,
-               viewStatus
-        FROM Article
-        WHERE title LIKE CONCAT('%', #{keyword}, '%')
-          AND category = #{category}
         ORDER BY publishDate DESC
     </select>
 
@@ -96,7 +82,8 @@
                teamID,
                status,
                viewStatus,
-               refusalReason
+               refusalReason,
+               teamAdminID
         FROM Article
         ORDER BY publishDate DESC
     </select>

@@ -114,9 +114,9 @@
 
             <%--选择上传的时间--%>
             <label>发布日期：</label><br>
-            <input type="datetime-local" id="creationTime" name="creationTime" required><br><br>
+            <input type="datetime-local" id="creationTime" name="creationTime" required readonly><br><br>
 
-            <button type="submit">保存修改</button>
+            <button type="submit" class="back-button">保存修改</button>
         </form>
     </div>
 </div>

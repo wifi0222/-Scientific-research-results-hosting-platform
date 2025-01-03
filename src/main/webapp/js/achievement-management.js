@@ -207,7 +207,7 @@ document.getElementById("batchPublicPublished").addEventListener("click", functi
         }
     });
     if (allPublished) {
-        alert("所选的成果已全部公开！");
+        alert("所选的成果已全部公开！请勿重复操作！");
         return;
     }
     if (!confirm(`确定要批量公开 ${selectedIds.length} 个成果吗？`)) {
@@ -234,7 +234,7 @@ document.getElementById("batchHidePublished").addEventListener("click", function
     });
 
     if (allPublished) {
-        alert("所选的成果已全部隐藏！");
+        alert("所选的成果已全部隐藏！请勿重复操作！");
         return;
     }
     if (!confirm(`确定要批量隐藏 ${selectedIds.length} 个成果吗？`)) {

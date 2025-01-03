@@ -427,16 +427,16 @@ public class TeamAdminController {
         }
 
         //判断是否有权限
-        if(administratorService.getUserManageAdministrator(currentUser.getUserID())==false){
+        if (administratorService.getUserManageAdministrator(currentUser.getUserID()) == false) {
             model.addAttribute("error", "您没有用户管理的权限");
             return "TeamAdmin/error";
         }
 
         //团队成员信息添加
-        List<User> TeamMember=userService.findAllTeamMember();
+        List<User> TeamMember = userService.findAllTeamMember();
         model.addAttribute("TeamMember", TeamMember);
         //普通用户信息添加
-        List<User> Visitor=userService.findAllVisitor();
+        List<User> Visitor = userService.findAllVisitor();
         model.addAttribute("Visitor", Visitor);
         //申请注销用户信息添加
         ArrayList<User> users = new ArrayList<User>();
@@ -444,7 +444,7 @@ public class TeamAdminController {
         for (DeactivationReview deactivationReview : list) {
             users.add(userService.findById(deactivationReview.getUserID()));
         }
-        model.addAttribute("ApplicationUser",users);
+        model.addAttribute("ApplicationUser", users);
 
         return "TeamAdmin/UserManagement";
 
@@ -585,6 +585,7 @@ public class TeamAdminController {
             achievement.setTeamID(teamID);
             achievement.setStatus(0); // 默认状态为待审核
             achievement.setViewStatus(0); // 默认不公开
+            achievement.setTeamAdminID(adminID); // 设置发布者ID
 
             try {
                 // 调用服务层插入成果
@@ -669,6 +670,7 @@ public class TeamAdminController {
             article.setTeamID(teamID);
             article.setStatus(0); // 默认状态为待审核
             article.setViewStatus(0); // 默认不公开
+            article.setTeamAdminID(adminID);
 
             try {
                 // 调用服务层插入文章
@@ -847,6 +849,7 @@ public class TeamAdminController {
             achievement.setTeamID(teamID);
             achievement.setStatus(0); // 默认状态为待审核
             achievement.setViewStatus(0); // 默认不公开
+            achievement.setAchievementID(adminID);
 
             try {
                 // 调用服务层更新成果
@@ -916,6 +919,7 @@ public class TeamAdminController {
             article.setTeamID(teamID);
             article.setStatus(0); // 默认状态为待审核
             article.setViewStatus(0); // 默认不公开
+            article.setTeamAdminID(adminID);
 
             try {
                 // 调用服务层更新文章
@@ -1452,7 +1456,7 @@ public class TeamAdminController {
 
     //注销用户
     @GetMapping("UserManage/setStatusUser")
-    public String setStatusUser(RedirectAttributes redirectAttributes,Model model, @RequestParam("userID") int userID, HttpSession session) {
+    public String setStatusUser(RedirectAttributes redirectAttributes, Model model, @RequestParam("userID") int userID, HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
@@ -1525,7 +1529,7 @@ public class TeamAdminController {
     @RequestMapping("/UserManage/BatchSetStatusUser")
     @ResponseBody
     public Map<String, Object> BatchSetStatus(@RequestBody Map<String, List<Integer>> requestData,
-                                               HttpSession session) {
+                                              HttpSession session) {
         // 获取当前用户
         User currentUser = (User) session.getAttribute("currentUser");
 
